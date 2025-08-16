@@ -268,7 +268,8 @@ if(isset($_SESSION['S_ID'])){
             max-width: 320px;
             max-height: 170px;
             border-radius: 15px;
-            /* CAMBIO IMPORTANTE: object-fit contain en lugar de cover */
+            /* object-fit contain en lugar de cover */
+            object-fit: contain;
             /* Agregamos un fondo blanco para mejor contraste */
             background: rgba(255, 255, 255, 0.95);
             border: 3px solid rgba(255, 255, 255, 0.3);
@@ -699,14 +700,31 @@ if(isset($_SESSION['S_ID'])){
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Responsive Design MEJORADO */
+        /* RESPONSIVE DESIGN - SOLO AJUSTES VISUALES */
         @media (max-width: 768px) {
+            body {
+                overflow-y: auto;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .main-container {
+                padding: 1rem;
+                min-height: auto;
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 140px;
+                padding-bottom: 100px;
+            }
+
             .header {
                 padding: 1rem;
+                position: relative;
             }
 
             .header h1 {
                 font-size: 2rem;
+                line-height: 1.2;
             }
 
             .header p {
@@ -715,8 +733,9 @@ if(isset($_SESSION['S_ID'])){
 
             .login-card {
                 padding: 2rem 1.5rem;
-                margin: 1rem;
+                margin: 0;
                 border-radius: 20px;
+                max-width: 100%;
             }
 
             .logo-container {
@@ -728,7 +747,6 @@ if(isset($_SESSION['S_ID'])){
             .logo-image {
                 max-width: 256px;
                 max-height: 136px;
-                padding: 6px;
             }
 
             .backup-icon {
@@ -743,15 +761,31 @@ if(isset($_SESSION['S_ID'])){
             .floating-car {
                 font-size: 2rem;
             }
+
+            .footer {
+                position: relative;
+                margin-top: 2rem;
+            }
         }
 
         @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
             .main-container {
-                padding: 1rem;
+                padding: 0.5rem;
+                padding-top: 120px;
+                padding-bottom: 80px;
             }
 
             .login-card {
                 padding: 1.5rem 1rem;
+                border-radius: 18px;
             }
 
             .logo-container {
@@ -763,7 +797,6 @@ if(isset($_SESSION['S_ID'])){
             .logo-image {
                 max-width: 220px;
                 max-height: 120px;
-                padding: 5px;
             }
 
             .backup-icon {
@@ -771,14 +804,170 @@ if(isset($_SESSION['S_ID'])){
                 padding: 1rem;
             }
 
+            .login-title {
+                font-size: 1.3rem;
+            }
+
+            .login-subtitle {
+                font-size: 0.85rem;
+            }
+
             .input-field {
                 padding: 1rem 1rem 1rem 3rem;
+                font-size: 0.95rem;
+            }
+
+            .input-icon {
+                left: 1rem;
+            }
+
+            .password-toggle {
+                right: 1rem;
             }
 
             .login-options {
                 flex-direction: column;
                 gap: 1rem;
                 text-align: center;
+            }
+
+            .login-button {
+                padding: 1.2rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .header p {
+                font-size: 0.8rem;
+            }
+
+            .main-container {
+                padding: 0.3rem;
+                padding-top: 110px;
+                padding-bottom: 70px;
+            }
+
+            .login-card {
+                padding: 1.2rem 0.8rem;
+            }
+
+            .logo-container {
+                width: 200px;
+                height: 120px;
+                padding: 8px;
+            }
+
+            .logo-image {
+                max-width: 184px;
+                max-height: 104px;
+            }
+
+            .backup-icon {
+                font-size: 2rem;
+                padding: 0.8rem;
+            }
+
+            .login-title {
+                font-size: 1.2rem;
+            }
+
+            .login-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .input-field {
+                padding: 0.9rem 0.9rem 0.9rem 2.8rem;
+                font-size: 0.9rem;
+            }
+
+            .input-icon {
+                left: 0.9rem;
+                font-size: 1rem;
+            }
+
+            .password-toggle {
+                right: 0.9rem;
+                font-size: 1rem;
+            }
+
+            .login-button {
+                padding: 1.1rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Landscape móvil - ajustar altura */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                overflow-y: auto;
+            }
+
+            .header {
+                padding: 0.8rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .header p {
+                font-size: 0.8rem;
+            }
+
+            .main-container {
+                padding-top: 80px;
+                padding-bottom: 60px;
+            }
+
+            .login-card {
+                padding: 1.5rem 1.2rem;
+            }
+
+            .logo-container {
+                width: 220px;
+                height: 100px;
+                margin-bottom: 1rem;
+            }
+
+            .logo-image {
+                max-width: 196px;
+                max-height: 76px;
+            }
+
+            .backup-icon {
+                font-size: 2rem;
+                padding: 1rem;
+            }
+
+            .login-title {
+                font-size: 1.2rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .login-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .form-container {
+                margin-top: 1.2rem;
+            }
+
+            .input-group {
+                margin-bottom: 1.2rem;
+            }
+
+            .login-options {
+                margin-bottom: 1.2rem;
+            }
+
+            .mountains {
+                height: 25%;
             }
         }
     </style>
@@ -894,7 +1083,7 @@ if(isset($_SESSION['S_ID'])){
 
         // Manejar error de carga de imagen
         document.getElementById('logoImage').onerror = function() {
-            document.getElementById('logoCircle').classList.add('logo-image-error');
+            document.getElementById('logoContainer').classList.add('logo-image-error');
         };
 
         // Precargar imagen para mejor rendimiento
@@ -958,8 +1147,6 @@ if(isset($_SESSION['S_ID'])){
             document.querySelector('.mountains').style.transform = `translateX(${mouseX * 10}px)`;
             document.querySelector('.login-card').style.transform = `translateX(${mouseX * 5}px) translateY(${mouseY * 5}px)`;
         });
-
-      
     </script>
 </body>
 </html>
