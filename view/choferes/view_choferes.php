@@ -37,7 +37,7 @@
                                         <th style="text-align:center">Nro.</th>
                                         <th style="text-align:center">Documento de Identidad</th>
                                         <th style="text-align:center">Foto</th>
-                                        <th style="text-align:center">Nombre y Apellidos</th>
+                                        <th style="text-align:center">Nombres y Apellidos</th>
                                         <th style="text-align:center">Celular</th>
                                         <th style="text-align:center">Procedencia</th>
                                         <th style="text-align:center">Dirección</th>
@@ -72,7 +72,7 @@
                             <h6><b>Campos Obligatorios (*)</b></h6>
                         </div>
                         <div class="col-6 form-group">
-                            <label for="" style="font-size:small;">Tipo de documento<b style="color:red">(*)</b>:</label>
+                            <label for="" >Tipo de documento<b style="color:red">(*)</b>:</label>
                             <select class="form-control" id="select_tipo_documento" style="width:100%">
                                 <option value="" disabled>Seleccione</option>
                                 <option value="DNI" selected>DNI</option>
@@ -82,21 +82,19 @@
                         </div>
 
                         <div id="dni_section" class="col-6 form-group">
-                            <label for="" style="font-size:small;">N° Documento<b style="color:red">(*)</b>:</label>
+                            <label for="" >N° Documento<b style="color:red">(*)</b>:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="txt_dni" maxlength="8" onkeypress="return soloNumeros(event)">
                                 <div class="input-group-append">
-
-                                    <button onclick="" class="btn btn-primary" id="prueba"><i class="fa fa-search"></i><b> Reniec</b></button>
+                                    <button onclick="" class="btn btn-primary" id="prueba"><i class="fa fa-search"></i><b> RENIEC</b></button>
                                 </div>
                             </div>
                         </div>
                         <div id="otros_documentos_section" class="col-6 form-group" style="display: none;">
-                            <label for="" style="font-size:small;">N° Documento<b style="color:red">(*)</b>:</label>
+                            <label for="" >N° Documento<b style="color:red">(*)</b>:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="txt_dni2">
                                 <div class="input-group-append">
-                         
                                 </div>
                             </div>
                         </div>
@@ -106,15 +104,15 @@
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Celular 1<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_apelli" placeholder="Ingrese el primer celular" onkeypress="return soloNumeros(event)" maxlenght="9">
+                            <input type="text" class="form-control" id="txt_celu1" placeholder="Ingrese el primer celular" onkeypress="return soloNumeros(event)" maxlenght="9">
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Celular 2(Opcional):</label>
-                            <input type="email" class="form-control" id="txt_correo" placeholder="Ingrese el segundo celular" onkeypress="return soloNumeros(event)" maxlenght="9">
+                            <input type="email" class="form-control" id="txt_celu2" placeholder="Ingrese el segundo celular" onkeypress="return soloNumeros(event)" maxlenght="9">
                         </div>
                         <div class="col-4 form-group">
                             <label for="">Procedencia(Opcional):</label>
-                            <input type="text" class="form-control" id="txt_procedencia" placeholder="Ingrese la procedencia del chofer" onkeypress="return soloNumeros(event)">
+                            <input type="text" class="form-control" id="txt_procedencia" placeholder="Ingrese la procedencia del chofer">
                         </div>
                         <div class="col-8 form-group">
                             <label for="">Dirección(Opcional):</label>
@@ -143,7 +141,7 @@
                         </div><br>
                         <div class="col-6 form-group"><br>
                             <label for="">Marca del vehiculo<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_marca" placeholder="Ingrese la marca del vehiculo" onkeypress="return sololetras(event)">
+                            <input type="text" class="form-control" id="txt_marca" placeholder="Ingrese la marca del vehiculo" >
                         </div>
                         <div class="col-6 form-group"><br>
                             <label for="">Placa del vehiculo<b style="color:red">(*)</b>:</label>
@@ -169,7 +167,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Registrar_Usuario()"><i class="fas fa-save"></i> Registrar</button>
+                    <button type="button" class="btn btn-success" onclick="Registrar_Choferes()"><i class="fas fa-save"></i> Registrar</button>
                 </div>
             </div>
         </div>
@@ -181,39 +179,48 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>MODIFICAR DE USUARIO</b></h5>
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>MODIFICAR DATOS DEL CONDUCTOR</b></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-12 form-group" style="color:red">
+                       <div class="col-12 form-group" style="color:red">
                             <h6><b>Campos Obligatorios (*)</b></h6>
                         </div>
-                        <div class="col-4 form-group">
-                            <label for="">DNI<b style="color:red">(*)</b>:</label>
-                            <input type="text" id="id_usuario" hidden>
-                            <input type="text" class="form-control" id="txt_dni_editar" placeholder="Ingrese el DNI del usuario" onkeypress="return soloNumeros(event)" maxlenght="8">
+                        <div class="col-6 form-group">
+                            <label for="" >Tipo de documento<b style="color:red">(*)</b>:</label>
+                            <select class="form-control" id="select_tipo_documento_editar" style="width:100%" disabled>
+                                <option value="" disabled>Seleccione</option>
+                                <option value="DNI" selected>DNI</option>
+                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
+                                <option value="PASAPORTE">PASAPORTE</option>
+                            </select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Nro. Documento<b style="color:red">(*)</b>:</label>
+                            <input type="text" id="id_chofer" hidden>
+                            <input type="text" class="form-control" id="txt_dni_editar" placeholder="Ingrese el DNI del usuario" onkeypress="return soloNumeros(event)" maxlenght="8" disabled>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="">Nombres y apellidos<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_nomb_editar" placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)" disabled>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Celular 1<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_celu1_editar" placeholder="Ingrese el primer celular" onkeypress="return soloNumeros(event)" maxlenght="9">
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Celular 2(Opcional):</label>
+                            <input type="email" class="form-control" id="txt_celu2_editar" placeholder="Ingrese el segundo celular" onkeypress="return soloNumeros(event)" maxlenght="9">
                         </div>
                         <div class="col-4 form-group">
-                            <label for="">Nombres<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_nomb_editar" placeholder="Ingrese los nombres" onkeypress="return sololetras(event)">
+                            <label for="">Procedencia(Opcional):</label>
+                            <input type="text" class="form-control" id="txt_procedencia_editar" placeholder="Ingrese la procedencia del chofer">
                         </div>
-                        <div class="col-4 form-group">
-                            <label for="">Apellidos<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_apelli_editar" placeholder="Ingrese los apellidos" onkeypress="return sololetras(event)">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Correo electronico<b style="color:red">(*)</b>:</label>
-                            <input type="email" class="form-control" id="txt_correo_editar" placeholder="Ingrese el correo electronico">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Teléfono o Celular:</label>
-                            <input type="text" class="form-control" id="txt_tele_editar" placeholder="Ingrese el teléfono o celular" onkeypress="return soloNumeros(event)">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Dirección<b style="color:red">(*)</b>:</label>
+                        <div class="col-8 form-group">
+                            <label for="">Dirección(Opcional):</label>
                             <textarea class="form-control" id="txt_direc_editar" rows="2" style="resize:none" placeholder="Ingrese la dirección"></textarea>
                         </div>
                         <div class="col-6">
@@ -230,72 +237,136 @@
                                 </button>
                             </div>
                         </div>
-
                         <div class="col-6 text-center" style="border: 2px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
                             <img id="preview2" src="#" alt="Vista previa" style="max-width: 100%; max-height: 150px; display: none; object-fit: contain;">
                         </div>
-
-
-
                         <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DE ACCESO PARA EL SISTEMA</b></li>
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DE VEHICULO</b></li>
                         </div><br>
-                        <div class="col-12 form-group"><br>
-                            <label for="">Usuario<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_usu_editar" placeholder="Ingrese el usuario">
+                        <div class="col-6 form-group"><br>
+                            <label for="">Marca del vehiculo<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_marca_editar" placeholder="Ingrese la marca del vehiculo" >
                         </div>
-
-                        <div class="col-6 form-group">
-                            <label for="">Rol<b style="color:red">(*)</b>:</label>
-                            <select type="text" class="js-example-basic-single" id="txt_roles_editar" style="width:100%"></select>
+                        <div class="col-6 form-group"><br>
+                            <label for="">Placa del vehiculo<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_placa_editar" placeholder="Ingrese la placa del vehiculo" maxlenght="7">
                         </div>
                         <div class="col-6 form-group">
-                            <label for="">Sucursal<b style="color:red">(*)</b>:</label>
-                            <select type="text" class="js-example-basic-single" id="txt_sucursal_editar" style="width:100%"></select>
+                            <label for="">Clase y categoria de licencia<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_clase_categoria_editar" placeholder="Ingrese la clase y categoria">
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Nro. de Licencia<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_nro_licencia_editar" placeholder="Ingrese el Nro. de licencia">
+                        </div>
+                         <div class="col-6 form-group">
+                            <label for="">Fecha de expiración de licencia<b style="color:red">(*)</b>:</label>
+                            <input type="date" class="form-control" id="txt_fecha_expira_editar">
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Estado<b style="color:red">(*)</b>:</label>
+                            <select class="form-control" id="select_estado_editar" style="width:100%">
+                                <option value="">Seleccione</option>
+                                <option value="ACTIVO">ACTIVO</option>
+                                <option value="INACTIVO">INACTIVO</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Modificar_Usuario()"><i class="fas fa-edit"></i> Módificar</button>
+                    <button type="button" class="btn btn-success" onclick="Modificar_Choferes()"><i class="fas fa-edit"></i> Módificar</button>
                 </div>
             </div>
         </div>
     </div>
 
-
-
-    <div class="modal fade" id="modal_contra" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal fade" id="modal_mostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header" style="background-color:#005CA5;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>CAMBIAR CONTRASEÑA</b></h5>
+                <div class="modal-header" style="background-color:#1FA0E0;">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>DATOS DEL CONDUCTOR</b></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-12 form-group" style="color:red">
+                       <div class="col-12 form-group" style="color:red">
                             <h6><b>Campos Obligatorios (*)</b></h6>
                         </div>
-                        <div class="col-12">
-                            <input type="text" id="txt_idusuario_contra" hidden>
-                            <label for="">Contraseña Nueva(*):</label>
-                            <div class="input-group">
-                                <input type="password" class="form-control" id="txt_contra_nueva">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('txt_contra_nueva', this)">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="col-6 form-group">
+                            <label for="" >Tipo de documento<b style="color:red">(*)</b>:</label>
+                            <select class="form-control" id="select_tipo_documento_mostrar" style="width:100%" disabled>
+                                <option value="" disabled>Seleccione</option>
+                                <option value="DNI" selected>DNI</option>
+                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
+                                <option value="PASAPORTE">PASAPORTE</option>
+                            </select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Nro. Documento<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_dni_mostrar" placeholder="Ingrese el DNI del usuario" disabled>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="">Nombres y apellidos<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_nomb_mostrar" placeholder="Ingrese los nombres y apellidos"disabled>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Celular 1<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_celu1_mostrar" placeholder="Ingrese el primer celular" maxlenght="9" disabled>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Celular 2(Opcional):</label>
+                            <input type="email" class="form-control" id="txt_celu2_mostrar" placeholder="Ingrese el segundo celular" maxlenght="9" disabled>
+                        </div>
+                        <div class="col-4 form-group">
+                            <label for="">Procedencia(Opcional):</label>
+                            <input type="text" class="form-control" id="txt_procedencia_mostrar" placeholder="Ingrese la procedencia del chofer" disabled>
+                        </div>
+                        <div class="col-8 form-group">
+                            <label for="">Dirección(Opcional):</label>
+                            <textarea class="form-control" id="txt_direc_mostrar" rows="2" style="resize:none" placeholder="Ingrese la dirección" disabled></textarea>
+                        </div>
+
+                        <div class="col-12 text-center" style="border: 2px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
+                            <img id="preview3" src="#" alt="Vista previa" style="max-width: 100%; max-height: 250px; display: none; object-fit: contain;">
+                        </div>
+                        <div class="col-12"><br>
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DE VEHICULO</b></li>
+                        </div><br>
+                        <div class="col-6 form-group"><br>
+                            <label for="">Marca del vehiculo<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_marca_mostrar" placeholder="Ingrese la marca del vehiculo" disabled>
+                        </div>
+                        <div class="col-6 form-group"><br>
+                            <label for="">Placa del vehiculo<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_placa_mostrar" placeholder="Ingrese la placa del vehiculo" maxlenght="7" disabled>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Clase y categoria de licencia<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_clase_categoria_mostrar" placeholder="Ingrese la clase y categoria" disabled>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Nro. de Licencia<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_nro_licencia_mostrar" placeholder="Ingrese el Nro. de licencia" disabled>
+                        </div>
+                         <div class="col-6 form-group">
+                            <label for="">Fecha de expiración de licencia<b style="color:red">(*)</b>:</label>
+                            <input type="date" class="form-control" id="txt_fecha_expira_mostrar" disabled>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Estado<b style="color:red">(*)</b>:</label>
+                            <select class="form-control" id="select_estado_mostrar" style="width:100%" disabled>
+                                <option value="">Seleccione</option>
+                                <option value="ACTIVO">ACTIVO</option>
+                                <option value="INACTIVO">INACTIVO</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Modificar_Contra()"><i class="fas fa-check"></i> Modificar</button>
                 </div>
             </div>
         </div>
@@ -414,6 +485,26 @@
             // Ocultar la vista previa
             preview2.src = '#';
             preview2.style.display = 'none';
+        }
+
+         function previewImage3(event) {
+            const input = event.target;
+            const preview3 = document.getElementById('preview3');
+            const label = document.getElementById('label_txt_foto_mostrar');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview3.src = e.target.result; // Cargar la imagen en el src del preview
+                    preview3.style.display = 'block'; // Mostrar la vista previa
+                };
+                reader.readAsDataURL(input.files[0]);
+
+                // Actualizar el label con el nombre del archivo seleccionado
+                label.textContent = `Subir Foto (${input.files[0].name})`;
+            } else {
+                clearPhoto2(); // Si no hay archivo seleccionado, limpiar la vista previa
+            }
         }
          // Mostrar la sección correcta al cargar la página
         window.addEventListener('DOMContentLoaded', function() {

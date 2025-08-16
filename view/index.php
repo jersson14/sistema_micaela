@@ -145,14 +145,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','paciente/view_paciente.php')" class="nav-link">
+                <a href="#" onclick="cargar_contenido('contenido_principal','clientes/view_clientes.php')" class="nav-link">
                   <i class="nav-icon fas fa-user-friends"></i>
                   <p style="color:white">Gestión de clientes</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','practicas/view_practicas.php')" class="nav-link">
+                <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="nav-link">
                   <i class="nav-icon fas fa-box"></i>
                   <p style="color:white">Encomiendas</p>
                 </a>
@@ -942,23 +942,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
           </div>
         </div>
-        <script>
-          function actualizarFechaHora() {
-            const ahora = new Date();
-            const opciones = {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            };
 
-            document.getElementById('fecha_actual').textContent = ahora.toLocaleDateString('es-ES', opciones);
-            document.getElementById('hora_actual').textContent = ahora.toLocaleTimeString('es-ES');
-          }
-          // Actualizar cada segundo
-          setInterval(actualizarFechaHora, 1000);
-          actualizarFechaHora(); // Ejecutar inmediatamente
-        </script>
         <!-- Script para actualizar fecha y hora -->
 
 

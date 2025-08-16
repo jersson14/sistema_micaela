@@ -14,7 +14,7 @@ if(isset($_SESSION['S_ID'])){
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
       <link rel="icon" href="img/logo.jpg" type="image/jpg">
 
-    <style>
+<style>
         * {
             margin: 0;
             padding: 0;
@@ -214,15 +214,15 @@ if(isset($_SESSION['S_ID'])){
             }
         }
 
-        /* Logo central RECTANGULAR con imagen */
+        /* Logo central RECTANGULAR con imagen MEJORADO */
         .login-logo {
             text-align: center;
             margin-bottom: 2rem;
         }
 
         .logo-container {
-            width: 280px;
-            height: 140px;
+            width: 320px;
+            height: 180px;
             background: linear-gradient(135deg, #023D77 0%, #0056b3 50%, #074a9e 100%);
             border-radius: 20px;
             display: flex;
@@ -237,6 +237,8 @@ if(isset($_SESSION['S_ID'])){
             position: relative;
             overflow: hidden;
             border: 2px solid rgba(255, 255, 255, 0.1);
+            /* Agregamos padding interno para que la imagen respire mejor */
+            padding: 15px;
         }
 
         /* Borde animado gradiente */
@@ -259,37 +261,47 @@ if(isset($_SESSION['S_ID'])){
             50% { background-position: 100% 50%; }
         }
 
-        /* Imagen rectangular del logo */
+        /* Imagen rectangular del logo MEJORADA */
         .logo-image {
-            width: 240px;
-            height: 100px;
+            width: 100%;
+            height: 100%;
+            max-width: 320px;
+            max-height: 170px;
             border-radius: 15px;
-            object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            /* CAMBIO IMPORTANTE: object-fit contain en lugar de cover */
+            /* Agregamos un fondo blanco para mejor contraste */
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid rgba(255, 255, 255, 0.3);
             box-shadow: 
                 0 8px 25px rgba(0, 0, 0, 0.3),
                 inset 0 2px 4px rgba(255, 255, 255, 0.2);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 2;
             position: relative;
+            /* Agregamos padding interno para que la imagen no toque los bordes */
+            padding: 1px;
         }
 
         /* Efecto hover para la imagen */
         .logo-container:hover .logo-image {
-            transform: scale(1.05) translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.03) translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.5);
             box-shadow: 
                 0 15px 35px rgba(0, 0, 0, 0.4),
                 inset 0 3px 6px rgba(255, 255, 255, 0.3),
                 0 0 30px rgba(116, 185, 255, 0.3);
         }
 
-        /* Ícono de respaldo rectangular */
+        /* Ícono de respaldo rectangular MEJORADO */
         .backup-icon {
-            font-size: 3.5rem;
+            font-size: 4rem;
             color: rgba(255, 255, 255, 0.9);
             display: none;
             text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
         }
 
         /* Efecto de brillo que pasa sobre la imagen */
@@ -687,7 +699,7 @@ if(isset($_SESSION['S_ID'])){
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Responsive Design */
+        /* Responsive Design MEJORADO */
         @media (max-width: 768px) {
             .header {
                 padding: 1rem;
@@ -708,17 +720,20 @@ if(isset($_SESSION['S_ID'])){
             }
 
             .logo-container {
-                width: 240px;
-                height: 120px;
+                width: 280px;
+                height: 160px;
+                padding: 12px;
             }
 
             .logo-image {
-                width: 200px;
-                height: 80px;
+                max-width: 256px;
+                max-height: 136px;
+                padding: 6px;
             }
 
             .backup-icon {
-                font-size: 2.5rem;
+                font-size: 3rem;
+                padding: 1.5rem;
             }
 
             .login-title {
@@ -740,17 +755,20 @@ if(isset($_SESSION['S_ID'])){
             }
 
             .logo-container {
-                width: 200px;
-                height: 100px;
+                width: 240px;
+                height: 140px;
+                padding: 10px;
             }
 
             .logo-image {
-                width: 160px;
-                height: 70px;
+                max-width: 220px;
+                max-height: 120px;
+                padding: 5px;
             }
 
             .backup-icon {
-                font-size: 2rem;
+                font-size: 2.5rem;
+                padding: 1rem;
             }
 
             .input-field {

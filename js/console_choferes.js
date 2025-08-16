@@ -94,7 +94,7 @@ function listar_choferes(){
     },
     {
         "defaultContent":
-            "<button class='ver btn btn-success btn-sm' title='Ver datos'><i class='fa fa-eye'></i> Mostrar</button> " +
+            "<button class='mostrar btn btn-success btn-sm' title='Ver datos'><i class='fa fa-eye'></i> Mostrar</button> " +
             "<button class='editar btn btn-primary btn-sm' title='Editar datos de área'><i class='fa fa-edit'></i> Editar</button> " +
             "<button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de área'><i class='fa fa-trash'></i> Eliminar</button>"
     }
@@ -122,23 +122,24 @@ $('#tabla_choferes').on('click','.editar',function(){
       var data = tbl_choferes.row(this).data();
   }
   $("#modal_editar").modal('show');
-  document.getElementById('id_usuario').value=data.id_usuario;
-  document.getElementById('txt_dni_editar').value=data.dni_usuario;
-  document.getElementById('txt_nomb_editar').value=data.usu_nombre;
-  document.getElementById('txt_apelli_editar').value=data.usu_apellido;
+  document.getElementById('id_chofer').value=data.id_chofer;
+  document.getElementById('select_tipo_documento_editar').value=data.tipo_documen;
+  document.getElementById('txt_dni_editar').value=data.nro_doc;
+  document.getElementById('txt_nomb_editar').value=data.nombres_apellidos;
+  document.getElementById('txt_celu1_editar').value=data.celular;
 
-  document.getElementById('txt_correo_editar').value=data.usu_email;
-  document.getElementById('txt_tele_editar').value=data.usu_telefono;
-  document.getElementById('txt_direc_editar').value=data.usu_direccion;
-  document.getElementById('txt_foto_actual').value=data.usu_foto;
+  document.getElementById('txt_celu2_editar').value=data.celular_2;
+  document.getElementById('txt_procedencia_editar').value=data.procedencia;
+  document.getElementById('txt_direc_editar').value=data.direccion;
+  document.getElementById('txt_foto_actual').value=data.foto;
 
   var imgElement = document.getElementById('preview2');
   if (imgElement) {
       console.log('Data:', data); // Depuración
-      console.log('Image URL:', data.usu_foto); // Verificar URL
+      console.log('Image URL:', data.foto); // Verificar URL
   
-      if (data.usu_foto && data.usu_foto.trim() !== '') {
-          imgElement.src = "../" + data.usu_foto; // Ruta relativa
+      if (data.foto && data.foto.trim() !== '') {
+          imgElement.src = "../" + data.foto; // Ruta relativa
       } else {
           imgElement.src = '../img/vacio.png'; // Ruta por defecto
       }
@@ -155,121 +156,108 @@ $('#tabla_choferes').on('click','.editar',function(){
   }
   
 
-document.getElementById('txt_usu_editar').value=data.usu_usuario;
-  $("#txt_roles_editar").select2().val(data.id_role).trigger('change.select2');
-  $("#txt_sucursal_editar").select2().val(data.id_sucursal).trigger('change.select2');
+  document.getElementById('txt_marca_editar').value=data.marca_vehiculo;
+  document.getElementById('txt_placa_editar').value=data.placa_vehiculo;
+  document.getElementById('txt_clase_categoria_editar').value=data.clase_categoria;
+  document.getElementById('txt_nro_licencia_editar').value=data.nro_licencia;
+  document.getElementById('txt_fecha_expira_editar').value=data.fecha_vencimiento_licencia;
+  document.getElementById('select_estado_editar').value=data.estado;
 
 
 })
 
-
-
-$('#tabla_choferes').on('click','.contra',function(){
+$('#tabla_choferes').on('click','.mostrar',function(){
   var data = tbl_choferes.row($(this).parents('tr')).data();
 
   if(tbl_choferes.row(this).child.isShown()){
       var data = tbl_choferes.row(this).data();
   }
-  $("#modal_contra").modal('show');
-  document.getElementById('txt_idusuario_contra').value=data.id_usuario;
+  $("#modal_mostrar").modal('show');
+  document.getElementById('select_tipo_documento_mostrar').value=data.tipo_documen;
+  document.getElementById('txt_dni_mostrar').value=data.nro_doc;
+  document.getElementById('txt_nomb_mostrar').value=data.nombres_apellidos;
+  document.getElementById('txt_celu1_mostrar').value=data.celular;
 
-})
-$('#tabla_choferes').on('click','.desactivar',function(){
-  var data = tbl_choferes.row($(this).parents('tr')).data();
+  document.getElementById('txt_celu2_mostrar').value=data.celular_2;
+  document.getElementById('txt_procedencia_mostrar').value=data.procedencia;
+  document.getElementById('txt_direc_mostrar').value=data.direccion;
+  document.getElementById('txt_foto_actual').value=data.foto;
 
-  if(tbl_choferes.row(this).child.isShown()){
-      var data = tbl_choferes.row(this).data();
-  }
-    Swal.fire({
-      title: 'Desea desactivar al usuario '+data.USUARIO+'?',
-      text: "Una vez desactivado el usuario no tendra acceso al sistema",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#005CA5',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Desactivar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Modificar_Estatus_Usuario(parseInt(data.id_usuario),'INACTIVO',data.USUARIO);
+  var imgElement = document.getElementById('preview3');
+  if (imgElement) {
+      console.log('Data:', data); // Depuración
+      console.log('Image URL:', data.foto); // Verificar URL
+  
+      if (data.foto && data.foto.trim() !== '') {
+          imgElement.src = "../" + data.foto; // Ruta relativa
+      } else {
+          imgElement.src = '../img/vacio.png'; // Ruta por defecto
       }
-    })
+  
+      imgElement.style.display = 'block'; // Mostrar siempre la imagen
+  
+      // Manejar errores de carga
+      imgElement.onerror = function () {
+          console.error("Error al cargar la imagen desde la ruta: " + imgElement.src);
+          imgElement.src = '../img/vacio.png'; // Ruta por defecto
+      };
+  } else {
+      console.error('Elemento img con id preview2 no encontrado');
+  }
+  
+
+  document.getElementById('txt_marca_mostrar').value=data.marca_vehiculo;
+  document.getElementById('txt_placa_mostrar').value=data.placa_vehiculo;
+  document.getElementById('txt_clase_categoria_mostrar').value=data.clase_categoria;
+  document.getElementById('txt_nro_licencia_mostrar').value=data.nro_licencia;
+  document.getElementById('txt_fecha_expira_mostrar').value=data.fecha_vencimiento_licencia;
+  document.getElementById('select_estado_mostrar').value=data.estado;
+
 
 })
 
 
-$('#tabla_choferes').on('click','.activar',function(){
-  var data = tbl_choferes.row($(this).parents('tr')).data();
-
-  if(tbl_choferes.row(this).child.isShown()){
-      var data = tbl_choferes.row(this).data();
-  }
-    Swal.fire({
-      title: 'Desea activar al usuario '+data.USUARIO+'?',
-      text: "Una vez activado el usuario tendra acceso al sistema",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#005CA5',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Activar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Modificar_Estatus_Usuario(parseInt(data.id_usuario),'ACTIVO',data.USUARIO);
-      }
-    })
-
-})
 
 
-function Modificar_Estatus_Usuario(id,estatus,user){
-  let esta=estatus;
-  if(esta==="INACTIVO"){
-    esta="Desactivo";
-  }
-  $.ajax({
-    "url":"../controller/usuario/controlador_modificar_usuario_estatus.php",
-    type:'POST',
-    data:{
-      id:id,
-      estatus:estatus
-    }
-  }).done(function(resp){
-    if(resp>0){
-        Swal.fire("Mensaje de Confirmación","Se "+esta+" con exito El Usuario "+user,"success").then((value)=>{
-          tbl_choferes.ajax.reload();
-        });
-    }else{
-      return Swal.fire("Mensaje de Error","No se completo la actualización","error");
-
-    }
-  })
-}
-
-//REGISTROS DE USUARIOS
-function Registrar_Usuario(){
+//REGISTROS DE CHOFERES
+function Registrar_Choferes(){
 
   //DATOS DEL DOCENTE
+  let tipo_doc = document.getElementById('select_tipo_documento').value;
   let dni = document.getElementById('txt_dni').value;
-  let nombre = document.getElementById('txt_nomb').value;
-  let apelli = document.getElementById('txt_apelli').value;
-  let correo = document.getElementById('txt_correo').value;
-  let tele = document.getElementById('txt_tele').value;
+  let dni2 = document.getElementById('txt_dni2').value;
+  let nom_ape = document.getElementById('txt_nomb').value;
+  let celu = document.getElementById('txt_celu1').value;
+  let celu2 = document.getElementById('txt_celu2').value;
+  let proc = document.getElementById('txt_procedencia').value;
   let dire = document.getElementById('txt_direc').value;
   let foto = document.getElementById('txt_foto').value;
 
 
-  //DATOS DEL USUARIO
-  let usu = document.getElementById('txt_usu').value;
-  let contra = document.getElementById('txt_contra').value;
-  let rol = document.getElementById('txt_roles').value;
-  let sucu = document.getElementById('txt_sucursal').value;
-
+  //DATOS DEL CARRO
+  let marca = document.getElementById('txt_marca').value;
+  let placa = document.getElementById('txt_placa').value;
+  let clase_cate = document.getElementById('txt_clase_categoria').value;
+  let nro_lice = document.getElementById('txt_nro_licencia').value;
+  let fec_ven = document.getElementById('txt_fecha_expira').value;
+  let idusuario = document.getElementById('txtprincipalid').value;
   
-  if(dni.length==0|| apelli.length==0||correo.length==0||dire.length==0||nombre.length==0){
-    return Swal.fire("Mensaje de Advertencia","Tiene campos en el registro del docente","warning");
+  if(tipo_doc.length==0|| nom_ape.length==0||celu.length==0||marca.length==0||placa.length==0||clase_cate.length==0||nro_lice.length==0||fec_ven.length==0){
+    return Swal.fire("Mensaje de Advertencia","Tiene campos vacios en el formulario, revise por favor","warning");
   }
-  if(usu.length==0||contra.length==0||rol.length==0||sucu.length==0){
-    return Swal.fire("Mensaje de Advertencia","Los datos del usuario son oblgatorios","warning");
-  }
+   // Validar documento según tipo
+    let documentoFinal = '';
+    if (tipo_doc === 'DNI') {
+        if (!dni) {
+            return Swal.fire("Mensaje de Advertencia", "El campo DNI es obligatorio", "warning");
+        }
+        documentoFinal = dni;
+    } else {
+        if (!dni2) {
+            return Swal.fire("Mensaje de Advertencia", "El campo de documento es obligatorio", "warning");
+        }
+        documentoFinal = dni2;
+    }
 
     let extension = foto.split('.').pop();
     let nombrefoto="";
@@ -283,21 +271,25 @@ function Registrar_Usuario(){
     let formData = new FormData();
     let fotoobj = $("#txt_foto")[0].files[0];
 
-    formData.append("dni",dni);
-    formData.append("nombre",nombre);
-    formData.append("apelli",apelli);
-    formData.append("correo",correo);
-    formData.append("tele",tele);
+    formData.append("tipo_doc",tipo_doc);
+    formData.append("documentoFinal",documentoFinal);
+    formData.append("nom_ape",nom_ape);
+    formData.append("celu",celu);
+    formData.append("celu2",celu2);
+    formData.append("proc",proc);
     formData.append("dire",dire);
     formData.append("nombrefoto",nombrefoto);
     formData.append("foto",fotoobj);
 
-    formData.append("usu",usu);
-    formData.append("contra",contra);
-    formData.append("rol",rol);
-    formData.append("sucu",sucu);
+    formData.append("marca",marca);
+    formData.append("placa",placa);
+    formData.append("clase_cate",clase_cate);
+    formData.append("nro_lice",nro_lice);
+    formData.append("fec_ven",fec_ven);
+    formData.append("idusuario",idusuario);
+
     $.ajax({
-      url:"../controller/usuario/controlador_registro_usuario.php",
+      url:"../controller/choferes/controlador_registro_choferes.php",
       type:'POST',
       data:formData,
       contentType:false,
@@ -305,22 +297,26 @@ function Registrar_Usuario(){
       success:function(resp){
         if(resp.length>0){
         if(resp==1){
-          Swal.fire("Mensaje de Confirmación","Se registro correctamente al usuario con el DNI N° <b>"+dni+"</b>","success").then((value)=>{
+          Swal.fire("Mensaje de Confirmación","Se registro correctamente al chofer con el DNI N° <b>"+documentoFinal+"</b>","success").then((value)=>{
             // Limpiar todos los campos
             document.getElementById('txt_dni').value = "";
+            document.getElementById('txt_dni2').value = "";
             document.getElementById('txt_nomb').value = "";
-            document.getElementById('txt_apelli').value = "";
-            document.getElementById('txt_correo').value = "";
-            document.getElementById('txt_tele').value = "";
+            document.getElementById('txt_celu1').value = "";
+            document.getElementById('txt_celu2').value = "";
+            document.getElementById('txt_procedencia').value = "";
             document.getElementById('txt_direc').value = "";
 
+            document.getElementById('txt_marca').value = "";
+            document.getElementById('txt_placa').value = "";
+            document.getElementById('txt_clase_categoria').value = "";
+            document.getElementById('txt_nro_licencia').value = "";
+            document.getElementById('txt_fecha_expira').value = "";
 
             // Limpiar la vista previa de la imagen
             document.getElementById('preview').src = '#';
             document.getElementById('preview').alt = 'Vista previa';
 
-            document.getElementById('txt_usu').value = "";
-            document.getElementById('txt_contra').value = "";
 
             // Cerrar el modal
             $("#modal_registro").modal('hide');
@@ -328,7 +324,7 @@ function Registrar_Usuario(){
 
           });
             }else{
-            Swal.fire("Mensaje de Advertencia","El DNI o el USUARIO que intentas registrar ya se encuentra en la base de datos, revise por favor","warning");
+            Swal.fire("Mensaje de Advertencia","El DNI que intentas registrar ya se encuentra en la base de datos, revise por favor","warning");
             }
         }else{
           Swal.fire("Mensaje de Advertencia","No se pudo registrar al usuario","warning");
@@ -339,32 +335,33 @@ function Registrar_Usuario(){
 
 
 
-function Modificar_Usuario(){
+function Modificar_Choferes(){
 
   //DATOS DEL DOCENTE
-  let id = document.getElementById('id_usuario').value;
+  let id = document.getElementById('id_chofer').value;
   let dni = document.getElementById('txt_dni_editar').value;
-  let nombre = document.getElementById('txt_nomb_editar').value;
-  let apelli = document.getElementById('txt_apelli_editar').value;
-  let correo = document.getElementById('txt_correo_editar').value;
-  let tele = document.getElementById('txt_tele_editar').value;
+  let nom_ape = document.getElementById('txt_nomb_editar').value;
+  let celu1 = document.getElementById('txt_celu1_editar').value;
+  let celu2 = document.getElementById('txt_celu2_editar').value;
+  let proc = document.getElementById('txt_procedencia_editar').value;
   let dire = document.getElementById('txt_direc_editar').value;
   let fotoactual = document.getElementById('txt_foto_actual').value;
   let foto = document.getElementById('txt_foto_editar').value;
 
 
-  //DATOS DEL USUARIO
-  let usu = document.getElementById('txt_usu_editar').value;
-  let rol = document.getElementById('txt_roles_editar').value;
-  let sucu = document.getElementById('txt_sucursal_editar').value;
+  //DATOS DEL CARRO
+  let marca = document.getElementById('txt_marca_editar').value;
+  let placa = document.getElementById('txt_placa_editar').value;
+  let clase_cate = document.getElementById('txt_clase_categoria_editar').value;
+  let nro_lice = document.getElementById('txt_nro_licencia_editar').value;
+  let fec_ven = document.getElementById('txt_fecha_expira_editar').value;
+  let esta = document.getElementById('select_estado_editar').value;
+  let idusuario = document.getElementById('txtprincipalid').value;
 
 
   
-  if(id.length==0||dni.length==0|| apelli.length==0||correo.length==0||dire.length==0||nombre.length==0){
-    return Swal.fire("Mensaje de Advertencia","Tiene campos en el registro del docente","warning");
-  }
-  if(usu.length==0||rol.length==0||sucu.length==0){
-    return Swal.fire("Mensaje de Advertencia","Los datos del usuario son oblgatorios","warning");
+  if(id.length==0||dni.length==0|| nom_ape.length==0||celu1.length==0||marca.length==0||placa.length==0||clase_cate.length==0||nro_lice.length==0||fec_ven.length==0){
+    return Swal.fire("Mensaje de Advertencia","Los campos obligatorios siempre deben ir llenos","warning");
   }
 
     let extension = foto.split('.').pop();
@@ -381,20 +378,25 @@ function Modificar_Usuario(){
 
     formData.append("id",id);
     formData.append("dni",dni);
-    formData.append("nombre",nombre);
-    formData.append("apelli",apelli);
-    formData.append("correo",correo);
-    formData.append("tele",tele);
+    formData.append("nom_ape",nom_ape);
+    formData.append("celu1",celu1);
+    formData.append("celu2",celu2);
+    formData.append("proc",proc);
     formData.append("dire",dire);
     formData.append("fotoactual",fotoactual);
     formData.append("nombrefoto",nombrefoto);
     formData.append("foto",fotoobj);
 
-    formData.append("usu",usu);
-    formData.append("rol",rol);
-    formData.append("sucu",sucu);
+    formData.append("marca",marca);
+    formData.append("placa",placa);
+    formData.append("clase_cate",clase_cate);
+    formData.append("nro_lice",nro_lice);
+    formData.append("fec_ven",fec_ven);
+    formData.append("esta",esta);
+    formData.append("idusuario",idusuario);
+
     $.ajax({
-      url:"../controller/usuario/controlador_modificar_usuario.php",
+      url:"../controller/choferes/controlador_modificar_choferes.php",
       type:'POST',
       data:formData,
       contentType:false,
@@ -402,7 +404,7 @@ function Modificar_Usuario(){
       success:function(resp){
         if(resp.length>0){
         if(resp==1){
-          Swal.fire("Mensaje de Confirmación","Se actualizo correctamente al usuario con el DNI N° <b>"+dni+"</b>","success").then((value)=>{
+          Swal.fire("Mensaje de Confirmación","Se actualizo correctamente el chofer con el DNI N° <b>"+dni+"</b>","success").then((value)=>{
             // Cerrar el modal
             $("#modal_editar").modal('hide');
             tbl_choferes.ajax.reload();
@@ -410,7 +412,7 @@ function Modificar_Usuario(){
 
           });
             }else{
-            Swal.fire("Mensaje de Advertencia","El DNI o USUARIO que intentas actualizar ya se encuentra en la base de datos, revise por favor","warning");
+            Swal.fire("Mensaje de Advertencia","El DNI que intentas actualizar ya se encuentra en la base de datos, revise por favor","warning");
             }
         }else{
           Swal.fire("Mensaje de Advertencia","No se pudo actualizar al usuario","warning");
@@ -420,3 +422,45 @@ function Modificar_Usuario(){
 }
 
 
+//ELIMINAR AREAS
+function Eliminar_chofer(id){
+  $.ajax({
+    "url":"../controller/choferes/controlador_eliminar_chofer.php",
+    type:'POST',
+    data:{
+      id:id
+    }
+  }).done(function(resp){
+    if(resp>0){
+        Swal.fire("Mensaje de Confirmación","Se elimino el chofer con exito","success").then((value)=>{
+          tbl_choferes.ajax.reload();
+
+        });
+    }else{
+      return Swal.fire("Mensaje de Advetencia","No se puede eliminar esta CHOFER por que esta siendo utilizado en otros módulos como encomienda y salidas diarias, verifique por favor","warning");
+
+    }
+  })
+}
+
+//ENVIANDO AL BOTON DELETE
+$('#tabla_choferes').on('click','.eliminar',function(){
+  var data = tbl_choferes.row($(this).parents('tr')).data();
+
+  if(tbl_choferes.row(this).child.isShown()){
+      var data = tbl_choferes.row(this).data();
+  }
+  Swal.fire({
+    title: 'Desea eliminar al chofer con el nombre: '+data.nombres_apellidos+'?',
+    text: "Una vez aceptado el chofer sera eliminado!!!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, Eliminar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Eliminar_chofer(data.id_chofer);
+    }
+  })
+})

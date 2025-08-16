@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 29-07-2025 a las 15:59:55
+-- Tiempo de generación: 09-08-2025 a las 23:22:22
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -53,11 +53,68 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_CARGAR_USUARIOS` ()   SELECT
 FROM usuario
 WHERE usuario.usu_estatus = 'ACTIVO'$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ELIMINAR_CHOFERES` (IN `ID` INT)   DELETE FROM choferes WHERE choferes.id_chofer=ID$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ELIMINAR_CLIENTE` (IN `ID` INT)   DELETE FROM clientes WHERE clientes.id_cliente=ID$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ELIMINAR_INDICADOR` (IN `ID` INT)   DELETE FROM indicadores where indicadores.id_indicador=ID$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ELIMINAR_ROL` (IN `ID` INT)   DELETE FROM roles WHERE roles.id_role=ID$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ELIMINAR_SERVICIOS` (IN `ID` INT)   DELETE FROM servicios WHERE servicios.id_servicio=ID$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ELIMINAR_SUCURSAL` (IN `ID` INT)   DELETE FROM sucursales WHERE sucursales.id_sucursal=ID$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_CHOFERES` ()   SELECT
+choferes.id_chofer,
+choferes.tipo_documen,
+choferes.nro_doc,
+choferes.nombres_apellidos,
+choferes.celular,
+choferes.celular_2,
+choferes.procedencia,
+choferes.direccion,
+choferes.marca_vehiculo,
+choferes.placa_vehiculo,
+choferes.nro_licencia,
+choferes.fecha_vencimiento_licencia,
+choferes.clase_categoria,
+choferes.estado,
+choferes.created_at,
+date_format(choferes.created_at, "%d-%m-%Y - %H:%i:%s") as fecha_formateada,
+choferes.updated_at,
+date_format(choferes.updated_at, "%d-%m-%Y - %H:%i:%s") as fecha_formateada2,
+choferes.id_usuario,
+choferes.foto,
+usuario.dni_usuario,
+usuario.usu_nombre,
+usuario.usu_apellido,
+CONCAT_WS(' ',usuario.usu_nombre,usuario.usu_apellido) AS Usuario
+FROM
+choferes
+INNER JOIN usuario ON choferes.id_usuario = usuario.id_usuario
+ORDER BY choferes.created_at DESC$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_CLIENTES` ()   SELECT
+	clientes.id_cliente, 
+	clientes.tipo_documento, 
+	clientes.nro_documento, 
+	clientes.nombre_completo, 
+	clientes.procedencia, 
+	clientes.celular, 
+	clientes.direccion, 
+	clientes.email, 
+	clientes.total_viajes, 
+	clientes.ultimo_viaje,
+	date_format(clientes.ultimo_viaje, "%d-%m-%Y") as fecha_ultimo_viaje,	
+	clientes.created_at, 
+		date_format(clientes.created_at, "%d-%m-%Y - %H:%i:%s") as fecha_formateada,	
+
+	clientes.updated_at,
+		date_format(clientes.updated_at, "%d-%m-%Y - %H:%i:%s") as fecha_formateada2
+
+FROM
+	clientes$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_EMPRESA` ()   SELECT
 empresa.id_empresa,
@@ -87,6 +144,23 @@ empresa.endpoint_sunat,
 empresa.modo_prueba
 FROM
 empresa$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_INDICADORES` ()   SELECT
+indicadores.id_indicador,
+indicadores.tipo_indicador,
+indicadores.nombres,
+indicadores.descripcion,
+indicadores.estado,
+indicadores.created_at,
+indicadores.updated_at,
+indicadores.id_usuario,
+	date_format(indicadores.created_at, "%d-%m-%Y - %H:%i:%s") as fecha_formateada,
+	date_format(indicadores.updated_at, "%d-%m-%Y - %H:%i:%s") as fecha_formateada2,
+usuario.usu_usuario,
+	CONCAT_WS(' ',usuario.usu_nombre,usuario.usu_apellido) AS USUARIO 
+
+FROM indicadores inner join usuario
+ON indicadores.id_usuario=usuario.id_usuario$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_ROLES` ()   SELECT
 roles.id_role,
@@ -165,6 +239,109 @@ usuario
 INNER JOIN roles ON usuario.id_role = roles.id_role
 INNER JOIN sucursales ON usuario.id_sucursal = sucursales.id_sucursal$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_CHOFERES` (IN `ID` INT, IN `DNI` CHAR(20), IN `NOMBRE_APE` VARCHAR(255), IN `CELU1` CHAR(9), IN `CELU2` CHAR(9), IN `PROCE` CHAR(255), IN `DIREC` TEXT, IN `FOTO` VARCHAR(255), IN `MARCA` VARCHAR(255), IN `PLACA` VARCHAR(255), IN `CLASE_CATE` VARCHAR(255), IN `NRO_LICE` VARCHAR(255), IN `FECHA_VENCI` DATE, IN `ESTA` VARCHAR(20), IN `USU` INT)   BEGIN
+    DECLARE CANTIDAD_DNI INT;
+
+    -- Verificar si el DNI ya existe en otro chofer distinto al que se está actualizando
+    SET @CANTIDAD_DNI := (
+        SELECT COUNT(*) FROM choferes
+        WHERE nro_doc = DNI AND id_chofer <> ID
+    );
+
+    -- Si no hay duplicados de DNI en otros choferes, continuar
+    IF @CANTIDAD_DNI = 0 THEN
+        UPDATE choferes
+        SET 
+            nro_doc = DNI,
+            nombres_apellidos = NOMBRE_APE,
+            celular = CELU1,
+            celular_2 = CELU2,
+            procedencia = PROCE,
+            direccion = DIREC,
+            marca_vehiculo = MARCA,
+            placa_vehiculo = PLACA,
+            clase_categoria = CLASE_CATE,
+            nro_licencia = NRO_LICE,
+            fecha_vencimiento_licencia = FECHA_VENCI,
+            estado = ESTA,
+            updated_at = NOW(),
+            id_usuario = USU,
+            foto = FOTO
+        WHERE id_chofer = ID;
+
+        SELECT 1; -- Actualización exitosa
+
+    ELSE
+        SELECT 2; -- DNI ya existe en otro chofer
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_CHOFERES_SIN_FOTO` (IN `ID` INT, IN `DNI` CHAR(20), IN `NOMBRE_APE` VARCHAR(255), IN `CELU1` CHAR(9), IN `CELU2` CHAR(9), IN `PROCE` CHAR(255), IN `DIREC` TEXT, IN `MARCA` VARCHAR(255), IN `PLACA` VARCHAR(255), IN `CLASE_CATE` VARCHAR(255), IN `NRO_LICE` VARCHAR(255), IN `FECHA_VENCI` DATE, IN `ESTA` VARCHAR(20), IN `USU` INT)   BEGIN
+    DECLARE CANTIDAD_DNI INT;
+
+    -- Verificar si el DNI ya existe en otro chofer distinto al que se está actualizando
+    SET @CANTIDAD_DNI := (
+        SELECT COUNT(*) FROM choferes
+        WHERE nro_doc = DNI AND id_chofer <> ID
+    );
+
+    -- Si no hay duplicados de DNI en otros choferes, continuar
+    IF @CANTIDAD_DNI = 0 THEN
+        UPDATE choferes
+        SET 
+            nro_doc = DNI,
+            nombres_apellidos = NOMBRE_APE,
+            celular = CELU1,
+            celular_2 = CELU2,
+            procedencia = PROCE,
+            direccion = DIREC,
+            marca_vehiculo = MARCA,
+            placa_vehiculo = PLACA,
+            clase_categoria = CLASE_CATE,
+            nro_licencia = NRO_LICE,
+            fecha_vencimiento_licencia = FECHA_VENCI,
+            estado = ESTA,
+            updated_at = NOW(),
+            id_usuario = USU
+        WHERE id_chofer = ID;
+
+        SELECT 1; -- Actualización exitosa
+
+    ELSE
+        SELECT 2; -- DNI ya existe en otro chofer
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_CLIENTES` (IN `ID` INT, IN `TIPODOC` VARCHAR(20), IN `DNI` CHAR(20), IN `NOMBRE_APE` VARCHAR(255), IN `PROCE` VARCHAR(255), IN `CELU` CHAR(9), IN `DIREC` TEXT, IN `EMAIL` VARCHAR(255))   BEGIN
+    DECLARE CANTIDAD_DNI INT;
+
+    -- Verificar si el DNI ya existe en otro chofer distinto al que se está actualizando
+    SET @CANTIDAD_DNI := (
+        SELECT COUNT(*) FROM clientes
+        WHERE nro_documento = DNI AND id_cliente <> ID
+    );
+
+    -- Si no hay duplicados de DNI en otros choferes, continuar
+    IF @CANTIDAD_DNI = 0 THEN
+        UPDATE clientes
+        SET 
+            tipo_documento = TIPODOC,
+            nro_documento = DNI,
+            nombre_completo = NOMBRE_APE,
+            procedencia = PROCE,
+            celular = CELU,
+            direccion = DIREC,
+            email = EMAIL,
+            updated_at = NOW()
+        WHERE id_cliente = ID;
+
+        SELECT 1; -- Actualización exitosa
+
+    ELSE
+        SELECT 2; -- DNI ya existe en otro chofer
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_EMPRESA` (IN `ID` INT, IN `NOMBRE` VARCHAR(250), `RAZON` VARCHAR(500), `NOM_COME` VARCHAR(500), `TIPO_DOC` VARCHAR(255), `NRO_DOC` VARCHAR(11), IN `EMAIL` VARCHAR(250), IN `COD` VARCHAR(10), IN `TELEFONO` VARCHAR(20), IN `DIRECCION` VARCHAR(250), `UBI` VARCHAR(6), `URBANI` VARCHAR(100), `DISTRI` VARCHAR(50), `PROVIN` VARCHAR(50), `DEPARTA` VARCHAR(50), `COD_PAIS` VARCHAR(2), `USUSOL` VARCHAR(20), `CLAVESOL` VARCHAR(100))   UPDATE empresa SET
 	nombre=NOMBRE,
 	razon_social= RAZON,
@@ -189,6 +366,39 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_EMPRESA` (IN `ID` INT,
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_EMPRESA_FOTO` (IN `ID` INT, IN `RUTA` VARCHAR(255))   UPDATE empresa SET
 logo=RUTA
 WHERE id_empresa=ID$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_INDICADOR` (IN `ID` INT, IN `TIPO` VARCHAR(20), IN `NOMBRE_INDI` VARCHAR(255), IN `DESCRIP` TEXT, IN `ESTA` VARCHAR(20), IN `USU` INT)   BEGIN
+DECLARE INDIACTUAL VARCHAR(255);
+DECLARE CANTIDAD INT;
+SET @INDIACTUAL:=(SELECT nombres FROM indicadores WHERE id_indicador=ID);
+IF @INDIACTUAL = NOMBRE_INDI THEN
+	UPDATE indicadores SET
+	tipo_indicador=TIPO,
+	nombres=NOMBRE_INDI,
+	descripcion=DESCRIP,
+	estado=ESTA,
+	id_usuario=USU,
+	updated_at =NOW()
+	WHERE id_indicador=ID;
+	SELECT 1;
+ELSE
+SET @CANTIDAD:=(SELECT COUNT(*) FROM indicadores WHERE nombres=NOMBRE_INDI);
+	IF @CANTIDAD=0 THEN
+	UPDATE indicadores SET
+	tipo_indicador=TIPO,
+	nombres=NOMBRE_INDI,
+	descripcion=DESCRIP,
+	estado=ESTA,
+	id_usuario=USU,
+	updated_at =NOW()
+	WHERE id_indicador=ID;
+		SELECT 1;	
+	ELSE
+		SELECT 2;	
+	END IF;
+END IF;
+
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_ROL` (IN `ID` INT, IN `NROL` VARCHAR(255), IN `DESCRIP` TEXT, IN `ESTA` VARCHAR(20))   BEGIN
 DECLARE ROLACTUAL VARCHAR(255);
@@ -345,6 +555,46 @@ END IF;
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_REGISTRAR_CHOFERES` (IN `TIPO_DOC` VARCHAR(20), IN `DNI` CHAR(20), IN `NOMBRE_APE` VARCHAR(255), IN `CELU1` CHAR(9), IN `CELU2` CHAR(9), IN `PROCE` CHAR(255), IN `DIREC` TEXT, IN `FOTO` VARCHAR(255), IN `MARCA` VARCHAR(255), IN `PLACA` VARCHAR(255), IN `CLASE_CATE` VARCHAR(255), IN `NRO_LICE` VARCHAR(255), IN `FECHA_VENCI` DATE, IN `USU` INT)   BEGIN
+    DECLARE CANTIDAD_DNI INT;
+    DECLARE CANTIDAD_USU INT;
+
+    -- Verificar si el DNI ya existe
+    SET @CANTIDAD_DNI := (SELECT COUNT(*) FROM choferes WHERE nro_doc = DNI);
+
+    -- Si no existe un DNI duplicado ni un usuario duplicado
+    IF @CANTIDAD_DNI = 0 THEN
+        -- Insertar el nuevo usuario
+        INSERT INTO choferes (
+            tipo_documen,nro_doc, nombres_apellidos, celular, celular_2, 
+            procedencia, direccion, marca_vehiculo, placa_vehiculo, 
+            clase_categoria,nro_licencia, fecha_vencimiento_licencia,estado, created_at, id_usuario,foto
+        ) VALUES (
+            TIPO_DOC,DNI, NOMBRE_APE, CELU1, CELU2, 
+            PROCE,DIREC,MARCA,PLACA,CLASE_CATE,NRO_LICE,FECHA_VENCI,'ACTIVO',CURDATE(), USU,FOTO
+        );
+
+        SELECT 1; -- Indicar que la inserción fue exitosa
+
+    ELSE
+        -- Si hay duplicados en el DNI o el nombre de usuario
+        SELECT 2; -- Indicar que el DNI o el nombre de usuario ya existen
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_REGISTRAR_INDICADOR` (IN `TIPO` VARCHAR(20), IN `NOMBRE_INDI` VARCHAR(255), IN `DESCRIP` TEXT, IN `USU` INT)   BEGIN
+DECLARE CANTIDAD INT;
+SET @CANTIDAD:=(SELECT COUNT(*) FROM indicadores where nombres=NOMBRE_INDI);
+IF @CANTIDAD = 0 THEN
+INSERT INTO indicadores(tipo_indicador,nombres,descripcion,estado,created_at,id_usuario)VALUE(TIPO,NOMBRE_INDI,DESCRIP,'ACTIVO',NOW(),USU);
+SELECT 1;
+ELSE
+SELECT 2;
+
+END IF;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_REGISTRAR_ROLES` (IN `NROL` VARCHAR(255), IN `DESCRIP` VARCHAR(255), IN `ESTADO` VARCHAR(20), IN `FECHA` DATETIME)   BEGIN
 DECLARE CANTIDAD INT;
 SET @CANTIDAD:=(SELECT COUNT(*) FROM roles where rol=NROL);
@@ -489,7 +739,8 @@ INSERT INTO `catalogo_sunat` (`id_catalogo`, `numero_catalogo`, `codigo`, `descr
 
 CREATE TABLE `choferes` (
   `id_chofer` int(11) NOT NULL,
-  `dni` char(8) DEFAULT NULL,
+  `tipo_documen` varchar(50) DEFAULT NULL,
+  `nro_doc` char(20) DEFAULT NULL,
   `nombres_apellidos` varchar(255) DEFAULT NULL,
   `celular` char(9) DEFAULT NULL,
   `celular_2` char(9) DEFAULT NULL,
@@ -497,14 +748,24 @@ CREATE TABLE `choferes` (
   `direccion` text DEFAULT NULL,
   `marca_vehiculo` varchar(255) DEFAULT NULL,
   `placa_vehiculo` varchar(255) DEFAULT NULL,
-  `licencia` varchar(255) DEFAULT NULL,
-  `tipo_licencia` varchar(255) DEFAULT NULL,
+  `clase_categoria` varchar(255) DEFAULT NULL,
+  `nro_licencia` varchar(255) DEFAULT NULL,
   `fecha_vencimiento_licencia` date DEFAULT NULL,
   `estado` enum('ACTIVO','INACTIVO') DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  `id_usuario` int(11) DEFAULT NULL
+  `id_usuario` int(11) DEFAULT NULL,
+  `foto` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `choferes`
+--
+
+INSERT INTO `choferes` (`id_chofer`, `tipo_documen`, `nro_doc`, `nombres_apellidos`, `celular`, `celular_2`, `procedencia`, `direccion`, `marca_vehiculo`, `placa_vehiculo`, `clase_categoria`, `nro_licencia`, `fecha_vencimiento_licencia`, `estado`, `created_at`, `updated_at`, `id_usuario`, `foto`) VALUES
+(2, 'DNI', '66878747', 'ANDRES PEÑA VALVERDE', '987441447', NULL, 'CUSCO', 'AV. PACHACUTEC N° 32', 'HYUNDAY', 'AS-231D', 'CONDUCCIÓN VEHICULO', 'AIIB', '2028-06-13', 'ACTIVO', '2025-07-29 10:22:34', NULL, 1, NULL),
+(3, 'DNI', '09251155', 'EDUARDO ALVAREZ ASTETE', '975777881', '954844848', 'ABANCAY', 'JR. CUSCO N° 231', 'KIA', 'S5-84841', 'AIIIA', 'T09251155', '2028-10-23', 'INACTIVO', '2025-08-06 00:00:00', '2025-08-09 12:32:08', 1, 'controller/choferes/fotos/IMG6-8-2025-12-605.avif'),
+(4, 'DNI', '72155445', 'JORDAN JEPHERSON MENDOZA CUMPA', '974785471', '987888444', 'CUSCO', 'AV. PACHACUTEC N° 4454', 'HYUNDAY', '52D-D1D1', 'AIIA', 'T72155445', '2027-10-22', 'ACTIVO', '2025-08-06 00:00:00', '2025-08-06 12:01:01', 1, 'controller/choferes/fotos/IMG6-8-2025-11-420.png');
 
 -- --------------------------------------------------------
 
@@ -514,27 +775,26 @@ CREATE TABLE `choferes` (
 
 CREATE TABLE `clientes` (
   `id_cliente` int(11) NOT NULL,
-  `tipo_documento` varchar(255) DEFAULT NULL,
+  `tipo_documento` enum('DNI','PASAPORTE','CE','RUC') DEFAULT NULL,
   `nro_documento` char(20) DEFAULT NULL,
-  `nombres` varchar(255) DEFAULT NULL,
-  `apellidos` varchar(255) DEFAULT NULL,
+  `nombre_completo` varchar(255) DEFAULT NULL,
+  `procedencia` varchar(255) DEFAULT NULL,
   `celular` char(9) DEFAULT NULL,
-  `telefono` char(9) DEFAULT NULL,
-  `dirección` text DEFAULT NULL,
-  `observacion` text DEFAULT NULL,
+  `direccion` text DEFAULT NULL,
+  `email` text DEFAULT NULL,
+  `total_viajes` int(255) DEFAULT NULL,
+  `ultimo_viaje` date DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `numero_documento` varchar(15) NOT NULL DEFAULT '',
-  `razon_social` varchar(500) DEFAULT NULL,
-  `nombre_comercial` varchar(500) DEFAULT NULL,
-  `codigo_pais` varchar(2) DEFAULT 'PE',
-  `ubigeo` varchar(6) DEFAULT NULL,
-  `urbanizacion` varchar(100) DEFAULT NULL,
-  `distrito` varchar(50) DEFAULT NULL,
-  `provincia` varchar(50) DEFAULT NULL,
-  `departamento` varchar(50) DEFAULT NULL,
-  `codigo_postal` varchar(10) DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`id_cliente`, `tipo_documento`, `nro_documento`, `nombre_completo`, `procedencia`, `celular`, `direccion`, `email`, `total_viajes`, `ultimo_viaje`, `created_at`, `updated_at`) VALUES
+(1, 'DNI', '78847841', 'JUAN CAMACHO PERALTAS', 'CUSCO', '997847141', 'Jr. Canada N° 235', 'JUAN@GMAIL.COM', 2, '2025-01-22', '2025-08-09 11:10:04', '2025-08-09 12:12:59'),
+(2, 'PASAPORTE', '72541155898', 'DANIELA PERALTA CHAVEZ', 'ABANCAY', '987114787', 'Av. Chile N° 233', '', 5, '2025-02-02', '2025-08-09 11:10:58', '2025-08-09 12:13:04');
 
 -- --------------------------------------------------------
 
@@ -727,6 +987,17 @@ CREATE TABLE `indicadores` (
   `updated_at` datetime DEFAULT NULL,
   `id_usuario` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `indicadores`
+--
+
+INSERT INTO `indicadores` (`id_indicador`, `tipo_indicador`, `nombres`, `descripcion`, `estado`, `created_at`, `updated_at`, `id_usuario`) VALUES
+(1, 'INGRESOS', 'PAGOS DE CLIENTES', 'Pagos por viaje', 'ACTIVO', '2025-07-29 09:25:32', NULL, 1),
+(2, 'GASTOS', 'PAGO DE LUZ', 'Servicio de luz', 'ACTIVO', '2025-07-29 09:25:51', NULL, 1),
+(3, 'GASTOS', 'COMPRA DE MATERIALES', 'Compra de materiales de oficina u otros', 'ACTIVO', '2025-07-29 09:26:12', NULL, 1),
+(4, 'INGRESOS', 'SERVICIO DE ENCOMIENDA', 'COBRO POR ENVíO DE ENCOMIENDAS', 'ACTIVO', '2025-07-29 09:26:48', '2025-07-29 09:40:17', 1),
+(6, '', 'PAGO DE AGUA', 'SERVICIO DE PAGO DE AGUA', 'ACTIVO', '2025-07-29 09:39:21', '2025-07-29 09:39:59', 1);
 
 -- --------------------------------------------------------
 
@@ -1062,13 +1333,13 @@ ALTER TABLE `catalogo_sunat`
 -- AUTO_INCREMENT de la tabla `choferes`
 --
 ALTER TABLE `choferes`
-  MODIFY `id_chofer` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_chofer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `comprobantes`
@@ -1104,7 +1375,7 @@ ALTER TABLE `gastos`
 -- AUTO_INCREMENT de la tabla `indicadores`
 --
 ALTER TABLE `indicadores`
-  MODIFY `id_indicador` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_indicador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresos`

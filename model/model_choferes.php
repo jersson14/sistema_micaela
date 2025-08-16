@@ -16,51 +16,86 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }   
-        public function Registrar_Usuario($dni,$nombre,$apelli,$correo,$tele,$dire,$ruta,$usu,$contra,$rol,$sucu){
+        public function Registrar_choferes($tipo_doc,$documentoFinal,$nom_ape,$celu,$celu2,$proc,$dire,$ruta,$marca,$placa,$clase_cate,$nro_lice,$fec_ven,$idusuario){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_REGISTRAR_USUARIO(?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "CALL SP_REGISTRAR_CHOFERES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $arreglo = array();
             $query  = $c->prepare($sql);
-            $query ->bindParam(1,$dni);
-            $query ->bindParam(2,$nombre);
-            $query ->bindParam(3,$apelli);
-            $query ->bindParam(4,$correo);
-            $query ->bindParam(5,$tele);
-            $query ->bindParam(6,$dire);
-            $query ->bindParam(7,$ruta);
-            $query ->bindParam(8,$usu);
-            $query ->bindParam(9,$contra);
-            $query ->bindParam(10,$rol);
-            $query ->bindParam(11,$sucu);
+            $query ->bindParam(1,$tipo_doc);
+            $query ->bindParam(2,$documentoFinal);
+            $query ->bindParam(3,$nom_ape);
+            $query ->bindParam(4,$celu);
+            $query ->bindParam(5,$celu2);
+            $query ->bindParam(6,$proc);
+            $query ->bindParam(7,$dire);
+            $query ->bindParam(8,$ruta);
+            $query ->bindParam(9,$marca);
+            $query ->bindParam(10,$placa);
+            $query ->bindParam(11,$clase_cate);
+            $query ->bindParam(12,$nro_lice);
+            $query ->bindParam(13,$fec_ven);
+            $query ->bindParam(14,$idusuario);
             $query->execute();
             if($row = $query->fetchColumn()){
                 return $row;
             }
             conexionBD::cerrar_conexion();
         }
-        public function Modificar_Usuario($id,$dni, $nombre, $apelli, $correo, $tele, $dire, $ruta,$usu,$rol,$sucu){
+        public function Modificar_Choferes($id,$dni, $nom_ape, $celu1, $celu2, $proc, $dire, $ruta,$marca,$placa,$clase_cate,$nro_lice,$fec_ven,$esta,$idusuario){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_MODIFICAR_USUARIO(?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "CALL SP_MODIFICAR_CHOFERES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query ->bindParam(1,$id);
             $query ->bindParam(2,$dni);
-            $query ->bindParam(3,$nombre);
-            $query ->bindParam(4,$apelli);
-            $query ->bindParam(5,$correo);
-            $query ->bindParam(6,$tele);
+            $query ->bindParam(3,$nom_ape);
+            $query ->bindParam(4,$celu1);
+            $query ->bindParam(5,$celu2);
+            $query ->bindParam(6,$proc);
             $query ->bindParam(7,$dire);
             $query ->bindParam(8,$ruta);
-            $query ->bindParam(9,$usu);
-            $query ->bindParam(10,$rol);
-            $query ->bindParam(11,$sucu);
+            $query ->bindParam(9,$marca);
+            $query ->bindParam(10,$placa);
+            $query ->bindParam(11,$clase_cate);
+            $query ->bindParam(12,$nro_lice);
+            $query ->bindParam(13,$fec_ven);
+            $query ->bindParam(14,$esta);
+            $query ->bindParam(15,$idusuario);
+
             $query->execute();
             if($row = $query->fetchColumn()){
                 return $row;
             }
             conexionBD::cerrar_conexion();
         }
-      
+        public function Eliminar_Chofer($id){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_ELIMINAR_CHOFERES(?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$id);
+    
+            $resul = $query->execute();
+            if($resul){
+                return 1;
+            }else{
+                return 0;
+            }
+            conexionBD::cerrar_conexion();
+        }
+        public function Cargar_Select_Choferes(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_CARGAR_SELECT_CHOFERES()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
     }
 
 
