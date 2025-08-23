@@ -136,7 +136,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p style="color:white">Servicios</p>
                 </a>
               </li>
-
+              <li class="nav-item">
+                <a href="#" onclick="cargar_contenido('contenido_principal','rutas/view_rutas.php')" class="nav-link">
+                  <i class="nav-icon fas fa-map-marked-alt"></i>
+                  <p style="color:white">Rutas</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="#" onclick="cargar_contenido('contenido_principal','choferes/view_choferes.php')" class="nav-link">
                   <i class="nav-icon fas fa-id-badge"></i>

@@ -79,19 +79,13 @@
                         </div>
                         <div class="col-4 form-group">
                             <label for="">Origen<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" id="select_origen" style="width:100%">
-                                <option value="" disabled>Seleccione</option>
-                                <option value="ABANCAY" selected>ABANCAY</option>
-                                <option value="CUSCO">CUSCO</option>
-                            </select>
+                            <select class="js-example-basic-single" id="select_origen" style="width:100%"></select>
+
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Destino<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" id="select_destino" style="width:100%">
-                                <option value="" disabled>Seleccione</option>
-                                <option value="CUSCO">CUSCO</option>
-                                <option value="ABANCAY" selected>ABANCAY</option>
-                            </select>
+                            <select class="js-example-basic-single" id="select_destino" style="width:100%"></select>
+
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Fecha y hora<b style="color:red">(*)</b>:</label>
@@ -463,6 +457,7 @@
         $(document).ready(function() {
             listar_encomiendas();
             Cargar_Select_Conductores();
+            Cargar_Select_Rutas();
         });
 
         $('#modal_registro').on('shown.bs.modal', function() {

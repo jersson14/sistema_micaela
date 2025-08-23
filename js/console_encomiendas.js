@@ -75,8 +75,8 @@ function listar_encomiendas() {
           );
         },
       },
-      { data: "origen" },
-      { data: "destino" },
+      { data: "nombre_origen" },
+      { data: "nombre_destino" },
       { data: "fecha_formateada" },
       {
         data: null,
@@ -804,4 +804,49 @@ $("#tabla_encomiendas").on("click", ".eliminar", function () {
       Eliminar_chofer(data.id_chofer);
     }
   });
+});
+
+
+
+
+function Cargar_Select_Rutas() {
+  $.ajax({
+    url: "../controller/rutas/controlador_cargar_select_rutas.php",
+    type: "POST",
+  }).done(function (resp) {
+    let data = JSON.parse(resp);
+    let cadena = "<option value=''>Seleccionar conductor</option>";
+
+    if (data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        cadena +=
+          "<option value='"+data[i][0]+"'>"+data[i][1]+"</option>";
+      }
+    } else {
+      cadena += "<option value=''>No hay conductores disponibles</option>";
+    }
+
+    $("#select_origen").html(cadena);
+        $("#select_destino").html(cadena);
+
+  });
+}
+
+// Una sola vez cuando se abre el modal
+$("#modal_registro").on("shown.bs.modal", function () {
+  $("#select_origen").select2({
+    placeholder: "Seleccionar origen",
+    allowClear: true,
+    dropdownParent: $("#modal_registro"),
+  });
+  
+});
+// Una sola vez cuando se abre el modal
+$("#modal_registro").on("shown.bs.modal", function () {
+  $("#select_destino").select2({
+    placeholder: "Seleccionar destino",
+    allowClear: true,
+    dropdownParent: $("#modal_registro"),
+  });
+  
 });
