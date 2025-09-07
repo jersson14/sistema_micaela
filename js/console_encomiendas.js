@@ -1,3 +1,4 @@
+//LISTAR ENCOMIENDAS
 var tbl_encomiendas;
 function listar_encomiendas() {
   tbl_encomiendas = $("#tabla_encomiendas").DataTable({
@@ -372,11 +373,13 @@ $(document).ready(function () {
     $(this).find(".dropdown-menu").removeClass("dropup dropdown-menu-right");
   });
 });
+
+//ABRIR MODAL REGISTRO
 function AbrirRegistro() {
   $("#modal_registro").modal({ backdrop: "static", keyboard: false });
   $("#modal_registro").modal("show");
 }
-
+//CARGAR SELECT CONDUCTORES
 function Cargar_Select_Conductores() {
   $.ajax({
     url: "../controller/choferes/controlador_cargar_select_choferes.php",
@@ -413,6 +416,86 @@ $("#modal_registro").on("shown.bs.modal", function () {
   });
 });
 
+async function buscarPorDocumento() {
+  const tipo = document.getElementById("select_tipo_documento_emisor").value;
+  const dni = document.getElementById("txt_dni_emisor").value.trim();
+  const otroDoc = document.getElementById("txt_dni_emisor2").value.trim();
+
+  let numero_documento = "";
+
+  if (tipo === "DNI" && dni !== "") {
+    numero_documento = dni;
+  } else if (tipo !== "DNI" && otroDoc !== "") {
+    numero_documento = otroDoc;
+  } else {
+    Swal.fire("Advertencia", "Debe ingresar un número de documento válido.", "warning");
+    return;
+  }
+
+  try {
+    const resp = await $.ajax({
+      url: "../controller/encomiendas/controlador_buscar_persona_por_documento.php",
+      type: "POST",
+      data: { numero_documento },
+      dataType: "json"
+    });
+
+    if (resp.data && resp.data.length > 0) {
+      const d = resp.data[0];
+
+      // Rellenar campos
+      $("#txt_nomb_emisor").val(d.nombre_completo);
+      $("#txt_celu1_emisor").val(d.celular);
+
+    } else {
+      Swal.fire("No encontrado", "No se encontró ninguna persona con ese documento.", "info");
+    }
+  } catch (error) {
+    console.error("❌ Error en AJAX:", error);
+    Swal.fire("Error", "No se pudo hacer la búsqueda.", "error");
+  }
+}
+
+
+async function buscarPorDocumento2() {
+  const tipo = document.getElementById("select_tipo_documento_receptor").value;
+  const dni = document.getElementById("txt_dni_receptor").value.trim();
+  const otroDoc = document.getElementById("txt_dni_recepto2").value.trim();
+
+  let numero_documento = "";
+
+  if (tipo === "DNI" && dni !== "") {
+    numero_documento = dni;
+  } else if (tipo !== "DNI" && otroDoc !== "") {
+    numero_documento = otroDoc;
+  } else {
+    Swal.fire("Advertencia", "Debe ingresar un número de documento válido.", "warning");
+    return;
+  }
+
+  try {
+    const resp = await $.ajax({
+      url: "../controller/encomiendas/controlador_buscar_persona_por_documento.php",
+      type: "POST",
+      data: { numero_documento },
+      dataType: "json"
+    });
+
+    if (resp.data && resp.data.length > 0) {
+      const d = resp.data[0];
+
+      // Rellenar campos
+      $("#txt_nomb_receptor").val(d.nombre_completo);
+      $("#txt_celu1_recepto").val(d.celular);
+
+    } else {
+      Swal.fire("No encontrado", "No se encontró ninguna persona con ese documento.", "info");
+    }
+  } catch (error) {
+    console.error("❌ Error en AJAX:", error);
+    Swal.fire("Error", "No se pudo hacer la búsqueda.", "error");
+  }
+}
 //ABRIR MODAL EDITAR
 $("#tabla_encomiendas").on("click", ".cambiar_estado", function () {
   var data = tbl_encomiendas.row($(this).parents("tr")).data();
@@ -427,7 +510,7 @@ $("#tabla_encomiendas").on("click", ".cambiar_estado", function () {
   document.getElementById("text_observacion_enco").value = data.observacion;
   document.getElementById("txt_anula_enco").value = data.motivo_anulacion;
 });
-
+//ABRIR MODAL MOSTRAR
 $("#tabla_encomiendas").on("click", ".mostrar", function () {
   var data = tbl_encomiendas.row($(this).parents("tr")).data();
 
@@ -479,160 +562,164 @@ $("#tabla_encomiendas").on("click", ".mostrar", function () {
     data.fecha_vencimiento_licencia;
   document.getElementById("select_estado_mostrar").value = data.estado;
 });
+//LIMPIAR CAMPOS
+function LimpiarCamposEncomienda() {
+    // CAMPOS PRINCIPALES
+    document.getElementById('select_conductor').value = "";
+    document.getElementById('select_origen').value = "";
+    document.getElementById('select_destino').value = "";
+    document.getElementById('txt_descripcion').value = ""; // CORREGIDO: era txtxt_descripciont_fecha_creacion
+    
+    // DATOS DEL EMISOR 
+    document.getElementById('txt_dni_emisor').value = "";
+    document.getElementById('txt_dni_emisor2').value = "";
+    document.getElementById('txt_nomb_emisor').value = "";
+    document.getElementById('txt_celu1_emisor').value = "";
+    
+    // DATOS DEL RECEPTOR
+    document.getElementById('txt_dni_receptor').value = "";
+    document.getElementById('txt_dni_recepto2').value = "";
+    document.getElementById('txt_nomb_receptor').value = "";
+    document.getElementById('txt_celu1_recepto').value = "";
+    
+    // DATOS DE PAGO
+    document.getElementById('txt_pago').value = "0.00";
+    document.getElementById('txt_por_pagar').value = "0.00";
+    document.getElementById('txt_a_domicilio').value = "0.00";
+    
+    // SI TIENES SELECT2 O CHOSEN, TAMBIÉN NECESITAS ACTUALIZARLOS
+    // $('#select_conductor').trigger('change'); // Para Select2
+    // $('#select_origen').trigger('change'); // Para Select2
+    // $('#select_destino').trigger('change'); // Para Select2
+    // $('#select_tipo_documento_emisor').trigger('change'); // Para Select2
+    // $('#select_tipo_documento_receptor').trigger('change'); // Para Select2
+}
+//REGISTROS DE ENCOMIENDAS
 
-//REGISTROS DE CHOFERES
-function Registrar_Choferes() {
-  //DATOS DEL DOCENTE
-  let tipo_doc = document.getElementById("select_tipo_documento").value;
-  let dni = document.getElementById("txt_dni").value;
-  let dni2 = document.getElementById("txt_dni2").value;
-  let nom_ape = document.getElementById("txt_nomb").value;
-  let celu = document.getElementById("txt_celu1").value;
-  let celu2 = document.getElementById("txt_celu2").value;
-  let proc = document.getElementById("txt_procedencia").value;
-  let dire = document.getElementById("txt_direc").value;
-  let foto = document.getElementById("txt_foto").value;
 
-  //DATOS DEL CARRO
-  let marca = document.getElementById("txt_marca").value;
-  let placa = document.getElementById("txt_placa").value;
-  let clase_cate = document.getElementById("txt_clase_categoria").value;
-  let nro_lice = document.getElementById("txt_nro_licencia").value;
-  let fec_ven = document.getElementById("txt_fecha_expira").value;
-  let idusuario = document.getElementById("txtprincipalid").value;
+function Registrar_Encomiendas(){
+  let conduc = document.getElementById('select_conductor').value;
+  let ori = document.getElementById('select_origen').value;
+  let des = document.getElementById('select_destino').value;
+  let fecha = document.getElementById('txt_fecha_creacion').value;
+  let desc = document.getElementById('txt_descripcion').value;
+  
+  // DATOS DEL EMISOR
+  let tipodocemi = document.getElementById('select_tipo_documento_emisor').value;
+  let dniemi = document.getElementById('txt_dni_emisor').value;
+  let dni2emi = document.getElementById('txt_dni_emisor2').value;
+  let nomemi = document.getElementById('txt_nomb_emisor').value;
+  let celemi = document.getElementById('txt_celu1_emisor').value;
+  
+  // DATOS DEL RECEPTOR
+  let tipodocrece = document.getElementById('select_tipo_documento_receptor').value;
+  let dnirece = document.getElementById('txt_dni_receptor').value;
+  let deni2rece = document.getElementById('txt_dni_recepto2').value;
+  let nomrece = document.getElementById('txt_nomb_receptor').value;
+  let celurece = document.getElementById('txt_celu1_recepto').value;
+  
+  // DATOS DE PAGO
+  let pago = document.getElementById('txt_pago').value;
+  let porpagar = document.getElementById('txt_por_pagar').value;
+  let adomicilio = document.getElementById('txt_a_domicilio').value;
+  let idusu = document.getElementById('txtprincipalid').value;
 
-  if (
-    tipo_doc.length == 0 ||
-    nom_ape.length == 0 ||
-    celu.length == 0 ||
-    marca.length == 0 ||
-    placa.length == 0 ||
-    clase_cate.length == 0 ||
-    nro_lice.length == 0 ||
-    fec_ven.length == 0
-  ) {
-    return Swal.fire(
-      "Mensaje de Advertencia",
-      "Tiene campos vacios en el formulario, revise por favor",
-      "warning"
-    );
+  // Obtener el nombre del select de destino
+  let selectDestino = document.getElementById('select_destino');
+  let nombre_destino = selectDestino.options[selectDestino.selectedIndex].text;
+
+  if(conduc.length==0 || ori.length==0 || des.length==0 || fecha.length==0 || tipodocemi.length==0 || dniemi.length==0 || nomemi.length==0 || celemi.length==0 || tipodocrece.length==0 || dnirece.length==0 || nomrece.length==0 || celurece.length==0){
+      return Swal.fire("Mensaje de Advertencia","Todo los campos son obligatorios","warning");
   }
-  // Validar documento según tipo
-  let documentoFinal = "";
-  if (tipo_doc === "DNI") {
-    if (!dni) {
-      return Swal.fire(
-        "Mensaje de Advertencia",
-        "El campo DNI es obligatorio",
-        "warning"
-      );
-    }
-    documentoFinal = dni;
-  } else {
-    if (!dni2) {
-      return Swal.fire(
-        "Mensaje de Advertencia",
-        "El campo de documento es obligatorio",
-        "warning"
-      );
-    }
-    documentoFinal = dni2;
+
+  //validacion de pago
+  if(pago.length==0||porpagar.length==0||adomicilio.length==0){
+    return Swal.fire("Mensaje de Advertencia","Los campos de pago, por pagar y a domicilio no pueden ir vacios, en caso de no tener monto colocar 0.00","warning");
   }
 
-  let extension = foto.split(".").pop();
-  let nombrefoto = "";
-  let f = new Date();
-  if (foto.length > 0) {
-    nombrefoto =
-      "IMG" +
-      f.getDate() +
-      "-" +
-      (f.getMonth() + 1) +
-      "-" +
-      f.getFullYear() +
-      "-" +
-      f.getHours() +
-      "-" +
-      f.getMilliseconds() +
-      "." +
-      extension;
-  }
-  //CONDICIONANDO LOS CAMPOS VACIOS
-
-  let formData = new FormData();
-  let fotoobj = $("#txt_foto")[0].files[0];
-
-  formData.append("tipo_doc", tipo_doc);
-  formData.append("documentoFinal", documentoFinal);
-  formData.append("nom_ape", nom_ape);
-  formData.append("celu", celu);
-  formData.append("celu2", celu2);
-  formData.append("proc", proc);
-  formData.append("dire", dire);
-  formData.append("nombrefoto", nombrefoto);
-  formData.append("foto", fotoobj);
-
-  formData.append("marca", marca);
-  formData.append("placa", placa);
-  formData.append("clase_cate", clase_cate);
-  formData.append("nro_lice", nro_lice);
-  formData.append("fec_ven", fec_ven);
-  formData.append("idusuario", idusuario);
-
-  $.ajax({
-    url: "../controller/choferes/controlador_registro_choferes.php",
-    type: "POST",
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function (resp) {
-      if (resp.length > 0) {
-        if (resp == 1) {
-          Swal.fire(
-            "Mensaje de Confirmación",
-            "Se registro correctamente al chofer con el DNI N° <b>" +
-              documentoFinal +
-              "</b>",
-            "success"
-          ).then((value) => {
-            // Limpiar todos los campos
-            document.getElementById("txt_dni").value = "";
-            document.getElementById("txt_dni2").value = "";
-            document.getElementById("txt_nomb").value = "";
-            document.getElementById("txt_celu1").value = "";
-            document.getElementById("txt_celu2").value = "";
-            document.getElementById("txt_procedencia").value = "";
-            document.getElementById("txt_direc").value = "";
-
-            document.getElementById("txt_marca").value = "";
-            document.getElementById("txt_placa").value = "";
-            document.getElementById("txt_clase_categoria").value = "";
-            document.getElementById("txt_nro_licencia").value = "";
-            document.getElementById("txt_fecha_expira").value = "";
-
-            // Limpiar la vista previa de la imagen
-            document.getElementById("preview").src = "#";
-            document.getElementById("preview").alt = "Vista previa";
-
-            // Cerrar el modal
-            $("#modal_registro").modal("hide");
-            tbl_encomiendas.ajax.reload();
-          });
-        } else {
-          Swal.fire(
-            "Mensaje de Advertencia",
-            "El DNI que intentas registrar ya se encuentra en la base de datos, revise por favor",
-            "warning"
-          );
+   // Validar documento según tipo EMISOR
+    let documentoFinal = '';
+    if (tipodocemi === 'DNI') {
+        if (!dniemi) {
+            return Swal.fire("Mensaje de Advertencia", "El campo DNI del emisor es obligatorio", "warning");
         }
-      } else {
+        documentoFinal = dniemi;
+    } else {
+        if (!dni2emi) {
+            return Swal.fire("Mensaje de Advertencia", "El campo de documento del emisor es obligatorio", "warning");
+        }
+        documentoFinal = dni2emi;
+    }
+    
+  // Validar documento según tipo RECEPTOR
+    let documentoFinal2 = '';
+    if (tipodocrece === 'DNI') {
+        if (!dnirece) {
+            return Swal.fire("Mensaje de Advertencia", "El campo DNI del receptor es obligatorio", "warning");
+        }
+        documentoFinal2 = dnirece;
+    } else {
+        if (!deni2rece) {
+            return Swal.fire("Mensaje de Advertencia", "El campo de documento del receptor es obligatorio", "warning");
+        }
+        documentoFinal2 = deni2rece;
+    }
+    
+  $.ajax({
+    "url":"../controller/encomiendas/controlador_registro_encomiendas.php",
+    type:'POST',
+    data:{
+      conduc:conduc,
+      ori:ori,
+      des:des,
+      fecha:fecha,
+      desc:desc,
+      // DATOS DEL EMISOR
+      tipodocemi:tipodocemi,
+      documentoFinal:documentoFinal,
+      nomemi:nomemi,
+      celemi:celemi,
+      // DATOS DEL RECEPTOR
+      tipodocrece:tipodocrece,
+      documentoFinal2:documentoFinal2,
+      nomrece:nomrece,
+      celurece:celurece,
+      // DATOS DE PAGO
+      pago:pago,
+      porpagar:porpagar,
+      adomicilio:adomicilio,
+      idusu:idusu
+    }
+  }).done(function(resp){
+    if(resp>0){
+      if(resp==1){
+        let ahora = new Date();
+        let fechaActual = ahora.getDate().toString().padStart(2, '0') + '/' + 
+                 (ahora.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                 ahora.getFullYear() + ' a las ' +
+                 ahora.getHours().toString().padStart(2, '0') + ':' +
+                 ahora.getMinutes().toString().padStart(2, '0');
+                 
         Swal.fire(
-          "Mensaje de Advertencia",
-          "No se pudo registrar al usuario",
-          "warning"
-        );
+            "Mensaje de Confirmación",
+            "Nueva encomienda registrada el: <b>"+fechaActual+"</b> con destino: <b>"+nombre_destino+"</b>.",
+            "success"
+        ).then((value)=>{       
+          $("#modal_registro").modal('hide');
+          tbl_encomiendas.ajax.reload();
+          
+          // LLAMAR A LA FUNCIÓN DE LIMPIEZA
+          LimpiarCamposEncomienda();
+        });
+      }else{
+        Swal.fire("Mensaje de Advertencia","La encomienda que intentas registrar ya se encuentra en la base de datos, revise por favor","warning");
       }
-    },
+    }else{
+      return Swal.fire("Mensaje de Error","No se completó el registro","error");
+    }
+  }).fail(function(jqXHR, textStatus, errorThrown) {
+    console.error('Error AJAX:', textStatus, errorThrown);
+    Swal.fire("Mensaje de Error","Error de conexión: " + textStatus,"error");
   });
 }
 
@@ -757,9 +844,9 @@ function Modificar_Choferes() {
 }
 
 //ELIMINAR AREAS
-function Eliminar_chofer(id) {
+function Eliminar_encomienda(id) {
   $.ajax({
-    url: "../controller/choferes/controlador_eliminar_chofer.php",
+    url: "../controller/encomiendas/controlador_eliminar_encomiendas.php",
     type: "POST",
     data: {
       id: id,
@@ -768,7 +855,7 @@ function Eliminar_chofer(id) {
     if (resp > 0) {
       Swal.fire(
         "Mensaje de Confirmación",
-        "Se elimino el chofer con exito",
+        "Se elimino la encomienda con exito, si desea recuperarlo, tendra que volver a registrarlo",
         "success"
       ).then((value) => {
         tbl_encomiendas.ajax.reload();
@@ -776,7 +863,7 @@ function Eliminar_chofer(id) {
     } else {
       return Swal.fire(
         "Mensaje de Advetencia",
-        "No se puede eliminar esta CHOFER por que esta siendo utilizado en otros módulos como encomienda y salidas diarias, verifique por favor",
+        "No se puede eliminar la encomienda, verifique por favor",
         "warning"
       );
     }
@@ -792,8 +879,8 @@ $("#tabla_encomiendas").on("click", ".eliminar", function () {
   }
   Swal.fire({
     title:
-      "Desea eliminar al chofer con el nombre: " + data.nombres_apellidos + "?",
-    text: "Una vez aceptado el chofer sera eliminado!!!",
+      "Desea eliminar la encomienda registrada el: " + data.fecha_formateada + " del cliente: "+data.nombre_emisor+"?",
+    text: "Una vez aceptado la encomienda sera eliminado, sin poder recuperarlo, tendra que volver a registrarlo!!!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -801,7 +888,7 @@ $("#tabla_encomiendas").on("click", ".eliminar", function () {
     confirmButtonText: "Si, Eliminar",
   }).then((result) => {
     if (result.isConfirmed) {
-      Eliminar_chofer(data.id_chofer);
+      Eliminar_encomienda(data.id_encomienda);
     }
   });
 });

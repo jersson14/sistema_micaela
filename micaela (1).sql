@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 07-09-2025 a las 19:19:15
+-- Tiempo de generación: 23-08-2025 a las 16:16:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -25,39 +25,6 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ANULAR_GASTOS` (IN `ID` INT, IN `DESCRIP` VARCHAR(255), IN `USU` INT)   UPDATE gastos
-SET
-id_user=USU,
-motivo_anulacion=DESCRIP,
-fecha_anulacion=NOW(),
-estado='ANULADO'
-
-WHERE gastos.id_gastos=ID$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_BUSCAR_PERSONA_POR_DOCUMENTO` (IN `documento` CHAR(200))   SELECT
-clientes.id_cliente,
-clientes.tipo_documento,
-clientes.nro_documento,
-clientes.nombre_completo,
-clientes.procedencia,
-clientes.celular,
-clientes.direccion,
-clientes.email,
-clientes.total_viajes,
-clientes.ultimo_viaje,
-clientes.created_at,
-clientes.updated_at
-FROM
-clientes
-where clientes.nro_documento=documento$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_CARGAR_INDICADORES` ()   SELECT
-indicadores.id_indicador,
-indicadores.nombres
-FROM
-indicadores
-WHERE indicadores.estado='ACTIVO' and indicadores.tipo_indicador='GASTOS'$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_CARGAR_RUTAS` ()   SELECT
 rutas.idrutas,
 rutas.nombre
@@ -103,8 +70,6 @@ WHERE usuario.usu_estatus = 'ACTIVO'$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ELIMINAR_CHOFERES` (IN `ID` INT)   DELETE FROM choferes WHERE choferes.id_chofer=ID$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ELIMINAR_CLIENTE` (IN `ID` INT)   DELETE FROM clientes WHERE clientes.id_cliente=ID$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ELIMINAR_ENCOMIENDA` (IN `ID` INT)   DELETE FROM encomiendas WHERE encomiendas.id_encomienda=ID$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ELIMINAR_INDICADOR` (IN `ID` INT)   DELETE FROM indicadores where indicadores.id_indicador=ID$$
 
@@ -166,69 +131,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_CLIENTES` ()   SELECT
 
 FROM
 	clientes$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_DIFERENCIA` ()   BEGIN
-    DECLARE fecha_inicio DATE;
-    DECLARE fecha_fin DATE;
-    DECLARE totalgasto DECIMAL(8,2);
-    DECLARE totalingresos DECIMAL(8,2);
-    DECLARE total DECIMAL(8,2);
-    -- Definir las fechas de inicio y fin como la fecha actual
-    SET fecha_inicio = CURDATE();
-    SET fecha_fin = CURDATE();
-    -- Calcular el total de gastos
-    SELECT IFNULL(SUM(monto), 0) 
-    INTO totalgasto
-    FROM gastos 
-    WHERE DATE(created_at) BETWEEN fecha_inicio AND fecha_fin AND estado = 'VALIDO';
-    -- Calcular el total de ingresos
-    SELECT IFNULL(SUM(monto_total), 0) 
-    INTO totalingresos
-    FROM ingresos 
-    WHERE DATE(created_at) BETWEEN fecha_inicio AND fecha_fin AND estado = 'VALIDO';
-    -- Calcular la diferencia entre ingresos y gastos
-    SET total = totalingresos - totalgasto;
-    -- Devolver el resultado
-    SELECT 
-        DATE_FORMAT(fecha_inicio, "%d-%m-%Y") AS FechaInicial,
-        DATE_FORMAT(fecha_fin, "%d-%m-%Y") AS FechaFinal,
-        CONCAT('S/. ', FORMAT(totalingresos, 2)) AS TotalIngresos,
-        CONCAT('S/. ', FORMAT(totalgasto, 2)) AS TotalGastos,
-        total AS DiferenciaNum,  -- Número sin formato
-        CONCAT('S/. ', FORMAT(total, 2)) AS Diferencia; -- String formateado
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_DIFERENCIA_FILTRO` (IN `FECHAINI` DATE, IN `FECHAFIN` DATE)   BEGIN
-
-    DECLARE totalgasto DECIMAL(8,2);
-    DECLARE totalingresos DECIMAL(8,2);
-    DECLARE total DECIMAL(8,2);
-
-
-
-    -- Calcular el total de gastos
-    SELECT IFNULL(SUM(monto), 0) 
-    INTO totalgasto
-    FROM gastos 
-    WHERE DATE(created_at) BETWEEN FECHAINI AND FECHAFIN AND estado = 'VALIDO';
-
-    -- Calcular el total de ingresos
-    SELECT IFNULL(SUM(monto_total), 0) 
-    INTO totalingresos
-    FROM ingresos 
-    WHERE DATE(created_at) BETWEEN FECHAINI AND FECHAFIN AND estado = 'VALIDO';
-
-    -- Calcular la diferencia entre ingresos y gastos
-    SET total = totalingresos - totalgasto;
-
-    -- Devolver el resultado
-    SELECT 
-        DATE_FORMAT(FECHAINI, "%d-%m-%Y") AS FechaInicial,
-        DATE_FORMAT(FECHAFIN, "%d-%m-%Y") AS FechaFinal,
-        CONCAT('S/. ', FORMAT(totalingresos, 2)) AS TotalIngresos,
-        CONCAT('S/. ', FORMAT(totalgasto, 2)) AS TotalGastos,
-        CONCAT('S/. ', FORMAT(total, 2)) AS Diferencia;
-END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_EMPRESA` ()   SELECT
 empresa.id_empresa,
@@ -319,56 +221,7 @@ INNER JOIN choferes
 INNER JOIN rutas AS rutas_origen
     ON rutas_origen.idrutas = encomiendas.id_origen
 INNER JOIN rutas AS rutas_destino
-    ON rutas_destino.idrutas = encomiendas.id_destino
-ORDER BY encomiendas.fecha_hora DESC$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_GASTOS` ()   SELECT
-    gastos.id_gastos,
-    gastos.id_indicador,
-    gastos.id_user,
-    gastos.cantidad,
-    gastos.monto,
-    gastos.observacion,
-    gastos.estado,
-    gastos.motivo_anulacion,
-    gastos.fecha_anulacion,
-    DATE_FORMAT(gastos.fecha_anulacion, "%d-%m-%Y") AS fecha_anulada,
-    gastos.created_at,
-    DATE_FORMAT(gastos.created_at, "%d-%m-%Y - %H:%i:%s") AS fecha_formateada,
-    gastos.updated_at,
-    DATE_FORMAT(gastos.updated_at, "%d-%m-%Y - %H:%i:%s") AS fecha_formateada2,
-    usuario.usu_usuario,
-    CONCAT_WS(' ', usuario.usu_nombre, usuario.usu_apellido) AS USUARIO,
-    indicadores.tipo_indicador,
-    indicadores.nombres
-FROM gastos 
-INNER JOIN indicadores ON gastos.id_indicador = indicadores.id_indicador 
-INNER JOIN usuario ON gastos.id_user = usuario.id_usuario
-WHERE DATE(gastos.created_at) = CURDATE()$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_GASTOS_FECHAS` (IN `IDINDI` INT, IN `FECHAINI` DATE, IN `FECHAFIN` DATE)   SELECT
-    gastos.id_gastos,
-    gastos.id_indicador,
-    gastos.id_user,
-    gastos.cantidad,
-    gastos.monto,
-    gastos.observacion,
-    gastos.estado,
-    gastos.motivo_anulacion,
-    gastos.fecha_anulacion,
-    DATE_FORMAT(gastos.fecha_anulacion, "%d-%m-%Y") AS fecha_anulada,
-    gastos.created_at,
-    DATE_FORMAT(gastos.created_at, "%d-%m-%Y - %H:%i:%s") AS fecha_formateada,
-    gastos.updated_at,
-    DATE_FORMAT(gastos.updated_at, "%d-%m-%Y - %H:%i:%s") AS fecha_formateada2,
-    usuario.usu_usuario,
-    CONCAT_WS(' ', usuario.usu_nombre, usuario.usu_apellido) AS USUARIO,
-    indicadores.tipo_indicador,
-    indicadores.nombres
-FROM gastos 
-INNER JOIN indicadores ON gastos.id_indicador = indicadores.id_indicador 
-INNER JOIN usuario ON gastos.id_user = usuario.id_usuario
-WHERE indicadores.id_indicador=IDINDI OR DATE(gastos.created_at) BETWEEN FECHAINI AND FECHAFIN$$
+    ON rutas_destino.idrutas = encomiendas.id_destino$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_INDICADORES` ()   SELECT
 indicadores.id_indicador,
@@ -605,16 +458,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_EMPRESA` (IN `ID` INT,
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_EMPRESA_FOTO` (IN `ID` INT, IN `RUTA` VARCHAR(255))   UPDATE empresa SET
 logo=RUTA
 WHERE id_empresa=ID$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_GASTOS` (IN `ID` INT, IN `IDINDI` INT, IN `CANTIDAD` INT, IN `MONTO` DECIMAL(8,2), IN `DESCRIP` VARCHAR(255), IN `USU` INT)   UPDATE gastos
-SET
-id_indicador=IDINDI,
-id_user=USU,
-cantidad=CANTIDAD,
-monto=MONTO,
-observacion=DESCRIP,
-updated_at=NOW()
-WHERE gastos.id_gastos=ID$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_INDICADOR` (IN `ID` INT, IN `TIPO` VARCHAR(20), IN `NOMBRE_INDI` VARCHAR(255), IN `DESCRIP` TEXT, IN `ESTA` VARCHAR(20), IN `USU` INT)   BEGIN
 DECLARE INDIACTUAL VARCHAR(255);
@@ -860,174 +703,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_REGISTRAR_CHOFERES` (IN `TIPO_DO
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_REGISTRAR_ENCOMIENDA` (IN `CONDUC` INT, IN `IDORI` INT, IN `IDDES` INT, IN `FECHA` DATETIME, IN `DESCR` TEXT, IN `TIPODOCEMI` VARCHAR(255), IN `NRODCOEMI` CHAR(20), IN `NOMEMI` VARCHAR(255), IN `CELEMI` CHAR(9), IN `TIPODOCRECE` VARCHAR(255), IN `NRODOCRECEP` CHAR(20), IN `NOMRECEP` VARCHAR(255), IN `CELERECEP` CHAR(9), IN `PAG` DECIMAL(8,2), IN `PORPAGAR` DECIMAL(8,2), IN `ADOMICILIO` DECIMAL(8,2), IN `USU` INT)   BEGIN
-    DECLARE Contar INT;
-    DECLARE cantidad INT;
-    DECLARE cod CHAR(12);
-    DECLARE proce1 VARCHAR(25);
-    DECLARE proce2 VARCHAR(25);
-    DECLARE IDEMI INT;
-    DECLARE IDRECEP INT;
-    DECLARE IDENCO INT; -- ID de la encomienda insertada
-    DECLARE estado_pago_calc VARCHAR(20);
-    DECLARE existe_emisor INT DEFAULT 0;
-    DECLARE existe_receptor INT DEFAULT 0;
-    
-    -- Obtener nombres de rutas
-    SET proce1 = (SELECT rutas.nombre FROM rutas WHERE rutas.idrutas = IDORI);
-    SET proce2 = (SELECT rutas.nombre FROM rutas WHERE rutas.idrutas = IDDES);
-    
-    -- VALIDACIÓN 1: Verificar si el cliente emisor ya existe
-    SELECT COUNT(*), IFNULL(MAX(clientes.id_cliente), 0) 
-    INTO existe_emisor, IDEMI
-    FROM clientes 
-    WHERE tipo_documento = TIPODOCEMI AND nro_documento = NRODCOEMI;
-    
-    IF existe_emisor > 0 THEN
-        -- Cliente emisor existe, actualizar datos
-        UPDATE clientes 
-        SET nombre_completo = NOMEMI,
-            procedencia = proce1,
-            celular = CELEMI,
-            updated_at = NOW()
-        WHERE tipo_documento = TIPODOCEMI AND nro_documento = NRODCOEMI;
-    ELSE
-        -- Cliente emisor no existe, insertar nuevo
-        INSERT INTO clientes(tipo_documento, nro_documento, nombre_completo, procedencia, celular, direccion, email, created_at)
-        VALUES(TIPODOCEMI, NRODCOEMI, NOMEMI, proce1, CELEMI, '', '', NOW());
-        
-        SET IDEMI = LAST_INSERT_ID();
-    END IF;
-    
-    -- VALIDACIÓN 1: Verificar si el cliente receptor ya existe
-    SELECT COUNT(*), IFNULL(MAX(clientes.id_cliente), 0) 
-    INTO existe_receptor, IDRECEP
-    FROM clientes 
-    WHERE tipo_documento = TIPODOCRECE AND nro_documento = NRODOCRECEP;
-    
-    IF existe_receptor > 0 THEN
-        -- Cliente receptor existe, actualizar datos
-        UPDATE clientes 
-        SET nombre_completo = NOMRECEP,
-            procedencia = proce2,
-            celular = CELERECEP,
-            updated_at = NOW()
-        WHERE tipo_documento = TIPODOCRECE AND nro_documento = NRODOCRECEP;
-    ELSE
-        -- Cliente receptor no existe, insertar nuevo
-        INSERT INTO clientes(tipo_documento, nro_documento, nombre_completo, procedencia, celular, direccion, email, created_at)
-        VALUES(TIPODOCRECE, NRODOCRECEP, NOMRECEP, proce2, CELERECEP, '', '', NOW());
-        
-        SET IDRECEP = LAST_INSERT_ID();
-    END IF;
-    
-    -- Verificar si ya existe una encomienda con los mismos datos
-    SET Contar = (SELECT COUNT(*) 
-                  FROM encomiendas 
-                  WHERE id_conductor = CONDUC 
-                    AND id_cliente_emisor = IDEMI 
-                    AND id_cliente_receptor = IDRECEP
-                    AND DATE(fecha_hora) = DATE(FECHA));
-    
-    -- Generar correlativo para la boleta
-    SET cantidad = (SELECT IFNULL(MAX(doc_nrocorrelativo), 0) FROM encomiendas);
-    
-    IF Contar = 0 THEN
-        -- Generar código de boleta
-        IF cantidad >= 1 AND cantidad <= 8 THEN
-            SET cod = CONCAT('E-000000', (cantidad + 1));
-        ELSEIF cantidad >= 9 AND cantidad <= 98 THEN
-            SET cod = CONCAT('E-00000', (cantidad + 1));
-        ELSEIF cantidad >= 99 AND cantidad <= 998 THEN
-            SET cod = CONCAT('E-0000', (cantidad + 1));
-        ELSEIF cantidad >= 999 AND cantidad <= 9998 THEN
-            SET cod = CONCAT('E-000', (cantidad + 1));
-        ELSEIF cantidad >= 9999 AND cantidad <= 99998 THEN
-            SET cod = CONCAT('E-00', (cantidad + 1));
-        ELSEIF cantidad >= 99999 AND cantidad <= 999998 THEN
-            SET cod = CONCAT('E-0', (cantidad + 1));
-        ELSEIF cantidad >= 999999 THEN
-            SET cod = CONCAT('E-', (cantidad + 1));
-        ELSE
-            SET cod = 'E-0000001';
-        END IF;
-        
-        -- VALIDACIÓN 3: Determinar estado de pago
-        IF PAG > 0 OR ADOMICILIO > 0 THEN
-            SET estado_pago_calc = 'PAGADO';
-        ELSE
-            SET estado_pago_calc = 'POR PAGAR';
-        END IF;
-        
-        -- Insertar la encomienda con los IDs obtenidos
-        INSERT INTO encomiendas(
-            boleta_nro, 
-            id_conductor, 
-            id_origen, 
-            id_destino, 
-            fecha_hora, 
-            descripcion, 
-            id_cliente_emisor, 
-            id_cliente_receptor, 
-            pago, 
-            por_pagar, 
-            a_domicilio, 
-            id_usuario, 
-            observacion, 
-            estado_pago, 
-            created_at, 
-            estado_encomienda, 
-            doc_nrocorrelativo
-        ) 
-        VALUES(
-            cod, 
-            CONDUC, 
-            IDORI, 
-            IDDES, 
-            FECHA, 
-            DESCR, 
-            IDEMI, 
-            IDRECEP, 
-            PAG, 
-            PORPAGAR, 
-            ADOMICILIO, 
-            USU, 
-            '', 
-            estado_pago_calc, 
-            NOW(), 
-            'PENDIENTE', 
-            (cantidad + 1)
-        );
-        
-        -- OBTENER EL ID DE LA ENCOMIENDA RECIÉN INSERTADA
-        SET IDENCO = LAST_INSERT_ID();
-        
-        -- INSERTAR EN INGRESOS SOLO SI EL PAGO ES MAYOR A 0
-        IF PAG > 0 THEN
-            INSERT INTO ingresos(id_encomiendas, id_indicador, monto, igv, monto_total, observacion, estado, id_usu, created_at)
-            VALUES(IDENCO, 7, PAG, 0, PAG, 'ENVIO DE ENCOMIENDA - PAGO PRINCIPAL', 'VALIDO', USU, NOW());
-        END IF;
-        
-        -- INSERTAR EN INGRESOS SOLO SI A DOMICILIO ES MAYOR A 0
-        IF ADOMICILIO > 0 THEN
-            INSERT INTO ingresos(id_encomiendas, id_indicador, monto, igv, monto_total, observacion, estado, id_usu, created_at)
-            VALUES(IDENCO, 7, ADOMICILIO, 0, ADOMICILIO, 'ENVIO DE ENCOMIENDA - SERVICIO A DOMICILIO', 'VALIDO', USU, NOW());
-        END IF;
-        
-        -- Retornar éxito con el ID de la encomienda
-        SELECT 1;
-        
-    ELSE
-        -- La encomienda ya existe
-        SELECT 2;
-        
-    END IF;
-    
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_REGISTRAR_GASTOS` (IN `IDINDI` INT, IN `CANTIDAD` INT, IN `MONTO` DECIMAL(8,2), IN `DESCRIP` VARCHAR(255), IN `USU` INT)   INSERT INTO gastos (id_indicador,id_user,cantidad,monto,observacion,estado,created_at)
-VALUES(IDINDI,USU,CANTIDAD,MONTO,DESCRIP,'VALIDO',NOW())$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_REGISTRAR_INDICADOR` (IN `TIPO` VARCHAR(20), IN `NOMBRE_INDI` VARCHAR(255), IN `DESCRIP` TEXT, IN `USU` INT)   BEGIN
 DECLARE CANTIDAD INT;
 SET @CANTIDAD:=(SELECT COUNT(*) FROM indicadores where nombres=NOMBRE_INDI);
@@ -1226,8 +901,7 @@ CREATE TABLE `choferes` (
 INSERT INTO `choferes` (`id_chofer`, `tipo_documen`, `nro_doc`, `nombres_apellidos`, `celular`, `celular_2`, `procedencia`, `direccion`, `marca_vehiculo`, `placa_vehiculo`, `clase_categoria`, `nro_licencia`, `fecha_vencimiento_licencia`, `estado`, `created_at`, `updated_at`, `id_usuario`, `foto`) VALUES
 (2, 'DNI', '66878747', 'ANDRES PEÑA VALVERDE', '987441447', NULL, 'CUSCO', 'AV. PACHACUTEC N° 32', 'HYUNDAY', 'AS-231D', 'CONDUCCIÓN VEHICULO', 'AIIB', '2028-06-13', 'ACTIVO', '2025-07-29 10:22:34', NULL, 1, NULL),
 (3, 'DNI', '09251155', 'EDUARDO ALVAREZ ASTETE', '975777881', '954844848', 'ABANCAY', 'JR. CUSCO N° 231', 'KIA', 'S5-84841', 'AIIIA', 'T09251155', '2028-10-23', 'INACTIVO', '2025-08-06 00:00:00', '2025-08-09 12:32:08', 1, 'controller/choferes/fotos/IMG6-8-2025-12-605.avif'),
-(4, 'DNI', '72155445', 'JORDAN JEPHERSON MENDOZA CUMPA', '974785471', '987888444', 'CUSCO', 'AV. PACHACUTEC N° 4454', 'HYUNDAY', '52D-D1D1', 'AIIA', 'T72155445', '2027-10-22', 'ACTIVO', '2025-08-06 00:00:00', '2025-08-06 12:01:01', 1, 'controller/choferes/fotos/IMG6-8-2025-11-420.png'),
-(5, 'DNI', '75515511', 'RUBI CATHERIN HUANCA TUPIA', '985245514', '', 'CUSCO', 'AV. WANCHAQ N° 233', 'HYUNDAY', '4SD4-111', 'AIIB', 'T75515511', '2028-10-17', 'ACTIVO', '2025-09-07 00:00:00', NULL, 1, 'controller/choferes/fotos/');
+(4, 'DNI', '72155445', 'JORDAN JEPHERSON MENDOZA CUMPA', '974785471', '987888444', 'CUSCO', 'AV. PACHACUTEC N° 4454', 'HYUNDAY', '52D-D1D1', 'AIIA', 'T72155445', '2027-10-22', 'ACTIVO', '2025-08-06 00:00:00', '2025-08-06 12:01:01', 1, 'controller/choferes/fotos/IMG6-8-2025-11-420.png');
 
 -- --------------------------------------------------------
 
@@ -1256,23 +930,7 @@ CREATE TABLE `clientes` (
 
 INSERT INTO `clientes` (`id_cliente`, `tipo_documento`, `nro_documento`, `nombre_completo`, `procedencia`, `celular`, `direccion`, `email`, `total_viajes`, `ultimo_viaje`, `created_at`, `updated_at`) VALUES
 (1, 'DNI', '78847841', 'JUAN CAMACHO PERALTAS', 'CUSCO', '997847141', 'Jr. Canada N° 235', 'JUAN@GMAIL.COM', 2, '2025-01-22', '2025-08-09 11:10:04', '2025-08-09 12:12:59'),
-(2, 'PASAPORTE', '72541155898', 'DANIELA PERALTA CHAVEZ', 'ABANCAY', '987114787', 'Av. Chile N° 233', '', 5, '2025-02-02', '2025-08-09 11:10:58', '2025-08-09 12:13:04'),
-(5, 'DNI', '09747535', 'CELIA MIRANDA MUNGUIA', 'ABANCAY', '984757', '', '', NULL, NULL, '2025-09-07 11:23:41', '2025-09-07 11:24:15'),
-(6, 'DNI', '72646121', 'JERSSON JORGE CORILLA MIRANDA', 'ABANCAY', '985411', '', '', NULL, NULL, '2025-09-07 11:24:15', '2025-09-07 11:45:03'),
-(7, 'DNI', '72545444', 'MARIA DEL ROSARIO RIVAS MAITA', 'ABANCAY', '984112', '', '', NULL, NULL, '2025-09-07 11:25:17', NULL),
-(13, 'DNI', '72511551', 'JARALY RUSBEL RAMOS COBEÑAS', 'ABANCAY', '985777', '', '', NULL, NULL, '2025-09-07 11:37:58', NULL),
-(14, 'DNI', '72022112', 'FABRIZIO MIGUEL DESIDERIO MORALES', 'CUSCO', '925123', '', '', NULL, NULL, '2025-09-07 11:37:58', NULL),
-(15, 'DNI', '72656546', 'JOSE DANIEL SALAZAR ONTON', 'ABANCAY', '982000', '', '', NULL, NULL, '2025-09-07 11:41:09', NULL),
-(16, 'DNI', '75656565', 'ESTEFANY DEL PILAR MAYTA FIGUEROA', 'CUSCO', '985745', '', '', NULL, NULL, '2025-09-07 11:41:09', NULL),
-(17, 'DNI', '75551155', 'CRISELDA CRISTOBAL PAQUI', 'CUSCO', '987475', '', '', NULL, NULL, '2025-09-07 11:45:03', NULL),
-(18, 'DNI', '79262626', 'MARIANA SOPHIA SILVERA BLANCO', 'ABANCAY', '974214', '', '', NULL, NULL, '2025-09-07 11:59:23', NULL),
-(19, 'DNI', '75215515', 'MICHEL YURI AIMA DIAZ', 'CUSCO', '940001', '', '', NULL, NULL, '2025-09-07 11:59:23', NULL),
-(20, 'DNI', '62844848', 'MIGUEL ANGEL ETHAN ECUYER GRENARD', 'CUSCO', '900014', '', '', NULL, NULL, '2025-09-07 12:00:55', NULL),
-(21, 'DNI', '61155511', 'SAUL FRANCO BENAVIDES ESCUDERO', 'ABANCAY', '921147', '', '', NULL, NULL, '2025-09-07 12:00:55', NULL),
-(22, 'DNI', '76515115', 'KEYSI SOLEY SOUZA AZANG', 'CUSCO', '985125', '', '', NULL, NULL, '2025-09-07 12:02:30', NULL),
-(23, 'DNI', '76215511', 'DANNY JHONATAN COLLANTES BONATTI', 'ABANCAY', '900014', '', '', NULL, NULL, '2025-09-07 12:02:30', NULL),
-(24, 'DNI', '76212120', 'JAIRO JAROL CUSI ROJAS', 'CUSCO', '952141478', '', '', NULL, NULL, '2025-09-07 12:18:09', NULL),
-(25, 'DNI', '31188448', 'DALMIRO DANIEL OSORIO BULEJE', 'ABANCAY', '985124521', '', '', NULL, NULL, '2025-09-07 12:18:09', NULL);
+(2, 'PASAPORTE', '72541155898', 'DANIELA PERALTA CHAVEZ', 'ABANCAY', '987114787', 'Av. Chile N° 233', '', 5, '2025-02-02', '2025-08-09 11:10:58', '2025-08-09 12:13:04');
 
 -- --------------------------------------------------------
 
@@ -1425,24 +1083,16 @@ CREATE TABLE `encomiendas` (
   `updated_at` datetime DEFAULT NULL,
   `estado_encomienda` enum('PENDIENTE','ENTREGADO','OBSERVADO','EN TRANSITO','EN AGENCIA','ANULADO') DEFAULT NULL,
   `motivo_anulacion` varchar(255) DEFAULT NULL,
-  `fecha_anulacion` date DEFAULT NULL,
-  `doc_nrocorrelativo` int(11) DEFAULT NULL
+  `fecha_anulacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `encomiendas`
 --
 
-INSERT INTO `encomiendas` (`id_encomienda`, `boleta_nro`, `id_conductor`, `id_origen`, `id_destino`, `fecha_hora`, `descripcion`, `id_cliente_emisor`, `id_cliente_receptor`, `pago`, `por_pagar`, `a_domicilio`, `id_usuario`, `observacion`, `estado_pago`, `created_at`, `updated_at`, `estado_encomienda`, `motivo_anulacion`, `fecha_anulacion`, `doc_nrocorrelativo`) VALUES
-(1, '33444', 4, 2, 1, '2025-08-22 09:12:49', 'COSTAL DE PANES', 2, 1, 0.00, 50.00, 0.00, 1, NULL, 'POR PAGAR', '2025-08-23 09:13:12', NULL, 'EN TRANSITO', NULL, NULL, NULL),
-(5, '222332', 2, 1, 2, '2025-08-21 09:12:05', 'CAJA PEQUEÑA', 1, 2, 30.00, 0.00, 0.00, 1, NULL, 'PAGADO', '2025-08-21 09:12:31', NULL, 'PENDIENTE', NULL, NULL, NULL),
-(8, 'E-0000001', 2, 1, 2, '0202-09-07 00:00:00', 'jueguetes', 5, 6, 30.00, 0.00, 0.00, 1, '', 'PAGADO', '2025-09-07 11:24:15', NULL, 'PENDIENTE', NULL, NULL, 1),
-(13, 'E-0000002', 2, 1, 2, '2025-09-07 11:37:00', 'SACO PEQUEñO', 13, 14, 30.00, 0.00, 0.00, 1, '', 'PAGADO', '2025-09-07 11:37:58', NULL, 'PENDIENTE', NULL, NULL, 2),
-(14, 'E-0000003', 2, 1, 2, '2025-09-07 11:40:00', 'CAJA DE CUADERNO ALPHA', 15, 16, 0.00, 30.00, 0.00, 1, '', 'POR PAGAR', '2025-09-07 11:41:09', NULL, 'PENDIENTE', NULL, NULL, 3),
-(16, 'E-0000004', 2, 1, 2, '2025-09-07 11:58:00', 'CAJA DE CARTULINAS', 18, 19, 50.00, 0.00, 0.00, 1, '', 'PAGADO', '2025-09-07 11:59:23', NULL, 'PENDIENTE', NULL, NULL, 4),
-(17, 'E-0000005', 4, 2, 1, '2025-09-07 12:00:00', 'SACO CON MAIZ', 20, 21, 0.00, 30.00, 0.00, 1, '', 'POR PAGAR', '2025-09-07 12:00:55', NULL, 'PENDIENTE', NULL, NULL, 5),
-(18, 'E-0000006', 5, 2, 1, '2025-09-07 12:01:00', 'CAJA PEQUEñA DE PINTURAS ESCOLARES', 22, 23, 0.00, 0.00, 30.00, 1, '', 'PAGADO', '2025-09-07 12:02:30', NULL, 'PENDIENTE', NULL, NULL, 6),
-(19, 'E-0000007', 4, 2, 1, '2025-09-07 12:17:00', '2 CAJAS MEDIANS DE UTILES ESCOLARES', 24, 25, 50.00, 0.00, 0.00, 1, '', 'PAGADO', '2025-09-07 12:18:09', NULL, 'PENDIENTE', NULL, NULL, 7);
+INSERT INTO `encomiendas` (`id_encomienda`, `boleta_nro`, `id_conductor`, `id_origen`, `id_destino`, `fecha_hora`, `descripcion`, `id_cliente_emisor`, `id_cliente_receptor`, `pago`, `por_pagar`, `a_domicilio`, `id_usuario`, `observacion`, `estado_pago`, `created_at`, `updated_at`, `estado_encomienda`, `motivo_anulacion`, `fecha_anulacion`) VALUES
+(1, '33444', 4, 2, 1, '2025-08-22 09:12:49', 'COSTAL DE PANES', 2, 1, 0.00, 50.00, 0.00, 1, NULL, 'POR PAGAR', '2025-08-23 09:13:12', NULL, 'EN TRANSITO', NULL, NULL),
+(5, '222332', 2, 1, 2, '2025-08-21 09:12:05', 'CAJA PEQUEÑA', 1, 2, 30.00, 0.00, 0.00, 1, NULL, 'PAGADO', '2025-08-21 09:12:31', NULL, 'PENDIENTE', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1463,15 +1113,6 @@ CREATE TABLE `gastos` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `gastos`
---
-
-INSERT INTO `gastos` (`id_gastos`, `id_indicador`, `id_user`, `cantidad`, `monto`, `observacion`, `estado`, `motivo_anulacion`, `fecha_anulacion`, `created_at`, `updated_at`) VALUES
-(1, 6, 1, 2, 3000.00, 'SDFSDF', 'VALIDO', NULL, NULL, '2025-09-06 15:11:10', '2025-09-06 15:38:55'),
-(10, 3, 1, 21, 1500.00, 'HOLA Q TAL', 'ANULADO', 'SE TUVO Q DEVOLVER', '2025-09-06', '2025-09-06 15:35:25', NULL),
-(11, 2, 1, 3, 850.00, 'SE PAGO LA LUZ DE 2 MESES', 'VALIDO', NULL, NULL, '2025-09-06 15:36:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -1499,8 +1140,7 @@ INSERT INTO `indicadores` (`id_indicador`, `tipo_indicador`, `nombres`, `descrip
 (2, 'GASTOS', 'PAGO DE LUZ', 'Servicio de luz', 'ACTIVO', '2025-07-29 09:25:51', NULL, 1),
 (3, 'GASTOS', 'COMPRA DE MATERIALES', 'Compra de materiales de oficina u otros', 'ACTIVO', '2025-07-29 09:26:12', NULL, 1),
 (4, 'INGRESOS', 'SERVICIO DE ENCOMIENDA', 'COBRO POR ENVíO DE ENCOMIENDAS', 'ACTIVO', '2025-07-29 09:26:48', '2025-07-29 09:40:17', 1),
-(6, 'GASTOS', 'PAGO DE AGUA', 'SERVICIO DE PAGO DE AGUA', 'ACTIVO', '2025-07-29 09:39:21', '2025-07-29 09:39:59', 1),
-(7, 'INGRESOS', 'ENCOMIENDAS', 'SE ENVIO ENCOMIENDA', 'ACTIVO', '2025-09-06 15:42:56', NULL, 1);
+(6, '', 'PAGO DE AGUA', 'SERVICIO DE PAGO DE AGUA', 'ACTIVO', '2025-07-29 09:39:21', '2025-07-29 09:39:59', 1);
 
 -- --------------------------------------------------------
 
@@ -1524,16 +1164,6 @@ CREATE TABLE `ingresos` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `ingresos`
---
-
-INSERT INTO `ingresos` (`id_ingreso`, `id_encomiendas`, `id_salidas_diarias`, `id_indicador`, `monto`, `igv`, `monto_total`, `observacion`, `estado`, `id_usu`, `motivo_anulacion`, `fecha_anulacion`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, 7, 50.00, NULL, 50.00, 'SE ENVIO ENCOMIENDA', 'VALIDO', 1, NULL, NULL, '2025-09-06 15:43:22', NULL),
-(2, 16, NULL, 7, 50.00, 0.00, 50.00, 'ENVIO DE ENCOMIENDA - PAGO PRINCIPAL', 'VALIDO', 1, NULL, NULL, '2025-09-07 11:59:23', NULL),
-(3, 18, NULL, 7, 30.00, 0.00, 30.00, 'ENVIO DE ENCOMIENDA - SERVICIO A DOMICILIO', 'VALIDO', 1, NULL, NULL, '2025-09-07 12:02:30', NULL),
-(4, 19, NULL, 7, 50.00, 0.00, 50.00, 'ENVIO DE ENCOMIENDA - PAGO PRINCIPAL', 'VALIDO', 1, NULL, NULL, '2025-09-07 12:18:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -1880,13 +1510,13 @@ ALTER TABLE `catalogo_sunat`
 -- AUTO_INCREMENT de la tabla `choferes`
 --
 ALTER TABLE `choferes`
-  MODIFY `id_chofer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_chofer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `comprobantes`
@@ -1910,25 +1540,25 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de la tabla `encomiendas`
 --
 ALTER TABLE `encomiendas`
-  MODIFY `id_encomienda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_encomienda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `gastos`
 --
 ALTER TABLE `gastos`
-  MODIFY `id_gastos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_gastos` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `indicadores`
 --
 ALTER TABLE `indicadores`
-  MODIFY `id_indicador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_indicador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `ingresos`
 --
 ALTER TABLE `ingresos`
-  MODIFY `id_ingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_ingreso` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`

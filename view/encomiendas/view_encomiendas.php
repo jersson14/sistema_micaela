@@ -108,7 +108,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="txt_dni_emisor" maxlength="8" onkeypress="return soloNumeros(event)">
                                 <div class="input-group-append">
-                                    <button onclick="" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                    <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
                                     <button onclick="" class="btn btn-primary" id="prueba_emisor"><i class="fa fa-search"></i><b> RENIEC</b></button>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="txt_dni_emisor2">
                                 <div class="input-group-append">
-                                    <button onclick="" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                    <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="txt_dni_receptor" maxlength="8" onkeypress="return soloNumeros(event)">
                                 <div class="input-group-append">
-                                    <button onclick="" class="btn btn-success" id="buscar_receptor"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                    <button onclick="buscarPorDocumento2()"class="btn btn-success" id="buscar_receptor"><i class="fa fa-search"></i><b> Buscar</b></button>
                                     <button onclick="" class="btn btn-primary" id="prueba_receptor"><i class="fa fa-search"></i><b> RENIEC</b></button>
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" id="txt_dni_recepto2">
                                 <div class="input-group-append">
-                                    <button onclick="" class="btn btn-success" id="buscar_receptor"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                    <button onclick="buscarPorDocumento2()" class="btn btn-success" id="buscar_receptor"><i class="fa fa-search"></i><b> Buscar</b></button>
                                 </div>
                             </div>
                         </div>
@@ -174,26 +174,26 @@
                         </div><br>
                         <div class="col-4 form-group"><br>
                             <label for="">Pago<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_pago" placeholder="Ingrese el monto del pago" onkeypress="return soloNumeros(event)">
+                            <input type="text" class="form-control" value="0.00" id="txt_pago" placeholder="Ingrese el monto del pago" onkeypress="return soloNumeros(event)">
                         </div>
                         <div class="col-4 form-group"><br>
                             <label for="">Por pagar<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_por_pagar" placeholder="Ingrese el monto por pagar" onkeypress="return soloNumeros(event)" maxlenght="7">
+                            <input type="text" class="form-control" value="0.00" id="txt_por_pagar" placeholder="Ingrese el monto por pagar" onkeypress="return soloNumeros(event)" maxlenght="7">
                         </div>
                         <div class="col-4 form-group"><br>
                             <label for="">A domicilio<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_a_domicilio" placeholder="Ingrese el monto si es a domicilio" onkeypress="return sololetras(event)">
+                            <input type="text" class="form-control" value="0.00" id="txt_a_domicilio" placeholder="Ingrese el monto si es a domicilio" onkeypress="return soloNumeros(event)">
                         </div>
                         <div class="col-12 form-group">
                             <label for="">Descripción de la encomienda<b style="color:red">(*)</b>:</label>
-                            <textarea style="color:red" class="form-control" id="txt_requisitos" rows="2" style="resize:none" placeholder="Ingrese la descripción de la encomienda"></textarea>
+                            <textarea style="color:red" class="form-control" id="txt_descripcion" rows="2" style="resize:none" placeholder="Ingrese la descripción de la encomienda"></textarea>
                         </div>
 
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Registrar_Choferes()"><i class="fas fa-save"></i> Registrar</button>
+                    <button type="button" class="btn btn-success" onclick="Registrar_Encomiendas()"><i class="fas fa-save"></i> Registrar</button>
                 </div>
             </div>
         </div>
