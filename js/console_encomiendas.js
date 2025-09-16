@@ -148,42 +148,58 @@ function listar_encomiendas() {
           if (data == "PAGADO") {
             return '<span class="badge bg-success">PAGADO</span>';
           } else if (data == "ANULADO") {
-            return '<span class="badge bg-info text-danger">ANULADO</span>';
+            return '<span class="badge bg-danger text-danger">ANULADO</span>';
           } else {
             return '<span class="badge bg-warning text-dark">POR PAGAR</span>';
           }
         },
       },
 
-      // ---- ESTADO ENCOMIENDA ----
+      // ---- ESTADO ENCOMIENDA CON USUARIO ----
       {
-        data: "estado_encomienda",
+        data: null,
         render: function (data, type, row) {
-          switch (data) {
+          let estadoBadge = '';
+          let usuario = row.usu_nombre || 'Sistema';
+          let fechaUpdate = row.fecha_formateada3 || '';
+          
+          switch (row.estado_encomienda) {
             case "PENDIENTE":
-              return '<span class="badge bg-warning text-dark">PENDIENTE</span>';
+              estadoBadge = '<span class="badge bg-warning text-dark">PENDIENTE</span>';
+              break;
             case "ENTREGADO":
-              return '<span class="badge bg-success">ENTREGADO</span>';
+              estadoBadge = '<span class="badge bg-success">ENTREGADO</span>';
+              break;
             case "OBSERVADO":
-              return '<span class="badge bg-danger">OBSERVADO</span>';
+              estadoBadge = '<span class="badge bg-danger">OBSERVADO</span>';
+              break;
             case "EN TRANSITO":
-              return '<span class="badge bg-info text-dark">EN TRÁNSITO</span>';
+              estadoBadge = '<span class="badge bg-info text-dark">EN TRÁNSITO</span>';
+              break;
             case "EN AGENCIA":
-              return '<span class="badge bg-primary">EN AGENCIA</span>';
+              estadoBadge = '<span class="badge bg-primary">EN AGENCIA</span>';
+              break;
             case "ANULADO":
-              return '<span class="badge bg-secondary">ANULADO</span>';
+              estadoBadge = '<span class="badge bg-secondary">ANULADO</span>';
+              break;
             default:
-              return (
-                '<span class="badge bg-light text-dark">' + data + "</span>"
-              );
+              estadoBadge = '<span class="badge bg-light text-dark">' + row.estado_encomienda + "</span>";
           }
+          
+          return `
+            <div style="text-align: center;">
+              ${estadoBadge}
+              <br>
+              <small style="color: #6c757d; font-size: 1.0rem;">
+                <i class="fas fa-user" style="font-size: 1.0rem;"></i> ${usuario}
+                ${fechaUpdate ? '<br><i class="fas fa-clock" style="font-size: 0.7rem;"></i> ' + fechaUpdate : ''}
+              </small>
+            </div>
+          `;
         },
       },
 
-      // ---- BOTONES ----
-      // SOLUCIÓN JAVASCRIPT MEJORADA
-      // Reemplaza la columna de botones en tu DataTable
-
+      // ---- BOTONES CON HISTORIAL AGREGADO ----
       {
         data: null,
         render: function (data, type, row) {
@@ -228,6 +244,10 @@ function listar_encomiendas() {
               "<a href='#' class='dropdown-item motivo_anulacion' data-id='" +
               id +
               "'><i class='fa fa-info-circle'></i> Motivo Anulación</a>",
+            historial:
+              "<a href='#' class='dropdown-item historial' data-id='" +
+              id +
+              "'><i class='fa fa-history'></i> Historial</a>",
           };
 
           const reglas = {
@@ -237,34 +257,40 @@ function listar_encomiendas() {
               botones.mostrar,
               botones.cambiar,
               botones.imprimir,
+              botones.historial,
             ],
             "PAGADO|EN TRANSITO": [
               botones.editar,
               botones.mostrar,
               botones.cambiar,
               botones.imprimir,
-              botones.anular,
+              botones.historial,
             ],
             "PAGADO|EN AGENCIA": [
               botones.editar,
               botones.mostrar,
               botones.cambiar,
               botones.imprimir,
+              botones.historial,
             ],
             "PAGADO|ENTREGADO": [
               botones.editar,
               botones.mostrar,
-              botones.cambiar,
               botones.imprimir,
+              botones.historial,
             ],
             "PAGADO|OBSERVADO": [
               botones.editar,
               botones.mostrar,
-              botones.cambiar,
               botones.imprimir,
               botones.ajustar,
+              botones.historial,
             ],
-            "PAGADO|ANULADO": [botones.mostrar, botones.motivo],
+            "PAGADO|ANULADO": [
+              botones.mostrar, 
+              botones.motivo, 
+              botones.historial
+            ],
 
             "POR PAGAR|PENDIENTE": [
               botones.eliminar,
@@ -273,14 +299,15 @@ function listar_encomiendas() {
               botones.cambiar,
               botones.imprimir,
               botones.pagar,
+              botones.historial,
             ],
             "POR PAGAR|EN TRANSITO": [
               botones.editar,
               botones.mostrar,
               botones.cambiar,
               botones.imprimir,
-              botones.anular,
               botones.pagar,
+              botones.historial,
             ],
             "POR PAGAR|EN AGENCIA": [
               botones.editar,
@@ -288,25 +315,30 @@ function listar_encomiendas() {
               botones.cambiar,
               botones.imprimir,
               botones.pagar,
+              botones.historial,
             ],
             "POR PAGAR|ENTREGADO": [
               botones.editar,
               botones.mostrar,
-              botones.cambiar,
               botones.imprimir,
+              botones.historial,
             ],
             "POR PAGAR|OBSERVADO": [
               botones.editar,
               botones.mostrar,
-              botones.cambiar,
               botones.imprimir,
               botones.ajustar,
+              botones.historial,
             ],
-            "POR PAGAR|ANULADO": [botones.mostrar, botones.motivo],
+            "POR PAGAR|ANULADO": [
+              botones.mostrar, 
+              botones.motivo, 
+              botones.historial
+            ],
           };
 
           let clave = pago + "|" + estado;
-          let acciones = reglas[clave] || [botones.mostrar];
+          let acciones = reglas[clave] || [botones.mostrar, botones.historial];
 
           // Dropdown mejorado con mejor posicionamiento
           return `
@@ -496,7 +528,7 @@ async function buscarPorDocumento2() {
     Swal.fire("Error", "No se pudo hacer la búsqueda.", "error");
   }
 }
-//ABRIR MODAL EDITAR
+//ABRIR MODAL EDITAR ESTADO
 $("#tabla_encomiendas").on("click", ".cambiar_estado", function () {
   var data = tbl_encomiendas.row($(this).parents("tr")).data();
 
@@ -509,6 +541,40 @@ $("#tabla_encomiendas").on("click", ".cambiar_estado", function () {
     data.estado_encomienda;
   document.getElementById("text_observacion_enco").value = data.observacion;
   document.getElementById("txt_anula_enco").value = data.motivo_anulacion;
+});
+
+//ABRIR MODAL VER MOTIVO ANULACION
+$("#tabla_encomiendas").on("click", ".motivo_anulacion", function () {
+  var data = tbl_encomiendas.row($(this).parents("tr")).data();
+
+  if (tbl_encomiendas.row(this).child.isShown()) {
+    var data = tbl_encomiendas.row(this).data();
+  }
+  $("#modal_motivo_anula").modal("show");
+  document.getElementById("select_estado_editar3").value =data.estado_encomienda;
+  document.getElementById("txt_anula_enco2").value = data.motivo_anulacion;
+});
+
+
+//ABRIR MODAL AJUSTAR PRECIO
+$("#tabla_encomiendas").on("click", ".ajustar_precio", function () {
+  var data = tbl_encomiendas.row($(this).parents("tr")).data();
+
+  if (tbl_encomiendas.row(this).child.isShown()) {
+    var data = tbl_encomiendas.row(this).data();
+  }
+  $("#modal_ajustar_precio").modal("show");
+    document.getElementById("id_encomienda3").value =data.id_encomienda;
+
+  document.getElementById("select_estado_editar4").value =data.estado_encomienda;
+
+  if(data.pago>0){
+    document.getElementById("txt_monto_anterior").value = data.pago;
+  }else if (data.por_pagar>0){
+    document.getElementById("txt_monto_anterior").value = data.por_pagar;
+  }else if (data.a_domicilio>0){
+    document.getElementById("txt_monto_anterior").value = data.a_domicilio;
+  }
 });
 //ABRIR MODAL MOSTRAR
 $("#tabla_encomiendas").on("click", ".mostrar", function () {
@@ -937,3 +1003,155 @@ $("#modal_registro").on("shown.bs.modal", function () {
   });
   
 });
+
+//CAMBIO DE ESTADO DE ENCOMIENDAS
+function Modificar_Estado(){
+  let id = document.getElementById('id_encomienda').value;
+  let nuevo_estado = document.getElementById('select_estado_editar2').value;
+  let observacion = document.getElementById('text_observacion_enco').value;
+  let anula = document.getElementById('txt_anula_enco').value;
+  let idusu = document.getElementById('txtprincipalid').value;
+
+  // Validaciones
+  if(id.length==0||nuevo_estado.length==0){
+    return Swal.fire("Mensaje de Advertencia","Tiene campos vacios, revise por favor","warning");
+  }
+    
+  if(nuevo_estado == "ANULADO" && anula.length == 0){
+    return Swal.fire("Mensaje de Advertencia","La anulación es obligatoria, revise por favor","warning");
+  }
+
+  // Validación para otros estados que requieren observación
+  if(nuevo_estado != "ANULADO" && observacion.length == 0){
+    return Swal.fire("Mensaje de Advertencia","La observación es obligatoria, revise por favor","warning");
+  }
+
+  // Mensaje de confirmación antes de modificar
+  Swal.fire({
+    title: "¿Está seguro de cambiar el estado a: " + nuevo_estado + "?",
+    text: "Una vez confirmado, el estado de la encomienda será actualizado.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, Cambiar Estado",
+    cancelButtonText: "Cancelar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si confirma, ejecutar el AJAX
+      $.ajax({
+        "url":"../controller/encomiendas/controlador_modificar_estado.php",
+        type:'POST',
+        data:{
+          id:id,
+          nuevo_estado:nuevo_estado,
+          observacion:observacion,
+          anula:anula,
+          idusu:idusu
+        }
+      }).done(function(resp){
+        if(resp>0){
+            Swal.fire("Mensaje de Confirmación","Se cambió el estado correctamente!!!","success").then((value)=>{
+              tbl_encomiendas.ajax.reload();
+              $("#modal_estado").modal('hide'); // Asegúrate que el ID del modal sea correcto
+            });
+        }else{
+          return Swal.fire("Mensaje de Error","No se completó la actualización","error");
+        }
+      }).fail(function(){
+        Swal.fire("Mensaje de Error","Error en la comunicación con el servidor","error");
+      });
+    }
+  });
+}
+
+//CAMBIO DE ESTADO DE AJUSTE DE PRECIO
+function Modificar_Estado2(){
+  let id = document.getElementById('id_encomienda3').value;
+  let nuevo_estado = document.getElementById('select_estado_editar4').value;
+  let pago_anti = document.getElementById('txt_monto_anterior').value;
+  let pago_nuevo = document.getElementById('txt_monto_nuevo').value;
+  let idusu = document.getElementById('txtprincipalid').value;
+
+
+
+  if (!nuevo_estado || nuevo_estado.trim() === '') {
+      return Swal.fire("Mensaje de Advertencia", "Debe seleccionar un estado", "warning");
+  }
+
+  if (!idusu || idusu.trim() === '') {
+      return Swal.fire("Mensaje de Advertencia", "Usuario no válido", "warning");
+  }
+
+  // Convertir a números y validar
+  let montoAnterior = parseFloat(pago_anti) || 0;
+  let montoNuevo = parseFloat(pago_nuevo) || 0;
+
+  // Validar que los campos de monto no estén vacíos
+  if (!pago_anti || pago_anti.trim() === '' || !pago_nuevo || pago_nuevo.trim() === '') {
+      return Swal.fire("Mensaje de Advertencia", "Los campos de monto son obligatorios", "warning");
+  }
+
+  // Validar que los montos sean números válidos
+  if (isNaN(montoAnterior) || isNaN(montoNuevo)) {
+      return Swal.fire("Mensaje de Advertencia", "Los montos deben ser números válidos", "warning");
+  }
+
+  // Validar que ambos montos sean mayores a 0
+  if (montoAnterior <= 0 || montoNuevo <= 0) {
+      return Swal.fire("Mensaje de Advertencia", "Ambos montos deben ser mayores a 0.00", "warning");
+  }
+
+  // Validar que el nuevo estado no sea OBSERVADO
+  if (nuevo_estado === "OBSERVADO") {
+      return Swal.fire("Mensaje de Advertencia", "No puede cambiar a estado OBSERVADO", "warning");
+  }
+
+  // Validar que haya un cambio real en el monto (opcional)
+  if (montoAnterior === montoNuevo) {
+      return Swal.fire("Mensaje de Advertencia", "El monto nuevo debe ser diferente al monto anterior", "warning");
+  }
+
+  // Validar que el monto nuevo sea positivo y realista
+  if (montoNuevo > 99999.99) {
+      return Swal.fire("Mensaje de Advertencia", "El monto nuevo es demasiado alto", "warning");
+  }
+
+  // Mensaje de confirmación antes de modificar
+  Swal.fire({
+    title: "¿Está seguro de cambiar el nuevo monto a: " + pago_nuevo + " soles?",
+    text: "Una vez confirmado, el monto de la encomienda será actualizado.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, Cambiar Estado",
+    cancelButtonText: "Cancelar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si confirma, ejecutar el AJAX
+      $.ajax({
+        "url":"../controller/encomiendas/controlador_modificar_pago.php",
+        type:'POST',
+        data:{
+          id:id,
+          nuevo_estado:nuevo_estado,
+          pago_anti:pago_anti,
+          pago_nuevo:pago_nuevo,
+          idusu:idusu
+        }
+      }).done(function(resp){
+        if(resp>0){
+            Swal.fire("Mensaje de Confirmación","Se cambió el previo de la correctamente!!!","success").then((value)=>{
+              tbl_encomiendas.ajax.reload();
+              $("#modal_estado").modal('hide'); // Asegúrate que el ID del modal sea correcto
+            });
+        }else{
+          return Swal.fire("Mensaje de Error","No se completó la actualización","error");
+        }
+      }).fail(function(){
+        Swal.fire("Mensaje de Error","Error en la comunicación con el servidor","error");
+      });
+    }
+  });
+}

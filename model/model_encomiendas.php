@@ -95,16 +95,34 @@
             conexionBD::cerrar_conexion();
 
         }
-        public function Modificar_Factura($idfactu, $total, $ruta_factura, $ruta_notacre, $fecha, $idusu){
+        public function Modificar_Estado($id,$nuevo_estado,$observacion,$anula,$idusu){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_MODIFICAR_FACTURA(?,?,?,?,?,?)";
+            $sql = "CALL SP_MODIFICAR_ESTADO_ENCOMIENDA(?,?,?,?,?)";
             $query  = $c->prepare($sql);
-            $query ->bindParam(1,$idfactu);
-            $query ->bindParam(2,$total);
-            $query ->bindParam(3,$ruta_factura);
-            $query ->bindParam(4,$ruta_notacre);
-            $query ->bindParam(5,$fecha);
-            $query ->bindParam(6,$idusu);
+            $query ->bindParam(1,$id);
+            $query ->bindParam(2,$nuevo_estado);
+            $query ->bindParam(3,$observacion);
+            $query ->bindParam(4,$anula);
+            $query ->bindParam(5,$idusu);
+
+            $resul = $query->execute();
+            if($resul){
+                return 1;
+            }else{
+                return 0;
+            }
+            conexionBD::cerrar_conexion();
+
+        }
+         public function Modificar_Pago($id,$nuevo_estado,$pago_anti,$pago_nuevo,$idusu){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_MODIFICAR_PAGO_ENCOMIENDA(?,?,?,?,?)";
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$id);
+            $query ->bindParam(2,$nuevo_estado);
+            $query ->bindParam(3,$pago_anti);
+            $query ->bindParam(4,$pago_nuevo);
+            $query ->bindParam(5,$idusu);
 
             $resul = $query->execute();
             if($resul){

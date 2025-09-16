@@ -46,7 +46,7 @@
                                         <th style="text-align:center">Por pagar</th>
                                         <th style="text-align:center">A domicilio</th>
                                         <th style="text-align:center">Estado de pago</th>
-                                        <th style="text-align:center">Estado de encomienda</th>
+                                        <th style="text-align:center">Estado de encomienda / Usuario</th>
                                         <th style="text-align:center">Acción</th>
                                     </tr>
                                 </thead>
@@ -407,7 +407,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>EDITAR DATOS DEL ROL</b></h5>
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>CAMBIAR ESTADO</b></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -419,7 +419,7 @@
                         </div><br>
                         <div class="col-12 form-group">
                             <label for="">Estado<b style="color:red">(*)</b>:</label>
-                            <input type="text" id="id_encomienda" hidden>
+                            <input type="text" id="id_encomienda" >
 
                             <select class="form-control" id="select_estado_editar2" style="width:100%">
                                 <option value="">Seleccione</option>
@@ -446,7 +446,99 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Modificar_Rol()"><i class="fas fa-edit"></i> Modificar</button>
+                    <button type="button" class="btn btn-success" onclick="Modificar_Estado()"><i class="fas fa-edit"></i> Modificar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_motivo_anula" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#1FA0E0;">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>MOTIVO DE ANULACIÓN</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 form-group" style="color:red">
+                            <h6><b>Campos Obligatorios (*)</b></h6>
+                        </div><br>
+                        <div class="col-12 form-group">
+                            <label for="">Estado<b style="color:red">(*)</b>:</label>
+
+                            <select class="form-control" id="select_estado_editar3" style="width:100%" disabled>
+                                <option value="">Seleccione</option>
+                                <option value="PENDIENTE">PENDIENTE</option>
+                                <option value="EN TRANSITO">EN TRANSITO</option>
+                                <option value="EN AGENCIA">EN AGENCIA</option>
+                                <option value="ENTREGADO">ENTREGADO</option>
+                                <option value="OBSERVADO">OBSERVADO</option>
+                                <option value="ANULADO">ANULADO</option>
+                            </select>
+                        </div>
+
+                        <!-- Campo de Motivo de anulación -->
+                        <div class="col-12 form-group" id="div_anulacion2">
+                            <label for="">Motivo de anulación<b style="color:red">(*)</b>:</label>
+                            <textarea name="" id="txt_anula_enco2" rows="3" class="form-control" disabled style="resize:none;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
+                    <button type="button" class="btn btn-success" onclick="Modificar_Estado()"><i class="fas fa-edit"></i> Modificar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_ajustar_precio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#1FA0E0;">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>AJUSTAR PRECIO Y CAMBIO DE ESTADO</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 form-group" style="color:red">
+                            <h6><b>Campos Obligatorios (*)</b></h6>
+                        </div><br>
+                        <div class="col-12 form-group">
+                            <label for="">Estado<b style="color:red">(*)</b>:</label>
+                            <input type="text" id="id_encomienda3" hidden>
+
+                            <select class="form-control" id="select_estado_editar4" style="width:100%">
+                                <option value="">Seleccione</option>
+                                <option value="PENDIENTE">PENDIENTE</option>
+                                <option value="EN TRANSITO">EN TRANSITO</option>
+                                <option value="EN AGENCIA">EN AGENCIA</option>
+                                <option value="ENTREGADO">ENTREGADO</option>
+                                <option value="OBSERVADO">OBSERVADO</option>
+                                <option value="ANULADO">ANULADO</option>
+                            </select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Monto anterior<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control"  id="txt_monto_anterior" onkeypress="return soloNumeros(event)">
+                        </div>
+
+                        <!-- Campo de Motivo de anulación -->
+                        <div class="col-6 form-group" id="div_anulacion">
+                            <label for="">Monto nuevo<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control"  id="txt_monto_nuevo" placeholder="Ingrese el nuevo precio" onkeypress="return soloNumeros(event)">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
+                    <button type="button" class="btn btn-success" onclick="Modificar_Estado2()"><i class="fas fa-edit"></i> Modificar</button>
                 </div>
             </div>
         </div>
@@ -605,31 +697,61 @@
         configurarBusquedaDNI("txt_dni_receptor", "prueba_receptor", "txt_nomb_receptor");
     </script>
 
-    <script>
-        $('#select_estado_editar').change(function() {
-            var estado = $(this).val();
+<script>
+$(document).ready(function() {
+    // Inicialmente ocultar ambos campos hasta que se seleccione un estado
+    $('#div_observacion').hide();
+    $('#div_anulacion').hide();
 
-            // Ocultar todos los campos
-            $('#text_observacion_enco').parent().hide();
-            $('#txt_anula_enco').parent().hide();
-            $('#txt_fecha_anula').parent().hide();
+    // Evento change para el select de estado
+    $('#select_estado_editar2').change(function() {
+        var estado = $(this).val();
 
-            // Limpiar campos
-            $('#text_observacion_enco').val('');
-            $('#txt_anula_enco').val('');
-            $('#txt_fecha_anula').val('');
+        // Ocultar ambos campos y limpiar valores
+        $('#div_observacion').hide();
+        $('#div_anulacion').hide();
+        $('#text_observacion_enco').val('');
+        $('#txt_anula_enco').val('');
 
-            // Mostrar según selección
-            if (estado == 'OBSERVADO') {
-                $('#text_observacion_enco').parent().show();
-            }
+        // Si es ANULADO: solo mostrar campo de anulación
+        if (estado == 'ANULADO') {
+            $('#div_anulacion').show();
+        } 
+        // Para todos los demás estados: solo mostrar campo de observación
+        else if (estado != '') {
+            $('#div_observacion').show();
+        }
+    });
 
-            if (estado == 'ANULADO') {
-                $('#txt_anula_enco').parent().show();
-                $('#txt_fecha_anula').parent().show();
-            }
-        });
-    </script>
+    // Opcional: También puedes agregar validación al enviar el formulario
+    window.Modificar_Rol = function() {
+        var estado = $('#select_estado_editar2').val();
+        
+        // Validaciones básicas
+        if (!estado) {
+            alert('Debe seleccionar un estado');
+            return false;
+        }
+
+        // Validaciones según el estado seleccionado
+        if (estado == 'ANULADO' && !$('#txt_anula_enco').val().trim()) {
+            alert('Debe ingresar el motivo de anulación');
+            return false;
+        }
+        
+        if (estado != 'ANULADO' && estado != '' && !$('#text_observacion_enco').val().trim()) {
+            alert('Debe ingresar una observación');
+            return false;
+        }
+
+        // Aquí iría tu lógica para modificar el rol
+        console.log('Modificando estado a:', estado);
+        
+        // Ejemplo de envío (ajusta según tu implementación)
+        // Tu código de envío aquí...
+    };
+});
+</script>
 
     <styLe>
         table.dataTable .dropdown-menu {
