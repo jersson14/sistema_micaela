@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 07-09-2025 a las 19:19:15
+-- Tiempo de generación: 17-09-2025 a las 01:07:46
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -606,6 +606,68 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_EMPRESA_FOTO` (IN `ID`
 logo=RUTA
 WHERE id_empresa=ID$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_ESTADO_ENCOMIENDA` (IN `ID` INT, IN `ESTA` VARCHAR(20), IN `OBSER` TEXT, IN `ANULA` VARCHAR(255), IN `USU` INT)   BEGIN
+    -- Actualizar encomiendas con lógica condicional para fecha_anulacion
+    IF ANULA IS NOT NULL AND ANULA != '' THEN
+        UPDATE encomiendas
+        SET
+            encomiendas.estado_encomienda = ESTA,
+            encomiendas.observacion = OBSER,
+            encomiendas.motivo_anulacion = ANULA,
+						encomiendas.estado_pago='ANULADO',
+            encomiendas.fecha_anulacion = NOW(),
+						encomiendas.id_usuario=USU
+        WHERE encomiendas.id_encomienda = ID;
+    ELSE
+        UPDATE encomiendas
+        SET
+            encomiendas.estado_encomienda = ESTA,
+            encomiendas.observacion = OBSER,
+						encomiendas.estado_pago='ANULADO',
+            encomiendas.motivo_anulacion = NULL,
+            encomiendas.fecha_anulacion = NULL,
+						encomiendas.id_usuario=USU
+        WHERE encomiendas.id_encomienda = ID;
+    END IF;
+
+    -- Insert en historial_estados con lógica condicional para fecha_anula
+    IF ANULA IS NOT NULL AND ANULA != '' THEN
+        INSERT INTO historial_estados(
+            id_encomienda,
+            estado,
+            observacion,
+            motivo_anula,
+            fecha_anula,
+            created_at,
+            idusu
+        )
+        VALUES(ID, ESTA, OBSER, ANULA, NOW(), NOW(), USU);
+    ELSE
+        INSERT INTO historial_estados(
+            id_encomienda,
+            estado,
+            observacion,
+            motivo_anula,
+            fecha_anula,
+            created_at,
+            idusu
+        )
+        VALUES(ID, ESTA, OBSER, NULL, NULL, NOW(), USU);
+    END IF;
+
+    -- Actualizar ingresos solo si el estado es ANULADO
+    IF ESTA = 'ANULADO' THEN
+        UPDATE ingresos
+        SET
+            ingresos.estado = 'ANULADO',
+            id_usu = USU,
+            motivo_anulacion = ANULA,
+            fecha_anulacion = NOW()
+        WHERE ingresos.id_encomiendas = ID;
+    END IF;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_GASTOS` (IN `ID` INT, IN `IDINDI` INT, IN `CANTIDAD` INT, IN `MONTO` DECIMAL(8,2), IN `DESCRIP` VARCHAR(255), IN `USU` INT)   UPDATE gastos
 SET
 id_indicador=IDINDI,
@@ -647,6 +709,84 @@ SET @CANTIDAD:=(SELECT COUNT(*) FROM indicadores WHERE nombres=NOMBRE_INDI);
 	END IF;
 END IF;
 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_PAGO_ENCOMIENDA` (IN `ID` INT, IN `ESTA` VARCHAR(20), IN `PAGO_ANTI` DECIMAL(8,2), IN `PAGO_NU` DECIMAL(8,2), IN `USU` INT)   BEGIN
+    DECLARE monto_pago DECIMAL(8,2) DEFAULT 0;
+    DECLARE monto_por_pagar DECIMAL(8,2) DEFAULT 0;
+    DECLARE monto_a_domicilio DECIMAL(8,2) DEFAULT 0;
+    
+    -- Obtener los montos actuales de la encomienda
+    SELECT 
+        IFNULL(pago, 0),
+        IFNULL(por_pagar, 0),
+        IFNULL(a_domicilio, 0)
+    INTO 
+        monto_pago,
+        monto_por_pagar,
+        monto_a_domicilio
+    FROM encomiendas 
+    WHERE id_encomienda = ID;
+    
+    -- Actualizar encomiendas según el tipo de pago encontrado
+    IF monto_pago > 0 THEN
+        -- Si el monto está en 'pago', actualizar ese campo
+        UPDATE encomiendas
+        SET
+            encomiendas.estado_encomienda = ESTA,
+            encomiendas.pago = PAGO_NU,
+						encomiendas.id_usuario=USU
+        WHERE encomiendas.id_encomienda = ID;
+        
+    ELSEIF monto_por_pagar > 0 THEN
+        -- Si el monto está en 'por_pagar', actualizar ese campo
+        UPDATE encomiendas
+        SET
+            encomiendas.estado_encomienda = ESTA,
+            encomiendas.por_pagar = PAGO_NU,
+						encomiendas.id_usuario=USU
+        WHERE encomiendas.id_encomienda = ID;
+        
+    ELSEIF monto_a_domicilio > 0 THEN
+        -- Si el monto está en 'a_domicilio', actualizar ese campo
+        UPDATE encomiendas
+        SET
+            encomiendas.estado_encomienda = ESTA,
+            encomiendas.a_domicilio = PAGO_NU,
+						encomiendas.id_usuario=USU
+        WHERE encomiendas.id_encomienda = ID;
+        
+    ELSE
+        -- Si no hay monto en ningún campo, actualizar 'pago' por defecto
+        UPDATE encomiendas
+        SET
+            encomiendas.estado_encomienda = ESTA,
+            encomiendas.pago = PAGO_NU
+        WHERE encomiendas.id_encomienda = ID;
+    END IF;
+    
+    -- Insertar en historial_estados
+    INSERT INTO historial_estados(
+        id_encomienda,
+        estado,
+        observacion,
+        motivo_anula,
+        fecha_anula,
+        created_at,
+        idusu,
+        precio_anterior,
+        precio_nuevi
+    )
+    VALUES(ID, ESTA, NULL, NULL, NULL, NOW(), USU, PAGO_ANTI, PAGO_NU);
+    
+    -- Actualizar ingresos
+    UPDATE ingresos
+    SET
+        ingresos.monto = PAGO_NU,
+        ingresos.id_usu = USU,
+        ingresos.monto_total = PAGO_NU
+    WHERE ingresos.id_encomiendas = ID;
+    
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_ROL` (IN `ID` INT, IN `NROL` VARCHAR(255), IN `DESCRIP` TEXT, IN `ESTA` VARCHAR(20))   BEGIN
@@ -1014,6 +1154,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_REGISTRAR_ENCOMIENDA` (IN `CONDU
             VALUES(IDENCO, 7, ADOMICILIO, 0, ADOMICILIO, 'ENVIO DE ENCOMIENDA - SERVICIO A DOMICILIO', 'VALIDO', USU, NOW());
         END IF;
         
+				 INSERT INTO historial_estados(
+            id_encomienda,
+            estado,
+            observacion,
+            motivo_anula,
+            fecha_anula,
+            created_at,
+            idusu
+        )
+        VALUES(IDENCO, 'PENDIENTE', 'ES EL PRIMER REGISTRO', NULL, NULL, NOW(), USU);
         -- Retornar éxito con el ID de la encomienda
         SELECT 1;
         
@@ -1272,7 +1422,9 @@ INSERT INTO `clientes` (`id_cliente`, `tipo_documento`, `nro_documento`, `nombre
 (22, 'DNI', '76515115', 'KEYSI SOLEY SOUZA AZANG', 'CUSCO', '985125', '', '', NULL, NULL, '2025-09-07 12:02:30', NULL),
 (23, 'DNI', '76215511', 'DANNY JHONATAN COLLANTES BONATTI', 'ABANCAY', '900014', '', '', NULL, NULL, '2025-09-07 12:02:30', NULL),
 (24, 'DNI', '76212120', 'JAIRO JAROL CUSI ROJAS', 'CUSCO', '952141478', '', '', NULL, NULL, '2025-09-07 12:18:09', NULL),
-(25, 'DNI', '31188448', 'DALMIRO DANIEL OSORIO BULEJE', 'ABANCAY', '985124521', '', '', NULL, NULL, '2025-09-07 12:18:09', NULL);
+(25, 'DNI', '31188448', 'DALMIRO DANIEL OSORIO BULEJE', 'ABANCAY', '985124521', '', '', NULL, NULL, '2025-09-07 12:18:09', NULL),
+(26, 'DNI', '75661515', 'JUAN BALDOMERO MANZANO CORONEL', 'ABANCAY', '951754148', '', '', NULL, NULL, '2025-09-16 17:07:09', NULL),
+(27, 'DNI', '74511515', 'JULIANNE BAO YU WANG CERAS', 'CUSCO', '985414521', '', '', NULL, NULL, '2025-09-16 17:07:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -1434,15 +1586,15 @@ CREATE TABLE `encomiendas` (
 --
 
 INSERT INTO `encomiendas` (`id_encomienda`, `boleta_nro`, `id_conductor`, `id_origen`, `id_destino`, `fecha_hora`, `descripcion`, `id_cliente_emisor`, `id_cliente_receptor`, `pago`, `por_pagar`, `a_domicilio`, `id_usuario`, `observacion`, `estado_pago`, `created_at`, `updated_at`, `estado_encomienda`, `motivo_anulacion`, `fecha_anulacion`, `doc_nrocorrelativo`) VALUES
-(1, '33444', 4, 2, 1, '2025-08-22 09:12:49', 'COSTAL DE PANES', 2, 1, 0.00, 50.00, 0.00, 1, NULL, 'POR PAGAR', '2025-08-23 09:13:12', NULL, 'EN TRANSITO', NULL, NULL, NULL),
-(5, '222332', 2, 1, 2, '2025-08-21 09:12:05', 'CAJA PEQUEÑA', 1, 2, 30.00, 0.00, 0.00, 1, NULL, 'PAGADO', '2025-08-21 09:12:31', NULL, 'PENDIENTE', NULL, NULL, NULL),
-(8, 'E-0000001', 2, 1, 2, '0202-09-07 00:00:00', 'jueguetes', 5, 6, 30.00, 0.00, 0.00, 1, '', 'PAGADO', '2025-09-07 11:24:15', NULL, 'PENDIENTE', NULL, NULL, 1),
+(1, '33444', 4, 2, 1, '2025-08-22 09:12:49', 'COSTAL DE PANES', 2, 1, 0.00, 50.00, 0.00, 1, '', 'ANULADO', '2025-08-23 09:13:12', NULL, 'ANULADO', 'EQUIVOCACION', '2025-09-16', NULL),
+(5, '222332', 2, 1, 2, '2025-08-21 09:12:05', 'CAJA PEQUEÑA', 1, 2, 40.00, 0.00, 0.00, 1, NULL, 'PAGADO', '2025-08-21 09:12:31', NULL, 'EN TRANSITO', NULL, NULL, NULL),
 (13, 'E-0000002', 2, 1, 2, '2025-09-07 11:37:00', 'SACO PEQUEñO', 13, 14, 30.00, 0.00, 0.00, 1, '', 'PAGADO', '2025-09-07 11:37:58', NULL, 'PENDIENTE', NULL, NULL, 2),
 (14, 'E-0000003', 2, 1, 2, '2025-09-07 11:40:00', 'CAJA DE CUADERNO ALPHA', 15, 16, 0.00, 30.00, 0.00, 1, '', 'POR PAGAR', '2025-09-07 11:41:09', NULL, 'PENDIENTE', NULL, NULL, 3),
 (16, 'E-0000004', 2, 1, 2, '2025-09-07 11:58:00', 'CAJA DE CARTULINAS', 18, 19, 50.00, 0.00, 0.00, 1, '', 'PAGADO', '2025-09-07 11:59:23', NULL, 'PENDIENTE', NULL, NULL, 4),
-(17, 'E-0000005', 4, 2, 1, '2025-09-07 12:00:00', 'SACO CON MAIZ', 20, 21, 0.00, 30.00, 0.00, 1, '', 'POR PAGAR', '2025-09-07 12:00:55', NULL, 'PENDIENTE', NULL, NULL, 5),
+(17, 'E-0000005', 4, 2, 1, '2025-09-07 12:00:00', 'SACO CON MAIZ', 20, 21, 0.00, 30.00, 0.00, 1, '', 'ANULADO', '2025-09-07 12:00:55', NULL, 'ANULADO', 'SE ANUYLA', '2025-09-16', 5),
 (18, 'E-0000006', 5, 2, 1, '2025-09-07 12:01:00', 'CAJA PEQUEñA DE PINTURAS ESCOLARES', 22, 23, 0.00, 0.00, 30.00, 1, '', 'PAGADO', '2025-09-07 12:02:30', NULL, 'PENDIENTE', NULL, NULL, 6),
-(19, 'E-0000007', 4, 2, 1, '2025-09-07 12:17:00', '2 CAJAS MEDIANS DE UTILES ESCOLARES', 24, 25, 50.00, 0.00, 0.00, 1, '', 'PAGADO', '2025-09-07 12:18:09', NULL, 'PENDIENTE', NULL, NULL, 7);
+(19, 'E-0000007', 4, 2, 1, '2025-09-07 12:17:00', '2 CAJAS MEDIANS DE UTILES ESCOLARES', 24, 25, 50.00, 0.00, 0.00, 1, '', 'ANULADO', '2025-09-07 12:18:09', NULL, 'ANULADO', 'SE EQUIVOCO YA NO ENVIARA', '2025-09-16', 7),
+(20, 'E-0000008', 4, 1, 2, '2025-09-16 17:06:00', '', 26, 27, 40.00, 0.00, 0.00, 1, '', 'PAGADO', '2025-09-16 17:07:09', NULL, 'EN TRANSITO', NULL, NULL, 8);
 
 -- --------------------------------------------------------
 
@@ -1472,6 +1624,37 @@ INSERT INTO `gastos` (`id_gastos`, `id_indicador`, `id_user`, `cantidad`, `monto
 (1, 6, 1, 2, 3000.00, 'SDFSDF', 'VALIDO', NULL, NULL, '2025-09-06 15:11:10', '2025-09-06 15:38:55'),
 (10, 3, 1, 21, 1500.00, 'HOLA Q TAL', 'ANULADO', 'SE TUVO Q DEVOLVER', '2025-09-06', '2025-09-06 15:35:25', NULL),
 (11, 2, 1, 3, 850.00, 'SE PAGO LA LUZ DE 2 MESES', 'VALIDO', NULL, NULL, '2025-09-06 15:36:12', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial_estados`
+--
+
+CREATE TABLE `historial_estados` (
+  `id_historial_estado` int(11) NOT NULL,
+  `id_encomienda` int(11) DEFAULT NULL,
+  `estado` enum('PENDIENTE','ENTREGADO','OBSERVADO','EN TRANSITO','EN AGENCIA','ANULADO') DEFAULT NULL,
+  `observacion` varchar(255) DEFAULT NULL,
+  `precio_anterior` decimal(8,2) DEFAULT NULL,
+  `precio_nuevi` decimal(8,2) DEFAULT NULL,
+  `motivo_anula` varchar(255) DEFAULT NULL,
+  `fecha_anula` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `idusu` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `historial_estados`
+--
+
+INSERT INTO `historial_estados` (`id_historial_estado`, `id_encomienda`, `estado`, `observacion`, `precio_anterior`, `precio_nuevi`, `motivo_anula`, `fecha_anula`, `created_at`, `idusu`) VALUES
+(1, 1, 'ANULADO', '', NULL, NULL, 'EQUIVOCACION', '2025-09-16 16:52:24', '2025-09-16 16:52:24', 1),
+(2, 20, 'PENDIENTE', 'ES EL PRIMER REGISTRO', NULL, NULL, NULL, NULL, '2025-09-16 17:07:09', 1),
+(5, 5, 'EN TRANSITO', NULL, 30.00, 40.00, NULL, NULL, '2025-09-16 17:51:12', 1),
+(6, 20, 'EN TRANSITO', NULL, 50.00, 40.00, NULL, NULL, '2025-09-16 17:53:21', 1),
+(7, 19, 'ANULADO', '', NULL, NULL, 'SE EQUIVOCO YA NO ENVIARA', '2025-09-16 17:57:59', '2025-09-16 17:57:59', 1),
+(8, 17, 'ANULADO', '', NULL, NULL, 'SE ANUYLA', '2025-09-16 17:58:46', '2025-09-16 17:58:46', 1);
 
 -- --------------------------------------------------------
 
@@ -1530,10 +1713,11 @@ CREATE TABLE `ingresos` (
 --
 
 INSERT INTO `ingresos` (`id_ingreso`, `id_encomiendas`, `id_salidas_diarias`, `id_indicador`, `monto`, `igv`, `monto_total`, `observacion`, `estado`, `id_usu`, `motivo_anulacion`, `fecha_anulacion`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, 7, 50.00, NULL, 50.00, 'SE ENVIO ENCOMIENDA', 'VALIDO', 1, NULL, NULL, '2025-09-06 15:43:22', NULL),
+(1, 1, NULL, 7, 50.00, NULL, 50.00, 'SE ENVIO ENCOMIENDA', 'ANULADO', 1, 'EQUIVOCACION', '2025-09-16', '2025-09-06 15:43:22', NULL),
 (2, 16, NULL, 7, 50.00, 0.00, 50.00, 'ENVIO DE ENCOMIENDA - PAGO PRINCIPAL', 'VALIDO', 1, NULL, NULL, '2025-09-07 11:59:23', NULL),
 (3, 18, NULL, 7, 30.00, 0.00, 30.00, 'ENVIO DE ENCOMIENDA - SERVICIO A DOMICILIO', 'VALIDO', 1, NULL, NULL, '2025-09-07 12:02:30', NULL),
-(4, 19, NULL, 7, 50.00, 0.00, 50.00, 'ENVIO DE ENCOMIENDA - PAGO PRINCIPAL', 'VALIDO', 1, NULL, NULL, '2025-09-07 12:18:09', NULL);
+(4, 19, NULL, 7, 50.00, 0.00, 50.00, 'ENVIO DE ENCOMIENDA - PAGO PRINCIPAL', 'ANULADO', 1, 'SE EQUIVOCO YA NO ENVIARA', '2025-09-16', '2025-09-07 12:18:09', NULL),
+(5, 20, NULL, 7, 40.00, 0.00, 40.00, 'ENVIO DE ENCOMIENDA - PAGO PRINCIPAL', 'VALIDO', 1, NULL, NULL, '2025-09-16 17:07:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -1797,6 +1981,13 @@ ALTER TABLE `gastos`
   ADD KEY `fk_usu_indi` (`id_user`);
 
 --
+-- Indices de la tabla `historial_estados`
+--
+ALTER TABLE `historial_estados`
+  ADD PRIMARY KEY (`id_historial_estado`),
+  ADD KEY `fk_enco_histo` (`id_encomienda`);
+
+--
 -- Indices de la tabla `indicadores`
 --
 ALTER TABLE `indicadores`
@@ -1886,7 +2077,7 @@ ALTER TABLE `choferes`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `comprobantes`
@@ -1910,13 +2101,19 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de la tabla `encomiendas`
 --
 ALTER TABLE `encomiendas`
-  MODIFY `id_encomienda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_encomienda` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `gastos`
 --
 ALTER TABLE `gastos`
   MODIFY `id_gastos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT de la tabla `historial_estados`
+--
+ALTER TABLE `historial_estados`
+  MODIFY `id_historial_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `indicadores`
@@ -1928,7 +2125,7 @@ ALTER TABLE `indicadores`
 -- AUTO_INCREMENT de la tabla `ingresos`
 --
 ALTER TABLE `ingresos`
-  MODIFY `id_ingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_ingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -2012,6 +2209,12 @@ ALTER TABLE `encomiendas`
 --
 ALTER TABLE `gastos`
   ADD CONSTRAINT `fk_indi_gas` FOREIGN KEY (`id_indicador`) REFERENCES `indicadores` (`id_indicador`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `historial_estados`
+--
+ALTER TABLE `historial_estados`
+  ADD CONSTRAINT `fk_enco_histo` FOREIGN KEY (`id_encomienda`) REFERENCES `encomiendas` (`id_encomienda`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `indicadores`

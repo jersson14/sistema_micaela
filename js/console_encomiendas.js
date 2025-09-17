@@ -371,40 +371,7 @@ function listar_encomiendas() {
       });
   });
 }
-$(document).ready(function () {
-  // Después de inicializar la tabla
-  listar_encomiendas();
 
-  // Manejar clicks en dropdowns para ajustar posición
-  $(document).on("show.bs.dropdown", ".dropdown", function () {
-    var dropdown = $(this).find(".dropdown-menu");
-    var toggle = $(this).find(".dropdown-toggle");
-
-    // Obtener posición del botón
-    var toggleOffset = toggle.offset();
-    var tableContainer = $(".table-responsive");
-    var containerOffset = tableContainer.offset();
-    var containerWidth = tableContainer.width();
-    var containerHeight = tableContainer.height();
-
-    // Verificar si está cerca del borde derecho
-    if (toggleOffset.left + 150 > containerOffset.left + containerWidth) {
-      dropdown.addClass("dropdown-menu-right");
-    }
-
-    // Verificar si está cerca del borde inferior
-    if (toggleOffset.top + 200 > containerOffset.top + containerHeight) {
-      dropdown.addClass("dropup");
-      $(this).addClass("dropup");
-    }
-  });
-
-  // Limpiar clases al cerrar
-  $(document).on("hide.bs.dropdown", ".dropdown", function () {
-    $(this).removeClass("dropup");
-    $(this).find(".dropdown-menu").removeClass("dropup dropdown-menu-right");
-  });
-});
 
 //ABRIR MODAL REGISTRO
 function AbrirRegistro() {
@@ -1144,7 +1111,7 @@ function Modificar_Estado2(){
         if(resp>0){
             Swal.fire("Mensaje de Confirmación","Se cambió el previo de la correctamente!!!","success").then((value)=>{
               tbl_encomiendas.ajax.reload();
-              $("#modal_estado").modal('hide'); // Asegúrate que el ID del modal sea correcto
+              $("#modal_ajustar_precio").modal('hide'); // Asegúrate que el ID del modal sea correcto
             });
         }else{
           return Swal.fire("Mensaje de Error","No se completó la actualización","error");
@@ -1154,4 +1121,275 @@ function Modificar_Estado2(){
       });
     }
   });
+}
+
+//VER MODAL DE HISTORIAL DE ESTADOS
+
+//MODAL VER HISTORIAL
+$('#tabla_encomiendas').on('click','.historial',function(){
+  var data = tbl_encomiendas.row($(this).parents('tr')).data();
+
+  if(tbl_encomiendas.row(this).child.isShown()){
+      var data = tbl_encomiendas.row(this).data();
+  }
+$("#modal_ver_historial").modal('show');
+
+  document.getElementById('lb_titulo_historial').innerHTML="<b>HISTORIAL DE LA ENCOMIENDA DEL EMISOR :</b> "+data.nro_doc_emisor+" - "+data.nombre_emisor+"";
+
+  listar_historial_estado(data.id_encomienda);
+
+})
+// VISTA DE HISTORIAL
+var tbl_historial_estado;
+function listar_historial_estado(id) {
+    tbl_historial_estado = $("#tabla_ver_historial").DataTable({
+        "ordering": false,
+        "bLengthChange": true,
+        "searching": false,  // Deshabilita la barra de búsqueda
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+        "pageLength": 5,
+        "destroy": true,
+        "pagingType": 'full_numbers',
+        "scrollCollapse": true,
+        "responsive": true,
+        "async": false,
+        "processing": true,
+        "ajax": {
+            "url": "../controller/encomiendas/controlador_listar_estados.php",
+            "type": 'POST',
+            "data": { id: id },
+            "dataSrc": function(json) {
+                console.log("Respuesta JSON:", json);
+                return json.data;
+            }
+        },
+        "dom": 'Bfrtip',
+        "buttons": [
+            {
+                extend: 'excelHtml5',
+                text: ' Excel',
+                titleAttr: 'Exportar a Excel',
+                filename: "LISTA_DE_HISTORIAL_ESTADO",
+                title: "LISTA DE HISTORIAL DE ESTADOS",
+                className: 'btn btn-success'
+            },
+            {
+                extend: 'pdfHtml5',
+                text: ' PDF',
+                titleAttr: 'Exportar a PDF',
+                filename: "LISTA_DE_HISTORIAL_ESTADO",
+                title: "LISTA DE HISTORIAL DE ESTADOS",
+                className: 'btn btn-danger'
+            },
+            {
+                extend: 'print',
+                text: ' Imprimir',
+                titleAttr: 'Imprimir',
+                title: "LISTA DE HISTORIAL DE ESTADOS",
+                className: 'btn btn-primary'
+            }
+        ],
+        "columns": [
+            { "data": null, "render": function(data, type, row, meta) { return meta.row + 1; } },
+            { "data": "USUARIO" },
+            { 
+                "data": "estado",
+                "render": function(data, type, row) {
+                    switch (data) {
+                        case "PENDIENTE":
+                            return '<span class="badge badge-warning" style="background-color: #ffc107; color: #212529;">PENDIENTE</span>';
+                        case "ENTREGADO":
+                            return '<span class="badge badge-success" style="background-color: #28a745; color: white;">ENTREGADO</span>';
+                        case "OBSERVADO":
+                            return '<span class="badge badge-info" style="background-color: #17a2b8; color: white;">OBSERVADO</span>';
+                        case "EN TRANSITO":
+                            return '<span class="badge badge-primary" style="background-color: #007bff; color: white;">EN TRÁNSITO</span>';
+                        case "EN AGENCIA":
+                            return '<span class="badge badge-secondary" style="background-color: #6c757d; color: white;">EN AGENCIA</span>';
+                        case "ANULADO":
+                            return '<span class="badge badge-danger" style="background-color: #dc3545; color: white;">ANULADO</span>';
+                        default:
+                            return '<span class="badge badge-dark" style="background-color: #343a40; color: white;">' + data + '</span>';
+                    }
+                }
+            },
+            { "data": "observacion" },
+            { 
+                "data": "precio_anterior",
+                "render": function(data, type, row) {
+                    if (data && data != '' && data != '0' && data != '0.00') {
+                        return 'S/ ' + parseFloat(data).toFixed(2);
+                    }
+                    return '-';
+                }
+            },
+            { 
+                "data": "precio_nuevi",
+                "render": function(data, type, row) {
+                    if (data && data != '' && data != '0' && data != '0.00') {
+                        return 'S/ ' + parseFloat(data).toFixed(2);
+                    }
+                    return '-';
+                }
+            },
+            { "data": "motivo_anula" },
+            { "data": "fecha_formateada" },
+            { "data": "fecha_formateada2" }
+        ],
+        "language": {
+            "emptyTable": "No se encontraron datos",
+            "zeroRecords": "No se encontraron resultados",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+            "infoFiltered": "(filtrado de _MAX_ registros en total)",
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        "select": true
+    });
+}
+
+//PAGAR ENCOMIENDA
+$("#tabla_encomiendas").on("click", ".pagar", function () {
+  var data = tbl_encomiendas.row($(this).parents("tr")).data();
+
+  if (tbl_encomiendas.row(this).child.isShown()) {
+    var data = tbl_encomiendas.row(this).data();
+  }
+  $("#modal_pagar").modal("show");
+    document.getElementById("id_encomienda_pago").value =data.id_encomienda;
+    //DATOS DEL EMISOR Y RECEPTOR
+    document.getElementById("txt_emisor_pago").value =data.nro_doc_emisor+' - '+data.nombre_emisor;
+    document.getElementById("txt_origen_pago").value =data.nombre_origen;
+    document.getElementById("txt_receptor_pago").value =data.nro_doc_receptor+' - '+data.nombre_receptor;
+    document.getElementById("txt_destino_pago").value =data.nombre_destino;
+    // DATOS DEL PAGO
+    document.getElementById("select_estado_pago").value =data.estado_encomienda;
+    document.getElementById("txt_saldo_pendiente").value = data.por_pagar;
+
+ 
+});
+
+
+
+function Realizar_pago() {
+    let id = document.getElementById('id_encomienda_pago').value;
+    let nuevo_estado = document.getElementById('select_estado_pago').value;
+    let saldo_pendiente = document.getElementById('txt_saldo_pendiente').value;
+    let monto_recibido = document.getElementById('txt_monto_recibido').value;
+    let vuelto = document.getElementById('txt_vuelto').value;
+    let idusu = document.getElementById('txtprincipalid').value;
+
+    // Validar que se haya seleccionado un estado
+    if (!nuevo_estado || nuevo_estado.trim() === '') {
+        return Swal.fire("Mensaje de Advertencia", "Debe seleccionar un estado", "warning");
+    }
+
+    // Validar que el usuario sea válido
+    if (!idusu || idusu.trim() === '') {
+        return Swal.fire("Mensaje de Advertencia", "Usuario no válido", "warning");
+    }
+
+    // Validar que el monto recibido no esté vacío
+    if (!monto_recibido || monto_recibido.trim() === '') {
+        return Swal.fire("Mensaje de Advertencia", "Debe ingresar el monto recibido", "warning");
+    }
+
+    // Limpiar y convertir los valores a números
+    let saldoPendienteNum = parseFloat(saldo_pendiente.replace('S/', '').replace(',', '').trim()) || 0;
+    let montoRecibidoNum = parseFloat(monto_recibido) || 0;
+
+    // Validar que los montos sean números válidos
+    if (isNaN(saldoPendienteNum) || isNaN(montoRecibidoNum)) {
+        return Swal.fire("Mensaje de Advertencia", "Los montos deben ser números válidos", "warning");
+    }
+
+    // Validar que el saldo pendiente sea mayor a 0
+    if (saldoPendienteNum <= 0) {
+        return Swal.fire("Mensaje de Advertencia", "El saldo pendiente debe ser mayor a 0.00", "warning");
+    }
+
+    // Validar que el monto recibido sea mayor a 0
+    if (montoRecibidoNum <= 0) {
+        return Swal.fire("Mensaje de Advertencia", "El monto recibido debe ser mayor a 0.00", "warning");
+    }
+
+    // Validar que el nuevo estado no sea OBSERVADO para pagos
+    if (nuevo_estado === "OBSERVADO") {
+        return Swal.fire("Mensaje de Advertencia", "No puede cambiar a estado OBSERVADO en un pago", "warning");
+    }
+
+    // Validar que el monto recibido no sea demasiado alto (opcional)
+    if (montoRecibidoNum > 99999.99) {
+        return Swal.fire("Mensaje de Advertencia", "El monto recibido es demasiado alto", "warning");
+    }
+
+    // Calcular vuelto
+    let vueltoCalculado = montoRecibidoNum - saldoPendienteNum;
+    
+    // Validar que el monto recibido sea suficiente (NO SE PERMITEN PAGOS PARCIALES)
+    if (vueltoCalculado < 0) {
+        return Swal.fire({
+            title: "¡Monto insuficiente!",
+            text: `El monto recibido (S/ ${montoRecibidoNum.toFixed(2)}) es menor al saldo pendiente (S/ ${saldoPendienteNum.toFixed(2)}). Falta: S/ ${Math.abs(vueltoCalculado).toFixed(2)}`,
+            icon: "error",
+            confirmButtonText: "Entendido"
+        });
+    }
+
+    // Preparar mensaje de confirmación solo para pagos completos
+    let mensajeConfirmacion = `¿Está seguro de procesar este pago?\n\nSaldo pendiente: S/ ${saldoPendienteNum.toFixed(2)}\nMonto recibido: S/ ${montoRecibidoNum.toFixed(2)}\nVuelto: S/ ${vueltoCalculado.toFixed(2)}`;
+
+    // Mensaje de confirmación para pago completo
+    Swal.fire({
+        title: "¿Está seguro de procesar este pago?",
+        text: mensajeConfirmacion,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, Procesar Pago",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            procesarPago();
+        }
+    });
+
+    // Función interna para procesar el pago
+    function procesarPago() {
+        $.ajax({
+            "url": "../controller/encomiendas/controlador_procesar_pago.php",
+            type: 'POST',
+            data: {
+                id: id,
+                nuevo_estado: nuevo_estado,
+                saldo_pendiente: saldoPendienteNum.toFixed(2),
+                monto_recibido: montoRecibidoNum.toFixed(2),
+                vuelto: vueltoCalculado.toFixed(2),
+                idusu: idusu
+            }
+        }).done(function(resp) {
+            if (resp > 0) {
+                let mensajeExito = `Pago procesado correctamente!\n\nVuelto entregado: S/ ${vueltoCalculado.toFixed(2)}`;
+                
+                Swal.fire("Pago Completado", mensajeExito, "success").then((value) => {
+                    tbl_encomiendas.ajax.reload();
+                    $("#modal_pagar").modal('hide');
+                });
+            } else {
+                return Swal.fire("Mensaje de Error", "No se completó el procesamiento del pago", "error");
+            }
+        }).fail(function() {
+            Swal.fire("Mensaje de Error", "Error en la comunicación con el servidor", "error");
+        });
+    }
 }

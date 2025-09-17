@@ -133,6 +133,41 @@
             conexionBD::cerrar_conexion();
 
         }
+        public function Realizar_Pago($id,$nuevo_estado,$saldo_pendiente,$monto_recibido,$idusu){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_REALIZAR_PAGO_ENCOMIENDA(?,?,?,?,?)";
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$id);
+            $query ->bindParam(2,$nuevo_estado);
+            $query ->bindParam(3,$saldo_pendiente);
+            $query ->bindParam(4,$monto_recibido);
+            $query ->bindParam(5,$idusu);
+
+            $resul = $query->execute();
+            if($resul){
+                return 1;
+            }else{
+                return 0;
+            }
+            conexionBD::cerrar_conexion();
+
+        }
+        public function Listar_Historial_Estado($id){
+            $c = conexionBD::conexionPDO();
+            $arreglo = array();
+            $sql = "CALL SP_LISTA_HISTORIAL_ESTADOS(?)";
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$id);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        
+        }
+
         function Registrar_detalle_facturas($id, $array_practicas_paciente, $array_subtotal){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_REGISTRAR_DETALLE_FACTURA(?,?,?)"; // Se agregaron 3 placeholders
