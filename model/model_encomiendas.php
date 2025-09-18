@@ -17,7 +17,53 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-   
+         public function Listar_encomienda_ruta_estado($ori,$des,$esta){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_ENCOMIENDAS_RUTA_ESTADO(?,?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$ori);
+            $query->bindParam(2,$des);
+            $query->bindParam(3,$esta);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+        public function Listar_encomienda_fecha_usuario($fedes,$fehas,$usu){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_ENCOMIENDAS_FECHA_USUARIO(?,?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$fedes);
+            $query->bindParam(2,$fehas);
+            $query->bindParam(3,$usu);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+        public function Cargar_Usuarios(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_CARGAR_USUARIOS()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
         public function Listar_Facturas_todo(){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_LISTAR_FACTURAS_TODO()";

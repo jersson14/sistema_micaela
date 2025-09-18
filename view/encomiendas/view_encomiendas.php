@@ -30,6 +30,68 @@
                         <h3 class="card-title"><i class="fas fa-user"></i>&nbsp;&nbsp;<b>Listado de Encomiendas</b></h3>
                         <button class="btn btn-success float-right" onclick="AbrirRegistro()"><i class="fas fa-plus"></i> Nuevo Registro</button>
                     </div>
+                    <div class="table-responsive" style="text-align:left">
+                        <div class="card-body">
+                            <div class="row" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
+
+                                <div class="col-2 form-group">
+                                    <label for="">Origen:</label>
+                                    <select class="js-example-basic-single" id="select_origen_bus" style="width:100%">
+                                    </select>
+                                </div>
+                                <div class="col-2 form-group">
+                                    <label for="">Destino:</label>
+                                    <select class="js-example-basic-single" id="select_destino_bus" style="width:100%">
+                                    </select>
+                                </div>
+                                  <div class="col-4 form-group">
+                                    <label for="">Estado<b style="color:red">(*)</b>:</label>
+
+                                    <select class="form-control" id="select_estado_buscar" style="width:100%" >
+                                        <option value="" disabled selected>Seleccione</option>
+                                        <option value="PENDIENTE">PENDIENTE</option>
+                                        <option value="EN TRANSITO">EN TRANSITO</option>
+                                        <option value="EN AGENCIA">EN AGENCIA</option>
+                                        <option value="ENTREGADO">ENTREGADO</option>
+                                        <option value="OBSERVADO">OBSERVADO</option>
+                                        <option value="ANULADO">ANULADO</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-2" role="document">
+                                    <label for="">&nbsp;</label><br>
+                                    <button onclick="listar_encomiendas_ruta_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
+                                </div>
+                                <div class="col-12 col-md-2" role="document">
+                                    <label for="">&nbsp;</label><br>
+                                    <button onclick="listar_encomiendas()" class="btn btn-success mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Listar todos</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" style="text-align:left">
+                        <div class="card-body">
+                            <div class="row" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
+                                <div class="col-3 form-group">
+                                    <label for="">Fecha desde:</label>
+                                    <input type="date" class="form-control" id="txt_fecha_desde">
+                                </div>
+                                <div class="col-3 form-group">
+                                    <label for="">Fecha hasta:</label>
+                                    <input type="date" class="form-control" id="txt_fecha_hasta">
+                                </div>
+                                <div class="col-3 form-group">
+                                    <label for="">Usuario:</label>
+                                    <select class="js-example-basic-single" id="select_usuario" style="width:100%">
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-3" role="document">
+                                    <label for="">&nbsp;</label><br>
+                                    <button onclick="listar_encomiendas_fecha_usu()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive" style="text-align:center">
                         <div class="card-body">
                             <table id="tabla_encomiendas" class="table table-striped table-bordered" style="width:100%">
@@ -315,84 +377,123 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>DATOS DEL CONDUCTOR</b></h5>
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>DATOS DE LA ENCOMIENDA</b></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-12 form-group" style="color:red">
-                            <h6><b>Campos Obligatorios (*)</b></h6>
+                        <!-- ESTADOS AL INICIO - ETIQUETAS BONITAS -->
+                        <div class="col-12 text-center mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label><b>Estado de Pago:</b></label><br>
+                                    <span id="span_estado_pago_mostrar" class="badge badge-pill" style="font-size: 14px; padding: 8px 16px;"></span>
+                                </div>
+                                <div class="col-6">
+                                    <label><b>Estado de Encomienda:</b></label><br>
+                                    <span id="span_estado_encomienda_mostrar" class="badge badge-pill" style="font-size: 14px; padding: 8px 16px;"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- DATOS PRINCIPALES -->
+                        <div class="col-8 form-group">
+                            <label for="">Conductor:</label>
+                            <input type="text" class="form-control" id="select_conductor_mostrar" readonly>
+                        </div>
+                        <div class="col-4 form-group">
+                            <label for="">Origen:</label>
+                            <input type="text" class="form-control" id="select_origen_mostrar" readonly>
+
                         </div>
                         <div class="col-6 form-group">
-                            <label for="">Tipo de documento<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" id="select_tipo_documento_mostrar" style="width:100%" disabled>
+                            <label for="">Destino:</label>
+                            <input type="text" class="form-control" id="select_destino_mostrar" readonly>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Fecha y hora de registro:</label>
+                            <input type="datetime-local" class="form-control" id="txt_fecha_creacion_mostrar" readonly>
+                        </div>
+                        <div class="col-12"><br>
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL EMISOR</b></li>
+                        </div>
+                        <div class="col-6 form-group"><br>
+                            <label for="">Tipo de documento - Emisor:</label>
+                            <select class="form-control" id="select_tipo_documento_emisor_mostrar" style="width:100%" disabled>
                                 <option value="" disabled>Seleccione</option>
                                 <option value="DNI" selected>DNI</option>
                                 <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
                                 <option value="PASAPORTE">PASAPORTE</option>
                             </select>
                         </div>
-                        <div class="col-6 form-group">
-                            <label for="">Nro. Documento<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_dni_mostrar" placeholder="Ingrese el DNI del usuario" disabled>
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="">Nombres y apellidos<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_nomb_mostrar" placeholder="Ingrese los nombres y apellidos" disabled>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Celular 1<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_celu1_mostrar" placeholder="Ingrese el primer celular" maxlenght="9" disabled>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Celular 2(Opcional):</label>
-                            <input type="email" class="form-control" id="txt_celu2_mostrar" placeholder="Ingrese el segundo celular" maxlenght="9" disabled>
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Procedencia(Opcional):</label>
-                            <input type="text" class="form-control" id="txt_procedencia_mostrar" placeholder="Ingrese la procedencia del chofer" disabled>
+                        <div id="dni_section" class="col-6 form-group"><br>
+                            <label for="">N° Documento Emisor:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txt_dni_emisor_mostrar" maxlength="8" onkeypress="return soloNumeros(event)" readonly>
+
+                            </div>
                         </div>
                         <div class="col-8 form-group">
-                            <label for="">Dirección(Opcional):</label>
-                            <textarea class="form-control" id="txt_direc_mostrar" rows="2" style="resize:none" placeholder="Ingrese la dirección" disabled></textarea>
+                            <label for="">Nombres y apellidos - Emisor:</label>
+                            <input type="text" class="form-control" id="txt_nomb_emisor_mostrar" readonly placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
                         </div>
-
-                        <div class="col-12 text-center" style="border: 2px solid black; padding: 10px; display: flex; justify-content: center; align-items: center;">
-                            <img id="preview3" src="#" alt="Vista previa" style="max-width: 100%; max-height: 250px; display: none; object-fit: contain;">
+                        <div class="col-4 form-group">
+                            <label for="">Celular - Emisor:</label>
+                            <input type="text" class="form-control" id="txt_celu1_emisor_mostrar" readonly placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
                         </div>
                         <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DE VEHICULO</b></li>
-                        </div><br>
-                        <div class="col-6 form-group"><br>
-                            <label for="">Marca del vehiculo<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_marca_mostrar" placeholder="Ingrese la marca del vehiculo" disabled>
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL RECEPTOR</b></li>
                         </div>
                         <div class="col-6 form-group"><br>
-                            <label for="">Placa del vehiculo<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_placa_mostrar" placeholder="Ingrese la placa del vehiculo" maxlenght="7" disabled>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Clase y categoria de licencia<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_clase_categoria_mostrar" placeholder="Ingrese la clase y categoria" disabled>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Nro. de Licencia<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_nro_licencia_mostrar" placeholder="Ingrese el Nro. de licencia" disabled>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Fecha de expiración de licencia<b style="color:red">(*)</b>:</label>
-                            <input type="date" class="form-control" id="txt_fecha_expira_mostrar" disabled>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Estado<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" id="select_estado_mostrar" style="width:100%" disabled>
-                                <option value="">Seleccione</option>
-                                <option value="ACTIVO">ACTIVO</option>
-                                <option value="INACTIVO">INACTIVO</option>
+                            <label for="">Tipo de documento - Receptor:</label>
+                            <select class="form-control" id="select_tipo_documento_receptor_mostrar" style="width:100%" disabled>
+                                <option value="" disabled>Seleccione</option>
+                                <option value="DNI" selected>DNI</option>
+                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
+                                <option value="PASAPORTE">PASAPORTE</option>
                             </select>
                         </div>
+                        <div id="dni_section2" class="col-6 form-group"><br>
+                            <label for="">N° Documento Receptor:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txt_dni_receptor_mostrar" readonly maxlength="8" onkeypress="return soloNumeros(event)">
+
+                            </div>
+                        </div>
+                        <div class="col-8 form-group">
+                            <label for="">Nombres y apellidos - Receptor:</label>
+                            <input type="text" class="form-control" id="txt_nomb_receptor_mostrar" readonly placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
+                        </div>
+                        <div class="col-4 form-group">
+                            <label for="">Celular - Receptor:</label>
+                            <input type="text" class="form-control" id="txt_celu1_recepto_mostrar" readonly placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
+                        </div>
+                        <div class="col-12"><br>
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DETALLES DE LA ENCOMIENDA</b></li>
+                        </div><br>
+                        <div class="col-4 form-group"><br>
+                            <label for="">Pago:</label>
+                            <input type="text" class="form-control" value="0.00" id="txt_pago_mostrar" readonly placeholder="Ingrese el monto del pago" onkeypress="return soloNumeros(event)">
+                        </div>
+                        <div class="col-4 form-group"><br>
+                            <label for="">Por pagar:</label>
+                            <input type="text" class="form-control" value="0.00" id="txt_por_pagar_mostrar" readonly placeholder="Ingrese el monto por pagar" onkeypress="return soloNumeros(event)" maxlenght="7">
+                        </div>
+                        <div class="col-4 form-group"><br>
+                            <label for="">A domicilio:</label>
+                            <input type="text" class="form-control" value="0.00" id="txt_a_domicilio_mostrar" readonly placeholder="Ingrese el monto si es a domicilio" onkeypress="return soloNumeros(event)">
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Descripción de la encomienda:</label>
+                            <textarea style="color:red" class="form-control" id="txt_descripcion_mostrar" readonly rows="2" style="resize:none" placeholder="Ingrese la descripción de la encomienda"></textarea>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label for="">Observaciones:</label>
+                            <textarea style="color:red" class="form-control" id="txt_observacion_mostrar" readonly rows="2" style="resize:none" placeholder="Ingrese la descripción de la encomienda"></textarea>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -401,7 +502,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="modal_estado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -662,6 +762,8 @@
     <!-- /.content -->
     <script>
         $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+            Cargar_Select_Usuarios();
             listar_encomiendas();
             Cargar_Select_Conductores();
             Cargar_Select_Rutas();
