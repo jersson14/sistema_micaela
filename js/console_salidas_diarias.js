@@ -1,13 +1,13 @@
 //LISTAR ENCOMIENDAS
-var tbl_encomiendas;
-function listar_encomiendas() {
+var tbl_salidas_diarias;
+function listar_salidas_diarias() {
   Cargar_Select_Usuarios();
   Cargar_Select_Rutas();
   document.getElementById("txt_fecha_desde").value = "";
   document.getElementById("txt_fecha_hasta").value = "";
   document.getElementById("select_estado_buscar").value = "";
 
-  tbl_encomiendas = $("#tabla_encomiendas").DataTable({
+  tbl_salidas_diarias = $("#tabla_salida_diaria").DataTable({
     pagingType: "full_numbers",
     scrollCollapse: true,
     responsive: true,
@@ -20,13 +20,10 @@ function listar_encomiendas() {
     ],
     pageLength: 10,
     destroy: true,
-    pagingType: "full_numbers",
-    scrollCollapse: true,
-    responsive: true,
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/encomiendas/controlador_listar_encomiendas.php",
+      url: "../controller/salidas_diarias/controlador_listar_salidas_diarias.php",
       type: "POST",
     },
     dom: "Bfrtip",
@@ -36,39 +33,39 @@ function listar_encomiendas() {
         extend: "excelHtml5",
         text: '<i class="fas fa-file-excel"></i> Excel',
         titleAttr: "Exportar a Excel",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
+        filename: "LISTA DE SALIDAS DIARIAS",
+        title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-excel",
         exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
         },
       },
       {
         extend: "pdfHtml5",
         text: '<i class="fas fa-file-pdf"></i> PDF',
         titleAttr: "Exportar a PDF",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
+        filename: "LISTA DE SALIDAS DIARIAS",
+        title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
+        orientation: "landscape",
+        pageSize: "A4",
         exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
         },
       },
       {
         extend: "print",
         text: '<i class="fa fa-print"></i> Imprimir',
         titleAttr: "Imprimir",
-        title: "LISTA DE ENCOMIENDAS",
+        title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-print",
         exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
         },
       },
     ],
     columns: [
-      { data: "boleta_nro" },
+      { data: "salida_nro" },
       {
         data: null,
         render: function (data, type, row) {
@@ -82,39 +79,8 @@ function listar_encomiendas() {
           );
         },
       },
-      { data: "nombre_origen" },
-      { data: "nombre_destino" },
-      { data: "fecha_formateada" },
       {
-        data: null,
-        render: function (data, type, row) {
-          return (
-            "<strong>" +
-            row.tipo_doc_emisor +
-            ": " +
-            row.nro_doc_emisor +
-            "</strong><br>" +
-            row.nombre_emisor
-          );
-        },
-      },
-      {
-        data: null,
-        render: function (data, type, row) {
-          return (
-            "<strong>" +
-            row.tipo_doc_receptor +
-            ": " +
-            row.nro_doc_receptor +
-            "</strong><br>" +
-            row.nombre_receptor
-          );
-        },
-      },
-
-      // ---- PAGO ----
-      {
-        data: "pago",
+        data: "monto",
         render: function (data, type, row) {
           if (parseFloat(data) > 0) {
             return '<span class="badge bg-success">S/ ' + data + "</span>";
@@ -123,270 +89,107 @@ function listar_encomiendas() {
           }
         },
       },
+      { data: "fecha_formateada_salida" },
+      { data: "origen_nombre" },
+      { data: "destino_nombre" },
 
-      // ---- POR PAGAR ----
+      // TOTAL PASAJEROS más grande
       {
-        data: "por_pagar",
+        data: "total_pasajeros",
         render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-danger">S/ ' + data + "</span>";
+          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
+        },
+      },
+
+      // TOTAL ENCOMIENDAS más grande
+      {
+        data: "total_encomiendas",
+        render: function (data, type, row) {
+          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
+        },
+      },
+
+      // ---- ESTADO SALIDA ----
+      {
+        data: "estado",
+        render: function (data, type, row) {
+          if (data == "EN TRANSITO") {
+            return '<span class="badge bg-dark">EN TRANSITO</span>';
+          } else if (data == "COMPLETADO") {
+            return '<span class="badge bg-success">COMPLETADO</span>';
+          } else if (data == "INCOMPLETO") {
+            return '<span class="badge bg-warning">INCOMPLETO</span>';
           } else {
-            return '<span class="badge bg-secondary">-</span>';
+            return '<span class="badge bg-danger">ELIMINADO</span>';
           }
         },
       },
+      { data: "usuario_nombre_completo" },
 
-      // ---- A DOMICILIO ----
+      // ---- BOTONES DE ACCIÓN ----
       {
-        data: "a_domicilio",
+        data: "estado",
         render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-success">S/ ' + data + "</span>";
-          } else {
-            return '<span class="badge bg-secondary">-</span>';
-          }
-        },
-      },
-      // ---- ESTADO PAGO ----
-      {
-        data: "estado_pago",
-        render: function (data, type, row) {
-          if (data == "PAGADO") {
-            return '<span class="badge bg-success">PAGADO</span>';
-          } else if (data == "ANULADO") {
-            return '<span class="badge bg-danger text-danger">ANULADO</span>';
-          } else {
-            return '<span class="badge bg-warning text-dark">POR PAGAR</span>';
-          }
-        },
-      },
+          let botones = "";
 
-      // ---- ESTADO ENCOMIENDA CON USUARIO ----
-      {
-        data: null,
-        render: function (data, type, row) {
-          let estadoBadge = "";
-          let usuario = row.usu_nombre || "Sistema";
-          let fechaUpdate = row.fecha_formateada3 || "";
-
-          switch (row.estado_encomienda) {
-            case "PENDIENTE":
-              estadoBadge =
-                '<span class="badge bg-warning text-dark">PENDIENTE</span>';
-              break;
-            case "ENTREGADO":
-              estadoBadge = '<span class="badge bg-success">ENTREGADO</span>';
-              break;
-            case "OBSERVADO":
-              estadoBadge = '<span class="badge bg-danger">OBSERVADO</span>';
-              break;
-            case "EN TRANSITO":
-              estadoBadge =
-                '<span class="badge bg-info text-dark">EN TRÁNSITO</span>';
-              break;
-            case "EN AGENCIA":
-              estadoBadge = '<span class="badge bg-primary">EN AGENCIA</span>';
-              break;
-            case "ANULADO":
-              estadoBadge = '<span class="badge bg-secondary">ANULADO</span>';
-              break;
-            default:
-              estadoBadge =
-                '<span class="badge bg-light text-dark">' +
-                row.estado_encomienda +
-                "</span>";
+          // EN TRANSITO / INCOMPLETO => Editar + Eliminar
+          if (data === "EN TRANSITO" || data === "INCOMPLETO") {
+            botones += `
+              <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
+                <i class='fa fa-edit'></i> Editar
+              </button>
+              <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
+                <i class='fa fa-trash'></i> Eliminar
+              </button>
+            `;
           }
 
-          return `
-            <div style="text-align: center;">
-              ${estadoBadge}
-              <br>
-              <small style="color: #6c757d; font-size: 1.0rem;">
-                <i class="fas fa-user" style="font-size: 1.0rem;"></i> ${usuario}
-                ${
-                  fechaUpdate
-                    ? '<br><i class="fas fa-clock" style="font-size: 0.7rem;"></i> ' +
-                      fechaUpdate
-                    : ""
-                }
-              </small>
-            </div>
-          `;
+          // EN TRANSITO / INCOMPLETO / COMPLETADO => Manifiesto + Mostrar
+          if (data === "COMPLETADO" || data === "EN TRANSITO" || data === "INCOMPLETO") {
+            botones += `
+              <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
+                <i class='fa fa-print'></i> Manifiesto
+              </button>
+              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
+                <i class='fa fa-eye'></i> Mostrar
+              </button>
+            `;
+          }
+
+          // SOLO EN TRANSITO => Completar viaje
+          if (data === "EN TRANSITO") {
+            botones += `
+              <button class='completar btn btn-info btn-sm' title='Completar viaje'>
+                <i class='fa fa-check-circle'></i> Completar
+              </button>
+            `;
+          }
+
+          // ELIMINADO => Solo Mostrar
+          if (data === "ELIMINADO") {
+            botones += `
+              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
+                <i class='fa fa-eye'></i> Mostrar
+              </button>
+            `;
+          }
+
+          return botones;
         },
-      },
-
-      // ---- BOTONES CON HISTORIAL AGREGADO ----
-      {
-        data: null,
-        render: function (data, type, row) {
-          let pago = row.estado_pago;
-          let estado = row.estado_encomienda;
-          let id = row.id_encomienda;
-
-          const botones = {
-            mostrar:
-              "<a href='#' class='dropdown-item mostrar' data-id='" +
-              id +
-              "'><i class='fa fa-eye'></i> Mostrar</a>",
-            editar:
-              "<a href='#' class='dropdown-item editar' data-id='" +
-              id +
-              "'><i class='fa fa-edit'></i> Editar</a>",
-            eliminar:
-              "<a href='#' class='dropdown-item eliminar' data-id='" +
-              id +
-              "'><i class='fa fa-trash'></i> Eliminar</a>",
-            cambiar:
-              "<a href='#' class='dropdown-item cambiar_estado' data-id='" +
-              id +
-              "'><i class='fa fa-retweet'></i> Cambiar Estado</a>",
-            imprimir:
-              "<a href='#' class='dropdown-item imprimir' data-id='" +
-              id +
-              "'><i class='fa fa-print'></i> Imprimir</a>",
-            anular:
-              "<a href='#' class='dropdown-item anular' data-id='" +
-              id +
-              "'><i class='fa fa-ban'></i> Anular</a>",
-            pagar:
-              "<a href='#' class='dropdown-item pagar' data-id='" +
-              id +
-              "'><i class='fa fa-credit-card'></i> Pagar</a>",
-            ajustar:
-              "<a href='#' class='dropdown-item ajustar_precio' data-id='" +
-              id +
-              "'><i class='fa fa-dollar-sign'></i> Ajustar Precio</a>",
-            motivo:
-              "<a href='#' class='dropdown-item motivo_anulacion' data-id='" +
-              id +
-              "'><i class='fa fa-info-circle'></i> Motivo Anulación</a>",
-            historial:
-              "<a href='#' class='dropdown-item historial' data-id='" +
-              id +
-              "'><i class='fa fa-history'></i> Historial</a>",
-          };
-
-          const reglas = {
-            "PAGADO|PENDIENTE": [
-              botones.eliminar,
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|EN TRANSITO": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|EN AGENCIA": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|ENTREGADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|OBSERVADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.ajustar,
-              botones.historial,
-            ],
-            "PAGADO|ANULADO": [
-              botones.mostrar,
-              botones.motivo,
-              botones.historial,
-            ],
-
-            "POR PAGAR|PENDIENTE": [
-              botones.eliminar,
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.pagar,
-              botones.historial,
-            ],
-            "POR PAGAR|EN TRANSITO": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.pagar,
-              botones.historial,
-            ],
-            "POR PAGAR|EN AGENCIA": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.pagar,
-              botones.historial,
-            ],
-            "POR PAGAR|ENTREGADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "POR PAGAR|OBSERVADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.ajustar,
-              botones.historial,
-            ],
-            "POR PAGAR|ANULADO": [
-              botones.mostrar,
-              botones.motivo,
-              botones.historial,
-            ],
-          };
-
-          let clave = pago + "|" + estado;
-          let acciones = reglas[clave] || [botones.mostrar, botones.historial];
-
-          // Dropdown mejorado con mejor posicionamiento
-          return `
-        <div class="dropdown" style="position: relative;">
-            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" 
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                    style="border: none; background: #6c757d;">
-                <i class="fas fa-ellipsis-v"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" style="position: absolute; 
-                     z-index: 9999; min-width: 150px; right: 0;">
-                ${acciones.join("")}
-            </div>
-        </div>`;
-        },
-        width: "80px", // Fija el ancho de la columna
-        className: "text-center no-wrap", // Clase para centrar y evitar wrap
       },
     ],
     language: idioma_espanol,
     select: true,
   });
-
 }
 
-//FILTRO POR RUTAS Y ESTADO
-function listar_encomiendas_ruta_estado() {
+
+function listar_salidas_diarias_ruta_estado() {
   let ori = document.getElementById("select_origen_bus").value;
   let des = document.getElementById("select_destino_bus").value;
   let esta = document.getElementById("select_estado_buscar").value;
 
-  tbl_encomiendas = $("#tabla_encomiendas").DataTable({
+  tbl_salidas_diarias = $("#tabla_salida_diaria").DataTable({
     pagingType: "full_numbers",
     scrollCollapse: true,
     responsive: true,
@@ -399,15 +202,12 @@ function listar_encomiendas_ruta_estado() {
     ],
     pageLength: 10,
     destroy: true,
-    pagingType: "full_numbers",
-    scrollCollapse: true,
-    responsive: true,
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/encomiendas/controlador_listar_encomiendas_filtro1.php",
+      url: "../controller/salidas_diarias/controlador_listar_salidas_diarias_ruta_estado.php",
       type: "POST",
-      data: {
+        data: {
         ori: ori,
         des: des,
         esta: esta,
@@ -420,39 +220,39 @@ function listar_encomiendas_ruta_estado() {
         extend: "excelHtml5",
         text: '<i class="fas fa-file-excel"></i> Excel',
         titleAttr: "Exportar a Excel",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
+        filename: "LISTA DE SALIDAS DIARIAS",
+        title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-excel",
         exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
         },
       },
       {
         extend: "pdfHtml5",
         text: '<i class="fas fa-file-pdf"></i> PDF',
         titleAttr: "Exportar a PDF",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
+        filename: "LISTA DE SALIDAS DIARIAS",
+        title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
+        orientation: "landscape",
+        pageSize: "A4",
         exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
         },
       },
       {
         extend: "print",
         text: '<i class="fa fa-print"></i> Imprimir',
         titleAttr: "Imprimir",
-        title: "LISTA DE ENCOMIENDAS",
+        title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-print",
         exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
         },
       },
     ],
     columns: [
-      { data: "boleta_nro" },
+      { data: "salida_nro" },
       {
         data: null,
         render: function (data, type, row) {
@@ -466,39 +266,8 @@ function listar_encomiendas_ruta_estado() {
           );
         },
       },
-      { data: "nombre_origen" },
-      { data: "nombre_destino" },
-      { data: "fecha_formateada" },
       {
-        data: null,
-        render: function (data, type, row) {
-          return (
-            "<strong>" +
-            row.tipo_doc_emisor +
-            ": " +
-            row.nro_doc_emisor +
-            "</strong><br>" +
-            row.nombre_emisor
-          );
-        },
-      },
-      {
-        data: null,
-        render: function (data, type, row) {
-          return (
-            "<strong>" +
-            row.tipo_doc_receptor +
-            ": " +
-            row.nro_doc_receptor +
-            "</strong><br>" +
-            row.nombre_receptor
-          );
-        },
-      },
-
-      // ---- PAGO ----
-      {
-        data: "pago",
+        data: "monto",
         render: function (data, type, row) {
           if (parseFloat(data) > 0) {
             return '<span class="badge bg-success">S/ ' + data + "</span>";
@@ -507,270 +276,107 @@ function listar_encomiendas_ruta_estado() {
           }
         },
       },
+      { data: "fecha_formateada_salida" },
+      { data: "origen_nombre" },
+      { data: "destino_nombre" },
 
-      // ---- POR PAGAR ----
+      // TOTAL PASAJEROS más grande
       {
-        data: "por_pagar",
+        data: "total_pasajeros",
         render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-danger">S/ ' + data + "</span>";
+          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
+        },
+      },
+
+      // TOTAL ENCOMIENDAS más grande
+      {
+        data: "total_encomiendas",
+        render: function (data, type, row) {
+          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
+        },
+      },
+
+      // ---- ESTADO SALIDA ----
+      {
+        data: "estado",
+        render: function (data, type, row) {
+          if (data == "EN TRANSITO") {
+            return '<span class="badge bg-dark">EN TRANSITO</span>';
+          } else if (data == "COMPLETADO") {
+            return '<span class="badge bg-success">COMPLETADO</span>';
+          } else if (data == "INCOMPLETO") {
+            return '<span class="badge bg-warning">INCOMPLETO</span>';
           } else {
-            return '<span class="badge bg-secondary">-</span>';
+            return '<span class="badge bg-danger">ELIMINADO</span>';
           }
         },
       },
+      { data: "usuario_nombre_completo" },
 
-      // ---- A DOMICILIO ----
+      // ---- BOTONES DE ACCIÓN ----
       {
-        data: "a_domicilio",
+        data: "estado",
         render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-success">S/ ' + data + "</span>";
-          } else {
-            return '<span class="badge bg-secondary">-</span>';
-          }
-        },
-      },
-      // ---- ESTADO PAGO ----
-      {
-        data: "estado_pago",
-        render: function (data, type, row) {
-          if (data == "PAGADO") {
-            return '<span class="badge bg-success">PAGADO</span>';
-          } else if (data == "ANULADO") {
-            return '<span class="badge bg-danger text-danger">ANULADO</span>';
-          } else {
-            return '<span class="badge bg-warning text-dark">POR PAGAR</span>';
-          }
-        },
-      },
+          let botones = "";
 
-      // ---- ESTADO ENCOMIENDA CON USUARIO ----
-      {
-        data: null,
-        render: function (data, type, row) {
-          let estadoBadge = "";
-          let usuario = row.usu_nombre || "Sistema";
-          let fechaUpdate = row.fecha_formateada3 || "";
-
-          switch (row.estado_encomienda) {
-            case "PENDIENTE":
-              estadoBadge =
-                '<span class="badge bg-warning text-dark">PENDIENTE</span>';
-              break;
-            case "ENTREGADO":
-              estadoBadge = '<span class="badge bg-success">ENTREGADO</span>';
-              break;
-            case "OBSERVADO":
-              estadoBadge = '<span class="badge bg-danger">OBSERVADO</span>';
-              break;
-            case "EN TRANSITO":
-              estadoBadge =
-                '<span class="badge bg-info text-dark">EN TRÁNSITO</span>';
-              break;
-            case "EN AGENCIA":
-              estadoBadge = '<span class="badge bg-primary">EN AGENCIA</span>';
-              break;
-            case "ANULADO":
-              estadoBadge = '<span class="badge bg-secondary">ANULADO</span>';
-              break;
-            default:
-              estadoBadge =
-                '<span class="badge bg-light text-dark">' +
-                row.estado_encomienda +
-                "</span>";
+          // EN TRANSITO / INCOMPLETO => Editar + Eliminar
+          if (data === "EN TRANSITO" || data === "INCOMPLETO") {
+            botones += `
+              <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
+                <i class='fa fa-edit'></i> Editar
+              </button>
+              <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
+                <i class='fa fa-trash'></i> Eliminar
+              </button>
+            `;
           }
 
-          return `
-            <div style="text-align: center;">
-              ${estadoBadge}
-              <br>
-              <small style="color: #6c757d; font-size: 1.0rem;">
-                <i class="fas fa-user" style="font-size: 1.0rem;"></i> ${usuario}
-                ${
-                  fechaUpdate
-                    ? '<br><i class="fas fa-clock" style="font-size: 0.7rem;"></i> ' +
-                      fechaUpdate
-                    : ""
-                }
-              </small>
-            </div>
-          `;
+          // EN TRANSITO / INCOMPLETO / COMPLETADO => Manifiesto + Mostrar
+          if (data === "COMPLETADO" || data === "EN TRANSITO" || data === "INCOMPLETO") {
+            botones += `
+              <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
+                <i class='fa fa-print'></i> Manifiesto
+              </button>
+              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
+                <i class='fa fa-eye'></i> Mostrar
+              </button>
+            `;
+          }
+
+          // SOLO EN TRANSITO => Completar viaje
+          if (data === "EN TRANSITO") {
+            botones += `
+              <button class='completar btn btn-info btn-sm' title='Completar viaje'>
+                <i class='fa fa-check-circle'></i> Completar
+              </button>
+            `;
+          }
+
+          // ELIMINADO => Solo Mostrar
+          if (data === "ELIMINADO") {
+            botones += `
+              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
+                <i class='fa fa-eye'></i> Mostrar
+              </button>
+            `;
+          }
+
+          return botones;
         },
-      },
-
-      // ---- BOTONES CON HISTORIAL AGREGADO ----
-      {
-        data: null,
-        render: function (data, type, row) {
-          let pago = row.estado_pago;
-          let estado = row.estado_encomienda;
-          let id = row.id_encomienda;
-
-          const botones = {
-            mostrar:
-              "<a href='#' class='dropdown-item mostrar' data-id='" +
-              id +
-              "'><i class='fa fa-eye'></i> Mostrar</a>",
-            editar:
-              "<a href='#' class='dropdown-item editar' data-id='" +
-              id +
-              "'><i class='fa fa-edit'></i> Editar</a>",
-            eliminar:
-              "<a href='#' class='dropdown-item eliminar' data-id='" +
-              id +
-              "'><i class='fa fa-trash'></i> Eliminar</a>",
-            cambiar:
-              "<a href='#' class='dropdown-item cambiar_estado' data-id='" +
-              id +
-              "'><i class='fa fa-retweet'></i> Cambiar Estado</a>",
-            imprimir:
-              "<a href='#' class='dropdown-item imprimir' data-id='" +
-              id +
-              "'><i class='fa fa-print'></i> Imprimir</a>",
-            anular:
-              "<a href='#' class='dropdown-item anular' data-id='" +
-              id +
-              "'><i class='fa fa-ban'></i> Anular</a>",
-            pagar:
-              "<a href='#' class='dropdown-item pagar' data-id='" +
-              id +
-              "'><i class='fa fa-credit-card'></i> Pagar</a>",
-            ajustar:
-              "<a href='#' class='dropdown-item ajustar_precio' data-id='" +
-              id +
-              "'><i class='fa fa-dollar-sign'></i> Ajustar Precio</a>",
-            motivo:
-              "<a href='#' class='dropdown-item motivo_anulacion' data-id='" +
-              id +
-              "'><i class='fa fa-info-circle'></i> Motivo Anulación</a>",
-            historial:
-              "<a href='#' class='dropdown-item historial' data-id='" +
-              id +
-              "'><i class='fa fa-history'></i> Historial</a>",
-          };
-
-          const reglas = {
-            "PAGADO|PENDIENTE": [
-              botones.eliminar,
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|EN TRANSITO": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|EN AGENCIA": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|ENTREGADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|OBSERVADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.ajustar,
-              botones.historial,
-            ],
-            "PAGADO|ANULADO": [
-              botones.mostrar,
-              botones.motivo,
-              botones.historial,
-            ],
-
-            "POR PAGAR|PENDIENTE": [
-              botones.eliminar,
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.pagar,
-              botones.historial,
-            ],
-            "POR PAGAR|EN TRANSITO": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.pagar,
-              botones.historial,
-            ],
-            "POR PAGAR|EN AGENCIA": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.pagar,
-              botones.historial,
-            ],
-            "POR PAGAR|ENTREGADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "POR PAGAR|OBSERVADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.ajustar,
-              botones.historial,
-            ],
-            "POR PAGAR|ANULADO": [
-              botones.mostrar,
-              botones.motivo,
-              botones.historial,
-            ],
-          };
-
-          let clave = pago + "|" + estado;
-          let acciones = reglas[clave] || [botones.mostrar, botones.historial];
-
-          // Dropdown mejorado con mejor posicionamiento
-          return `
-        <div class="dropdown" style="position: relative;">
-            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" 
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                    style="border: none; background: #6c757d;">
-                <i class="fas fa-ellipsis-v"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" style="position: absolute; 
-                     z-index: 9999; min-width: 150px; right: 0;">
-                ${acciones.join("")}
-            </div>
-        </div>`;
-        },
-        width: "80px", // Fija el ancho de la columna
-        className: "text-center no-wrap", // Clase para centrar y evitar wrap
       },
     ],
     language: idioma_espanol,
     select: true,
   });
-
 }
 
-//FILTRO POR FECHA Y USUARIO
-function listar_encomiendas_fecha_usu() {
+
+function listar_salidas_diarias_fecha_usu() {
   let fedes = document.getElementById("txt_fecha_desde").value;
   let fehas = document.getElementById("txt_fecha_hasta").value;
   let usu = document.getElementById("select_usuario").value;
 
-  tbl_encomiendas = $("#tabla_encomiendas").DataTable({
+  tbl_salidas_diarias = $("#tabla_salida_diaria").DataTable({
     pagingType: "full_numbers",
     scrollCollapse: true,
     responsive: true,
@@ -783,15 +389,12 @@ function listar_encomiendas_fecha_usu() {
     ],
     pageLength: 10,
     destroy: true,
-    pagingType: "full_numbers",
-    scrollCollapse: true,
-    responsive: true,
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/encomiendas/controlador_listar_encomiendas_filtro2.php",
+      url: "../controller/salidas_diarias/controlador_listar_salidas_diarias_fecha_usu.php",
       type: "POST",
-      data: {
+        data: {
         fedes: fedes,
         fehas: fehas,
         usu: usu,
@@ -804,39 +407,39 @@ function listar_encomiendas_fecha_usu() {
         extend: "excelHtml5",
         text: '<i class="fas fa-file-excel"></i> Excel',
         titleAttr: "Exportar a Excel",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
+        filename: "LISTA DE SALIDAS DIARIAS",
+        title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-excel",
         exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
         },
       },
       {
         extend: "pdfHtml5",
         text: '<i class="fas fa-file-pdf"></i> PDF',
         titleAttr: "Exportar a PDF",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
+        filename: "LISTA DE SALIDAS DIARIAS",
+        title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
+        orientation: "landscape",
+        pageSize: "A4",
         exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
         },
       },
       {
         extend: "print",
         text: '<i class="fa fa-print"></i> Imprimir',
         titleAttr: "Imprimir",
-        title: "LISTA DE ENCOMIENDAS",
+        title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-print",
         exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
         },
       },
     ],
     columns: [
-      { data: "boleta_nro" },
+      { data: "salida_nro" },
       {
         data: null,
         render: function (data, type, row) {
@@ -850,39 +453,8 @@ function listar_encomiendas_fecha_usu() {
           );
         },
       },
-      { data: "nombre_origen" },
-      { data: "nombre_destino" },
-      { data: "fecha_formateada" },
       {
-        data: null,
-        render: function (data, type, row) {
-          return (
-            "<strong>" +
-            row.tipo_doc_emisor +
-            ": " +
-            row.nro_doc_emisor +
-            "</strong><br>" +
-            row.nombre_emisor
-          );
-        },
-      },
-      {
-        data: null,
-        render: function (data, type, row) {
-          return (
-            "<strong>" +
-            row.tipo_doc_receptor +
-            ": " +
-            row.nro_doc_receptor +
-            "</strong><br>" +
-            row.nombre_receptor
-          );
-        },
-      },
-
-      // ---- PAGO ----
-      {
-        data: "pago",
+        data: "monto",
         render: function (data, type, row) {
           if (parseFloat(data) > 0) {
             return '<span class="badge bg-success">S/ ' + data + "</span>";
@@ -891,262 +463,101 @@ function listar_encomiendas_fecha_usu() {
           }
         },
       },
+      { data: "fecha_formateada_salida" },
+      { data: "origen_nombre" },
+      { data: "destino_nombre" },
 
-      // ---- POR PAGAR ----
+      // TOTAL PASAJEROS más grande
       {
-        data: "por_pagar",
+        data: "total_pasajeros",
         render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-danger">S/ ' + data + "</span>";
+          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
+        },
+      },
+
+      // TOTAL ENCOMIENDAS más grande
+      {
+        data: "total_encomiendas",
+        render: function (data, type, row) {
+          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
+        },
+      },
+
+      // ---- ESTADO SALIDA ----
+      {
+        data: "estado",
+        render: function (data, type, row) {
+          if (data == "EN TRANSITO") {
+            return '<span class="badge bg-dark">EN TRANSITO</span>';
+          } else if (data == "COMPLETADO") {
+            return '<span class="badge bg-success">COMPLETADO</span>';
+          } else if (data == "INCOMPLETO") {
+            return '<span class="badge bg-warning">INCOMPLETO</span>';
           } else {
-            return '<span class="badge bg-secondary">-</span>';
+            return '<span class="badge bg-danger">ELIMINADO</span>';
           }
         },
       },
+      { data: "usuario_nombre_completo" },
 
-      // ---- A DOMICILIO ----
+      // ---- BOTONES DE ACCIÓN ----
       {
-        data: "a_domicilio",
+        data: "estado",
         render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-success">S/ ' + data + "</span>";
-          } else {
-            return '<span class="badge bg-secondary">-</span>';
-          }
-        },
-      },
-      // ---- ESTADO PAGO ----
-      {
-        data: "estado_pago",
-        render: function (data, type, row) {
-          if (data == "PAGADO") {
-            return '<span class="badge bg-success">PAGADO</span>';
-          } else if (data == "ANULADO") {
-            return '<span class="badge bg-danger text-danger">ANULADO</span>';
-          } else {
-            return '<span class="badge bg-warning text-dark">POR PAGAR</span>';
-          }
-        },
-      },
+          let botones = "";
 
-      // ---- ESTADO ENCOMIENDA CON USUARIO ----
-      {
-        data: null,
-        render: function (data, type, row) {
-          let estadoBadge = "";
-          let usuario = row.usu_nombre || "Sistema";
-          let fechaUpdate = row.fecha_formateada3 || "";
-
-          switch (row.estado_encomienda) {
-            case "PENDIENTE":
-              estadoBadge =
-                '<span class="badge bg-warning text-dark">PENDIENTE</span>';
-              break;
-            case "ENTREGADO":
-              estadoBadge = '<span class="badge bg-success">ENTREGADO</span>';
-              break;
-            case "OBSERVADO":
-              estadoBadge = '<span class="badge bg-danger">OBSERVADO</span>';
-              break;
-            case "EN TRANSITO":
-              estadoBadge =
-                '<span class="badge bg-info text-dark">EN TRÁNSITO</span>';
-              break;
-            case "EN AGENCIA":
-              estadoBadge = '<span class="badge bg-primary">EN AGENCIA</span>';
-              break;
-            case "ANULADO":
-              estadoBadge = '<span class="badge bg-secondary">ANULADO</span>';
-              break;
-            default:
-              estadoBadge =
-                '<span class="badge bg-light text-dark">' +
-                row.estado_encomienda +
-                "</span>";
+          // EN TRANSITO / INCOMPLETO => Editar + Eliminar
+          if (data === "EN TRANSITO" || data === "INCOMPLETO") {
+            botones += `
+              <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
+                <i class='fa fa-edit'></i> Editar
+              </button>
+              <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
+                <i class='fa fa-trash'></i> Eliminar
+              </button>
+            `;
           }
 
-          return `
-            <div style="text-align: center;">
-              ${estadoBadge}
-              <br>
-              <small style="color: #6c757d; font-size: 1.0rem;">
-                <i class="fas fa-user" style="font-size: 1.0rem;"></i> ${usuario}
-                ${
-                  fechaUpdate
-                    ? '<br><i class="fas fa-clock" style="font-size: 0.7rem;"></i> ' +
-                      fechaUpdate
-                    : ""
-                }
-              </small>
-            </div>
-          `;
+          // EN TRANSITO / INCOMPLETO / COMPLETADO => Manifiesto + Mostrar
+          if (data === "COMPLETADO" || data === "EN TRANSITO" || data === "INCOMPLETO") {
+            botones += `
+              <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
+                <i class='fa fa-print'></i> Manifiesto
+              </button>
+              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
+                <i class='fa fa-eye'></i> Mostrar
+              </button>
+            `;
+          }
+
+          // SOLO EN TRANSITO => Completar viaje
+          if (data === "EN TRANSITO") {
+            botones += `
+              <button class='completar btn btn-info btn-sm' title='Completar viaje'>
+                <i class='fa fa-check-circle'></i> Completar
+              </button>
+            `;
+          }
+
+          // ELIMINADO => Solo Mostrar
+          if (data === "ELIMINADO") {
+            botones += `
+              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
+                <i class='fa fa-eye'></i> Mostrar
+              </button>
+            `;
+          }
+
+          return botones;
         },
-      },
-
-      // ---- BOTONES CON HISTORIAL AGREGADO ----
-      {
-        data: null,
-        render: function (data, type, row) {
-          let pago = row.estado_pago;
-          let estado = row.estado_encomienda;
-          let id = row.id_encomienda;
-
-          const botones = {
-            mostrar:
-              "<a href='#' class='dropdown-item mostrar' data-id='" +
-              id +
-              "'><i class='fa fa-eye'></i> Mostrar</a>",
-            editar:
-              "<a href='#' class='dropdown-item editar' data-id='" +
-              id +
-              "'><i class='fa fa-edit'></i> Editar</a>",
-            eliminar:
-              "<a href='#' class='dropdown-item eliminar' data-id='" +
-              id +
-              "'><i class='fa fa-trash'></i> Eliminar</a>",
-            cambiar:
-              "<a href='#' class='dropdown-item cambiar_estado' data-id='" +
-              id +
-              "'><i class='fa fa-retweet'></i> Cambiar Estado</a>",
-            imprimir:
-              "<a href='#' class='dropdown-item imprimir' data-id='" +
-              id +
-              "'><i class='fa fa-print'></i> Imprimir</a>",
-            anular:
-              "<a href='#' class='dropdown-item anular' data-id='" +
-              id +
-              "'><i class='fa fa-ban'></i> Anular</a>",
-            pagar:
-              "<a href='#' class='dropdown-item pagar' data-id='" +
-              id +
-              "'><i class='fa fa-credit-card'></i> Pagar</a>",
-            ajustar:
-              "<a href='#' class='dropdown-item ajustar_precio' data-id='" +
-              id +
-              "'><i class='fa fa-dollar-sign'></i> Ajustar Precio</a>",
-            motivo:
-              "<a href='#' class='dropdown-item motivo_anulacion' data-id='" +
-              id +
-              "'><i class='fa fa-info-circle'></i> Motivo Anulación</a>",
-            historial:
-              "<a href='#' class='dropdown-item historial' data-id='" +
-              id +
-              "'><i class='fa fa-history'></i> Historial</a>",
-          };
-
-          const reglas = {
-            "PAGADO|PENDIENTE": [
-              botones.eliminar,
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|EN TRANSITO": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|EN AGENCIA": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|ENTREGADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "PAGADO|OBSERVADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.ajustar,
-              botones.historial,
-            ],
-            "PAGADO|ANULADO": [
-              botones.mostrar,
-              botones.motivo,
-              botones.historial,
-            ],
-
-            "POR PAGAR|PENDIENTE": [
-              botones.eliminar,
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.pagar,
-              botones.historial,
-            ],
-            "POR PAGAR|EN TRANSITO": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.pagar,
-              botones.historial,
-            ],
-            "POR PAGAR|EN AGENCIA": [
-              botones.editar,
-              botones.mostrar,
-              botones.cambiar,
-              botones.imprimir,
-              botones.pagar,
-              botones.historial,
-            ],
-            "POR PAGAR|ENTREGADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.historial,
-            ],
-            "POR PAGAR|OBSERVADO": [
-              botones.editar,
-              botones.mostrar,
-              botones.imprimir,
-              botones.ajustar,
-              botones.historial,
-            ],
-            "POR PAGAR|ANULADO": [
-              botones.mostrar,
-              botones.motivo,
-              botones.historial,
-            ],
-          };
-
-          let clave = pago + "|" + estado;
-          let acciones = reglas[clave] || [botones.mostrar, botones.historial];
-
-          // Dropdown mejorado con mejor posicionamiento
-          return `
-        <div class="dropdown" style="position: relative;">
-            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" 
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                    style="border: none; background: #6c757d;">
-                <i class="fas fa-ellipsis-v"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" style="position: absolute; 
-                     z-index: 9999; min-width: 150px; right: 0;">
-                ${acciones.join("")}
-            </div>
-        </div>`;
-        },
-        width: "80px", // Fija el ancho de la columna
-        className: "text-center no-wrap", // Clase para centrar y evitar wrap
       },
     ],
     language: idioma_espanol,
     select: true,
   });
-
 }
+
+
 
 //ABRIR MODAL REGISTRO
 function AbrirRegistro() {
@@ -1389,11 +800,11 @@ async function buscarPorDocumento2Editar() {
   }
 }
 //ABRIR MODAL EDITAR ESTADO
-$("#tabla_encomiendas").on("click", ".cambiar_estado", function () {
-  var data = tbl_encomiendas.row($(this).parents("tr")).data();
+$("#tabla_salida_diaria").on("click", ".cambiar_estado", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
 
-  if (tbl_encomiendas.row(this).child.isShown()) {
-    var data = tbl_encomiendas.row(this).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
   }
   $("#modal_estado").modal("show");
   document.getElementById("id_encomienda").value = data.id_encomienda;
@@ -1404,11 +815,11 @@ $("#tabla_encomiendas").on("click", ".cambiar_estado", function () {
 });
 
 //ABRIR MODAL VER MOTIVO ANULACION
-$("#tabla_encomiendas").on("click", ".motivo_anulacion", function () {
-  var data = tbl_encomiendas.row($(this).parents("tr")).data();
+$("#tabla_salida_diaria").on("click", ".motivo_anulacion", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
 
-  if (tbl_encomiendas.row(this).child.isShown()) {
-    var data = tbl_encomiendas.row(this).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
   }
   $("#modal_motivo_anula").modal("show");
   document.getElementById("select_estado_editar3").value =
@@ -1417,11 +828,11 @@ $("#tabla_encomiendas").on("click", ".motivo_anulacion", function () {
 });
 
 //ABRIR MODAL AJUSTAR PRECIO
-$("#tabla_encomiendas").on("click", ".ajustar_precio", function () {
-  var data = tbl_encomiendas.row($(this).parents("tr")).data();
+$("#tabla_salida_diaria").on("click", ".ajustar_precio", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
 
-  if (tbl_encomiendas.row(this).child.isShown()) {
-    var data = tbl_encomiendas.row(this).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
   }
   $("#modal_ajustar_precio").modal("show");
   document.getElementById("id_encomienda3").value = data.id_encomienda;
@@ -1438,10 +849,10 @@ $("#tabla_encomiendas").on("click", ".ajustar_precio", function () {
   }
 });
 //ABRIR MODAL MOSTRAR
-$("#tabla_encomiendas").on("click", ".mostrar", function () {
-  var data = tbl_encomiendas.row($(this).parents("tr")).data();
-  if (tbl_encomiendas.row(this).child.isShown()) {
-    var data = tbl_encomiendas.row(this).data();
+$("#tabla_salida_diaria").on("click", ".mostrar", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
   }
   $("#modal_mostrar").modal("show");
 
@@ -1549,10 +960,10 @@ function asignarEstadoEncomienda(estado) {
 }
 
 //ABRIR MODAL EDITAR
-$("#tabla_encomiendas").on("click", ".editar", function () {
-  var data = tbl_encomiendas.row($(this).parents("tr")).data();
-  if (tbl_encomiendas.row(this).child.isShown()) {
-    var data = tbl_encomiendas.row(this).data();
+$("#tabla_salida_diaria").on("click", ".editar", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
   }
   $("#modal_editar").modal("show");
 
@@ -1773,7 +1184,7 @@ function Registrar_Encomiendas() {
               }
             }
             $("#modal_registro").modal("hide");
-            tbl_encomiendas.ajax.reload();
+            tbl_salidas_diarias.ajax.reload();
             LimpiarCamposEncomienda();
           });
         } else {
@@ -1892,7 +1303,7 @@ function Modificar_Choferes() {
           ).then((value) => {
             // Cerrar el modal
             $("#modal_editar").modal("hide");
-            tbl_encomiendas.ajax.reload();
+            tbl_salidas_diarias.ajax.reload();
             document.getElementById("txt_foto_editar").value = "";
           });
         } else {
@@ -1928,7 +1339,7 @@ function Eliminar_encomienda(id) {
         "Se elimino la encomienda con exito, si desea recuperarlo, tendra que volver a registrarlo",
         "success"
       ).then((value) => {
-        tbl_encomiendas.ajax.reload();
+        tbl_salidas_diarias.ajax.reload();
       });
     } else {
       return Swal.fire(
@@ -1941,11 +1352,11 @@ function Eliminar_encomienda(id) {
 }
 
 //ENVIANDO AL BOTON DELETE
-$("#tabla_encomiendas").on("click", ".eliminar", function () {
-  var data = tbl_encomiendas.row($(this).parents("tr")).data();
+$("#tabla_salida_diaria").on("click", ".eliminar", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
 
-  if (tbl_encomiendas.row(this).child.isShown()) {
-    var data = tbl_encomiendas.row(this).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
   }
   Swal.fire({
     title:
@@ -2093,7 +1504,7 @@ function Modificar_Estado() {
               "Se cambió el estado correctamente!!!",
               "success"
             ).then((value) => {
-              tbl_encomiendas.ajax.reload();
+              tbl_salidas_diarias.ajax.reload();
               $("#modal_estado").modal("hide"); // Asegúrate que el ID del modal sea correcto
             });
           } else {
@@ -2230,7 +1641,7 @@ function Modificar_Estado2() {
               "Se cambió el previo de la correctamente!!!",
               "success"
             ).then((value) => {
-              tbl_encomiendas.ajax.reload();
+              tbl_salidas_diarias.ajax.reload();
               $("#modal_ajustar_precio").modal("hide"); // Asegúrate que el ID del modal sea correcto
             });
           } else {
@@ -2255,11 +1666,11 @@ function Modificar_Estado2() {
 //VER MODAL DE HISTORIAL DE ESTADOS
 
 //MODAL VER HISTORIAL
-$("#tabla_encomiendas").on("click", ".historial", function () {
-  var data = tbl_encomiendas.row($(this).parents("tr")).data();
+$("#tabla_salida_diaria").on("click", ".historial", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
 
-  if (tbl_encomiendas.row(this).child.isShown()) {
-    var data = tbl_encomiendas.row(this).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
   }
   $("#modal_ver_historial").modal("show");
 
@@ -2403,11 +1814,11 @@ function listar_historial_estado(id) {
 }
 
 //PAGAR ENCOMIENDA
-$("#tabla_encomiendas").on("click", ".pagar", function () {
-  var data = tbl_encomiendas.row($(this).parents("tr")).data();
+$("#tabla_salida_diaria").on("click", ".pagar", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
 
-  if (tbl_encomiendas.row(this).child.isShown()) {
-    var data = tbl_encomiendas.row(this).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
   }
   $("#modal_pagar").modal("show");
   document.getElementById("id_encomienda_pago").value = data.id_encomienda;
@@ -2566,7 +1977,7 @@ function Realizar_pago() {
 
           Swal.fire("Pago Completado", mensajeExito, "success").then(
             (value) => {
-              tbl_encomiendas.ajax.reload();
+              tbl_salidas_diarias.ajax.reload();
               $("#modal_pagar").modal("hide");
             }
           );
@@ -2589,11 +2000,11 @@ function Realizar_pago() {
 }
 
 // BOLETA DE PAGO
-$("#tabla_encomiendas").on("click", ".imprimir", function () {
-  var data = tbl_encomiendas.row($(this).parents("tr")).data();
+$("#tabla_salida_diaria").on("click", ".imprimir", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
 
-  if (tbl_encomiendas.row(this).child.isShown()) {
-    var data = tbl_encomiendas.row(this).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
   }
   var url =
     "../view/MPDF/REPORTE/boleta_pago.php?id=" +
@@ -2809,7 +2220,7 @@ function Modificar_Encomiendas() {
             "success"
           ).then((value) => {
             $("#modal_editar").modal("hide");
-            tbl_encomiendas.ajax.reload();
+            tbl_salidas_diarias.ajax.reload();
 
             // LLAMAR A LA FUNCIÓN DE LIMPIEZA
             LimpiarCamposEncomiendaEditar();

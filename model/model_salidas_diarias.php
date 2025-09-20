@@ -1,12 +1,12 @@
 <?php
     require_once 'model_conexion.php';
 
-    class Modelo_Encomiendas extends conexionBD{
+    class Modelo_Salidas_Diarias extends conexionBD{
         
 
-        public function Listar_Encomiendas(){
+        public function Listar_Salidas_Diarias(){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_ENCOMIENDAS()";
+            $sql = "CALL SP_LISTAR_SALIDAS_DIARIAS()";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->execute();
@@ -19,7 +19,7 @@
         }
          public function Listar_encomienda_ruta_estado($ori,$des,$esta){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_ENCOMIENDAS_RUTA_ESTADO(?,?,?)";
+            $sql = "CALL SP_LISTAR_SALIDAS_RUTA_ESTADO(?,?,?)";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->bindParam(1,$ori);
@@ -34,9 +34,9 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function Listar_encomienda_fecha_usuario($fedes,$fehas,$usu){
+        public function Listar_salida_fecha_usuario($fedes,$fehas,$usu){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_ENCOMIENDAS_FECHA_USUARIO(?,?,?)";
+            $sql = "CALL SP_LISTAR_SALIDAS_FECHA_USUARIO(?,?,?)";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->bindParam(1,$fedes);

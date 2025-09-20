@@ -1,4 +1,4 @@
-<script src="../js/console_encomiendas.js?rev=<?php echo time(); ?>"></script>
+<script src="../js/console_salidas_diarias.js?rev=<?php echo time(); ?>"></script>
 <link rel="stylesheet" href="../plantilla/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
 <!-- Content Header (Page header) -->
@@ -6,12 +6,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0"><b>MANTENIMIENTO DE ENCOMIENDAS</b></h1>
+                <h1 class="m-0"><b>MANTENIMIENTO DE SALIDAS DIARIAS</b></h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="../index.php">MENU</a></li>
-                    <li class="breadcrumb-item active">ENCOMIENDAS</li>
+                    <li class="breadcrumb-item active">SALIDAS DIARIAS</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -27,7 +27,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-user"></i>&nbsp;&nbsp;<b>Listado de Encomiendas</b></h3>
+                        <h3 class="card-title"><i class="fas fa-user"></i>&nbsp;&nbsp;<b>Listado de Salidas Diarias</b></h3>
                         <button class="btn btn-success float-right" onclick="AbrirRegistro()"><i class="fas fa-plus"></i> Nuevo Registro</button>
                     </div>
                     <div class="table-responsive" style="text-align:left">
@@ -49,21 +49,19 @@
 
                                     <select class="form-control" id="select_estado_buscar" style="width:100%">
                                         <option value="" disabled selected>Seleccione</option>
-                                        <option value="PENDIENTE">PENDIENTE</option>
                                         <option value="EN TRANSITO">EN TRANSITO</option>
-                                        <option value="EN AGENCIA">EN AGENCIA</option>
-                                        <option value="ENTREGADO">ENTREGADO</option>
-                                        <option value="OBSERVADO">OBSERVADO</option>
-                                        <option value="ANULADO">ANULADO</option>
+                                        <option value="COMPLETADO">COMPLETADO</option>
+                                        <option value="INCOMPLETO">INCOMPLETO</option>
+                                        <option value="ELIMINADO">ELIMINADO</option>
                                     </select>
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_encomiendas_ruta_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
+                                    <button onclick="listar_salidas_diarias_ruta_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_encomiendas()" class="btn btn-success mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Listar todos</button>
+                                    <button onclick="listar_salidas_diarias()" class="btn btn-success mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Listar todos</button>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +84,7 @@
                                 </div>
                                 <div class="col-12 col-md-3" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_encomiendas_fecha_usu()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
+                                    <button onclick="listar_salidas_diarias_fecha_usu()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
                                 </div>
 
                             </div>
@@ -94,21 +92,19 @@
                     </div>
                     <div class="table-responsive" style="text-align:center">
                         <div class="card-body">
-                            <table id="tabla_encomiendas" class="table table-striped table-bordered" style="width:100%">
+                            <table id="tabla_salida_diaria" class="table table-striped table-bordered" style="width:100%">
                                 <thead style="background-color:#023D77;color:#FFFFFF; ">
                                     <tr>
-                                        <th style="text-align:center">Nro. Encomienda</th>
+                                        <th style="text-align:center">Nro. Salida</th>
                                         <th style="text-align:center">Conductor</th>
+                                        <th style="text-align:center">Monto</th>
+                                        <th style="text-align:center">Fecha y hora</th>
                                         <th style="text-align:center">Origen</th>
                                         <th style="text-align:center">Destino</th>
-                                        <th style="text-align:center">Fecha y hora</th>
-                                        <th style="text-align:center">Emisor</th>
-                                        <th style="text-align:center">Receptor</th>
-                                        <th style="text-align:center">Pago</th>
-                                        <th style="text-align:center">Por pagar</th>
-                                        <th style="text-align:center">A domicilio</th>
-                                        <th style="text-align:center">Estado de pago</th>
-                                        <th style="text-align:center">Estado de encomienda / Usuario</th>
+                                        <th style="text-align:center">Total Pasajeros</th>
+                                        <th style="text-align:center">Total Encomiendas</th>
+                                        <th style="text-align:center">Estado</th>
+                                        <th style="text-align:center">Usuario</th>
                                         <th style="text-align:center">Acción</th>
                                     </tr>
                                 </thead>
@@ -121,145 +117,167 @@
         </div>
         <!-- /.row -->
     </div><!-- /.container-fluid -->
-    <div class="modal fade" id="modal_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>REGISTRO DE ENCOMIENDA</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12 form-group" style="color:red">
-                            <h6><b>Campos Obligatorios (*)</b></h6>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Conductor<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_conductor" style="width:100%"></select>
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Origen<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_origen" style="width:100%"></select>
+<div class="modal fade" id="modal_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header" style="background-color:#1FA0E0;">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center">
+                    <b>REGISTRO DE SALIDA DIARIA</b>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Destino<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_destino" style="width:100%"></select>
-
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Fecha y hora<b style="color:red">(*)</b>:</label>
-                            <input type="datetime-local" class="form-control" id="txt_fecha_creacion" readonly>
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL EMISOR</b></li>
-                        </div>
-                        <div class="col-6 form-group"><br>
-                            <label for="">Tipo de documento - Emisor<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" id="select_tipo_documento_emisor" style="width:100%">
-                                <option value="" disabled>Seleccione</option>
-                                <option value="DNI" selected>DNI</option>
-                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
-                                <option value="PASAPORTE">PASAPORTE</option>
-                            </select>
-                        </div>
-                        <div id="dni_section" class="col-6 form-group"><br>
-                            <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_emisor" maxlength="8" onkeypress="return soloNumeros(event)">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                    <button onclick="" class="btn btn-primary" id="prueba_emisor"><i class="fa fa-search"></i><b> RENIEC</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="otros_documentos_section" class="col-6 form-group" style="display: none;"><br>
-                            <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_emisor2">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Nombres y apellidos - Emisor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_nomb_emisor" placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Celular - Emisor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_celu1_emisor" placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL RECEPTOR</b></li>
-                        </div>
-                        <div class="col-6 form-group"><br>
-                            <label for="">Tipo de documento - Receptor<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" id="select_tipo_documento_receptor" style="width:100%">
-                                <option value="" disabled>Seleccione</option>
-                                <option value="DNI" selected>DNI</option>
-                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
-                                <option value="PASAPORTE">PASAPORTE</option>
-                            </select>
-                        </div>
-                        <div id="dni_section2" class="col-6 form-group"><br>
-                            <label for="">N° Documento Receptor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_receptor" maxlength="8" onkeypress="return soloNumeros(event)">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumento2()" class="btn btn-success" id="buscar_receptor"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                    <button onclick="" class="btn btn-primary" id="prueba_receptor"><i class="fa fa-search"></i><b> RENIEC</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="otros_documentos_section2" class="col-6 form-group" style="display: none;"><br>
-                            <label for="">N° Documento Receptor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_recepto2">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumento2()" class="btn btn-success" id="buscar_receptor"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Nombres y apellidos - Receptor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_nomb_receptor" placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Celular - Receptor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_celu1_recepto" placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DETALLES DE LA ENCOMIENDA</b></li>
-                        </div><br>
-                        <div class="col-4 form-group"><br>
-                            <label for="">Pago<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_pago" placeholder="Ingrese el monto del pago" onkeypress="return soloNumeros(event)">
-                        </div>
-                        <div class="col-4 form-group"><br>
-                            <label for="">Por pagar<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_por_pagar" placeholder="Ingrese el monto por pagar" onkeypress="return soloNumeros(event)" maxlenght="7">
-                        </div>
-                        <div class="col-4 form-group"><br>
-                            <label for="">A domicilio<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_a_domicilio" placeholder="Ingrese el monto si es a domicilio" onkeypress="return soloNumeros(event)">
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="">Descripción de la encomienda<b style="color:red">(*)</b>:</label>
-                            <textarea style="color:red" class="form-control" id="txt_descripcion" rows="2" style="resize:none" placeholder="Ingrese la descripción de la encomienda"></textarea>
-                        </div>
-
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 form-group" style="color:red">
+                        <h6><b>Campos Obligatorios (*)</b></h6>
                     </div>
+
+                    <!-- DATOS DE SALIDA -->
+                    <div class="col-12 form-group">
+                        <label>Conductor<b style="color:red">(*)</b>:</label>
+                        <select class="js-example-basic-single" id="select_conductor" style="width:100%"></select>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Pago de Salida<b style="color:red">(*)</b>:</label>
+                        <input type="text" class="form-control" value="3.00" id="txt_pago" onkeypress="return soloNumeros(event)">
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Fecha y hora<b style="color:red">(*)</b>:</label>
+                        <input type="datetime-local" class="form-control" id="txt_fecha_creacion" readonly>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Origen<b style="color:red">(*)</b>:</label>
+                        <select class="js-example-basic-single" id="select_origen" style="width:100%"></select>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Destino<b style="color:red">(*)</b>:</label>
+                        <select class="js-example-basic-single" id="select_destino" style="width:100%"></select>
+                    </div>
+
+                    <!-- SECCION PASAJEROS -->
+                    <div class="col-12 mt-3">
+                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                            <b>PASAJEROS</b>
+                        </li>
+                    </div>
+                    <div class="col-6 form-group"><br>
+                        <label for="">Tipo de documento - Emisor<b style="color:red">(*)</b>:</label>
+                        <select class="form-control" id="select_tipo_documento_emisor_editar" style="width:100%">
+                            <option value="" disabled>Seleccione</option>
+                            <option value="DNI" selected>DNI</option>
+                            <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
+                            <option value="PASAPORTE">PASAPORTE</option>
+                        </select>
+                    </div>
+                    <div id="dni_section_editar" class="col-6 form-group"><br>
+                        <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="txt_dni_emisor_editar" maxlength="8" onkeypress="return soloNumeros(event)">
+                            <div class="input-group-append">
+                                <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                <button onclick="" class="btn btn-primary" id="prueba_emisor_editar"><i class="fa fa-search"></i><b> RENIEC</b></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="otros_documentos_section_editar" class="col-6 form-group" style="display: none;"><br>
+                        <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="txt_dni_emisor2_editar">
+                            <div class="input-group-append">
+                                <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8 form-group">
+                        <label>Nombres y Apellidos<b style="color:red">(*)</b>:</label>
+                        <input type="text" class="form-control" id="txt_nombre_pasajero" onkeypress="return sololetras(event)">
+                    </div>
+                    <div class="col-4 form-group">
+                        <label>Celular(Opcional):</label>
+                        <input type="text" class="form-control" id="txt_cel_pasajero" maxlength="9" onkeypress="return soloNumeros(event)">
+                    </div>
+                    <div class="col-12 text-right">
+                        <button type="button" class="btn btn-primary" onclick="agregarPasajero()">
+                            <i class="fa fa-user-plus"></i> Agregar pasajero
+                        </button>
+                    </div>
+
+                    <!-- TABLA PASAJEROS -->
+                    <div class="col-12 mt-3">
+                        <table class="table table-bordered table-sm text-center" id="tabla_pasajeros">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Documento</th>
+                                    <th>Nombres y Apellidos</th>
+                                    <th>Celular</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="5" class="text-right">Total pasajeros: <span id="total_pasajeros">0</span></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- SECCION ENCOMIENDAS -->
+                    <div class="col-12 mt-4">
+                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                            <b>ENCOMIENDAS</b>
+                        </li>
+                    </div>
+                    <!-- SOLO TABLA DE ENCOMIENDAS -->
+                    <div class="col-12 mt-3">
+                        <table class="table table-bordered table-sm text-center" id="tabla_encomiendas">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th><input type="checkbox" id="check_all_encomiendas"></th>
+                                    <th>#</th>
+                                    <th>Emisor</th>
+                                    <th>Receptor</th>
+                                    <th>Pago</th>
+                                    <th>Por pagar</th>
+                                    <th>A domicilio</th>
+                                    <th>Estado pago</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Aquí se llenarán dinámicamente las encomiendas -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="8" class="text-right">Total encomiendas: <span id="total_encomiendas">0</span></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- OBSERVACIONES -->
+                    <div class="col-12 form-group mt-3">
+                        <label>Descripción u Observación de la salida<b style="color:red">(*)</b>:</label>
+                        <textarea class="form-control" id="txt_descripcion" rows="3" style="resize:none" placeholder="Ingrese la descripción de la salida"></textarea>
+                    </div>
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Registrar_Encomiendas()"><i class="fas fa-save"></i> Registrar</button>
-                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+                <button type="button" class="btn btn-success" onclick="Registrar_Encomiendas()"><i class="fas fa-save"></i> Registrar</button>
             </div>
         </div>
     </div>
+</div>
+
 
 
 
@@ -798,7 +816,7 @@
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
             Cargar_Select_Usuarios();
-            listar_encomiendas();
+            listar_salidas_diarias();
             Cargar_Select_Conductores();
             Cargar_Select_Rutas();
         });

@@ -164,7 +164,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','practicas_paciente/view_practicas_paciente.php')" class="nav-link">
+                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>
                   <p style="color:white">Salidas diarias</p>
                 </a>
