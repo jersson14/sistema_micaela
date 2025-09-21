@@ -21,7 +21,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="../plantilla/plugins//fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-  <link rel="icon" href="../img/logo.jpg" type="image/jpg">
+  <link rel="icon" href="../img/logito.png" type="image/jpg">
 
   <link rel="stylesheet" href="../plantilla/dist//css/adminlte.min.css">
   <link href="../utilitario/DataTables/datatables.min.css" type="text/css" rel="stylesheet" />
@@ -105,7 +105,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="index.php" class="brand-link">
-        <img src="../img/logo.jpg" alt="<?php echo $_SESSION['S_RAZON']; ?>" width="100%" height="auto">
+        <img src="../img/logito.png" alt="<?php echo $_SESSION['S_RAZON']; ?>" width="100%" height="auto">
       </a>
 
       <!-- Sidebar -->

@@ -12,7 +12,7 @@ if(isset($_SESSION['S_ID'])){
     <title>Tours Micaela - Portal de Acceso</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-      <link rel="icon" href="img/logo.jpg" type="image/jpg">
+      <link rel="icon" href="img/logito.png" type="image/jpg">
 
 <style>
         * {
@@ -1013,7 +1013,7 @@ if(isset($_SESSION['S_ID'])){
                         <div class="particle"></div>
                     </div>
                     
-                    <img src="img/logo.jpg" alt="Tours Micaela - Transporte" class="logo-image" id="logoImage">
+                    <img src="img/logito.png" alt="Tours Micaela - Transporte" class="logo-image" id="logoImage">
                     <i class="fas fa-route backup-icon"></i>
                 </div>
                 <h2 class="login-title">Bienvenido de Vuelta</h2>
@@ -1088,7 +1088,7 @@ if(isset($_SESSION['S_ID'])){
 
         // Precargar imagen para mejor rendimiento
         const logoImg = new Image();
-        logoImg.src = 'img/logo.jpg';
+        logoImg.src = 'img/logito.png';
 
         // Toggle password visibility
         document.getElementById('togglePassword').addEventListener('click', function() {
