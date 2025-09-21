@@ -64,17 +64,38 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function Listar_Facturas_todo(){
+        public function Modificar_Salida_Estatus($id,$idusu){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_FACTURAS_TODO()";
+            $sql = "CALL SP_MODIFICAR_SALIDA_ESTATUS(?,?)";
             $arreglo = array();
             $query  = $c->prepare($sql);
-            $query->execute();
-            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-            foreach($resultado as $resp){
-                $arreglo["data"][]=$resp;
+            $query ->bindParam(1,$id);
+            $query ->bindParam(2,$idusu);
+
+            $resul = $query->execute();
+            if($resul){
+                return 1;
+            }else{
+                return 0;
             }
-            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+
+        public function Modificar_Salida_Estatus_Incompleto($id,$idusu,$observacion){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_MODIFICAR_SALIDA_INCOMPLETO_ESTATUS(?,?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$id);
+            $query ->bindParam(2,$idusu);
+            $query ->bindParam(3,$observacion);
+
+            $resul = $query->execute();
+            if($resul){
+                return 1;
+            }else{
+                return 0;
+            }
             conexionBD::cerrar_conexion();
         }
        
@@ -229,10 +250,10 @@
             conexionBD::cerrar_conexion();
 
         }
-        public function Listar_Historial_Estado($id){
+        public function Listar_Historial_Estado_Salida($id){
             $c = conexionBD::conexionPDO();
             $arreglo = array();
-            $sql = "CALL SP_LISTA_HISTORIAL_ESTADOS(?)";
+            $sql = "CALL SP_LISTA_HISTORIAL_ESTADOS_SALIDA(?)";
             $query  = $c->prepare($sql);
             $query ->bindParam(1,$id);
             $query->execute();
@@ -245,9 +266,9 @@
         
         }
 
-        public function Eliminar_Encomienda($id){
+        public function Eliminar_Salida_diaria($id){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_ELIMINAR_ENCOMIENDA(?)";
+            $sql = "CALL SP_ELIMINAR_SALIDA_DIARIA(?)";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query ->bindParam(1,$id);

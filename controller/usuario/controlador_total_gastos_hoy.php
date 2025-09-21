@@ -2,7 +2,7 @@
     require '../../model/model_usuario.php';
 
     $MUSU= new Modelo_Usuario();//Instaciamos
-    $consulta = $MUSU->listar_total_facturas();
+    $consulta = $MUSU->listar_total_gastos_hoy();
     echo json_encode($consulta);
 
 ?>

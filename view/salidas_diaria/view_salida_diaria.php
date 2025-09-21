@@ -167,29 +167,29 @@
                     </div>
                     <div class="col-6 form-group"><br>
                         <label for="">Tipo de documento - Emisor<b style="color:red">(*)</b>:</label>
-                        <select class="form-control" id="select_tipo_documento_emisor_editar" style="width:100%">
+                        <select class="form-control" id="select_tipo_documento_emisor" style="width:100%">
                             <option value="" disabled>Seleccione</option>
                             <option value="DNI" selected>DNI</option>
                             <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
                             <option value="PASAPORTE">PASAPORTE</option>
                         </select>
                     </div>
-                    <div id="dni_section_editar" class="col-6 form-group"><br>
+                    <div id="dni_section" class="col-6 form-group"><br>
                         <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="txt_dni_emisor_editar" maxlength="8" onkeypress="return soloNumeros(event)">
+                            <input type="text" class="form-control" id="txt_dni_emisor" maxlength="8" onkeypress="return soloNumeros(event)">
                             <div class="input-group-append">
-                                <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                <button onclick="" class="btn btn-primary" id="prueba_emisor_editar"><i class="fa fa-search"></i><b> RENIEC</b></button>
+                                <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                <button onclick="" class="btn btn-primary" id="btn_buscar_reniec"><i class="fa fa-search"></i><b> RENIEC</b></button>
                             </div>
                         </div>
                     </div>
-                    <div id="otros_documentos_section_editar" class="col-6 form-group" style="display: none;"><br>
+                    <div id="otros_documentos_section" class="col-6 form-group" style="display: none;"><br>
                         <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="txt_dni_emisor2_editar">
+                            <input type="text" class="form-control" id="txt_dni_emisor2">
                             <div class="input-group-append">
-                                <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
                             </div>
                         </div>
                     </div>
@@ -280,150 +280,6 @@
 
 
 
-
-    <div class="modal fade" id="modal_editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>MODIFICAR ENCOMIENDA</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12 form-group" style="color:red">
-                            <h6><b>Campos Obligatorios (*)</b></h6>
-                        </div>
-                        <div class="col-8 form-group">
-                            <input type="text" id="txt_id_encomienda" hidden>
-                            <label for="">Conductor<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_conductor_editar" style="width:100%"></select>
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Origen<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_origen_editar" style="width:100%"></select>
-
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Destino<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_destino_editar" style="width:100%"></select>
-
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Fecha y hora de actualización<b style="color:red">(*)</b>:</label>
-                            <input type="datetime-local" class="form-control" id="txt_fecha_creacion_editar" readonly>
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL EMISOR</b></li>
-                        </div>
-                        <div class="col-6 form-group"><br>
-                            <label for="">Tipo de documento - Emisor<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" id="select_tipo_documento_emisor_editar" style="width:100%">
-                                <option value="" disabled>Seleccione</option>
-                                <option value="DNI" selected>DNI</option>
-                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
-                                <option value="PASAPORTE">PASAPORTE</option>
-                            </select>
-                        </div>
-                        <div id="dni_section_editar" class="col-6 form-group"><br>
-                            <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_emisor_editar" maxlength="8" onkeypress="return soloNumeros(event)">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                    <button onclick="" class="btn btn-primary" id="prueba_emisor_editar"><i class="fa fa-search"></i><b> RENIEC</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="otros_documentos_section_editar" class="col-6 form-group" style="display: none;"><br>
-                            <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_emisor2_editar">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Nombres y apellidos - Emisor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_nomb_emisor_editar" placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Celular - Emisor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_celu1_emisor_editar" placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL RECEPTOR</b></li>
-                        </div>
-                        <div class="col-6 form-group"><br>
-                            <label for="">Tipo de documento - Receptor<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" id="select_tipo_documento_receptor_editar" style="width:100%">
-                                <option value="" disabled>Seleccione</option>
-                                <option value="DNI" selected>DNI</option>
-                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
-                                <option value="PASAPORTE">PASAPORTE</option>
-                            </select>
-                        </div>
-                        <div id="dni_section2_editar" class="col-6 form-group"><br>
-                            <label for="">N° Documento Receptor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_receptor_editar" maxlength="8" onkeypress="return soloNumeros(event)">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumento2Editar()" class="btn btn-success" id="buscar_receptor"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                    <button onclick="" class="btn btn-primary" id="prueba_receptor_editar"><i class="fa fa-search"></i><b> RENIEC</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="otros_documentos_section2_editar" class="col-6 form-group" style="display: none;"><br>
-                            <label for="">N° Documento Receptor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_recepto2_editar">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumento2Editar()" class="btn btn-success" id="buscar_receptor"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Nombres y apellidos - Receptor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_nomb_receptor_editar" placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Celular - Receptor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_celu1_recepto_editar" placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DETALLES DE LA ENCOMIENDA</b></li>
-                        </div><br>
-                        <div class="col-4 form-group"><br>
-                            <label for="">Pago<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_pago_editar" placeholder="Ingrese el monto del pago" onkeypress="return soloNumeros(event)">
-                        </div>
-                        <div class="col-4 form-group"><br>
-                            <label for="">Por pagar<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_por_pagar_editar" placeholder="Ingrese el monto por pagar" onkeypress="return soloNumeros(event)" maxlenght="7">
-                        </div>
-                        <div class="col-4 form-group"><br>
-                            <label for="">A domicilio<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_a_domicilio_editar" placeholder="Ingrese el monto si es a domicilio" onkeypress="return soloNumeros(event)">
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Descripción de la encomienda<b style="color:red">(*)</b>:</label>
-                            <textarea style="color:red" class="form-control" id="txt_descripcion_editar" rows="2" style="resize:none" placeholder="Ingrese la descripción de la encomienda"></textarea>
-                        </div>
-                        <div class="col-6 form-group" observacion>
-                            <label for="">Observación(Opcional):</label>
-                            <textarea style="color:red" class="form-control" id="txt_observacion_editar" rows="2" style="resize:none" placeholder="Ingrese la descripción de la encomienda"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Modificar_Encomiendas()"><i class="fas fa-edit"></i> Modificar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="modal fade" id="modal_mostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -555,143 +411,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal_estado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>CAMBIAR ESTADO</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12 form-group" style="color:red">
-                            <h6><b>Campos Obligatorios (*)</b></h6>
-                        </div><br>
-                        <div class="col-12 form-group">
-                            <label for="">Estado<b style="color:red">(*)</b>:</label>
-                            <input type="text" id="id_encomienda" hidden>
 
-                            <select class="form-control" id="select_estado_editar2" style="width:100%">
-                                <option value="">Seleccione</option>
-                                <option value="EN TRANSITO">EN TRANSITO</option>
-                                <option value="EN AGENCIA">EN AGENCIA</option>
-                                <option value="ENTREGADO">ENTREGADO</option>
-                                <option value="OBSERVADO">OBSERVADO</option>
-                                <option value="ANULADO">ANULADO</option>
-                            </select>
-                        </div>
-                        <div class="col-12 form-group" id="div_observacion">
-                            <label for="">Observación<b style="color:red">(*)</b>:</label>
-                            <textarea name="" id="text_observacion_enco" rows="3" class="form-control" style="resize:none;" placeholder="Ingrese la observación"></textarea>
-                        </div>
-
-                        <!-- Campo de Motivo de anulación -->
-                        <div class="col-12 form-group" id="div_anulacion">
-                            <label for="">Motivo de anulación<b style="color:red">(*)</b>:</label>
-                            <textarea name="" id="txt_anula_enco" rows="3" class="form-control" style="resize:none;" placeholder="Ingrese motivo de anulación"></textarea>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Modificar_Estado()"><i class="fas fa-edit"></i> Modificar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modal_motivo_anula" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>MOTIVO DE ANULACIÓN</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12 form-group" style="color:red">
-                            <h6><b>Campos Obligatorios (*)</b></h6>
-                        </div><br>
-                        <div class="col-12 form-group">
-                            <label for="">Estado<b style="color:red">(*)</b>:</label>
-
-                            <select class="form-control" id="select_estado_editar3" style="width:100%" disabled>
-                                <option value="">Seleccione</option>
-                                <option value="EN TRANSITO">EN TRANSITO</option>
-                                <option value="EN AGENCIA">EN AGENCIA</option>
-                                <option value="ENTREGADO">ENTREGADO</option>
-                                <option value="OBSERVADO">OBSERVADO</option>
-                                <option value="ANULADO">ANULADO</option>
-                            </select>
-                        </div>
-
-                        <!-- Campo de Motivo de anulación -->
-                        <div class="col-12 form-group" id="div_anulacion2">
-                            <label for="">Motivo de anulación<b style="color:red">(*)</b>:</label>
-                            <textarea name="" id="txt_anula_enco2" rows="3" class="form-control" disabled style="resize:none;"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Modificar_Estado()"><i class="fas fa-edit"></i> Modificar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modal_ajustar_precio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>AJUSTAR PRECIO Y CAMBIO DE ESTADO</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12 form-group" style="color:red">
-                            <h6><b>Campos Obligatorios (*)</b></h6>
-                        </div><br>
-                        <div class="col-12 form-group">
-                            <label for="">Estado<b style="color:red">(*)</b>:</label>
-                            <input type="text" id="id_encomienda3" hidden>
-
-                            <select class="form-control" id="select_estado_editar4" style="width:100%">
-                                <option value="">Seleccione</option>
-                                <option value="EN TRANSITO">EN TRANSITO</option>
-                                <option value="EN AGENCIA">EN AGENCIA</option>
-                                <option value="ENTREGADO">ENTREGADO</option>
-                                <option value="OBSERVADO">OBSERVADO</option>
-                                <option value="ANULADO">ANULADO</option>
-                            </select>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Monto anterior<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" disabled id="txt_monto_anterior" onkeypress="return soloNumeros(event)">
-                        </div>
-
-                        <!-- Campo de Motivo de anulación -->
-                        <div class="col-6 form-group" id="div_anulacion">
-                            <label for="">Monto nuevo<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_monto_nuevo" placeholder="Ingrese el nuevo precio" onkeypress="return soloNumeros(event)">
-                        </div>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Modificar_Estado2()"><i class="fas fa-edit"></i> Modificar</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="modal fade" id="modal_ver_historial" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
@@ -712,22 +432,16 @@
                                     <table id="tabla_ver_historial" class="display compact" style="width:100%; text-align:center;">
                                         <thead style="background-color:#0252A0;color:#FFFFFF;">
                                             <tr>
-                                                <th colspan="9" style="text-align:center; font-size: 18px; font-weight: bold;">HISTORIAL DE ESTADOS Y AJUSTES DE PAGO</th>
+                                                <th colspan="5" style="text-align:center; font-size: 18px; font-weight: bold;">HISTORIAL DE ESTADOS DE SALIDAS DIARIAS</th>
                                             </tr>
                                             <tr style="text-align:center;">
                                                 <th style="text-align:center;">Nro.</th>
                                                 <th style="text-align:center;">Usuario que modifico</th>
                                                 <th style="text-align:center;">Estado</th>
                                                 <th style="text-align:center;">Observación</th>
-                                                <th style="text-align:center;">Precio anterior</th>
-                                                <th style="text-align:center;">Precio nuevo</th>
-                                                <th style="text-align:center;">Motivo anulación</th>
-                                                <th style="text-align:center;">Fecha de anulación</th>
-                                                <th style="text-align:center;">Fecha de creación / actualización</th>
-
+                                                <th style="text-align:center;">Fecha de creación</th>
                                             </tr>
                                         </thead>
-
                                     </table>
                                 </div>
                             </div>
@@ -831,22 +545,7 @@
                 this.value = this.value.slice(0, 8);
         })
 
-        var input = document.getElementById('txt_dni_receptor');
-        input.addEventListener('input', function() {
-            if (this.value.length > 8)
-                this.value = this.value.slice(0, 8);
-        })
-        var input = document.getElementById('txt_dni_emisor_editar');
-        input.addEventListener('input', function() {
-            if (this.value.length > 8)
-                this.value = this.value.slice(0, 8);
-        })
-
-        var input = document.getElementById('txt_dni_receptor_editar');
-        input.addEventListener('input', function() {
-            if (this.value.length > 8)
-                this.value = this.value.slice(0, 8);
-        })
+        
     </script>
     <script>
         var n = new Date();
@@ -867,8 +566,7 @@
         // Establece el valor con fecha y hora (YYYY-MM-DD HH:MM:SS)
         document.getElementById('txt_fecha_creacion').value =
             y + "-" + m + "-" + d + "T" + h + ":" + min;
-        document.getElementById('txt_fecha_creacion_editar').value =
-            y + "-" + m + "-" + d + "T" + h + ":" + min;
+ 
         // PARA EMISOR
         // Mostrar la sección correcta al cargar la página
         window.addEventListener('DOMContentLoaded', function() {
@@ -900,36 +598,6 @@
             }
         });
 
-        // PARA RECEPTOR
-        // Mostrar la sección correcta al cargar la página
-        window.addEventListener('DOMContentLoaded', function() {
-            const selectTipoDocumento = document.getElementById('select_tipo_documento_receptor');
-            const dniSection = document.getElementById('dni_section');
-            const otrosDocumentosSection = document.getElementById('otros_documentos_section');
-
-            if (selectTipoDocumento.value === 'DNI') {
-                dniSection.style.display = 'block';
-                otrosDocumentosSection.style.display = 'none';
-            }
-        });
-
-        // Cambiar la visibilidad según la selección del usuario
-        document.getElementById('select_tipo_documento_receptor').addEventListener('change', function() {
-            const selectedValue = this.value;
-            const dniSection = document.getElementById('dni_section2');
-            const otrosDocumentosSection = document.getElementById('otros_documentos_section2');
-
-            if (selectedValue === 'DNI') {
-                dniSection.style.display = 'block';
-                otrosDocumentosSection.style.display = 'none';
-            } else if (selectedValue === 'CARNET DE EXTRANJERIA' || selectedValue === 'PASAPORTE') {
-                dniSection.style.display = 'none';
-                otrosDocumentosSection.style.display = 'block';
-            } else {
-                dniSection.style.display = 'none';
-                otrosDocumentosSection.style.display = 'none';
-            }
-        });
 
         function configurarBusquedaDNI(inputId, botonId, nombreId) {
             // Detectar Enter en el input
@@ -947,9 +615,7 @@
                 $.ajax({
                     type: "POST",
                     url: "consulta-dni-ajax.php",
-                    data: {
-                        dni: dni
-                    }, // SIEMPRE 'dni' (no dni2)
+                    data: { dni: dni },
                     dataType: 'json',
                     success: function(data) {
                         if (data == 1) {
@@ -968,14 +634,13 @@
             });
         }
 
-        // 👉 Configuras para emisor y receptor
-        configurarBusquedaDNI("txt_dni_emisor", "prueba_emisor", "txt_nomb_emisor");
-        configurarBusquedaDNI("txt_dni_receptor", "prueba_receptor", "txt_nomb_receptor");
-        configurarBusquedaDNI("txt_dni_emisor_editar", "prueba_emisor_editar", "txt_nomb_emisor_editar");
-        configurarBusquedaDNI("txt_dni_receptor_editar", "prueba_receptor_editar", "txt_nomb_receptor_editar");
+        // Configurar para el emisor (buscar en RENIEC)
+        configurarBusquedaDNI("txt_dni_emisor", "btn_buscar_reniec", "txt_nombre_pasajero");
+
+        //configurarBusquedaDNI("txt_dni_emisor_editar", "prueba_emisor_editar", "txt_nomb_emisor_editar");
     </script>
 
-    <script>
+    <!-- <script>
         // Mostrar la sección correcta al cargar la página
         window.addEventListener('DOMContentLoaded', function() {
             const selectTipoDocumento = document.getElementById('select_tipo_documento_emisor_editar');
@@ -1036,7 +701,7 @@
                 otrosDocumentosSection.style.display = 'none';
             }
         });
-    </script>
+    </script> -->
 
 
     <script>

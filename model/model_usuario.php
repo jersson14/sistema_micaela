@@ -150,9 +150,9 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function listar_total_facturas(){
+        public function listar_total_servicios(){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_TOTAL_FACTURAS()";
+            $sql = "CALL SP_LISTAR_TOTAL_SERVICIOS()";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->execute();
@@ -163,9 +163,9 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function listar_total_facturas_pendientes(){
+        public function listar_total_choferes(){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_TOTAL_FACTURAS_PENDIENTES()";
+            $sql = "CALL SP_LISTAR_TOTAL_CHOFERES()";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->execute();
@@ -176,9 +176,9 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function listar_total_facturas_cobradas(){
+         public function listar_total_clientes(){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_TOTAL_FACTURAS_COBRADAS()";
+            $sql = "CALL SP_LISTAR_TOTAL_CLIENTES()";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->execute();
@@ -189,9 +189,9 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function listar_total_facturas_rechazada(){
+          public function listar_total_encomiendas_diarias(){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_TOTAL_FACTURAS_RECHAZADA()";
+            $sql = "CALL SP_LISTAR_TOTAL_ENCOMIENDAS_DIARIAS()";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->execute();
@@ -202,9 +202,9 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function listar_total_practicas_paciente(){
+         public function listar_total_encomiendas_semanales(){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_TOTAL_PRACTICAS_PACIENTE()";
+            $sql = "CALL SP_LISTAR_TOTAL_ENCOMIENDAS_SEMANALES()";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->execute();
@@ -215,9 +215,9 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function listar_total_practicas(){
+        public function listar_total_encomiendas_mes(){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_TOTAL_PRACTICAS()";
+            $sql = "CALL SP_LISTAR_TOTAL_ENCOMIENDAS_MES()";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->execute();
@@ -228,9 +228,9 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function listar_total_pacientes(){
+         public function listar_total_encomiendas(){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_TOTAL_PACIENTES()";
+            $sql = "CALL SP_LISTAR_TOTAL_ENCOMIENDAS()";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->execute();
@@ -241,9 +241,100 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function listar_total_obras_sociales(){
+         public function listar_total_salidas_dia(){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_TOTAL_OBRAS_SOCIALES()";
+            $sql = "CALL SP_LISTAR_TOTAL_SALIDAS_DIA()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function listar_total_salidas_semana(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_TOTAL_SALIDAS_SEMANA()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function listar_total_salidas_mes(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_TOTAL_SALIDAS_MES()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function listar_total_salidas(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_TOTAL_SALIDAS()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function listar_total_ingresos_hoy(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_TOTAL_INGRESOS_HOY()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+        public function listar_total_gastos_hoy(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_TOTAL_GASTOS_HOY()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function listar_total_ingresos_mes(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_TOTAL_INGRESOS_MES()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function listar_total_gastos_mes(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_TOTAL_GASTOS_MES()";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query->execute();

@@ -587,15 +587,15 @@ function Cargar_Select_sucursal(){
 
 
 // TOTALES
-function Total_facturas(){
+function Total_servicios(){
   $.ajax({
-      "url":"../controller/usuario/controlador_total_facturas.php",
+      "url":"../controller/usuario/controlador_total_servicios.php",
       type:'POST'
       }).done(function(resp){
       var data = JSON.parse(resp);
       var cadena="";
       if (data.length > 0) {
-        $("#total_facturas").html(data[0][0]);
+        $("#total_servicios").html(data[0][0]);
     } else {
       return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
     }
@@ -603,75 +603,15 @@ function Total_facturas(){
   })
 }
 
-function Total_facturas_pendientes(){
+function Total_choferes(){
   $.ajax({
-      "url":"../controller/usuario/controlador_total_facturas_pendientes.php",
+      "url":"../controller/usuario/controlador_total_choferes.php",
       type:'POST'
       }).done(function(resp){
       var data = JSON.parse(resp);
       var cadena="";
       if (data.length > 0) {
-        $("#total_fact_pendiente").html(data[0][0]);
-    } else {
-      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
-    }
-    
-  })
-}
-function Total_facturas_cobradas(){
-  $.ajax({
-      "url":"../controller/usuario/controlador_total_facturas_cobradas.php",
-      type:'POST'
-      }).done(function(resp){
-      var data = JSON.parse(resp);
-      var cadena="";
-      if (data.length > 0) {
-        $("#total_fact_cobradas").html(data[0][0]);
-    } else {
-      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
-    }
-    
-  })
-}
-function Total_facturas_rechazadas(){
-  $.ajax({
-      "url":"../controller/usuario/controlador_total_facturas_rechazadas.php",
-      type:'POST'
-      }).done(function(resp){
-      var data = JSON.parse(resp);
-      var cadena="";
-      if (data.length > 0) {
-        $("#total_fact_rechazada").html(data[0][0]);
-    } else {
-      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
-    }
-    
-  })
-}
-function Total_practicas_paciente(){
-  $.ajax({
-      "url":"../controller/usuario/controlador_total_practicas_paciente.php",
-      type:'POST'
-      }).done(function(resp){
-      var data = JSON.parse(resp);
-      var cadena="";
-      if (data.length > 0) {
-        $("#total_practicas_paciente").html(data[0][0]);
-    } else {
-      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
-    }
-    
-  })
-}
-function Total_practicas(){
-  $.ajax({
-      "url":"../controller/usuario/controlador_total_practicas.php",
-      type:'POST'
-      }).done(function(resp){
-      var data = JSON.parse(resp);
-      var cadena="";
-      if (data.length > 0) {
-        $("#total_practicas").html(data[0][0]);
+        $("#total_choferes").html(data[0][0]);
     } else {
       return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
     }
@@ -679,15 +619,93 @@ function Total_practicas(){
   })
 }
 
-function Total_pacientes(){
+function Total_clientes(){
   $.ajax({
-      "url":"../controller/usuario/controlador_total_pacientes.php",
+      "url":"../controller/usuario/controlador_total_clientes.php",
       type:'POST'
       }).done(function(resp){
       var data = JSON.parse(resp);
       var cadena="";
       if (data.length > 0) {
-        $("#total_pacientes").html(data[0][0]);
+        $("#total_clientes").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+
+function Total_encomiendas_dia(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_encomiendas_dia.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_encomiendas_dia").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+
+function Total_encomiendas_semanales(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_encomiendas_semanales.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_encomiendas_semanales").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+function Total_encomiendas_mes(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_encomiendas_mes.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_encomiendas_mes").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+function Total_encomiendas(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_encomiendas.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_encomiendas").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+
+function Total_salidas_dia(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_salidas_dia.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_salidas_dia").html(data[0][0]);
     } else {
       return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
     }
@@ -696,15 +714,112 @@ function Total_pacientes(){
 }
 
 
-function Total_obras_sociales(){
+function Total_salidas_semana(){
   $.ajax({
-      "url":"../controller/usuario/controlador_total_obras_sociales.php",
+      "url":"../controller/usuario/controlador_total_salidas_semana.php",
       type:'POST'
       }).done(function(resp){
       var data = JSON.parse(resp);
       var cadena="";
       if (data.length > 0) {
-        $("#total_obras_sociales").html(data[0][0]);
+        $("#total_salidas_semana").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+
+function Total_salidas_mes(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_salidas_mes.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_salidas_mes").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+
+function Total_salidas(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_salidas.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_salidas_diarias").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+
+function Total_ingresos_hoy(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_ingresos_hoy.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_ingresos_hoy").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+
+function Total_gastos_hoy(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_gastos_hoy.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_gastos_hoy").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+
+function Total_ingresos_mes_actual(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_ingresos_mes.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_ingresos_mes_actual").html(data[0][0]);
+    } else {
+      return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
+    }
+    
+  })
+}
+
+
+function Total_gastos_mes_actual(){
+  $.ajax({
+      "url":"../controller/usuario/controlador_total_gatos_mes.php",
+      type:'POST'
+      }).done(function(resp){
+      var data = JSON.parse(resp);
+      var cadena="";
+      if (data.length > 0) {
+        $("#total_gastos_mes_actual").html(data[0][0]);
     } else {
       return Swal.fire("Mensaje de Error","No se pudo traer los resultados","error");
     }

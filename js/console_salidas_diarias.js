@@ -37,7 +37,7 @@ function listar_salidas_diarias() {
         title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-excel",
         exportOptions: {
-          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
         },
       },
       {
@@ -50,7 +50,7 @@ function listar_salidas_diarias() {
         orientation: "landscape",
         pageSize: "A4",
         exportOptions: {
-          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
         },
       },
       {
@@ -60,7 +60,7 @@ function listar_salidas_diarias() {
         title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-print",
         exportOptions: {
-          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
         },
       },
     ],
@@ -133,19 +133,24 @@ function listar_salidas_diarias() {
           let botones = "";
 
           // EN TRANSITO / INCOMPLETO => Editar + Eliminar
-          if (data === "EN TRANSITO" || data === "INCOMPLETO") {
+          if (data === "EN TRANSITO") {
             botones += `
-              <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
+   <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
                 <i class='fa fa-edit'></i> Editar
               </button>
               <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
                 <i class='fa fa-trash'></i> Eliminar
               </button>
+
             `;
           }
 
           // EN TRANSITO / INCOMPLETO / COMPLETADO => Manifiesto + Mostrar
-          if (data === "COMPLETADO" || data === "EN TRANSITO" || data === "INCOMPLETO") {
+          if (
+            data === "COMPLETADO" ||
+            data === "EN TRANSITO" ||
+            data === "INCOMPLETO"
+          ) {
             botones += `
               <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
                 <i class='fa fa-print'></i> Manifiesto
@@ -153,15 +158,24 @@ function listar_salidas_diarias() {
               <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
                 <i class='fa fa-eye'></i> Mostrar
               </button>
+              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
+                <i class='fa fa-history'></i> Historial
+              </button>
             `;
           }
 
           // SOLO EN TRANSITO => Completar viaje
           if (data === "EN TRANSITO") {
             botones += `
+           
               <button class='completar btn btn-info btn-sm' title='Completar viaje'>
                 <i class='fa fa-check-circle'></i> Completar
               </button>
+              <button class='incompleto btn btn-warning btn-sm' title='Viaje Incompleto'>
+                <i class='fa fa-times-circle'></i> Incompleto
+              </button>
+              
+
             `;
           }
 
@@ -171,6 +185,10 @@ function listar_salidas_diarias() {
               <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
                 <i class='fa fa-eye'></i> Mostrar
               </button>
+              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
+                <i class='fa fa-history'></i> Historial
+              </button>
+
             `;
           }
 
@@ -182,7 +200,6 @@ function listar_salidas_diarias() {
     select: true,
   });
 }
-
 
 function listar_salidas_diarias_ruta_estado() {
   let ori = document.getElementById("select_origen_bus").value;
@@ -207,7 +224,7 @@ function listar_salidas_diarias_ruta_estado() {
     ajax: {
       url: "../controller/salidas_diarias/controlador_listar_salidas_diarias_ruta_estado.php",
       type: "POST",
-        data: {
+      data: {
         ori: ori,
         des: des,
         esta: esta,
@@ -224,7 +241,7 @@ function listar_salidas_diarias_ruta_estado() {
         title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-excel",
         exportOptions: {
-          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
         },
       },
       {
@@ -237,7 +254,7 @@ function listar_salidas_diarias_ruta_estado() {
         orientation: "landscape",
         pageSize: "A4",
         exportOptions: {
-          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
         },
       },
       {
@@ -247,7 +264,7 @@ function listar_salidas_diarias_ruta_estado() {
         title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-print",
         exportOptions: {
-          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
         },
       },
     ],
@@ -328,17 +345,25 @@ function listar_salidas_diarias_ruta_estado() {
               <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
                 <i class='fa fa-trash'></i> Eliminar
               </button>
+
             `;
           }
 
           // EN TRANSITO / INCOMPLETO / COMPLETADO => Manifiesto + Mostrar
-          if (data === "COMPLETADO" || data === "EN TRANSITO" || data === "INCOMPLETO") {
+          if (
+            data === "COMPLETADO" ||
+            data === "EN TRANSITO" ||
+            data === "INCOMPLETO"
+          ) {
             botones += `
               <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
                 <i class='fa fa-print'></i> Manifiesto
               </button>
               <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
                 <i class='fa fa-eye'></i> Mostrar
+              </button>
+              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
+                <i class='fa fa-history'></i> Historial
               </button>
             `;
           }
@@ -349,6 +374,11 @@ function listar_salidas_diarias_ruta_estado() {
               <button class='completar btn btn-info btn-sm' title='Completar viaje'>
                 <i class='fa fa-check-circle'></i> Completar
               </button>
+              <button class='incompleto btn btn-warning btn-sm' title='Viaje Incompleto'>
+                <i class='fa fa-times-circle'></i> Incompleto
+              </button>
+              
+
             `;
           }
 
@@ -358,6 +388,10 @@ function listar_salidas_diarias_ruta_estado() {
               <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
                 <i class='fa fa-eye'></i> Mostrar
               </button>
+              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
+                <i class='fa fa-history'></i> Historial
+              </button>
+
             `;
           }
 
@@ -369,7 +403,6 @@ function listar_salidas_diarias_ruta_estado() {
     select: true,
   });
 }
-
 
 function listar_salidas_diarias_fecha_usu() {
   let fedes = document.getElementById("txt_fecha_desde").value;
@@ -394,7 +427,7 @@ function listar_salidas_diarias_fecha_usu() {
     ajax: {
       url: "../controller/salidas_diarias/controlador_listar_salidas_diarias_fecha_usu.php",
       type: "POST",
-        data: {
+      data: {
         fedes: fedes,
         fehas: fehas,
         usu: usu,
@@ -411,7 +444,7 @@ function listar_salidas_diarias_fecha_usu() {
         title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-excel",
         exportOptions: {
-          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
         },
       },
       {
@@ -424,7 +457,7 @@ function listar_salidas_diarias_fecha_usu() {
         orientation: "landscape",
         pageSize: "A4",
         exportOptions: {
-          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
         },
       },
       {
@@ -434,7 +467,7 @@ function listar_salidas_diarias_fecha_usu() {
         title: "LISTA DE SALIDAS DIARIAS",
         className: "btn btn-print",
         exportOptions: {
-          columns: [0,1, 3, 4, 5, 6, 7, 8,9],
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
         },
       },
     ],
@@ -515,17 +548,25 @@ function listar_salidas_diarias_fecha_usu() {
               <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
                 <i class='fa fa-trash'></i> Eliminar
               </button>
+
             `;
           }
 
           // EN TRANSITO / INCOMPLETO / COMPLETADO => Manifiesto + Mostrar
-          if (data === "COMPLETADO" || data === "EN TRANSITO" || data === "INCOMPLETO") {
+          if (
+            data === "COMPLETADO" ||
+            data === "EN TRANSITO" ||
+            data === "INCOMPLETO"
+          ) {
             botones += `
               <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
                 <i class='fa fa-print'></i> Manifiesto
               </button>
               <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
                 <i class='fa fa-eye'></i> Mostrar
+              </button>
+              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
+                <i class='fa fa-history'></i> Historial
               </button>
             `;
           }
@@ -536,6 +577,11 @@ function listar_salidas_diarias_fecha_usu() {
               <button class='completar btn btn-info btn-sm' title='Completar viaje'>
                 <i class='fa fa-check-circle'></i> Completar
               </button>
+              <button class='incompleto btn btn-warning btn-sm' title='Viaje Incompleto'>
+                <i class='fa fa-times-circle'></i> Incompleto
+              </button>
+              
+
             `;
           }
 
@@ -545,6 +591,10 @@ function listar_salidas_diarias_fecha_usu() {
               <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
                 <i class='fa fa-eye'></i> Mostrar
               </button>
+              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
+                <i class='fa fa-history'></i> Historial
+              </button>
+
             `;
           }
 
@@ -556,8 +606,6 @@ function listar_salidas_diarias_fecha_usu() {
     select: true,
   });
 }
-
-
 
 //ABRIR MODAL REGISTRO
 function AbrirRegistro() {
@@ -602,6 +650,8 @@ $("#modal_registro").on("shown.bs.modal", function () {
   });
 });
 
+//REALIZAR BUSQUEDA CLIENTE
+
 async function buscarPorDocumento() {
   const tipo = document.getElementById("select_tipo_documento_emisor").value;
   const dni = document.getElementById("txt_dni_emisor").value.trim();
@@ -634,8 +684,8 @@ async function buscarPorDocumento() {
       const d = resp.data[0];
 
       // Rellenar campos
-      $("#txt_nomb_emisor").val(d.nombre_completo);
-      $("#txt_celu1_emisor").val(d.celular);
+      $("#txt_nombre_pasajero").val(d.nombre_completo);
+      $("#txt_cel_pasajero").val(d.celular);
     } else {
       Swal.fire(
         "No encontrado",
@@ -649,315 +699,126 @@ async function buscarPorDocumento() {
   }
 }
 
-async function buscarPorDocumento2() {
-  const tipo = document.getElementById("select_tipo_documento_receptor").value;
-  const dni = document.getElementById("txt_dni_receptor").value.trim();
-  const otroDoc = document.getElementById("txt_dni_recepto2").value.trim();
+$("#tabla_salida_diaria").on("click", ".completar", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
 
-  let numero_documento = "";
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
+  }
+  Swal.fire({
+    title:
+      "Desea completar el viaje del conductor " + data.nombres_apellidos + "?",
+    text: "Una vez COMPELTADO el viaje, no se podra editar ni eliminar la salida diaria, a su vez las encomiendas se pondran en estado EN AGENCIA en el destino final",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#005CA5",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, Completar!",
+    cancelButtonText: "Cancelar",
+    reverseButtons: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Modificar_Estatus_Salida_Diaria(data.id_salidas_diarias);
+    }
+  });
+});
 
-  if (tipo === "DNI" && dni !== "") {
-    numero_documento = dni;
-  } else if (tipo !== "DNI" && otroDoc !== "") {
-    numero_documento = otroDoc;
-  } else {
-    Swal.fire(
-      "Advertencia",
-      "Debe ingresar un número de documento válido.",
-      "warning"
+function Modificar_Estatus_Salida_Diaria(id) {
+  let idusu = document.getElementById("txtprincipalid").value;
+
+  $.ajax({
+    url: "../controller/salidas_diarias/controlador_modificar_estado_viaje.php",
+    type: "POST",
+    data: {
+      id: id,
+      idusu: idusu,
+    },
+  }).done(function (resp) {
+    if (resp > 0) {
+      Swal.fire(
+        "Mensaje de Confirmación",
+        "Se COMPLETO con exito el viaje del conductor",
+        "success"
+      ).then((value) => {
+        tbl_salidas_diarias.ajax.reload();
+      });
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se completo la actualización",
+        "error"
+      );
+    }
+  });
+}
+
+$("#tabla_salida_diaria").on("click", ".incompleto", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
+
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
+  }
+
+  Swal.fire({
+    title:
+      "Desea marcar como INCOMPLETO el viaje del conductor " + data.nombres_apellidos + "?",
+    text: "Una vez se ponga INCOMPLETO el viaje, no se podrá editar ni eliminar la salida diaria. Además, las encomiendas se pondrán en estado INCOMPLETO porque no llegaron al destino final.",
+    icon: "warning",
+    input: "textarea", // campo para observación
+    inputPlaceholder: "Escriba la razón del estado INCOMPLETO...",
+    inputValidator: (value) => {
+      if (!value) {
+        return "Debe ingresar una observación para continuar";
+      }
+    },
+    showCancelButton: true,
+    confirmButtonColor: "#005CA5",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, cambiar!",
+    cancelButtonText: "Cancelar",
+    reverseButtons: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Modificar_Estatus_Salida_Incompleta_Diaria(data.id_salidas_diarias, result.value);
+    }
+  });
+});
+
+
+function Modificar_Estatus_Salida_Incompleta_Diaria(id, observacion) {
+  let idusu = document.getElementById("txtprincipalid").value;
+
+  if (observacion.trim() === "") {
+    return Swal.fire(
+      "Mensaje de Error",
+      "La observación es obligatoria para marcar el viaje como INCOMPLETO.",
+      "error"
     );
-    return;
   }
 
-  try {
-    const resp = await $.ajax({
-      url: "../controller/encomiendas/controlador_buscar_persona_por_documento.php",
-      type: "POST",
-      data: { numero_documento },
-      dataType: "json",
-    });
-
-    if (resp.data && resp.data.length > 0) {
-      const d = resp.data[0];
-
-      // Rellenar campos
-      $("#txt_nomb_receptor").val(d.nombre_completo);
-      $("#txt_celu1_recepto").val(d.celular);
-    } else {
+  $.ajax({
+    url: "../controller/salidas_diarias/controlador_modificar_estado_incompleto_viaje.php",
+    type: "POST",
+    data: {
+      id: id,
+      idusu: idusu,
+      observacion: observacion
+    },
+  }).done(function (resp) {
+    if (resp > 0) {
       Swal.fire(
-        "No encontrado",
-        "No se encontró ninguna persona con ese documento.",
-        "info"
-      );
-    }
-  } catch (error) {
-    console.error("❌ Error en AJAX:", error);
-    Swal.fire("Error", "No se pudo hacer la búsqueda.", "error");
-  }
-}
-
-//EDITAR BUSQUEDA
-
-async function buscarPorDocumentoEditar() {
-  const tipo = document.getElementById(
-    "select_tipo_documento_emisor_editar"
-  ).value;
-  const dni = document.getElementById("txt_dni_emisor_editar").value.trim();
-  const otroDoc = document
-    .getElementById("txt_dni_emisor2_editar")
-    .value.trim();
-
-  let numero_documento = "";
-
-  if (tipo === "DNI" && dni !== "") {
-    numero_documento = dni;
-  } else if (tipo !== "DNI" && otroDoc !== "") {
-    numero_documento = otroDoc;
-  } else {
-    Swal.fire(
-      "Advertencia",
-      "Debe ingresar un número de documento válido.",
-      "warning"
-    );
-    return;
-  }
-
-  try {
-    const resp = await $.ajax({
-      url: "../controller/encomiendas/controlador_buscar_persona_por_documento.php",
-      type: "POST",
-      data: { numero_documento },
-      dataType: "json",
-    });
-
-    if (resp.data && resp.data.length > 0) {
-      const d = resp.data[0];
-
-      // Rellenar campos
-      $("#txt_nomb_emisor_editar").val(d.nombre_completo);
-      $("#txt_celu1_emisor_editar").val(d.celular);
+        "Mensaje de Confirmación",
+        "Se cambió a INCOMPLETO el viaje del conductor",
+        "success"
+      ).then(() => {
+        tbl_salidas_diarias.ajax.reload();
+      });
     } else {
-      Swal.fire(
-        "No encontrado",
-        "No se encontró ninguna persona con ese documento.",
-        "info"
-      );
+      Swal.fire("Mensaje de Error", "No se completó la actualización", "error");
     }
-  } catch (error) {
-    console.error("❌ Error en AJAX:", error);
-    Swal.fire("Error", "No se pudo hacer la búsqueda.", "error");
-  }
+  });
 }
 
-async function buscarPorDocumento2Editar() {
-  const tipo = document.getElementById(
-    "select_tipo_documento_receptor_editar"
-  ).value;
-  const dni = document.getElementById("txt_dni_receptor_editar").value.trim();
-  const otroDoc = document
-    .getElementById("txt_dni_recepto2_editar")
-    .value.trim();
-
-  let numero_documento = "";
-
-  if (tipo === "DNI" && dni !== "") {
-    numero_documento = dni;
-  } else if (tipo !== "DNI" && otroDoc !== "") {
-    numero_documento = otroDoc;
-  } else {
-    Swal.fire(
-      "Advertencia",
-      "Debe ingresar un número de documento válido.",
-      "warning"
-    );
-    return;
-  }
-
-  try {
-    const resp = await $.ajax({
-      url: "../controller/encomiendas/controlador_buscar_persona_por_documento.php",
-      type: "POST",
-      data: { numero_documento },
-      dataType: "json",
-    });
-
-    if (resp.data && resp.data.length > 0) {
-      const d = resp.data[0];
-
-      // Rellenar campos
-      $("#txt_nomb_receptor_editar").val(d.nombre_completo);
-      $("#txt_celu1_recepto_editar").val(d.celular);
-    } else {
-      Swal.fire(
-        "No encontrado",
-        "No se encontró ninguna persona con ese documento.",
-        "info"
-      );
-    }
-  } catch (error) {
-    console.error("❌ Error en AJAX:", error);
-    Swal.fire("Error", "No se pudo hacer la búsqueda.", "error");
-  }
-}
-//ABRIR MODAL EDITAR ESTADO
-$("#tabla_salida_diaria").on("click", ".cambiar_estado", function () {
-  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
-
-  if (tbl_salidas_diarias.row(this).child.isShown()) {
-    var data = tbl_salidas_diarias.row(this).data();
-  }
-  $("#modal_estado").modal("show");
-  document.getElementById("id_encomienda").value = data.id_encomienda;
-  document.getElementById("select_estado_editar2").value =
-    data.estado_encomienda;
-  document.getElementById("text_observacion_enco").value = data.observacion;
-  document.getElementById("txt_anula_enco").value = data.motivo_anulacion;
-});
-
-//ABRIR MODAL VER MOTIVO ANULACION
-$("#tabla_salida_diaria").on("click", ".motivo_anulacion", function () {
-  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
-
-  if (tbl_salidas_diarias.row(this).child.isShown()) {
-    var data = tbl_salidas_diarias.row(this).data();
-  }
-  $("#modal_motivo_anula").modal("show");
-  document.getElementById("select_estado_editar3").value =
-    data.estado_encomienda;
-  document.getElementById("txt_anula_enco2").value = data.motivo_anulacion;
-});
-
-//ABRIR MODAL AJUSTAR PRECIO
-$("#tabla_salida_diaria").on("click", ".ajustar_precio", function () {
-  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
-
-  if (tbl_salidas_diarias.row(this).child.isShown()) {
-    var data = tbl_salidas_diarias.row(this).data();
-  }
-  $("#modal_ajustar_precio").modal("show");
-  document.getElementById("id_encomienda3").value = data.id_encomienda;
-
-  document.getElementById("select_estado_editar4").value =
-    data.estado_encomienda;
-
-  if (data.pago > 0) {
-    document.getElementById("txt_monto_anterior").value = data.pago;
-  } else if (data.por_pagar > 0) {
-    document.getElementById("txt_monto_anterior").value = data.por_pagar;
-  } else if (data.a_domicilio > 0) {
-    document.getElementById("txt_monto_anterior").value = data.a_domicilio;
-  }
-});
-//ABRIR MODAL MOSTRAR
-$("#tabla_salida_diaria").on("click", ".mostrar", function () {
-  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
-  if (tbl_salidas_diarias.row(this).child.isShown()) {
-    var data = tbl_salidas_diarias.row(this).data();
-  }
-  $("#modal_mostrar").modal("show");
-
-  // ASIGNAR ESTADOS CON COLORES
-  asignarEstadoPago(data.estado_pago);
-  asignarEstadoEncomienda(data.estado_encomienda);
-
-  // CAMPOS EXISTENTES
-  document.getElementById("select_conductor_mostrar").value =
-    data.nombres_apellidos;
-  document.getElementById("select_origen_mostrar").value = data.nombre_origen;
-  document.getElementById("select_destino_mostrar").value = data.nombre_destino;
-  document.getElementById("txt_fecha_creacion_mostrar").value = data.fecha_hora;
-  document.getElementById("select_tipo_documento_emisor_mostrar").value =
-    data.tipo_doc_emisor;
-  document.getElementById("txt_dni_emisor_mostrar").value = data.nro_doc_emisor;
-  document.getElementById("txt_nomb_emisor_mostrar").value = data.nombre_emisor;
-  document.getElementById("txt_celu1_emisor_mostrar").value =
-    data.celular_emisor;
-  document.getElementById("select_tipo_documento_receptor_mostrar").value =
-    data.tipo_doc_receptor;
-  document.getElementById("txt_dni_receptor_mostrar").value =
-    data.nro_doc_receptor;
-  document.getElementById("txt_nomb_receptor_mostrar").value =
-    data.nombre_receptor;
-  document.getElementById("txt_celu1_recepto_mostrar").value =
-    data.celular_receptor;
-  document.getElementById("txt_pago_mostrar").value = data.pago;
-  document.getElementById("txt_por_pagar_mostrar").value = data.por_pagar;
-  document.getElementById("txt_a_domicilio_mostrar").value = data.a_domicilio;
-  document.getElementById("txt_descripcion_mostrar").value = data.descripcion;
-  document.getElementById("txt_observacion_mostrar").value = data.observacion;
-});
-
-// FUNCIÓN PARA ASIGNAR COLORES AL ESTADO DE PAGO
-function asignarEstadoPago(estado) {
-  const spanEstadoPago = document.getElementById("span_estado_pago_mostrar");
-  spanEstadoPago.textContent = estado;
-
-  // Remover clases anteriores
-  spanEstadoPago.classList.remove(
-    "badge-success",
-    "badge-danger",
-    "badge-warning",
-    "badge-info"
-  );
-
-  switch (estado.toLowerCase()) {
-    case "pagado":
-    case "completado":
-      spanEstadoPago.classList.add("badge-success");
-      break;
-    case "pendiente":
-    case "por pagar":
-      spanEstadoPago.classList.add("badge-warning");
-      break;
-    case "cancelado":
-    case "anulado":
-      spanEstadoPago.classList.add("badge-danger");
-      break;
-    default:
-      spanEstadoPago.classList.add("badge-info");
-      break;
-  }
-}
-
-// FUNCIÓN PARA ASIGNAR COLORES AL ESTADO DE ENCOMIENDA
-function asignarEstadoEncomienda(estado) {
-  const spanEstadoEncomienda = document.getElementById(
-    "span_estado_encomienda_mostrar"
-  );
-  spanEstadoEncomienda.textContent = estado;
-
-  // Remover clases anteriores
-  spanEstadoEncomienda.classList.remove(
-    "badge-success",
-    "badge-danger",
-    "badge-warning",
-    "badge-info",
-    "badge-primary"
-  );
-
-  switch (estado.toLowerCase()) {
-    case "entregado":
-    case "completado":
-      spanEstadoEncomienda.classList.add("badge-success");
-      break;
-    case "en transito":
-    case "en tránsito":
-    case "enviado":
-      spanEstadoEncomienda.classList.add("badge-primary");
-      break;
-    case "pendiente":
-    case "en espera":
-      spanEstadoEncomienda.classList.add("badge-warning");
-      break;
-    case "cancelado":
-    case "anulado":
-      spanEstadoEncomienda.classList.add("badge-danger");
-      break;
-    default:
-      spanEstadoEncomienda.classList.add("badge-info");
-      break;
-  }
-}
 
 //ABRIR MODAL EDITAR
 $("#tabla_salida_diaria").on("click", ".editar", function () {
@@ -968,9 +829,8 @@ $("#tabla_salida_diaria").on("click", ".editar", function () {
   $("#modal_editar").modal("show");
 
   // CAMPOS EXISTENTES
-  
-  document.getElementById("txt_id_encomienda").value =
-    data.id_encomienda;
+
+  document.getElementById("txt_id_encomienda").value = data.id_encomienda;
   $("#select_conductor_editar").val(data.id_conductor).trigger("change");
   $("#select_origen_editar").val(data.id_origen).trigger("change");
   $("#select_destino_editar").val(data.id_destino).trigger("change");
@@ -1037,14 +897,18 @@ function Registrar_Encomiendas() {
   let desc = document.getElementById("txt_descripcion").value;
 
   // DATOS DEL EMISOR
-  let tipodocemi = document.getElementById("select_tipo_documento_emisor").value;
+  let tipodocemi = document.getElementById(
+    "select_tipo_documento_emisor"
+  ).value;
   let dniemi = document.getElementById("txt_dni_emisor").value;
   let dni2emi = document.getElementById("txt_dni_emisor2").value;
   let nomemi = document.getElementById("txt_nomb_emisor").value;
   let celemi = document.getElementById("txt_celu1_emisor").value;
 
   // DATOS DEL RECEPTOR
-  let tipodocrece = document.getElementById("select_tipo_documento_receptor").value;
+  let tipodocrece = document.getElementById(
+    "select_tipo_documento_receptor"
+  ).value;
   let dnirece = document.getElementById("txt_dni_receptor").value;
   let deni2rece = document.getElementById("txt_dni_recepto2").value;
   let nomrece = document.getElementById("txt_nomb_receptor").value;
@@ -1074,7 +938,11 @@ function Registrar_Encomiendas() {
     nomrece.length == 0 ||
     celurece.length == 0
   ) {
-    return Swal.fire("Mensaje de Advertencia", "Todo los campos son obligatorios", "warning");
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "Todo los campos son obligatorios",
+      "warning"
+    );
   }
 
   //validacion de pago
@@ -1090,12 +958,20 @@ function Registrar_Encomiendas() {
   let documentoFinal = "";
   if (tipodocemi === "DNI") {
     if (!dniemi) {
-      return Swal.fire("Mensaje de Advertencia", "El campo DNI del emisor es obligatorio", "warning");
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo DNI del emisor es obligatorio",
+        "warning"
+      );
     }
     documentoFinal = dniemi;
   } else {
     if (!dni2emi) {
-      return Swal.fire("Mensaje de Advertencia", "El campo de documento del emisor es obligatorio", "warning");
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo de documento del emisor es obligatorio",
+        "warning"
+      );
     }
     documentoFinal = dni2emi;
   }
@@ -1104,12 +980,20 @@ function Registrar_Encomiendas() {
   let documentoFinal2 = "";
   if (tipodocrece === "DNI") {
     if (!dnirece) {
-      return Swal.fire("Mensaje de Advertencia", "El campo DNI del receptor es obligatorio", "warning");
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo DNI del receptor es obligatorio",
+        "warning"
+      );
     }
     documentoFinal2 = dnirece;
   } else {
     if (!deni2rece) {
-      return Swal.fire("Mensaje de Advertencia", "El campo de documento del receptor es obligatorio", "warning");
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo de documento del receptor es obligatorio",
+        "warning"
+      );
     }
     documentoFinal2 = deni2rece;
   }
@@ -1195,12 +1079,20 @@ function Registrar_Encomiendas() {
           );
         }
       } else {
-        return Swal.fire("Mensaje de Error", "No se completó el registro", "error");
+        return Swal.fire(
+          "Mensaje de Error",
+          "No se completó el registro",
+          "error"
+        );
       }
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
       console.error("Error AJAX:", textStatus, errorThrown);
-      Swal.fire("Mensaje de Error", "Error de conexión: " + textStatus, "error");
+      Swal.fire(
+        "Mensaje de Error",
+        "Error de conexión: " + textStatus,
+        "error"
+      );
     });
 }
 
@@ -1325,9 +1217,9 @@ function Modificar_Choferes() {
 }
 
 //ELIMINAR AREAS
-function Eliminar_encomienda(id) {
+function Eliminar_Salida(id) {
   $.ajax({
-    url: "../controller/encomiendas/controlador_eliminar_encomiendas.php",
+    url: "../controller/salidas_diarias/controlador_eliminar_salida_diaria.php",
     type: "POST",
     data: {
       id: id,
@@ -1336,7 +1228,7 @@ function Eliminar_encomienda(id) {
     if (resp > 0) {
       Swal.fire(
         "Mensaje de Confirmación",
-        "Se elimino la encomienda con exito, si desea recuperarlo, tendra que volver a registrarlo",
+        "Se elimino la salida diaria con exito, si desea recuperarlo, tendra que volver a registrarlo",
         "success"
       ).then((value) => {
         tbl_salidas_diarias.ajax.reload();
@@ -1344,7 +1236,7 @@ function Eliminar_encomienda(id) {
     } else {
       return Swal.fire(
         "Mensaje de Advetencia",
-        "No se puede eliminar la encomienda, verifique por favor",
+        "No se puede eliminar la salida diaria, verifique por favor",
         "warning"
       );
     }
@@ -1360,12 +1252,12 @@ $("#tabla_salida_diaria").on("click", ".eliminar", function () {
   }
   Swal.fire({
     title:
-      "Desea eliminar la encomienda registrada el: " +
-      data.fecha_formateada +
-      " del cliente: " +
-      data.nombre_emisor +
+      "Desea eliminar la salida diaria registrada el: " +
+      data.fecha_formateada_salida +
+      " del conductor: " +
+      data.nombres_apellidos +
       "?",
-    text: "Una vez aceptado la encomienda sera eliminado, sin poder recuperarlo, tendra que volver a registrarlo!!!",
+    text: "Una vez aceptado la salida diaria sera eliminado, sin poder recuperarlo, tendra que volver a registrarlo!!!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -1373,7 +1265,7 @@ $("#tabla_salida_diaria").on("click", ".eliminar", function () {
     confirmButtonText: "Si, Eliminar",
   }).then((result) => {
     if (result.isConfirmed) {
-      Eliminar_encomienda(data.id_encomienda);
+      Eliminar_Salida(data.id_salidas_diarias);
     }
   });
 });
@@ -1675,13 +1567,10 @@ $("#tabla_salida_diaria").on("click", ".historial", function () {
   $("#modal_ver_historial").modal("show");
 
   document.getElementById("lb_titulo_historial").innerHTML =
-    "<b>HISTORIAL DE LA ENCOMIENDA DEL EMISOR :</b> " +
-    data.nro_doc_emisor +
-    " - " +
-    data.nombre_emisor +
-    "";
+    "<b>HISTORIAL DE LA SALIDA DEL CONDUCTOR :</b> " +
+    data.nombres_apellidos +" - <br><b>FECHA DE SALIDA :</b> " + data.fecha_formateada_salida;
 
-  listar_historial_estado(data.id_encomienda);
+  listar_historial_estado(data.id_salidas_diarias);
 });
 // VISTA DE HISTORIAL
 var tbl_historial_estado;
@@ -1702,7 +1591,7 @@ function listar_historial_estado(id) {
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/encomiendas/controlador_listar_estados.php",
+      url: "../controller/salidas_diarias/controlador_listar_estados_salidas.php",
       type: "POST",
       data: { id: id },
       dataSrc: function (json) {
@@ -1716,23 +1605,23 @@ function listar_historial_estado(id) {
         extend: "excelHtml5",
         text: " Excel",
         titleAttr: "Exportar a Excel",
-        filename: "LISTA_DE_HISTORIAL_ESTADO",
-        title: "LISTA DE HISTORIAL DE ESTADOS",
+        filename: "LISTA_DE_HISTORIAL_ESTADO_SALIDAS",
+        title: "LISTA DE HISTORIAL DE ESTADOS DE SALIDAS DIARIAS",
         className: "btn btn-success",
       },
       {
         extend: "pdfHtml5",
         text: " PDF",
         titleAttr: "Exportar a PDF",
-        filename: "LISTA_DE_HISTORIAL_ESTADO",
-        title: "LISTA DE HISTORIAL DE ESTADOS",
+        filename: "LISTA_DE_HISTORIAL_ESTADO_SALIDAS",
+        title: "LISTA DE HISTORIAL DE ESTADOS DE SALIDAS DIARIAS",
         className: "btn btn-danger",
       },
       {
         extend: "print",
         text: " Imprimir",
         titleAttr: "Imprimir",
-        title: "LISTA DE HISTORIAL DE ESTADOS",
+        title: "LISTA DE HISTORIAL DE ESTADOS DE SALIDAS DIARIAS",
         className: "btn btn-primary",
       },
     ],
@@ -1747,50 +1636,20 @@ function listar_historial_estado(id) {
       {
         data: "estado",
         render: function (data, type, row) {
-          switch (data) {
-            case "PENDIENTE":
-              return '<span class="badge badge-warning" style="background-color: #ffc107; color: #212529;">PENDIENTE</span>';
-            case "ENTREGADO":
-              return '<span class="badge badge-success" style="background-color: #28a745; color: white;">ENTREGADO</span>';
-            case "OBSERVADO":
-              return '<span class="badge badge-info" style="background-color: #17a2b8; color: white;">OBSERVADO</span>';
-            case "EN TRANSITO":
-              return '<span class="badge badge-primary" style="background-color: #007bff; color: white;">EN TRÁNSITO</span>';
-            case "EN AGENCIA":
-              return '<span class="badge badge-secondary" style="background-color: #6c757d; color: white;">EN AGENCIA</span>';
-            case "ANULADO":
-              return '<span class="badge badge-danger" style="background-color: #dc3545; color: white;">ANULADO</span>';
-            default:
-              return (
-                '<span class="badge badge-dark" style="background-color: #343a40; color: white;">' +
-                data +
-                "</span>"
-              );
+          if (data == "EN TRANSITO") {
+            return '<span class="badge bg-dark">EN TRANSITO</span>';
+          } else if (data == "COMPLETADO") {
+            return '<span class="badge bg-success">COMPLETADO</span>';
+          } else if (data == "INCOMPLETO") {
+            return '<span class="badge bg-warning">INCOMPLETO</span>';
+          } else {
+            return '<span class="badge bg-danger">ELIMINADO</span>';
           }
         },
       },
       { data: "observacion" },
-      {
-        data: "precio_anterior",
-        render: function (data, type, row) {
-          if (data && data != "" && data != "0" && data != "0.00") {
-            return "S/ " + parseFloat(data).toFixed(2);
-          }
-          return "-";
-        },
-      },
-      {
-        data: "precio_nuevi",
-        render: function (data, type, row) {
-          if (data && data != "" && data != "0" && data != "0.00") {
-            return "S/ " + parseFloat(data).toFixed(2);
-          }
-          return "-";
-        },
-      },
-      { data: "motivo_anula" },
+
       { data: "fecha_formateada" },
-      { data: "fecha_formateada2" },
     ],
     language: {
       emptyTable: "No se encontraron datos",
@@ -2054,7 +1913,6 @@ function Cargar_Select_Usuarios() {
   });
 }
 
-
 //FUNCION PARA EDITAR LA ENCOMIENDA
 function Modificar_Encomiendas() {
   let id = document.getElementById("txt_id_encomienda").value;
@@ -2273,5 +2131,4 @@ function LimpiarCamposEncomiendaEditar() {
   document.getElementById("txt_pago_editar").value = "0.00";
   document.getElementById("txt_por_pagar_editar").value = "0.00";
   document.getElementById("txt_a_domicilio_editar").value = "0.00";
-
 }
