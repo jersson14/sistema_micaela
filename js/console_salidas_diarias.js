@@ -1858,27 +1858,6 @@ function Realizar_pago() {
   }
 }
 
-// BOLETA DE PAGO
-$("#tabla_salida_diaria").on("click", ".imprimir", function () {
-  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
-
-  if (tbl_salidas_diarias.row(this).child.isShown()) {
-    var data = tbl_salidas_diarias.row(this).data();
-  }
-  var url =
-    "../view/MPDF/REPORTE/boleta_pago.php?id=" +
-    encodeURIComponent(data.id_encomienda) +
-    "#zoom=100%";
-
-  // Abrir una nueva ventana con la URL construida
-  var newWindow = window.open(url, "BOLETA DE PAGO", "scrollbars=NO");
-
-  // Asegurarse de que la ventana se abre en tamaño máximo
-  if (newWindow) {
-    newWindow.moveTo(0, 0);
-    newWindow.resizeTo(screen.width, screen.height);
-  }
-});
 
 //CARGAR USUARIOS
 function Cargar_Select_Usuarios() {
@@ -2132,3 +2111,25 @@ function LimpiarCamposEncomiendaEditar() {
   document.getElementById("txt_por_pagar_editar").value = "0.00";
   document.getElementById("txt_a_domicilio_editar").value = "0.00";
 }
+
+// IMPRIMIR MANIFIESTO
+$("#tabla_salida_diaria").on("click", ".imprimir", function () {
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
+
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
+  }
+  var url =
+    "../view/MPDF/REPORTE/manifiesto.php?id=" +
+    encodeURIComponent(data.id_salidas_diarias) +
+    "#zoom=100%";
+
+  // Abrir una nueva ventana con la URL construida
+  var newWindow = window.open(url, "MANIFIESTO", "scrollbars=NO");
+
+  // Asegurarse de que la ventana se abre en tamaño máximo
+  if (newWindow) {
+    newWindow.moveTo(0, 0);
+    newWindow.resizeTo(screen.width, screen.height);
+  }
+});
