@@ -2133,3 +2133,305 @@ $("#tabla_salida_diaria").on("click", ".imprimir", function () {
     newWindow.resizeTo(screen.width, screen.height);
   }
 });
+
+
+// AGREGAR PASAJERAS A LA TABLA
+
+function agregarPasajero() {
+    var documento = $("#txt_dni_emisor").val();
+    var nombres = $("#txt_nombre_pasajero").val();
+    var edad = $("#txt_edad").val();
+    var celular = $("#txt_cel_pasajero").val();
+
+    if (!documento || documento.trim() === "" || !nombres || nombres.trim() === "") {
+        return Swal.fire("Mensaje de Advertencia", "Complete los campos obligatorios", "warning");
+    }
+
+    if (verificarDocumento(documento)) {
+        return Swal.fire("Mensaje de Advertencia", "El pasajero ya fue agregado a la tabla", "warning");
+    }
+
+    var filasExistentes = document.querySelectorAll("#tabla_pasajeros tbody tr").length;
+    var fila = "<tr>";
+    fila += "<td>" + (filasExistentes + 1) + "</td>";
+    fila += "<td>" + documento + "</td>";
+    fila += "<td>" + nombres + "</td>";
+    fila += "<td>" + (edad || "N/A") + "</td>";
+    fila += "<td>" + (celular || "N/A") + "</td>";
+    fila += "<td><button class='btn btn-danger' onclick='removePasajero(this)'><i class='fas fa-trash'></i></button></td>";
+    fila += "</tr>";
+
+    $("#tabla_pasajeros tbody").append(fila);
+    actualizarTotalPasajeros();
+
+    // Limpiar campos
+    $("#txt_dni_emisor").val("");
+    $("#txt_nombre_pasajero").val("");
+    $("#txt_edad").val("");
+    $("#txt_cel_pasajero").val("");
+}
+
+function removePasajero(boton) {
+    var fila = boton.parentNode.parentNode;
+    fila.parentNode.removeChild(fila);
+    actualizarNumeracion();
+    actualizarTotalPasajeros();
+}
+
+function actualizarNumeracion() {
+    var filas = document.querySelectorAll("#tabla_pasajeros tbody tr");
+    filas.forEach((fila, index) => {
+        fila.cells[0].innerText = index + 1;
+    });
+}
+
+function actualizarTotalPasajeros() {
+    var total = document.querySelectorAll("#tabla_pasajeros tbody tr").length;
+    document.getElementById("total_pasajeros").innerText = total;
+}
+
+function verificarDocumento(documento) {
+    var filas = document.querySelectorAll("#tabla_pasajeros tbody tr");
+    for (var i = 0; i < filas.length; i++) {
+        var doc = filas[i].cells[1].innerText;
+        if (doc === documento) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+//LISTAR ENCOMIENDAS
+
+// VERSIÓN CON DEPURACIÓN COMPLETA
+console.log("Script de encomiendas cargado");
+
+// Función corregida para cargar encomiendas CON DEPURACIÓN
+function cargarEncomiendas(idConductor, idOrigen, idDestino) {
+    console.log("=== cargarEncomiendas llamada ===");
+    console.log("idConductor:", idConductor);
+    console.log("idOrigen:", idOrigen);
+    console.log("idDestino:", idDestino);
+    
+    let tbody = $('#tabla_encomiendas tbody');
+    console.log("tbody encontrado:", tbody.length > 0);
+    
+    tbody.html('<tr><td colspan="8">Cargando...</td></tr>');
+    
+    $.ajax({
+        url: "../controller/salidas_diarias/controlador_cargar_encomiendas.php",
+        type: 'POST',
+        data: { 
+            id_conductor: idConductor, 
+            id_origen: idOrigen, 
+            id_destino: idDestino 
+        },
+        beforeSend: function() {
+            console.log("Enviando petición AJAX...");
+        }
+    }).done(function (resp) {
+        console.log("Respuesta recibida:", resp);
+        try {
+            let data = JSON.parse(resp);
+            console.log("Datos parseados:", data);
+            
+            let html = '';
+            let totalEncomiendas = 0;
+            
+            if (data.length > 0) {
+                console.log("Procesando", data.length, "encomiendas");
+                data.forEach((encomienda, index) => {
+                    console.log("Encomienda", index, ":", encomienda);
+                    totalEncomiendas++;
+                    html += `
+                       <tr>
+                          <td><input type="checkbox" class="check_encomienda" value="${encomienda.id_encomienda || index}" data-id="${encomienda.id_encomienda}" checked></td>
+                          <td>${index + 1}</td>
+                          <td>${encomienda.nombre_emisor || 'N/A'}</td>
+                          <td>${encomienda.nombre_receptor || 'N/A'}</td>
+                          <td>S/ ${parseFloat(encomienda.pago || 0).toFixed(2)}</td>
+                          <td>S/ ${parseFloat(encomienda.por_pagar || 0).toFixed(2)}</td>
+                          <td>${encomienda.a_domicilio == 1 ? 'Sí' : 'No'}</td>
+                          <td>
+                              <span class="badge ${encomienda.estado_pago == 'Pagado' ? 'badge-success' : 'badge-warning'}">
+                                  ${encomienda.estado_pago || 'Pendiente'}
+                              </span>
+                          </td>
+                          <td style="display:none;">${encomienda.id_encomienda}</td>
+                      </tr>`;
+                                      });
+            } else {
+                console.log("No hay encomiendas disponibles");
+                html = '<tr><td colspan="8" class="text-muted">No hay encomiendas disponibles para los parámetros seleccionados</td></tr>';
+            }
+            
+            tbody.html(html);
+            $("#total_encomiendas").text(totalEncomiendas);
+            console.log("Tabla actualizada con", totalEncomiendas, "encomiendas");
+            
+            // Actualizar el estado del checkbox "seleccionar todos"
+            actualizarCheckboxTodos();
+            
+        } catch (error) {
+            console.error('Error al procesar los datos:', error);
+            console.log('Respuesta que causó el error:', resp);
+            tbody.html('<tr><td colspan="8" class="text-danger">Error al procesar los datos</td></tr>');
+        }
+    }).fail(function (xhr, status, error) {
+        console.error('Error AJAX:', {xhr, status, error});
+        console.log('Status:', xhr.status);
+        console.log('ResponseText:', xhr.responseText);
+        tbody.html('<tr><td colspan="8" class="text-danger">Error al cargar las encomiendas. Intente nuevamente.</td></tr>');
+    });
+}
+
+// Función para actualizar el estado del checkbox "Seleccionar todos"
+function actualizarCheckboxTodos() {
+    console.log("Actualizando checkbox todos");
+    const checkboxes = $('.check_encomienda');
+    const checkboxTodos = $('#check_all_encomiendas');
+    
+    console.log("Checkboxes encontrados:", checkboxes.length);
+    
+    if (checkboxes.length === 0) {
+        checkboxTodos.prop('checked', false);
+        checkboxTodos.prop('indeterminate', false);
+        return;
+    }
+    
+    const marcados = checkboxes.filter(':checked').length;
+    console.log("Checkboxes marcados:", marcados);
+    
+    if (marcados === 0) {
+        checkboxTodos.prop('checked', false);
+        checkboxTodos.prop('indeterminate', false);
+    } else if (marcados === checkboxes.length) {
+        checkboxTodos.prop('checked', true);
+        checkboxTodos.prop('indeterminate', false);
+    } else {
+        checkboxTodos.prop('checked', false);
+        checkboxTodos.prop('indeterminate', true);
+    }
+}
+
+
+// Eventos del documento
+$(document).ready(function () {
+    console.log("Document ready ejecutado");
+    
+    // Cargar datos iniciales
+    Cargar_Select_Conductores();
+    Cargar_Select_Rutas();
+    
+    // Escuchar cambios en los selectores para cargar encomiendas
+    $('#select_conductor, #select_origen, #select_destino').on('change', function () {
+        console.log("Cambio detectado en selectores");
+        
+        const idConductor = $('#select_conductor').val();
+        const idOrigen = $('#select_origen').val();
+        const idDestino = $('#select_destino').val();
+        
+        console.log("Valores actuales:");
+        console.log("- Conductor:", idConductor);
+        console.log("- Origen:", idOrigen);
+        console.log("- Destino:", idDestino);
+        
+        // Verificar que los tres parámetros estén seleccionados
+        if (idConductor && idOrigen && idDestino) {
+            console.log("Todos los parámetros seleccionados, cargando encomiendas...");
+            cargarEncomiendas(idConductor, idOrigen, idDestino);
+        } else {
+            console.log("Faltan parámetros por seleccionar");
+            // Limpiar la tabla si no están todos los parámetros
+            $('#tabla_encomiendas tbody').html('<tr><td colspan="8" class="text-muted">Seleccione conductor, origen y destino para cargar encomiendas</td></tr>');
+            $("#total_encomiendas").text(0);
+        }
+    });
+    
+    // Manejar checkbox "Seleccionar todos"
+    $(document).on('change', '#check_all_encomiendas', function () {
+        console.log("Checkbox 'todos' cambiado");
+        const isChecked = $(this).is(':checked');
+        $('.check_encomienda').prop('checked', isChecked);
+    });
+    
+    // Manejar checkboxes individuales
+    $(document).on('change', '.check_encomienda', function () {
+        console.log("Checkbox individual cambiado");
+        actualizarCheckboxTodos();
+    });
+});
+
+// Configuración del modal
+$("#modal_registro").on("shown.bs.modal", function () {
+    console.log("Modal mostrado");
+    
+    // Verificar si Select2 ya está inicializado
+    if (!$("#select_conductor").hasClass("select2-hidden-accessible")) {
+        $("#select_conductor").select2({
+            placeholder: "Seleccionar Conductor",
+            allowClear: true,
+            dropdownParent: $("#modal_registro"),
+        });
+        console.log("Select2 conductor inicializado");
+    }
+    
+    if (!$("#select_origen").hasClass("select2-hidden-accessible")) {
+        $("#select_origen").select2({
+            placeholder: "Seleccionar Origen",
+            allowClear: true,
+            dropdownParent: $("#modal_registro"),
+        });
+        console.log("Select2 origen inicializado");
+    }
+    
+    if (!$("#select_destino").hasClass("select2-hidden-accessible")) {
+        $("#select_destino").select2({
+            placeholder: "Seleccionar Destino",
+            allowClear: true,
+            dropdownParent: $("#modal_registro"),
+        });
+        console.log("Select2 destino inicializado");
+    }
+    
+    // Establecer fecha y hora actual
+    const now = new Date();
+    const fechaActual = now.toISOString().slice(0, 16);
+    $("#txt_fecha_creacion").val(fechaActual);
+    console.log("Fecha establecida:", fechaActual);
+});
+
+// Limpiar formulario al cerrar modal
+$("#modal_registro").on("hidden.bs.modal", function () {
+    console.log("Modal ocultado, limpiando formulario");
+    
+    // Limpiar selectores
+    $("#select_conductor").val('').trigger('change');
+    $("#select_origen").val('').trigger('change');
+    $("#select_destino").val('').trigger('change');
+    
+    // Limpiar tabla de encomiendas
+    $('#tabla_encomiendas tbody').html('');
+    $("#total_encomiendas").text(0);
+    
+    // Limpiar otros campos si es necesario
+    $("#txt_descripcion").val('');
+});
+
+// Obtener todos los IDs de encomiendas seleccionadas
+function obtenerEncomiendasSeleccionadas() {
+    let idsSeleccionados = [];
+    
+    $('.check_encomienda:checked').each(function() {
+        let id = $(this).val(); // o $(this).data('id')
+        idsSeleccionados.push(id);
+    });
+    
+    return idsSeleccionados;
+}
+
+// Ejemplo de uso
+let encomiendas = obtenerEncomiendasSeleccionadas();
+console.log('IDs seleccionados:', encomiendas); // [1, 3, 5, 7]

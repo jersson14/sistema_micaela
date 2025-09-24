@@ -764,6 +764,774 @@ function listar_encomiendas_ruta_estado() {
 
 }
 
+//FILTRO POR RUTAS Y ESTADO
+function listar_encomiendas_ruta_estado() {
+  let ori = document.getElementById("select_origen_bus").value;
+  let des = document.getElementById("select_destino_bus").value;
+  let esta = document.getElementById("select_estado_buscar").value;
+
+  tbl_encomiendas = $("#tabla_encomiendas").DataTable({
+    pagingType: "full_numbers",
+    scrollCollapse: true,
+    responsive: true,
+    ordering: false,
+    bLengthChange: true,
+    searching: { regex: false },
+    lengthMenu: [
+      [10, 25, 50, 100, -1],
+      [10, 25, 50, 100, "All"],
+    ],
+    pageLength: 10,
+    destroy: true,
+    pagingType: "full_numbers",
+    scrollCollapse: true,
+    responsive: true,
+    async: false,
+    processing: true,
+    ajax: {
+      url: "../controller/encomiendas/controlador_listar_encomiendas_filtro1.php",
+      type: "POST",
+      data: {
+        ori: ori,
+        des: des,
+        esta: esta,
+      },
+    },
+    dom: "Bfrtip",
+
+    buttons: [
+      {
+        extend: "excelHtml5",
+        text: '<i class="fas fa-file-excel"></i> Excel',
+        titleAttr: "Exportar a Excel",
+        filename: "LISTA DE ENCOMIENDAS",
+        title: "LISTA DE ENCOMIENDAS",
+        className: "btn btn-excel",
+        exportOptions: {
+          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        },
+      },
+      {
+        extend: "pdfHtml5",
+        text: '<i class="fas fa-file-pdf"></i> PDF',
+        titleAttr: "Exportar a PDF",
+        filename: "LISTA DE ENCOMIENDAS",
+        title: "LISTA DE ENCOMIENDAS",
+        className: "btn btn-pdf",
+        orientation: "landscape", // <-- Establece la orientación en horizontal
+        pageSize: "A4", // <-- Especifica el tamaño de la página
+        exportOptions: {
+          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        },
+      },
+      {
+        extend: "print",
+        text: '<i class="fa fa-print"></i> Imprimir',
+        titleAttr: "Imprimir",
+        title: "LISTA DE ENCOMIENDAS",
+        className: "btn btn-print",
+        exportOptions: {
+          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        },
+      },
+    ],
+    columns: [
+      { data: "boleta_nro" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return (
+            "<strong>" +
+            row.tipo_documen +
+            ": " +
+            row.nro_doc +
+            "</strong><br>" +
+            row.nombres_apellidos
+          );
+        },
+      },
+      { data: "nombre_origen" },
+      { data: "nombre_destino" },
+      { data: "fecha_formateada" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return (
+            "<strong>" +
+            row.tipo_doc_emisor +
+            ": " +
+            row.nro_doc_emisor +
+            "</strong><br>" +
+            row.nombre_emisor
+          );
+        },
+      },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return (
+            "<strong>" +
+            row.tipo_doc_receptor +
+            ": " +
+            row.nro_doc_receptor +
+            "</strong><br>" +
+            row.nombre_receptor
+          );
+        },
+      },
+
+      // ---- PAGO ----
+      {
+        data: "pago",
+        render: function (data, type, row) {
+          if (parseFloat(data) > 0) {
+            return '<span class="badge bg-success">S/ ' + data + "</span>";
+          } else {
+            return '<span class="badge bg-secondary">-</span>';
+          }
+        },
+      },
+
+      // ---- POR PAGAR ----
+      {
+        data: "por_pagar",
+        render: function (data, type, row) {
+          if (parseFloat(data) > 0) {
+            return '<span class="badge bg-danger">S/ ' + data + "</span>";
+          } else {
+            return '<span class="badge bg-secondary">-</span>';
+          }
+        },
+      },
+
+      // ---- A DOMICILIO ----
+      {
+        data: "a_domicilio",
+        render: function (data, type, row) {
+          if (parseFloat(data) > 0) {
+            return '<span class="badge bg-success">S/ ' + data + "</span>";
+          } else {
+            return '<span class="badge bg-secondary">-</span>';
+          }
+        },
+      },
+      // ---- ESTADO PAGO ----
+      {
+        data: "estado_pago",
+        render: function (data, type, row) {
+          if (data == "PAGADO") {
+            return '<span class="badge bg-success">PAGADO</span>';
+          } else if (data == "ANULADO") {
+            return '<span class="badge bg-danger text-danger">ANULADO</span>';
+          } else {
+            return '<span class="badge bg-warning text-dark">POR PAGAR</span>';
+          }
+        },
+      },
+
+      // ---- ESTADO ENCOMIENDA CON USUARIO ----
+      {
+        data: null,
+        render: function (data, type, row) {
+          let estadoBadge = "";
+          let usuario = row.usu_nombre || "Sistema";
+          let fechaUpdate = row.fecha_formateada3 || "";
+
+          switch (row.estado_encomienda) {
+            case "PENDIENTE":
+              estadoBadge =
+                '<span class="badge bg-warning text-dark">PENDIENTE</span>';
+              break;
+            case "ENTREGADO":
+              estadoBadge = '<span class="badge bg-success">ENTREGADO</span>';
+              break;
+            case "OBSERVADO":
+              estadoBadge = '<span class="badge bg-danger">OBSERVADO</span>';
+              break;
+            case "EN TRANSITO":
+              estadoBadge =
+                '<span class="badge bg-info text-dark">EN TRÁNSITO</span>';
+              break;
+            case "EN AGENCIA":
+              estadoBadge = '<span class="badge bg-primary">EN AGENCIA</span>';
+              break;
+            case "ANULADO":
+              estadoBadge = '<span class="badge bg-secondary">ANULADO</span>';
+              break;
+            default:
+              estadoBadge =
+                '<span class="badge bg-light text-dark">' +
+                row.estado_encomienda +
+                "</span>";
+          }
+
+          return `
+            <div style="text-align: center;">
+              ${estadoBadge}
+              <br>
+              <small style="color: #6c757d; font-size: 1.0rem;">
+                <i class="fas fa-user" style="font-size: 1.0rem;"></i> ${usuario}
+                ${
+                  fechaUpdate
+                    ? '<br><i class="fas fa-clock" style="font-size: 0.7rem;"></i> ' +
+                      fechaUpdate
+                    : ""
+                }
+              </small>
+            </div>
+          `;
+        },
+      },
+
+      // ---- BOTONES CON HISTORIAL AGREGADO ----
+      {
+        data: null,
+        render: function (data, type, row) {
+          let pago = row.estado_pago;
+          let estado = row.estado_encomienda;
+          let id = row.id_encomienda;
+
+          const botones = {
+            mostrar:
+              "<a href='#' class='dropdown-item mostrar' data-id='" +
+              id +
+              "'><i class='fa fa-eye'></i> Mostrar</a>",
+            editar:
+              "<a href='#' class='dropdown-item editar' data-id='" +
+              id +
+              "'><i class='fa fa-edit'></i> Editar</a>",
+            eliminar:
+              "<a href='#' class='dropdown-item eliminar' data-id='" +
+              id +
+              "'><i class='fa fa-trash'></i> Eliminar</a>",
+            cambiar:
+              "<a href='#' class='dropdown-item cambiar_estado' data-id='" +
+              id +
+              "'><i class='fa fa-retweet'></i> Cambiar Estado</a>",
+            imprimir:
+              "<a href='#' class='dropdown-item imprimir' data-id='" +
+              id +
+              "'><i class='fa fa-print'></i> Imprimir</a>",
+            anular:
+              "<a href='#' class='dropdown-item anular' data-id='" +
+              id +
+              "'><i class='fa fa-ban'></i> Anular</a>",
+            pagar:
+              "<a href='#' class='dropdown-item pagar' data-id='" +
+              id +
+              "'><i class='fa fa-credit-card'></i> Pagar</a>",
+            ajustar:
+              "<a href='#' class='dropdown-item ajustar_precio' data-id='" +
+              id +
+              "'><i class='fa fa-dollar-sign'></i> Ajustar Precio</a>",
+            motivo:
+              "<a href='#' class='dropdown-item motivo_anulacion' data-id='" +
+              id +
+              "'><i class='fa fa-info-circle'></i> Motivo Anulación</a>",
+            historial:
+              "<a href='#' class='dropdown-item historial' data-id='" +
+              id +
+              "'><i class='fa fa-history'></i> Historial</a>",
+          };
+
+          const reglas = {
+            "PAGADO|PENDIENTE": [
+              botones.eliminar,
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.historial,
+            ],
+            "PAGADO|EN TRANSITO": [
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.historial,
+            ],
+            "PAGADO|EN AGENCIA": [
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.historial,
+            ],
+            "PAGADO|ENTREGADO": [
+              botones.editar,
+              botones.mostrar,
+              botones.imprimir,
+              botones.historial,
+            ],
+            "PAGADO|OBSERVADO": [
+              botones.editar,
+              botones.mostrar,
+              botones.imprimir,
+              botones.ajustar,
+              botones.historial,
+            ],
+            "PAGADO|ANULADO": [
+              botones.mostrar,
+              botones.motivo,
+              botones.historial,
+            ],
+
+            "POR PAGAR|PENDIENTE": [
+              botones.eliminar,
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.pagar,
+              botones.historial,
+            ],
+            "POR PAGAR|EN TRANSITO": [
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.pagar,
+              botones.historial,
+            ],
+            "POR PAGAR|EN AGENCIA": [
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.pagar,
+              botones.historial,
+            ],
+            "POR PAGAR|ENTREGADO": [
+              botones.editar,
+              botones.mostrar,
+              botones.imprimir,
+              botones.historial,
+            ],
+            "POR PAGAR|OBSERVADO": [
+              botones.editar,
+              botones.mostrar,
+              botones.imprimir,
+              botones.ajustar,
+              botones.historial,
+            ],
+            "POR PAGAR|ANULADO": [
+              botones.mostrar,
+              botones.motivo,
+              botones.historial,
+            ],
+          };
+
+          let clave = pago + "|" + estado;
+          let acciones = reglas[clave] || [botones.mostrar, botones.historial];
+
+          // Dropdown mejorado con mejor posicionamiento
+          return `
+        <div class="dropdown" style="position: relative;">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" 
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    style="border: none; background: #6c757d;">
+                <i class="fas fa-ellipsis-v"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" style="position: absolute; 
+                     z-index: 9999; min-width: 150px; right: 0;">
+                ${acciones.join("")}
+            </div>
+        </div>`;
+        },
+        width: "80px", // Fija el ancho de la columna
+        className: "text-center no-wrap", // Clase para centrar y evitar wrap
+      },
+    ],
+    language: idioma_espanol,
+    select: true,
+  });
+
+}
+
+//FILTRO POR RUTAS Y ESTADO
+function listar_encomiendas_ruta_estado() {
+  let ori = document.getElementById("select_origen_bus").value;
+  let des = document.getElementById("select_destino_bus").value;
+  let esta = document.getElementById("select_estado_buscar").value;
+
+  tbl_encomiendas = $("#tabla_encomiendas").DataTable({
+    pagingType: "full_numbers",
+    scrollCollapse: true,
+    responsive: true,
+    ordering: false,
+    bLengthChange: true,
+    searching: { regex: false },
+    lengthMenu: [
+      [10, 25, 50, 100, -1],
+      [10, 25, 50, 100, "All"],
+    ],
+    pageLength: 10,
+    destroy: true,
+    pagingType: "full_numbers",
+    scrollCollapse: true,
+    responsive: true,
+    async: false,
+    processing: true,
+    ajax: {
+      url: "../controller/encomiendas/controlador_listar_encomiendas_filtro1.php",
+      type: "POST",
+      data: {
+        ori: ori,
+        des: des,
+        esta: esta,
+      },
+    },
+    dom: "Bfrtip",
+
+    buttons: [
+      {
+        extend: "excelHtml5",
+        text: '<i class="fas fa-file-excel"></i> Excel',
+        titleAttr: "Exportar a Excel",
+        filename: "LISTA DE ENCOMIENDAS",
+        title: "LISTA DE ENCOMIENDAS",
+        className: "btn btn-excel",
+        exportOptions: {
+          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        },
+      },
+      {
+        extend: "pdfHtml5",
+        text: '<i class="fas fa-file-pdf"></i> PDF',
+        titleAttr: "Exportar a PDF",
+        filename: "LISTA DE ENCOMIENDAS",
+        title: "LISTA DE ENCOMIENDAS",
+        className: "btn btn-pdf",
+        orientation: "landscape", // <-- Establece la orientación en horizontal
+        pageSize: "A4", // <-- Especifica el tamaño de la página
+        exportOptions: {
+          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        },
+      },
+      {
+        extend: "print",
+        text: '<i class="fa fa-print"></i> Imprimir',
+        titleAttr: "Imprimir",
+        title: "LISTA DE ENCOMIENDAS",
+        className: "btn btn-print",
+        exportOptions: {
+          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        },
+      },
+    ],
+    columns: [
+      { data: "boleta_nro" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return (
+            "<strong>" +
+            row.tipo_documen +
+            ": " +
+            row.nro_doc +
+            "</strong><br>" +
+            row.nombres_apellidos
+          );
+        },
+      },
+      { data: "nombre_origen" },
+      { data: "nombre_destino" },
+      { data: "fecha_formateada" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return (
+            "<strong>" +
+            row.tipo_doc_emisor +
+            ": " +
+            row.nro_doc_emisor +
+            "</strong><br>" +
+            row.nombre_emisor
+          );
+        },
+      },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return (
+            "<strong>" +
+            row.tipo_doc_receptor +
+            ": " +
+            row.nro_doc_receptor +
+            "</strong><br>" +
+            row.nombre_receptor
+          );
+        },
+      },
+
+      // ---- PAGO ----
+      {
+        data: "pago",
+        render: function (data, type, row) {
+          if (parseFloat(data) > 0) {
+            return '<span class="badge bg-success">S/ ' + data + "</span>";
+          } else {
+            return '<span class="badge bg-secondary">-</span>';
+          }
+        },
+      },
+
+      // ---- POR PAGAR ----
+      {
+        data: "por_pagar",
+        render: function (data, type, row) {
+          if (parseFloat(data) > 0) {
+            return '<span class="badge bg-danger">S/ ' + data + "</span>";
+          } else {
+            return '<span class="badge bg-secondary">-</span>';
+          }
+        },
+      },
+
+      // ---- A DOMICILIO ----
+      {
+        data: "a_domicilio",
+        render: function (data, type, row) {
+          if (parseFloat(data) > 0) {
+            return '<span class="badge bg-success">S/ ' + data + "</span>";
+          } else {
+            return '<span class="badge bg-secondary">-</span>';
+          }
+        },
+      },
+      // ---- ESTADO PAGO ----
+      {
+        data: "estado_pago",
+        render: function (data, type, row) {
+          if (data == "PAGADO") {
+            return '<span class="badge bg-success">PAGADO</span>';
+          } else if (data == "ANULADO") {
+            return '<span class="badge bg-danger text-danger">ANULADO</span>';
+          } else {
+            return '<span class="badge bg-warning text-dark">POR PAGAR</span>';
+          }
+        },
+      },
+
+      // ---- ESTADO ENCOMIENDA CON USUARIO ----
+      {
+        data: null,
+        render: function (data, type, row) {
+          let estadoBadge = "";
+          let usuario = row.usu_nombre || "Sistema";
+          let fechaUpdate = row.fecha_formateada3 || "";
+
+          switch (row.estado_encomienda) {
+            case "PENDIENTE":
+              estadoBadge =
+                '<span class="badge bg-warning text-dark">PENDIENTE</span>';
+              break;
+            case "ENTREGADO":
+              estadoBadge = '<span class="badge bg-success">ENTREGADO</span>';
+              break;
+            case "OBSERVADO":
+              estadoBadge = '<span class="badge bg-danger">OBSERVADO</span>';
+              break;
+            case "EN TRANSITO":
+              estadoBadge =
+                '<span class="badge bg-info text-dark">EN TRÁNSITO</span>';
+              break;
+            case "EN AGENCIA":
+              estadoBadge = '<span class="badge bg-primary">EN AGENCIA</span>';
+              break;
+            case "ANULADO":
+              estadoBadge = '<span class="badge bg-secondary">ANULADO</span>';
+              break;
+            default:
+              estadoBadge =
+                '<span class="badge bg-light text-dark">' +
+                row.estado_encomienda +
+                "</span>";
+          }
+
+          return `
+            <div style="text-align: center;">
+              ${estadoBadge}
+              <br>
+              <small style="color: #6c757d; font-size: 1.0rem;">
+                <i class="fas fa-user" style="font-size: 1.0rem;"></i> ${usuario}
+                ${
+                  fechaUpdate
+                    ? '<br><i class="fas fa-clock" style="font-size: 0.7rem;"></i> ' +
+                      fechaUpdate
+                    : ""
+                }
+              </small>
+            </div>
+          `;
+        },
+      },
+
+      // ---- BOTONES CON HISTORIAL AGREGADO ----
+      {
+        data: null,
+        render: function (data, type, row) {
+          let pago = row.estado_pago;
+          let estado = row.estado_encomienda;
+          let id = row.id_encomienda;
+
+          const botones = {
+            mostrar:
+              "<a href='#' class='dropdown-item mostrar' data-id='" +
+              id +
+              "'><i class='fa fa-eye'></i> Mostrar</a>",
+            editar:
+              "<a href='#' class='dropdown-item editar' data-id='" +
+              id +
+              "'><i class='fa fa-edit'></i> Editar</a>",
+            eliminar:
+              "<a href='#' class='dropdown-item eliminar' data-id='" +
+              id +
+              "'><i class='fa fa-trash'></i> Eliminar</a>",
+            cambiar:
+              "<a href='#' class='dropdown-item cambiar_estado' data-id='" +
+              id +
+              "'><i class='fa fa-retweet'></i> Cambiar Estado</a>",
+            imprimir:
+              "<a href='#' class='dropdown-item imprimir' data-id='" +
+              id +
+              "'><i class='fa fa-print'></i> Imprimir</a>",
+            anular:
+              "<a href='#' class='dropdown-item anular' data-id='" +
+              id +
+              "'><i class='fa fa-ban'></i> Anular</a>",
+            pagar:
+              "<a href='#' class='dropdown-item pagar' data-id='" +
+              id +
+              "'><i class='fa fa-credit-card'></i> Pagar</a>",
+            ajustar:
+              "<a href='#' class='dropdown-item ajustar_precio' data-id='" +
+              id +
+              "'><i class='fa fa-dollar-sign'></i> Ajustar Precio</a>",
+            motivo:
+              "<a href='#' class='dropdown-item motivo_anulacion' data-id='" +
+              id +
+              "'><i class='fa fa-info-circle'></i> Motivo Anulación</a>",
+            historial:
+              "<a href='#' class='dropdown-item historial' data-id='" +
+              id +
+              "'><i class='fa fa-history'></i> Historial</a>",
+          };
+
+          const reglas = {
+            "PAGADO|PENDIENTE": [
+              botones.eliminar,
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.historial,
+            ],
+            "PAGADO|EN TRANSITO": [
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.historial,
+            ],
+            "PAGADO|EN AGENCIA": [
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.historial,
+            ],
+            "PAGADO|ENTREGADO": [
+              botones.editar,
+              botones.mostrar,
+              botones.imprimir,
+              botones.historial,
+            ],
+            "PAGADO|OBSERVADO": [
+              botones.editar,
+              botones.mostrar,
+              botones.imprimir,
+              botones.ajustar,
+              botones.historial,
+            ],
+            "PAGADO|ANULADO": [
+              botones.mostrar,
+              botones.motivo,
+              botones.historial,
+            ],
+
+            "POR PAGAR|PENDIENTE": [
+              botones.eliminar,
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.pagar,
+              botones.historial,
+            ],
+            "POR PAGAR|EN TRANSITO": [
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.pagar,
+              botones.historial,
+            ],
+            "POR PAGAR|EN AGENCIA": [
+              botones.editar,
+              botones.mostrar,
+              botones.cambiar,
+              botones.imprimir,
+              botones.pagar,
+              botones.historial,
+            ],
+            "POR PAGAR|ENTREGADO": [
+              botones.editar,
+              botones.mostrar,
+              botones.imprimir,
+              botones.historial,
+            ],
+            "POR PAGAR|OBSERVADO": [
+              botones.editar,
+              botones.mostrar,
+              botones.imprimir,
+              botones.ajustar,
+              botones.historial,
+            ],
+            "POR PAGAR|ANULADO": [
+              botones.mostrar,
+              botones.motivo,
+              botones.historial,
+            ],
+          };
+
+          let clave = pago + "|" + estado;
+          let acciones = reglas[clave] || [botones.mostrar, botones.historial];
+
+          // Dropdown mejorado con mejor posicionamiento
+          return `
+        <div class="dropdown" style="position: relative;">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" 
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    style="border: none; background: #6c757d;">
+                <i class="fas fa-ellipsis-v"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" style="position: absolute; 
+                     z-index: 9999; min-width: 150px; right: 0;">
+                ${acciones.join("")}
+            </div>
+        </div>`;
+        },
+        width: "80px", // Fija el ancho de la columna
+        className: "text-center no-wrap", // Clase para centrar y evitar wrap
+      },
+    ],
+    language: idioma_espanol,
+    select: true,
+  });
+
+}
+
 //FILTRO POR FECHA Y USUARIO
 function listar_encomiendas_fecha_usu() {
   let fedes = document.getElementById("txt_fecha_desde").value;
@@ -2716,20 +3484,12 @@ function Modificar_Encomiendas() {
   let documentoFinal = "";
   if (tipodocemi === "DNI") {
     if (!dniemi) {
-      return Swal.fire(
-        "Mensaje de Advertencia",
-        "El campo DNI del emisor es obligatorio",
-        "warning"
-      );
+      return Swal.fire("Mensaje de Advertencia", "El campo DNI del emisor es obligatorio", "warning");
     }
     documentoFinal = dniemi;
   } else {
     if (!dni2emi) {
-      return Swal.fire(
-        "Mensaje de Advertencia",
-        "El campo de documento del emisor es obligatorio",
-        "warning"
-      );
+      return Swal.fire("Mensaje de Advertencia", "El campo de documento del emisor es obligatorio", "warning");
     }
     documentoFinal = dni2emi;
   }
@@ -2738,20 +3498,12 @@ function Modificar_Encomiendas() {
   let documentoFinal2 = "";
   if (tipodocrece === "DNI") {
     if (!dnirece) {
-      return Swal.fire(
-        "Mensaje de Advertencia",
-        "El campo DNI del receptor es obligatorio",
-        "warning"
-      );
+      return Swal.fire("Mensaje de Advertencia", "El campo DNI del receptor es obligatorio", "warning");
     }
     documentoFinal2 = dnirece;
   } else {
     if (!deni2rece) {
-      return Swal.fire(
-        "Mensaje de Advertencia",
-        "El campo de documento del receptor es obligatorio",
-        "warning"
-      );
+      return Swal.fire("Mensaje de Advertencia", "El campo de documento del receptor es obligatorio", "warning");
     }
     documentoFinal2 = deni2rece;
   }

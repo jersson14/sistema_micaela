@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 24-09-2025 a las 23:41:05
+-- Tiempo de generación: 25-09-2025 a las 00:49:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -465,6 +465,46 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_ENCOMIENDAS_RUTA_ESTADO` 
         (ESTA IS NULL OR ESTA = '' OR encomiendas.estado_encomienda = ESTA)
     ORDER BY encomiendas.fecha_hora DESC;
 END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_ENCOMIENDAS_SALIDAS` (IN `CONDUC` INT, IN `ORI` INT, IN `DEST` INT)   SELECT
+    emisor.id_cliente AS id_emisor, 
+    emisor.tipo_documento AS tipo_doc_emisor, 
+    emisor.nro_documento AS nro_doc_emisor, 
+    emisor.nombre_completo AS nombre_emisor, 
+    emisor.celular AS celular_emisor, 
+    emisor.direccion AS direccion_emisor, 
+    receptor.id_cliente AS id_receptor, 
+    receptor.tipo_documento AS tipo_doc_receptor, 
+    receptor.nro_documento AS nro_doc_receptor, 
+    receptor.nombre_completo AS nombre_receptor, 
+    receptor.celular AS celular_receptor, 
+    receptor.direccion AS direccion_receptor, 
+
+    encomiendas.descripcion, 
+    encomiendas.id_cliente_emisor, 
+    encomiendas.id_cliente_receptor, 
+    encomiendas.pago, 
+    encomiendas.por_pagar, 
+    encomiendas.a_domicilio, 
+    encomiendas.estado_pago,
+    encomiendas.id_usuario
+FROM
+    encomiendas
+INNER JOIN clientes AS emisor
+    ON encomiendas.id_cliente_emisor = emisor.id_cliente
+INNER JOIN clientes AS receptor
+    ON encomiendas.id_cliente_receptor = receptor.id_cliente
+INNER JOIN usuario
+    ON encomiendas.id_usuario = usuario.id_usuario
+INNER JOIN choferes
+    ON encomiendas.id_conductor = choferes.id_chofer
+INNER JOIN rutas AS rutas_origen
+    ON rutas_origen.idrutas = encomiendas.id_origen
+INNER JOIN rutas AS rutas_destino
+    ON rutas_destino.idrutas = encomiendas.id_destino
+
+WHERE encomiendas.id_conductor=CONDUC AND encomiendas.id_origen=ORI AND encomiendas.id_destino=DEST
+ORDER BY encomiendas.fecha_hora DESC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_GASTOS` ()   SELECT
     gastos.id_gastos,

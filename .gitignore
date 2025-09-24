@@ -1,1 +1,6 @@
+# Ignorar archivos específicos
 model/model_conexion.php
+micaela (1).sql
+micaela (2).sql
+micaela.sql
+view/MPDF/conexion.php

@@ -193,11 +193,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-8 form-group">
+                    <div class="col-6 form-group">
                         <label>Nombres y Apellidos<b style="color:red">(*)</b>:</label>
                         <input type="text" class="form-control" id="txt_nombre_pasajero" onkeypress="return sololetras(event)">
                     </div>
-                    <div class="col-4 form-group">
+                    <div class="col-3 form-group">
+                        <label>Edad(Opcional):</label>
+                        <input type="number" class="form-control" id="txt_edad">
+                    </div>
+                    <div class="col-3 form-group">
                         <label>Celular(Opcional):</label>
                         <input type="text" class="form-control" id="txt_cel_pasajero" maxlength="9" onkeypress="return soloNumeros(event)">
                     </div>
@@ -215,6 +219,7 @@
                                     <th>#</th>
                                     <th>Documento</th>
                                     <th>Nombres y Apellidos</th>
+                                    <th>Edad</th>
                                     <th>Celular</th>
                                     <th>Acción</th>
                                 </tr>
@@ -796,3 +801,5 @@
             /* más alto que la tabla */
         }
     </styLe>
+
+

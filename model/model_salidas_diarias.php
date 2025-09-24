@@ -99,21 +99,25 @@
             conexionBD::cerrar_conexion();
         }
        
-        public function Listar_facturas_edtado_obra($obra,$estado){
+
+        public function Listar_Encomiendas($id_conductor, $id_origen, $id_destino){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_LISTAR_FACTURAS_OBRA_ESTADO(?,?)";
+            $sql = "CALL SP_LISTAR_ENCOMIENDAS_SALIDAS(?,?,?)";
             $arreglo = array();
-            $query  = $c->prepare($sql);
-            $query->bindParam(1,$obra);
-            $query->bindParam(2,$estado);
+            $query = $c->prepare($sql);
+            $query->bindParam(1, $id_conductor); // Aquí estabas usando $id en lugar de $id_obra
+            $query->bindParam(2, $id_origen); // Aquí estabas usando $id en lugar de $id_obra
+            $query->bindParam(3, $id_destino); // Aquí estabas usando $id en lugar de $id_obra
 
             $query->execute();
             $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-            foreach($resultado as $resp){
-                $arreglo["data"][]=$resp;
-            }
-            return $arreglo;
-            conexionBD::cerrar_conexion();
+            
+            // No necesitas el formato "data" para el uso que le estás dando
+            // Simplemente devuelve el array de resultados
+            return $resultado;
+            
+            // Esta línea nunca se ejecuta porque está después del return
+            // conexionBD::cerrar_conexion();
         }
         public function Listar_facturas_fecha_usu($fechaini,$fechafin,$usu){
             $c = conexionBD::conexionPDO();

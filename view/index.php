@@ -252,12 +252,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <b>REPORTES</b>
               </li>
 
-              <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','facturas/view_facturas.php')" class="nav-link">
-                  <i class="nav-icon fas fa-file-invoice-dollar"></i>
-                  <p style="color:white">Gestión de Facturas</p>
-                </a>
-              </li>
 
               <li class="nav-item">
                 <a href="#" onclick="cargar_contenido('contenido_principal','facturas/view_facturas_archivadas.php')" class="nav-link">
@@ -266,12 +260,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_ventas.php')" class="nav-link">
-                  <i class="nav-icon fas fa-chart-bar"></i>
-                  <p style="color:white">Reporte de Ventas</p>
-                </a>
-              </li>
 
               <li class="nav-item">
                 <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_ingresos_gastos.php')" class="nav-link">
