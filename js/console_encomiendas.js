@@ -574,6 +574,7 @@ function listar_encomiendas_ruta_estado() {
             case "ANULADO":
               estadoBadge = '<span class="badge bg-secondary">ANULADO</span>';
               break;
+          
             default:
               estadoBadge =
                 '<span class="badge bg-light text-dark">' +

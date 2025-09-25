@@ -137,27 +137,19 @@
             conexionBD::cerrar_conexion();
         }
       
-        public function Registrar_Encomiendas($conduc,$ori,$des,$fecha,$desc,$tipodocemi,$documentoFinal,$nomemi,$celemi,$tipodocrece,$documentoFinal2,$nomrece,$celurece,$pago,$porpagar,$adomicilio,$idusu){
+        public function Registrar_Salida_Diaria($conductor,$monto,$fechaHora,$origen,$destino,$observacion,$idUsuario,$totalPasajeros,$totalEncomiendas){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_REGISTRAR_ENCOMIENDA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "CALL SP_REGISTRAR_SALIDA_DIARIA(?,?,?,?,?,?,?,?,?)";
             $query  = $c->prepare($sql);
-            $query ->bindParam(1,$conduc);
-            $query ->bindParam(2,$ori);
-            $query ->bindParam(3,$des);
-            $query ->bindParam(4,$fecha);
-            $query ->bindParam(5,$desc);
-            $query ->bindParam(6,$tipodocemi);
-            $query ->bindParam(7,$documentoFinal);
-            $query ->bindParam(8,$nomemi);
-            $query ->bindParam(9,$celemi);
-            $query ->bindParam(10,$tipodocrece);
-            $query ->bindParam(11,$documentoFinal2);
-            $query ->bindParam(12,$nomrece);
-            $query ->bindParam(13,$celurece);
-            $query ->bindParam(14,$pago);
-            $query ->bindParam(15,$porpagar);
-            $query ->bindParam(16,$adomicilio);
-            $query ->bindParam(17,$idusu);
+            $query ->bindParam(1,$conductor);
+            $query ->bindParam(2,$monto);
+            $query ->bindParam(3,$fechaHora);
+            $query ->bindParam(4,$origen);
+            $query ->bindParam(5,$destino); 
+            $query ->bindParam(6,$observacion);
+            $query ->bindParam(7,$idUsuario);
+            $query ->bindParam(8,$totalPasajeros);
+            $query ->bindParam(9,$totalEncomiendas);
 
             $query->execute();
             if($row = $query->fetchColumn()){
@@ -166,6 +158,44 @@
             conexionBD::cerrar_conexion();
 
         }
+
+         function Registrar_detalle_pasajeros($idSalida, $tipo_documento, $documento, $nombres, $edad, $celular){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_REGISTRAR_DETALLE_PASAJEROS(?,?,?,?,?,?)";
+            $query = $c->prepare($sql);
+            $query->bindParam(1, $idSalida, PDO::PARAM_INT);
+            $query->bindParam(2, $tipo_documento, PDO::PARAM_STR);
+            $query->bindParam(3, $documento, PDO::PARAM_STR);
+            $query->bindParam(4, $nombres, PDO::PARAM_STR);
+            
+            // Manejar edad nula
+            if ($edad === null) {
+                $query->bindParam(5, $edad, PDO::PARAM_NULL);
+            } else {
+                $query->bindParam(5, $edad, PDO::PARAM_INT);
+            }
+            
+            $query->bindParam(6, $celular, PDO::PARAM_STR);
+            
+            $resul = $query->execute();
+            conexionBD::cerrar_conexion();
+            
+            return $resul ? 1 : 0;
+        }
+
+            function Registrar_detalle_encomiendas($idSalida, $idEncomienda){
+                $c = conexionBD::conexionPDO();
+                $sql = "CALL SP_REGISTRAR_DETALLE_ENCOMIENDAS(?,?)";
+                $query = $c->prepare($sql);
+                $query->bindParam(1, $idSalida, PDO::PARAM_INT);
+                $query->bindParam(2, $idEncomienda, PDO::PARAM_INT);
+                
+                $resul = $query->execute();
+                conexionBD::cerrar_conexion();
+                
+                return $resul ? 1 : 0;
+            }
+        
         public function Editar_Encomiendas($id,$conduc,$ori,$des,$fecha,$desc,$tipodocemi,$documentoFinal,$nomemi,$celemi,$tipodocrece,$documentoFinal2,$nomrece,$celurece,$pago,$porpagar,$adomicilio,$obse,$idusu){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_MODIFICAR_ENCOMIENDA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";

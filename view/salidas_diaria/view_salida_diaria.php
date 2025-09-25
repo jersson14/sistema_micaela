@@ -217,6 +217,7 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
+                                    <th>Tipo Documento</th>
                                     <th>Documento</th>
                                     <th>Nombres y Apellidos</th>
                                     <th>Edad</th>
@@ -267,7 +268,7 @@
 
                     <!-- OBSERVACIONES -->
                     <div class="col-12 form-group mt-3">
-                        <label>Descripción u Observación de la salida<b style="color:red">(*)</b>:</label>
+                        <label>Descripción u Observación de la salida(Opcional):</label>
                         <textarea class="form-control" id="txt_descripcion" rows="3" style="resize:none" placeholder="Ingrese la descripción de la salida"></textarea>
                     </div>
 
@@ -277,7 +278,7 @@
             <!-- Footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
-                <button type="button" class="btn btn-success" onclick="Registrar_Encomiendas()"><i class="fas fa-save"></i> Registrar</button>
+                <button type="button" class="btn btn-success" onclick="Registrar_Salida_Diaria()"><i class="fas fa-save"></i> Registrar</button>
             </div>
         </div>
     </div>
