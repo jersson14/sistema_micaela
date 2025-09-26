@@ -287,135 +287,126 @@
 
 
 
-    <div class="modal fade" id="modal_mostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>DATOS DE LA ENCOMIENDA</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <!-- ESTADOS AL INICIO - ETIQUETAS BONITAS -->
-                        <div class="col-12 text-center mb-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label><b>Estado de Pago:</b></label><br>
-                                    <span id="span_estado_pago_mostrar" class="badge badge-pill" style="font-size: 14px; padding: 8px 16px;"></span>
-                                </div>
-                                <div class="col-6">
-                                    <label><b>Estado de Encomienda:</b></label><br>
-                                    <span id="span_estado_encomienda_mostrar" class="badge badge-pill" style="font-size: 14px; padding: 8px 16px;"></span>
-                                </div>
-                            </div>
-                        </div>
+<div class="modal fade" id="modal_mostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header" style="background-color:#1FA0E0;">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center">
+                    <b>REGISTRO DE SALIDA DIARIA</b>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-                        <!-- DATOS PRINCIPALES -->
-                        <div class="col-8 form-group">
-                            <label for="">Conductor:</label>
-                            <input type="text" class="form-control" id="select_conductor_mostrar" readonly>
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Origen:</label>
-                            <input type="text" class="form-control" id="select_origen_mostrar" readonly>
-
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Destino:</label>
-                            <input type="text" class="form-control" id="select_destino_mostrar" readonly>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Fecha y hora de registro:</label>
-                            <input type="datetime-local" class="form-control" id="txt_fecha_creacion_mostrar" readonly>
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL EMISOR</b></li>
-                        </div>
-                        <div class="col-6 form-group"><br>
-                            <label for="">Tipo de documento - Emisor:</label>
-                            <select class="form-control" id="select_tipo_documento_emisor_mostrar" style="width:100%" disabled>
-                                <option value="" disabled>Seleccione</option>
-                                <option value="DNI" selected>DNI</option>
-                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
-                                <option value="PASAPORTE">PASAPORTE</option>
-                            </select>
-                        </div>
-                        <div id="dni_section" class="col-6 form-group"><br>
-                            <label for="">N° Documento Emisor:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_emisor_mostrar" maxlength="8" onkeypress="return soloNumeros(event)" readonly>
-
-                            </div>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Nombres y apellidos - Emisor:</label>
-                            <input type="text" class="form-control" id="txt_nomb_emisor_mostrar" readonly placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Celular - Emisor:</label>
-                            <input type="text" class="form-control" id="txt_celu1_emisor_mostrar" readonly placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL RECEPTOR</b></li>
-                        </div>
-                        <div class="col-6 form-group"><br>
-                            <label for="">Tipo de documento - Receptor:</label>
-                            <select class="form-control" id="select_tipo_documento_receptor_mostrar" style="width:100%" disabled>
-                                <option value="" disabled>Seleccione</option>
-                                <option value="DNI" selected>DNI</option>
-                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
-                                <option value="PASAPORTE">PASAPORTE</option>
-                            </select>
-                        </div>
-                        <div id="dni_section2" class="col-6 form-group"><br>
-                            <label for="">N° Documento Receptor:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_receptor_mostrar" readonly maxlength="8" onkeypress="return soloNumeros(event)">
-
-                            </div>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Nombres y apellidos - Receptor:</label>
-                            <input type="text" class="form-control" id="txt_nomb_receptor_mostrar" readonly placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Celular - Receptor:</label>
-                            <input type="text" class="form-control" id="txt_celu1_recepto_mostrar" readonly placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DETALLES DE LA ENCOMIENDA</b></li>
-                        </div><br>
-                        <div class="col-4 form-group"><br>
-                            <label for="">Pago:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_pago_mostrar" readonly placeholder="Ingrese el monto del pago" onkeypress="return soloNumeros(event)">
-                        </div>
-                        <div class="col-4 form-group"><br>
-                            <label for="">Por pagar:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_por_pagar_mostrar" readonly placeholder="Ingrese el monto por pagar" onkeypress="return soloNumeros(event)" maxlenght="7">
-                        </div>
-                        <div class="col-4 form-group"><br>
-                            <label for="">A domicilio:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_a_domicilio_mostrar" readonly placeholder="Ingrese el monto si es a domicilio" onkeypress="return soloNumeros(event)">
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Descripción de la encomienda:</label>
-                            <textarea style="color:red" class="form-control" id="txt_descripcion_mostrar" readonly rows="2" style="resize:none" placeholder="Ingrese la descripción de la encomienda"></textarea>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Observaciones:</label>
-                            <textarea style="color:red" class="form-control" id="txt_observacion_mostrar" readonly rows="2" style="resize:none" placeholder="Ingrese la descripción de la encomienda"></textarea>
-                        </div>
-
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 form-group" style="color:red">
+                        <h6><b>Campos Obligatorios (*)</b></h6>
                     </div>
+
+                    <!-- DATOS DE SALIDA -->
+                    <div class="col-12 form-group">
+                        <label>Conductor<b style="color:red">(*)</b>:</label>
+                        <input type="text" id="id_salida" hidden>
+                        <input type="text" class="form-control" id="select_conductor_mostrar" readonly>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Pago de Salida<b style="color:red">(*)</b>:</label>
+                        <input type="text" class="form-control" id="txt_pago_mostrar" readonly>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Fecha y hora<b style="color:red">(*)</b>:</label>
+                        <input type="datetime-local" class="form-control" id="txt_fecha_creacion_mostrar" readonly>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Origen<b style="color:red">(*)</b>:</label>
+                        <input type="text" class="form-control" id="select_origen_mostrar" readonly>
+                    </div>
+                    <div class="col-6 form-group">
+                        <label>Destino<b style="color:red">(*)</b>:</label>
+                        <input type="text" class="form-control" id="select_destino_mostrar" readonly>
+                    </div>
+                    <!-- SECCION PASAJEROS -->
+                    <div class="col-12 mt-3">
+                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                            <b>PASAJEROS</b>
+                        </li>
+                    </div>
+             
+                    <!-- TABLA PASAJEROS -->
+                   <div class="col-12 mt-3">
+                        <table class="table table-bordered table-sm text-center" id="tabla_pasajeros_mostrar">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tipo Documento</th>
+                                    <th>Documento</th>
+                                    <th>Nombres y Apellidos</th>
+                                    <th>Edad</th>
+                                    <th>Celular</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="6" class="text-right" style="background-color: #f8f9fa;">
+                                        Total pasajeros: <span id="total_pasajeros_mostrar">0</span>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- SECCION ENCOMIENDAS -->
+                    <div class="col-12 mt-4">
+                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                            <b>ENCOMIENDAS</b>
+                        </li>
+                    </div>
+                    <!-- SOLO TABLA DE ENCOMIENDAS -->
+                    <div class="col-12 mt-3">
+                        <table class="table table-bordered table-sm text-center" id="tabla_encomiendas_mostrar">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Emisor</th>
+                                    <th>Receptor</th>
+                                    <th>Pago</th>
+                                    <th>Por pagar</th>
+                                    <th>A domicilio</th>
+                                    <th>Estado pago</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="7" class="text-right" style="background-color: #f8f9fa;">
+                                        Total encomiendas: <span id="total_encomiendas_mostrar">0</span>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- OBSERVACIONES -->
+                    <div class="col-12 form-group mt-3">
+                        <label>Descripción u Observación de la salida(Opcional):</label>
+                        <textarea class="form-control" readonly id="txt_descripcion_mostrar" rows="3" style="resize:none" placeholder="Ingrese la descripción de la salida"></textarea>
+                    </div>
+
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
             </div>
         </div>
     </div>
+</div>
 
 
     <div class="modal fade" id="modal_ver_historial" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

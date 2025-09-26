@@ -227,6 +227,36 @@
             conexionBD::cerrar_conexion();
 
         }
+         public function Listar_detalle_salida_pasajeros($id){
+            $c = conexionBD::conexionPDO();
+            $arreglo = array();
+            $sql = "CALL SP_LISTA_DETALLE_SALIDA_PASAJEROS(?)";
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$id);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        
+        }
+         public function Listar_detalle_salida_encomiendas($id){
+            $c = conexionBD::conexionPDO();
+            $arreglo = array();
+            $sql = "CALL SP_LISTA_DETALLE_SALIDA_ENCOMIENDAS(?)";
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$id);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        
+        }
         public function Modificar_Estado($id,$nuevo_estado,$observacion,$anula,$idusu){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_MODIFICAR_ESTADO_ENCOMIENDA(?,?,?,?,?)";

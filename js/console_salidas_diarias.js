@@ -822,41 +822,7 @@ function Modificar_Estatus_Salida_Incompleta_Diaria(id, observacion) {
 }
 
 
-//ABRIR MODAL EDITAR
-$("#tabla_salida_diaria").on("click", ".editar", function () {
-  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
-  if (tbl_salidas_diarias.row(this).child.isShown()) {
-    var data = tbl_salidas_diarias.row(this).data();
-  }
-  $("#modal_editar").modal("show");
 
-  // CAMPOS EXISTENTES
-
-  document.getElementById("txt_id_encomienda").value = data.id_encomienda;
-  $("#select_conductor_editar").val(data.id_conductor).trigger("change");
-  $("#select_origen_editar").val(data.id_origen).trigger("change");
-  $("#select_destino_editar").val(data.id_destino).trigger("change");
-
-  document.getElementById("select_tipo_documento_emisor_editar").value =
-    data.tipo_doc_emisor;
-  document.getElementById("txt_dni_emisor_editar").value = data.nro_doc_emisor;
-  document.getElementById("txt_nomb_emisor_editar").value = data.nombre_emisor;
-  document.getElementById("txt_celu1_emisor_editar").value =
-    data.celular_emisor;
-  document.getElementById("select_tipo_documento_receptor_editar").value =
-    data.tipo_doc_receptor;
-  document.getElementById("txt_dni_receptor_editar").value =
-    data.nro_doc_receptor;
-  document.getElementById("txt_nomb_receptor_editar").value =
-    data.nombre_receptor;
-  document.getElementById("txt_celu1_recepto_editar").value =
-    data.celular_receptor;
-  document.getElementById("txt_pago_editar").value = data.pago;
-  document.getElementById("txt_por_pagar_editar").value = data.por_pagar;
-  document.getElementById("txt_a_domicilio_editar").value = data.a_domicilio;
-  document.getElementById("txt_descripcion_editar").value = data.descripcion;
-  document.getElementById("txt_observacion_editar").value = data.observacion;
-});
 //LIMPIAR CAMPOS
 function LimpiarCamposEncomienda() {
   // CAMPOS PRINCIPALES
@@ -2402,3 +2368,223 @@ function Registrar_Detalle_Encomiendas(idSalida) {
     });
 }
 //AQUI SE GUARDA salida_encomienda y cambia estado encomienda
+//ABRIR MODAL MOSTRAR DATOS
+$("#tabla_salida_diaria").on("click", ".mostrar", function () {
+    var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
+    if (tbl_salidas_diarias.row(this).child.isShown()) {
+        var data = tbl_salidas_diarias.row(this).data();
+    }
+
+    // CARGAR CAMPOS BÁSICOS
+    document.getElementById("id_salida").value = data.id_salidas_diarias;
+    document.getElementById("select_conductor_mostrar").value = data.nombres_apellidos;
+    document.getElementById("select_origen_mostrar").value = data.origen_nombre;
+    document.getElementById("select_destino_mostrar").value = data.destino_nombre;
+    document.getElementById("txt_pago_mostrar").value = data.monto;
+    document.getElementById("txt_fecha_creacion_mostrar").value = data.fecha_hora;
+    document.getElementById("txt_descripcion_mostrar").value = data.observacion;
+
+    // MOSTRAR MODAL
+    $("#modal_mostrar").modal("show");
+
+    // CARGAR TABLAS DESPUÉS DE MOSTRAR EL MODAL
+    setTimeout(function() {
+        listar_pasajeros(data.id_salidas_diarias);
+        listar_encomiendas(data.id_salidas_diarias);
+    }, 300);
+});
+
+var tbl_detalle_pasajeros;
+var tbl_detalle_encomiendas;
+
+// Función para listar pasajeros
+function listar_pasajeros(id) {
+    // Destruir tabla existente si existe
+    if ($.fn.DataTable.isDataTable('#tabla_pasajeros_mostrar')) {
+        $('#tabla_pasajeros_mostrar').DataTable().destroy();
+    }
+
+    tbl_detalle_pasajeros = $("#tabla_pasajeros_mostrar").DataTable({
+        "ordering": false,
+        "bLengthChange": false,
+        "searching": false,
+        "paging": false,
+        "info": false,
+        "processing": false,
+        "dom": 't',
+        "columnDefs": [
+            {
+                "targets": '_all',
+                "className": 'text-center'
+            }
+        ],
+        "ajax": {
+            "url": "../controller/salidas_diarias/controlador_listar_detalle_pasajeros.php",
+            "type": "POST",
+            "data": { id: id },
+            "dataSrc": function(json) {
+                console.log("Respuesta JSON pasajeros:", json);
+                // Actualizar contador de pasajeros
+                if(json.data && json.data.length > 0) {
+                    $("#total_pasajeros_mostrar").text(json.data.length);
+                } else {
+                    $("#total_pasajeros_mostrar").text(0);
+                }
+                return json.data;
+            },
+            "error": function(xhr, error, thrown) {
+                console.error("Error cargando pasajeros:", error, thrown);
+                $("#total_pasajeros_mostrar").text(0);
+            }
+        },
+        "columns": [
+            { 
+                "data": null, 
+                "render": function(data, type, row, meta) { 
+                    return meta.row + 1; 
+                },
+                "width": "8%"
+            },
+            { 
+                "data": "tipo_documento",
+                "width": "15%"
+            },
+            { 
+                "data": "nro_documento",
+                "width": "15%"
+            },
+            { 
+                "data": "nombre_completo",
+                "width": "30%"
+            },
+            { 
+                "data": "edad",
+                "width": "10%"
+            },
+            { 
+                "data": "celular",
+                "width": "15%"
+            },
+         
+        ],
+        "language": {
+            "emptyTable": "No hay pasajeros registrados",
+            "zeroRecords": "No se encontraron pasajeros",
+            "loadingRecords": "Cargando pasajeros..."
+        }
+    });
+}
+
+// Función para listar encomiendas
+function listar_encomiendas(id) {
+    // Destruir tabla existente si existe
+    if ($.fn.DataTable.isDataTable('#tabla_encomiendas_mostrar')) {
+        $('#tabla_encomiendas_mostrar').DataTable().destroy();
+    }
+
+    tbl_detalle_encomiendas = $("#tabla_encomiendas_mostrar").DataTable({
+        "ordering": false,
+        "bLengthChange": false,
+        "searching": false,
+        "paging": false,
+        "info": false,
+        "processing": false,
+        "dom": 't',
+        "columnDefs": [
+            {
+                "targets": [0, 1, 2, 3, 4, 5], // Todas las columnas excepto la última
+                "className": 'text-center'
+            },
+            {
+                "targets": [6], // Solo la columna del estado
+                "className": 'text-center align-middle'
+            }
+        ],
+        "ajax": {
+            "url": "../controller/salidas_diarias/controlador_listar_detalle_encomiendas.php",
+            "type": "POST",
+            "data": { id: id },
+            "dataSrc": function(json) {
+                console.log("Respuesta JSON encomiendas:", json);
+                // Actualizar contador de encomiendas
+                if(json.data && json.data.length > 0) {
+                    $("#total_encomiendas_mostrar").text(json.data.length);
+                } else {
+                    $("#total_encomiendas_mostrar").text(0);
+                }
+                return json.data;
+            },
+            "error": function(xhr, error, thrown) {
+                console.error("Error cargando encomiendas:", error, thrown);
+                $("#total_encomiendas_mostrar").text(0);
+            }
+        },
+        "columns": [
+            { 
+                "data": null, 
+                "render": function(data, type, row, meta) { 
+                    return meta.row + 1; 
+                },
+                "width": "8%"
+            },
+            { 
+                "data": "emisor",
+                "width": "20%"
+            },
+            { 
+                "data": "receptor",
+                "width": "20%"
+            },
+            { 
+                "data": "pago",
+                "width": "12%",
+                "render": function(data, type, row) {
+                    return 'S/ ' + parseFloat(data).toFixed(2);
+                }
+            },
+            { 
+                "data": "por_pagar",
+                "width": "12%",
+                "render": function(data, type, row) {
+                    return 'S/ ' + parseFloat(data).toFixed(2);
+                }
+            },
+            { 
+                "data": "a_domicilio",
+                "width": "13%",
+                "render": function(data, type, row) {
+                    return data == '1' || data == 'SI' ? 
+                        '<span class="badge badge-info">SÍ</span>' : 
+                        '<span class="badge badge-secondary">NO</span>';
+                }
+            },
+            { 
+                "data": "estado_pago",
+                "width": "15%",
+                "render": function(data, type, row) {
+                    let badgeClass = data == 'PAGADO' ? 'badge-success' : 
+                                   data == 'POR PAGAR' ? 'badge-danger' : 
+                                   data == 'A DOMICILIO' ? 'badge-warning' : 
+                                   'badge-secondary';
+                    
+                    return '<span class="badge ' + badgeClass + '">' + data + '</span>';
+                }
+            }
+        ],
+        "language": {
+            "emptyTable": "No hay encomiendas registradas",
+            "zeroRecords": "No se encontraron encomiendas",
+            "loadingRecords": "Cargando encomiendas..."
+        }
+    });
+}
+
+// Función adicional para mostrar salida completa (si la necesitas)
+function mostrar_salida_completa(id) {
+    $("#modal_mostrar").modal("show");
+    
+    setTimeout(function() {
+        listar_pasajeros(id);
+        listar_encomiendas(id);
+    }, 300);
+}
