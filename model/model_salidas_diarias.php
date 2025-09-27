@@ -196,29 +196,17 @@
                 return $resul ? 1 : 0;
             }
         
-        public function Editar_Encomiendas($id,$conduc,$ori,$des,$fecha,$desc,$tipodocemi,$documentoFinal,$nomemi,$celemi,$tipodocrece,$documentoFinal2,$nomrece,$celurece,$pago,$porpagar,$adomicilio,$obse,$idusu){
+        public function Modificar_Salida_Diaria($idSalida,$monto,$fechaactualizar,$observacion,$idUsuario,$totalPasajeros,$totalEncomiendas){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_MODIFICAR_ENCOMIENDA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "CALL SP_MODIFICAR_SALIDA_DIARIA(?,?,?,?,?,?,?)";
             $query  = $c->prepare($sql);
-            $query ->bindParam(1,$id);
-            $query ->bindParam(2,$conduc);
-            $query ->bindParam(3,$ori);
-            $query ->bindParam(4,$des);
-            $query ->bindParam(5,$fecha);
-            $query ->bindParam(6,$desc);
-            $query ->bindParam(7,$tipodocemi);
-            $query ->bindParam(8,$documentoFinal);
-            $query ->bindParam(9,$nomemi);
-            $query ->bindParam(10,$celemi);
-            $query ->bindParam(11,$tipodocrece);
-            $query ->bindParam(12,$documentoFinal2);
-            $query ->bindParam(13,$nomrece);
-            $query ->bindParam(14,$celurece);
-            $query ->bindParam(15,$pago);
-            $query ->bindParam(16,$porpagar);
-            $query ->bindParam(17,$adomicilio);
-            $query ->bindParam(18,$obse);
-            $query ->bindParam(19,$idusu);
+            $query ->bindParam(1,$idSalida);
+            $query ->bindParam(2,$monto);
+            $query ->bindParam(3,$fechaactualizar);
+            $query ->bindParam(4,$observacion);
+            $query ->bindParam(5,$idUsuario);
+            $query ->bindParam(6,$totalPasajeros);
+            $query ->bindParam(7,$totalEncomiendas);
 
             $query->execute();
             if($row = $query->fetchColumn()){
@@ -227,6 +215,41 @@
             conexionBD::cerrar_conexion();
 
         }
+         function Modificar_detalle_pasajeros($idSalida, $tipo_documento, $documento, $nombres, $edad, $celular){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_MODIFICAR_DETALLE_PASAJEROS(?,?,?,?,?,?)";
+            $query = $c->prepare($sql);
+            $query->bindParam(1, $idSalida, PDO::PARAM_INT);
+            $query->bindParam(2, $tipo_documento, PDO::PARAM_STR);
+            $query->bindParam(3, $documento, PDO::PARAM_STR);
+            $query->bindParam(4, $nombres, PDO::PARAM_STR);
+            
+            // Manejar edad nula
+            if ($edad === null) {
+                $query->bindParam(5, $edad, PDO::PARAM_NULL);
+            } else {
+                $query->bindParam(5, $edad, PDO::PARAM_INT);
+            }
+            
+            $query->bindParam(6, $celular, PDO::PARAM_STR);
+            
+            $resul = $query->execute();
+            conexionBD::cerrar_conexion();
+            
+            return $resul ? 1 : 0;
+        }
+            function Modificar_detalle_encomiendas($idSalida, $idEncomienda){
+                $c = conexionBD::conexionPDO();
+                $sql = "CALL SP_MODIFICAR_DETALLE_ENCOMIENDAS(?,?)";
+                $query = $c->prepare($sql);
+                $query->bindParam(1, $idSalida, PDO::PARAM_INT);
+                $query->bindParam(2, $idEncomienda, PDO::PARAM_INT);
+                
+                $resul = $query->execute();
+                conexionBD::cerrar_conexion();
+                
+                return $resul ? 1 : 0;
+            }
          public function Listar_detalle_salida_pasajeros($id){
             $c = conexionBD::conexionPDO();
             $arreglo = array();
@@ -246,6 +269,21 @@
             $c = conexionBD::conexionPDO();
             $arreglo = array();
             $sql = "CALL SP_LISTA_DETALLE_SALIDA_ENCOMIENDAS(?)";
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$id);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        
+        }
+        public function Listar_detalle_salida_encomiendasEditar($id){
+            $c = conexionBD::conexionPDO();
+            $arreglo = array();
+            $sql = "CALL SP_LISTA_DETALLE_SALIDA_ENCOMIENDAS_EDITAR(?)";
             $query  = $c->prepare($sql);
             $query ->bindParam(1,$id);
             $query->execute();
@@ -336,6 +374,21 @@
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query ->bindParam(1,$id);
+
+            $resul = $query->execute();
+            if($resul){
+                return 1;
+            }else{
+                return 0;
+            }
+            conexionBD::cerrar_conexion();
+        }
+         public function Eliminar_Cliente_Salida_diaria($id_pasajero){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_ELIMINAR_CLIENTE_SALIDA_DIARIA(?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$id_pasajero);
 
             $resul = $query->execute();
             if($resul){
