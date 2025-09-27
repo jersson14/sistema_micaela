@@ -541,7 +541,7 @@ function listar_salidas_diarias_fecha_usu() {
           let botones = "";
 
           // EN TRANSITO / INCOMPLETO => Editar + Eliminar
-          if (data === "EN TRANSITO" ) {
+          if (data === "EN TRANSITO") {
             botones += `
 
               <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
@@ -702,11 +702,14 @@ async function buscarPorDocumento() {
   }
 }
 
-
 async function buscarPorDocumentoEditar() {
-  const tipo = document.getElementById("select_tipo_documento_emisor_editar").value;
+  const tipo = document.getElementById(
+    "select_tipo_documento_emisor_editar"
+  ).value;
   const dni = document.getElementById("txt_dni_emisor_editar").value.trim();
-  const otroDoc = document.getElementById("txt_dni_emisor2_editar").value.trim();
+  const otroDoc = document
+    .getElementById("txt_dni_emisor2_editar")
+    .value.trim();
 
   let numero_documento = "";
 
@@ -813,7 +816,9 @@ $("#tabla_salida_diaria").on("click", ".incompleto", function () {
 
   Swal.fire({
     title:
-      "Desea marcar como INCOMPLETO el viaje del conductor " + data.nombres_apellidos + "?",
+      "Desea marcar como INCOMPLETO el viaje del conductor " +
+      data.nombres_apellidos +
+      "?",
     text: "Una vez se ponga INCOMPLETO el viaje, no se podrá editar ni eliminar la salida diaria. Además, las encomiendas se pondrán en estado INCOMPLETO porque no llegaron al destino final.",
     icon: "warning",
     input: "textarea", // campo para observación
@@ -831,11 +836,13 @@ $("#tabla_salida_diaria").on("click", ".incompleto", function () {
     reverseButtons: true,
   }).then((result) => {
     if (result.isConfirmed) {
-      Modificar_Estatus_Salida_Incompleta_Diaria(data.id_salidas_diarias, result.value);
+      Modificar_Estatus_Salida_Incompleta_Diaria(
+        data.id_salidas_diarias,
+        result.value
+      );
     }
   });
 });
-
 
 function Modificar_Estatus_Salida_Incompleta_Diaria(id, observacion) {
   let idusu = document.getElementById("txtprincipalid").value;
@@ -854,7 +861,7 @@ function Modificar_Estatus_Salida_Incompleta_Diaria(id, observacion) {
     data: {
       id: id,
       idusu: idusu,
-      observacion: observacion
+      observacion: observacion,
     },
   }).done(function (resp) {
     if (resp > 0) {
@@ -870,8 +877,6 @@ function Modificar_Estatus_Salida_Incompleta_Diaria(id, observacion) {
     }
   });
 }
-
-
 
 //LIMPIAR CAMPOS
 function LimpiarCamposEncomienda() {
@@ -906,8 +911,6 @@ function LimpiarCamposEncomienda() {
   // $('#select_tipo_documento_receptor').trigger('change'); // Para Select2
 }
 //REGISTROS DE ENCOMIENDAS
-
-
 
 function Modificar_Choferes() {
   //DATOS DEL DOCENTE
@@ -1381,7 +1384,9 @@ $("#tabla_salida_diaria").on("click", ".historial", function () {
 
   document.getElementById("lb_titulo_historial").innerHTML =
     "<b>HISTORIAL DE LA SALIDA DEL CONDUCTOR :</b> " +
-    data.nombres_apellidos +" - <br><b>FECHA DE SALIDA :</b> " + data.fecha_formateada_salida;
+    data.nombres_apellidos +
+    " - <br><b>FECHA DE SALIDA :</b> " +
+    data.fecha_formateada_salida;
 
   listar_historial_estado(data.id_salidas_diarias);
 });
@@ -1671,7 +1676,6 @@ function Realizar_pago() {
   }
 }
 
-
 //CARGAR USUARIOS
 function Cargar_Select_Usuarios() {
   $.ajax({
@@ -1705,7 +1709,6 @@ function Cargar_Select_Usuarios() {
   });
 }
 
-
 // IMPRIMIR MANIFIESTO
 $("#tabla_salida_diaria").on("click", ".imprimir", function () {
   var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
@@ -1728,91 +1731,110 @@ $("#tabla_salida_diaria").on("click", ".imprimir", function () {
   }
 });
 
-
 // AGREGAR PASAJERAS A LA TABLA
 
 function agregarPasajero() {
-    var tipodocumento = $("#select_tipo_documento_emisor").val();
-    var documento = $("#txt_dni_emisor").val();
-    var documento2 = $("#txt_dni_emisor2").val();
-    var nombres = $("#txt_nombre_pasajero").val();
-    var edad = $("#txt_edad").val();
-    var celular = $("#txt_cel_pasajero").val();
+  var tipodocumento = $("#select_tipo_documento_emisor").val();
+  var documento = $("#txt_dni_emisor").val();
+  var documento2 = $("#txt_dni_emisor2").val();
+  var nombres = $("#txt_nombre_pasajero").val();
+  var edad = $("#txt_edad").val();
+  var celular = $("#txt_cel_pasajero").val();
 
-    let documentoFinal = '';
-    if (tipodocumento === 'DNI') {
-        if (!documento) {
-            return Swal.fire("Mensaje de Advertencia", "El campo DNI es obligatorio", "warning");
-        }
-        documentoFinal = documento;
-    } else {
-        if (!documento2) {
-            return Swal.fire("Mensaje de Advertencia", "El campo de documento es obligatorio", "warning");
-        }
-        documentoFinal = documento2;
+  let documentoFinal = "";
+  if (tipodocumento === "DNI") {
+    if (!documento) {
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo DNI es obligatorio",
+        "warning"
+      );
     }
-    if (!documentoFinal || documentoFinal.trim() === "" || !nombres || nombres.trim() === "") {
-        return Swal.fire("Mensaje de Advertencia", "Complete los campos obligatorios", "warning");
+    documentoFinal = documento;
+  } else {
+    if (!documento2) {
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo de documento es obligatorio",
+        "warning"
+      );
     }
-    
+    documentoFinal = documento2;
+  }
+  if (
+    !documentoFinal ||
+    documentoFinal.trim() === "" ||
+    !nombres ||
+    nombres.trim() === ""
+  ) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "Complete los campos obligatorios",
+      "warning"
+    );
+  }
 
+  if (verificarDocumento(documentoFinal)) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "El pasajero ya fue agregado a la tabla",
+      "warning"
+    );
+  }
 
-    if (verificarDocumento(documentoFinal)) {
-        return Swal.fire("Mensaje de Advertencia", "El pasajero ya fue agregado a la tabla", "warning");
-    }
+  var filasExistentes = document.querySelectorAll(
+    "#tabla_pasajeros tbody tr"
+  ).length;
+  var fila = "<tr>";
+  fila += "<td>" + (filasExistentes + 1) + "</td>";
+  fila += "<td>" + tipodocumento + "</td>";
+  fila += "<td>" + documentoFinal + "</td>";
+  fila += "<td>" + nombres + "</td>";
+  fila += "<td>" + (edad || "N/A") + "</td>";
+  fila += "<td>" + (celular || "N/A") + "</td>";
+  fila +=
+    "<td><button class='btn btn-danger' onclick='removePasajero(this)'><i class='fas fa-trash'></i></button></td>";
+  fila += "</tr>";
 
-    var filasExistentes = document.querySelectorAll("#tabla_pasajeros tbody tr").length;
-    var fila = "<tr>";
-    fila += "<td>" + (filasExistentes + 1) + "</td>";
-    fila += "<td>" + tipodocumento + "</td>";
-    fila += "<td>" + documentoFinal + "</td>";
-    fila += "<td>" + nombres + "</td>";
-    fila += "<td>" + (edad || "N/A") + "</td>";
-    fila += "<td>" + (celular || "N/A") + "</td>";
-    fila += "<td><button class='btn btn-danger' onclick='removePasajero(this)'><i class='fas fa-trash'></i></button></td>";
-    fila += "</tr>";
+  $("#tabla_pasajeros tbody").append(fila);
+  actualizarTotalPasajeros();
 
-    $("#tabla_pasajeros tbody").append(fila);
-    actualizarTotalPasajeros();
-
-    // Limpiar campos
-    $("#txt_dni_emisor").val("");
-    $("#txt_nombre_pasajero").val("");
-    $("#txt_edad").val("");
-    $("#txt_cel_pasajero").val("");
+  // Limpiar campos
+  $("#txt_dni_emisor").val("");
+  $("#txt_nombre_pasajero").val("");
+  $("#txt_edad").val("");
+  $("#txt_cel_pasajero").val("");
 }
 
 function removePasajero(boton) {
-    var fila = boton.parentNode.parentNode;
-    fila.parentNode.removeChild(fila);
-    actualizarNumeracion();
-    actualizarTotalPasajeros();
+  var fila = boton.parentNode.parentNode;
+  fila.parentNode.removeChild(fila);
+  actualizarNumeracion();
+  actualizarTotalPasajeros();
 }
 
 function actualizarNumeracion() {
-    var filas = document.querySelectorAll("#tabla_pasajeros tbody tr");
-    filas.forEach((fila, index) => {
-        fila.cells[0].innerText = index + 1;
-    });
+  var filas = document.querySelectorAll("#tabla_pasajeros tbody tr");
+  filas.forEach((fila, index) => {
+    fila.cells[0].innerText = index + 1;
+  });
 }
 
 function actualizarTotalPasajeros() {
-    var total = document.querySelectorAll("#tabla_pasajeros tbody tr").length;
-    document.getElementById("total_pasajeros").innerText = total;
+  var total = document.querySelectorAll("#tabla_pasajeros tbody tr").length;
+  document.getElementById("total_pasajeros").innerText = total;
 }
 
 function verificarDocumento(documento) {
-    var filas = document.querySelectorAll("#tabla_pasajeros tbody tr");
-    for (var i = 0; i < filas.length; i++) {
-        var doc = filas[i].cells[1].innerText;
-        if (doc === documento) {
-            return true;
-        }
+  var filas = document.querySelectorAll("#tabla_pasajeros tbody tr");
+  for (var i = 0; i < filas.length; i++) {
+    var doc = filas[i].cells[1].innerText;
+    if (doc === documento) {
+      return true;
     }
-    return false;
+  }
+  return false;
 }
-
-
 
 //LISTAR ENCOMIENDAS
 
@@ -1821,47 +1843,48 @@ console.log("Script de encomiendas cargado");
 
 // === Función corregida para cargar encomiendas CON DEPURACIÓN ===
 function cargarEncomiendas(idConductor, idOrigen, idDestino) {
-    console.log("=== cargarEncomiendas llamada ===");
-    console.log("idConductor:", idConductor);
-    console.log("idOrigen:", idOrigen);
-    console.log("idDestino:", idDestino);
+  console.log("=== cargarEncomiendas llamada ===");
+  console.log("idConductor:", idConductor);
+  console.log("idOrigen:", idOrigen);
+  console.log("idDestino:", idDestino);
 
-    let tbody = $('#tabla_encomiendas tbody');
-    console.log("tbody encontrado:", tbody.length > 0);
+  let tbody = $("#tabla_encomiendas tbody");
+  console.log("tbody encontrado:", tbody.length > 0);
 
-    tbody.html('<tr><td colspan="8">Cargando...</td></tr>');
+  tbody.html('<tr><td colspan="8">Cargando...</td></tr>');
 
-    $.ajax({
-        url: "../controller/salidas_diarias/controlador_cargar_encomiendas.php",
-        type: 'POST',
-        data: { 
-            id_conductor: idConductor, 
-            id_origen: idOrigen, 
-            id_destino: idDestino 
-        },
-        beforeSend: function() {
-            console.log("Enviando petición AJAX...");
-        }
-    }).done(function (resp) {
-        console.log("Respuesta recibida:", resp);
+  $.ajax({
+    url: "../controller/salidas_diarias/controlador_cargar_encomiendas.php",
+    type: "POST",
+    data: {
+      id_conductor: idConductor,
+      id_origen: idOrigen,
+      id_destino: idDestino,
+    },
+    beforeSend: function () {
+      console.log("Enviando petición AJAX...");
+    },
+  })
+    .done(function (resp) {
+      console.log("Respuesta recibida:", resp);
 
-        try {
-            let data = JSON.parse(resp);
-            console.log("Datos parseados:", data);
+      try {
+        let data = JSON.parse(resp);
+        console.log("Datos parseados:", data);
 
-            let html = '';
+        let html = "";
 
-            if (data.length > 0) {
-                console.log("Procesando", data.length, "encomiendas");
+        if (data.length > 0) {
+          console.log("Procesando", data.length, "encomiendas");
 
-                data.forEach((encomienda, index) => {
-                    console.log("Encomienda", index, ":", encomienda);
+          data.forEach((encomienda, index) => {
+            console.log("Encomienda", index, ":", encomienda);
 
-                    // Ahora que el procedimiento incluye id_encomienda
-                    const idEncomienda = encomienda.id_encomienda;
-                    console.log("ID de encomienda extraído:", idEncomienda);
+            // Ahora que el procedimiento incluye id_encomienda
+            const idEncomienda = encomienda.id_encomienda;
+            console.log("ID de encomienda extraído:", idEncomienda);
 
-                    html += `
+            html += `
                         <tr data-id-encomienda="${idEncomienda}">
                             <td>
                                 <input type="checkbox" 
@@ -1871,200 +1894,223 @@ function cargarEncomiendas(idConductor, idOrigen, idDestino) {
                                     checked>
                             </td>
                             <td>${index + 1}</td>
-                            <td>${encomienda.nombre_emisor || 'N/A'}</td>
-                            <td>${encomienda.nombre_receptor || 'N/A'}</td>
-                            <td>S/ ${parseFloat(encomienda.pago || 0).toFixed(2)}</td>
-                            <td>S/ ${parseFloat(encomienda.por_pagar || 0).toFixed(2)}</td>
-                            <td>${encomienda.a_domicilio == 1 ? 'Sí' : 'No'}</td>
+                            <td>${encomienda.nombre_emisor || "N/A"}</td>
+                            <td>${encomienda.nombre_receptor || "N/A"}</td>
+                            <td>S/ ${parseFloat(encomienda.pago || 0).toFixed(
+                              2
+                            )}</td>
+                            <td>S/ ${parseFloat(
+                              encomienda.por_pagar || 0
+                            ).toFixed(2)}</td>
+                            <td>${
+                              encomienda.a_domicilio == 1 ? "Sí" : "No"
+                            }</td>
                             <td>
                                 <span class="badge ${
-                                    encomienda.estado_pago === 'PAGADO' ? 'badge-success' : 
-                                    encomienda.estado_pago === 'POR PAGAR' ? 'badge-danger' : 
-                                    encomienda.estado_pago === 'A DOMICILIO' ? 'badge-success' : 
-                                    'badge-warning'
+                                  encomienda.estado_pago === "PAGADO"
+                                    ? "badge-success"
+                                    : encomienda.estado_pago === "POR PAGAR"
+                                    ? "badge-danger"
+                                    : encomienda.estado_pago === "A DOMICILIO"
+                                    ? "badge-success"
+                                    : "badge-warning"
                                 }">
-                                    ${encomienda.estado_pago || 'Pendiente'}
+                                    ${encomienda.estado_pago || "Pendiente"}
                                 </span>
                             </td>
                         </tr>`;
-                });
-            } else {
-                console.log("No hay encomiendas disponibles");
-                html = '<tr><td colspan="8" class="text-muted">No hay encomiendas disponibles para los parámetros seleccionados</td></tr>';
-            }
-
-            tbody.html(html);
-
-            // Recontar después de renderizar
-            let totalEncomiendas = $('.check_encomienda:checked').length;
-            $("#total_encomiendas").text(totalEncomiendas);
-            console.log("Tabla actualizada con", totalEncomiendas, "encomiendas seleccionadas");
-
-            // Actualizar el estado del checkbox "seleccionar todos"
-            actualizarCheckboxTodos();
-
-        } catch (error) {
-            console.error('Error al procesar los datos:', error);
-            console.log('Respuesta que causó el error:', resp);
-            tbody.html('<tr><td colspan="8" class="text-danger">Error al procesar los datos</td></tr>');
+          });
+        } else {
+          console.log("No hay encomiendas disponibles");
+          html =
+            '<tr><td colspan="8" class="text-muted">No hay encomiendas disponibles para los parámetros seleccionados</td></tr>';
         }
-    }).fail(function (xhr, status, error) {
-        console.error('Error AJAX:', {xhr, status, error});
-        console.log('Status:', xhr.status);
-        console.log('ResponseText:', xhr.responseText);
-        tbody.html('<tr><td colspan="8" class="text-danger">Error al cargar las encomiendas. Intente nuevamente.</td></tr>');
+
+        tbody.html(html);
+
+        // Recontar después de renderizar
+        let totalEncomiendas = $(".check_encomienda:checked").length;
+        $("#total_encomiendas").text(totalEncomiendas);
+        console.log(
+          "Tabla actualizada con",
+          totalEncomiendas,
+          "encomiendas seleccionadas"
+        );
+
+        // Actualizar el estado del checkbox "seleccionar todos"
+        actualizarCheckboxTodos();
+      } catch (error) {
+        console.error("Error al procesar los datos:", error);
+        console.log("Respuesta que causó el error:", resp);
+        tbody.html(
+          '<tr><td colspan="8" class="text-danger">Error al procesar los datos</td></tr>'
+        );
+      }
+    })
+    .fail(function (xhr, status, error) {
+      console.error("Error AJAX:", { xhr, status, error });
+      console.log("Status:", xhr.status);
+      console.log("ResponseText:", xhr.responseText);
+      tbody.html(
+        '<tr><td colspan="8" class="text-danger">Error al cargar las encomiendas. Intente nuevamente.</td></tr>'
+      );
     });
 }
 
-
 // === Función para actualizar el estado del checkbox "Seleccionar todos" ===
 function actualizarCheckboxTodos() {
-    console.log("Actualizando checkbox todos");
-    const checkboxes = $('.check_encomienda');
-    const checkboxTodos = $('#check_all_encomiendas');
+  console.log("Actualizando checkbox todos");
+  const checkboxes = $(".check_encomienda");
+  const checkboxTodos = $("#check_all_encomiendas");
 
-    console.log("Checkboxes encontrados:", checkboxes.length);
+  console.log("Checkboxes encontrados:", checkboxes.length);
 
-    if (checkboxes.length === 0) {
-        checkboxTodos.prop('checked', false).prop('indeterminate', false);
-        return;
-    }
+  if (checkboxes.length === 0) {
+    checkboxTodos.prop("checked", false).prop("indeterminate", false);
+    return;
+  }
 
-    const marcados = checkboxes.filter(':checked').length;
-    console.log("Checkboxes marcados:", marcados);
+  const marcados = checkboxes.filter(":checked").length;
+  console.log("Checkboxes marcados:", marcados);
 
-    if (marcados === 0) {
-        checkboxTodos.prop('checked', false).prop('indeterminate', false);
-    } else if (marcados === checkboxes.length) {
-        checkboxTodos.prop('checked', true).prop('indeterminate', false);
-    } else {
-        checkboxTodos.prop('checked', false).prop('indeterminate', true);
-    }
+  if (marcados === 0) {
+    checkboxTodos.prop("checked", false).prop("indeterminate", false);
+  } else if (marcados === checkboxes.length) {
+    checkboxTodos.prop("checked", true).prop("indeterminate", false);
+  } else {
+    checkboxTodos.prop("checked", false).prop("indeterminate", true);
+  }
 }
 
 // Eventos del documento
 $(document).ready(function () {
-    console.log("Document ready ejecutado");
-    
-    // Cargar datos iniciales
-    Cargar_Select_Conductores();
-    Cargar_Select_Rutas();
-    
-    // Escuchar cambios en los selectores para cargar encomiendas
-    $('#select_conductor, #select_origen, #select_destino').on('change', function () {
-        console.log("Cambio detectado en selectores");
-        
-        const idConductor = $('#select_conductor').val();
-        const idOrigen = $('#select_origen').val();
-        const idDestino = $('#select_destino').val();
-        
-        console.log("Valores actuales:");
-        console.log("- Conductor:", idConductor);
-        console.log("- Origen:", idOrigen);
-        console.log("- Destino:", idDestino);
-        
-        // Verificar que los tres parámetros estén seleccionados
-        if (idConductor && idOrigen && idDestino) {
-            console.log("Todos los parámetros seleccionados, cargando encomiendas...");
-            cargarEncomiendas(idConductor, idOrigen, idDestino);
-        } else {
-            console.log("Faltan parámetros por seleccionar");
-            // Limpiar la tabla si no están todos los parámetros
-            $('#tabla_encomiendas tbody').html('<tr><td colspan="8" class="text-muted">Seleccione conductor, origen y destino para cargar encomiendas</td></tr>');
-            $("#total_encomiendas").text(0);
-        }
-    });
-    
-    // Manejar checkbox "Seleccionar todos"
+  console.log("Document ready ejecutado");
+
+  // Cargar datos iniciales
+  Cargar_Select_Conductores();
+  Cargar_Select_Rutas();
+
+  // Escuchar cambios en los selectores para cargar encomiendas
+  $("#select_conductor, #select_origen, #select_destino").on(
+    "change",
+    function () {
+      console.log("Cambio detectado en selectores");
+
+      const idConductor = $("#select_conductor").val();
+      const idOrigen = $("#select_origen").val();
+      const idDestino = $("#select_destino").val();
+
+      console.log("Valores actuales:");
+      console.log("- Conductor:", idConductor);
+      console.log("- Origen:", idOrigen);
+      console.log("- Destino:", idDestino);
+
+      // Verificar que los tres parámetros estén seleccionados
+      if (idConductor && idOrigen && idDestino) {
+        console.log(
+          "Todos los parámetros seleccionados, cargando encomiendas..."
+        );
+        cargarEncomiendas(idConductor, idOrigen, idDestino);
+      } else {
+        console.log("Faltan parámetros por seleccionar");
+        // Limpiar la tabla si no están todos los parámetros
+        $("#tabla_encomiendas tbody").html(
+          '<tr><td colspan="8" class="text-muted">Seleccione conductor, origen y destino para cargar encomiendas</td></tr>'
+        );
+        $("#total_encomiendas").text(0);
+      }
+    }
+  );
+
   // Manejar checkbox "Seleccionar todos"
-$(document).on('change', '#check_all_encomiendas', function () {
+  // Manejar checkbox "Seleccionar todos"
+  $(document).on("change", "#check_all_encomiendas", function () {
     console.log("Checkbox 'todos' cambiado");
-    const isChecked = $(this).is(':checked');
-    $('.check_encomienda').prop('checked', isChecked);
+    const isChecked = $(this).is(":checked");
+    $(".check_encomienda").prop("checked", isChecked);
 
     // Recontar los seleccionados
-    let totalEncomiendas = $('.check_encomienda:checked').length;
+    let totalEncomiendas = $(".check_encomienda:checked").length;
     $("#total_encomiendas").text(totalEncomiendas);
-});
+  });
 
-// Manejar checkboxes individuales
-$(document).on('change', '.check_encomienda', function () {
+  // Manejar checkboxes individuales
+  $(document).on("change", ".check_encomienda", function () {
     console.log("Checkbox individual cambiado");
     actualizarCheckboxTodos();
 
     // Recontar los seleccionados
-    let totalEncomiendas = $('.check_encomienda:checked').length;
+    let totalEncomiendas = $(".check_encomienda:checked").length;
     $("#total_encomiendas").text(totalEncomiendas);
-});
-
+  });
 });
 
 // Configuración del modal
 $("#modal_registro").on("shown.bs.modal", function () {
-    console.log("Modal mostrado");
-    
-    // Verificar si Select2 ya está inicializado
-    if (!$("#select_conductor").hasClass("select2-hidden-accessible")) {
-        $("#select_conductor").select2({
-            placeholder: "Seleccionar Conductor",
-            allowClear: true,
-            dropdownParent: $("#modal_registro"),
-        });
-        console.log("Select2 conductor inicializado");
-    }
-    
-    if (!$("#select_origen").hasClass("select2-hidden-accessible")) {
-        $("#select_origen").select2({
-            placeholder: "Seleccionar Origen",
-            allowClear: true,
-            dropdownParent: $("#modal_registro"),
-        });
-        console.log("Select2 origen inicializado");
-    }
-    
-    if (!$("#select_destino").hasClass("select2-hidden-accessible")) {
-        $("#select_destino").select2({
-            placeholder: "Seleccionar Destino",
-            allowClear: true,
-            dropdownParent: $("#modal_registro"),
-        });
-        console.log("Select2 destino inicializado");
-    }
-    
-    // Establecer fecha y hora actual
-    const now = new Date();
-    const fechaActual = now.toISOString().slice(0, 16);
-    $("#txt_fecha_creacion").val(fechaActual);
-    console.log("Fecha establecida:", fechaActual);
+  console.log("Modal mostrado");
+
+  // Verificar si Select2 ya está inicializado
+  if (!$("#select_conductor").hasClass("select2-hidden-accessible")) {
+    $("#select_conductor").select2({
+      placeholder: "Seleccionar Conductor",
+      allowClear: true,
+      dropdownParent: $("#modal_registro"),
+    });
+    console.log("Select2 conductor inicializado");
+  }
+
+  if (!$("#select_origen").hasClass("select2-hidden-accessible")) {
+    $("#select_origen").select2({
+      placeholder: "Seleccionar Origen",
+      allowClear: true,
+      dropdownParent: $("#modal_registro"),
+    });
+    console.log("Select2 origen inicializado");
+  }
+
+  if (!$("#select_destino").hasClass("select2-hidden-accessible")) {
+    $("#select_destino").select2({
+      placeholder: "Seleccionar Destino",
+      allowClear: true,
+      dropdownParent: $("#modal_registro"),
+    });
+    console.log("Select2 destino inicializado");
+  }
+
+  // Establecer fecha y hora actual
+  const now = new Date();
+  const fechaActual = now.toISOString().slice(0, 16);
+  $("#txt_fecha_creacion").val(fechaActual);
+  console.log("Fecha establecida:", fechaActual);
 });
 
 // Limpiar formulario al cerrar modal
 $("#modal_registro").on("hidden.bs.modal", function () {
-    console.log("Modal ocultado, limpiando formulario");
-    
-    // Limpiar selectores
-    $("#select_conductor").val('').trigger('change');
-    $("#select_origen").val('').trigger('change');
-    $("#select_destino").val('').trigger('change');
-    
-    // Limpiar tabla de encomiendas
-    $('#tabla_encomiendas tbody').html('');
-    $("#total_encomiendas").text(0);
-    
-    // Limpiar otros campos si es necesario
-    $("#txt_descripcion").val('');
+  console.log("Modal ocultado, limpiando formulario");
+
+  // Limpiar selectores
+  $("#select_conductor").val("").trigger("change");
+  $("#select_origen").val("").trigger("change");
+  $("#select_destino").val("").trigger("change");
+
+  // Limpiar tabla de encomiendas
+  $("#tabla_encomiendas tbody").html("");
+  $("#total_encomiendas").text(0);
+
+  // Limpiar otros campos si es necesario
+  $("#txt_descripcion").val("");
 });
 
 // Obtener todos los IDs de encomiendas seleccionadas
 function obtenerEncomiendasSeleccionadas() {
-    let idsSeleccionados = [];
-    
-    $('.check_encomienda:checked').each(function() {
-        let id = $(this).val(); // o $(this).data('id')
-        idsSeleccionados.push(id);
-    });
-    
-    return idsSeleccionados;
+  let idsSeleccionados = [];
+
+  $(".check_encomienda:checked").each(function () {
+    let id = $(this).val(); // o $(this).data('id')
+    idsSeleccionados.push(id);
+  });
+
+  return idsSeleccionados;
 }
 
 // Ejemplo de uso
@@ -2074,179 +2120,212 @@ function obtenerEncomiendasSeleccionadas() {
 //REGISTRAR SALIDA DIARIA
 
 function Registrar_Salida_Diaria() {
-    const conductor = document.getElementById("select_conductor").value;
-    const monto = document.getElementById("txt_pago").value;
-    const fechaHora = document.getElementById("txt_fecha_creacion").value;
-    const origen = document.getElementById("select_origen").value;
-    const destino = document.getElementById("select_destino").value;
-    const observacion = document.getElementById("txt_descripcion").value;
-    const idUsuario = document.getElementById("txtprincipalid").value;
-    const totalPasajeros = document.querySelectorAll("#tabla_pasajeros tbody tr").length;
-const totalEncomiendas = document.querySelectorAll("#tabla_encomiendas tbody input[type='checkbox']:checked").length;
+  const conductor = document.getElementById("select_conductor").value;
+  const monto = document.getElementById("txt_pago").value;
+  const fechaHora = document.getElementById("txt_fecha_creacion").value;
+  const origen = document.getElementById("select_origen").value;
+  const destino = document.getElementById("select_destino").value;
+  const observacion = document.getElementById("txt_descripcion").value;
+  const idUsuario = document.getElementById("txtprincipalid").value;
+  const totalPasajeros = document.querySelectorAll(
+    "#tabla_pasajeros tbody tr"
+  ).length;
+  const totalEncomiendas = document.querySelectorAll(
+    "#tabla_encomiendas tbody input[type='checkbox']:checked"
+  ).length;
 
-    if (!conductor || !monto || !fechaHora || !origen || !destino) {
-        return Swal.fire("Advertencia", "Complete todos los campos obligatorios.", "warning");
-    }
+  if (!conductor || !monto || !fechaHora || !origen || !destino) {
+    return Swal.fire(
+      "Advertencia",
+      "Complete todos los campos obligatorios.",
+      "warning"
+    );
+  }
 
-    $.ajax({
-        url: "../controller/salidas_diarias/controlador_registrar_salida_diaria.php",
-        type: "POST",
-        data: {
-            conductor,
-            monto,
-            fechaHora,
-            origen,
-            destino,
-            observacion,
-            idUsuario,
-            totalPasajeros,
-            totalEncomiendas
-        },
-        success: function (resp) {
-            if (resp > 0) {
-                Registrar_Detalle_Pasajeros(resp);
-                Registrar_Detalle_Encomiendas(resp);
-                Swal.fire("Éxito", "Salida diaria registrada correctamente.", "success");
-                $("#modal_registro").modal("hide");
-                listar_salidas_diarias();
-            } else {
-                Swal.fire("Error", "No se pudo registrar la salida diaria.", "error");
-            }
-        },
-        error: function () {
-            Swal.fire("Error", "Error en la comunicación con el servidor.", "error");
-        }
-    });
+  $.ajax({
+    url: "../controller/salidas_diarias/controlador_registrar_salida_diaria.php",
+    type: "POST",
+    data: {
+      conductor,
+      monto,
+      fechaHora,
+      origen,
+      destino,
+      observacion,
+      idUsuario,
+      totalPasajeros,
+      totalEncomiendas,
+    },
+    success: function (resp) {
+      if (resp > 0) {
+        Registrar_Detalle_Pasajeros(resp);
+        Registrar_Detalle_Encomiendas(resp);
+        Swal.fire(
+          "Éxito",
+          "Salida diaria registrada correctamente.",
+          "success"
+        );
+        $("#modal_registro").modal("hide");
+        listar_salidas_diarias();
+      } else {
+        Swal.fire("Error", "No se pudo registrar la salida diaria.", "error");
+      }
+    },
+    error: function () {
+      Swal.fire("Error", "Error en la comunicación con el servidor.", "error");
+    },
+  });
 }
 //AQUI PRIMERO SE GUARDA LA SALIDAS Y LUEGO EL INGRESO DE MONTO
 
 //REGISTRAR DETALLE PASAJEROS Y ENCOMIENDAS
 function Registrar_Detalle_Pasajeros(idSalida) {
-    const pasajeros = [];
-    document.querySelectorAll("#tabla_pasajeros tbody tr").forEach(row => {
-        const celdas = row.cells;
-        pasajeros.push({
-            tipo_documento: celdas[1].innerText,
-            documento: celdas[2].innerText,
-            nombres: celdas[3].innerText,
-            edad: celdas[4].innerText,
-            celular: celdas[5].innerText
-        });
+  const pasajeros = [];
+  document.querySelectorAll("#tabla_pasajeros tbody tr").forEach((row) => {
+    const celdas = row.cells;
+    pasajeros.push({
+      tipo_documento: celdas[1].innerText,
+      documento: celdas[2].innerText,
+      nombres: celdas[3].innerText,
+      edad: celdas[4].innerText,
+      celular: celdas[5].innerText,
     });
+  });
 
-    if (pasajeros.length === 0) return;
+  if (pasajeros.length === 0) return;
 
-    $.ajax({
-        url: "../controller/salidas_diarias/controlador_registrar_detalle_pasajeros.php",
-        type: "POST",
-        data: { idSalida, pasajeros: JSON.stringify(pasajeros) },
-        success: function (resp) {
-            if (resp <= 0) {
-                Swal.fire("Advertencia", "No se pudieron registrar algunos pasajeros.", "warning");
-            }
-        },
-        error: function () {
-            Swal.fire("Error", "Error al registrar los pasajeros.", "error");
-        }
-    });
+  $.ajax({
+    url: "../controller/salidas_diarias/controlador_registrar_detalle_pasajeros.php",
+    type: "POST",
+    data: { idSalida, pasajeros: JSON.stringify(pasajeros) },
+    success: function (resp) {
+      if (resp <= 0) {
+        Swal.fire(
+          "Advertencia",
+          "No se pudieron registrar algunos pasajeros.",
+          "warning"
+        );
+      }
+    },
+    error: function () {
+      Swal.fire("Error", "Error al registrar los pasajeros.", "error");
+    },
+  });
 }
 //aqui se guarda primero pasajeros o actualiza y luego recien se isnertar con el ID SALIDA
 
-
 // FUNCIÓN CORREGIDA - Usa esta versión mejorada
 function Registrar_Detalle_Encomiendas(idSalida) {
-    console.log("=== Registrando detalle de encomiendas ===");
-    console.log("idSalida:", idSalida);
-    
+  console.log("=== Registrando detalle de encomiendas ===");
+  console.log("idSalida:", idSalida);
 
-    const encomiendas = [];
-    
-    // MÉTODO 1: Usar jQuery (más confiable)
-    $('.check_encomienda:checked').each(function() {
-        const idEncomienda = $(this).data('id') || $(this).val();
-        console.log("Procesando encomienda:", idEncomienda);
-        if (idEncomienda && idEncomienda !== 'undefined' && idEncomienda !== 'null') {
-            encomiendas.push(idEncomienda);
-        }
-    });
-    
-    // MÉTODO 2: Si no funciona jQuery, intentar con vanilla JS
-    if (encomiendas.length === 0) {
-        console.log("Método jQuery no encontró encomiendas, probando vanilla JS...");
-        document.querySelectorAll(".check_encomienda").forEach(checkbox => {
-            if (checkbox.checked) {
-                const idEncomienda = checkbox.dataset.id || checkbox.value;
-                console.log("Vanilla JS - Procesando encomienda:", idEncomienda);
-                if (idEncomienda && idEncomienda !== 'undefined' && idEncomienda !== 'null') {
-                    encomiendas.push(idEncomienda);
-                }
-            }
-        });
+  const encomiendas = [];
+
+  // MÉTODO 1: Usar jQuery (más confiable)
+  $(".check_encomienda:checked").each(function () {
+    const idEncomienda = $(this).data("id") || $(this).val();
+    console.log("Procesando encomienda:", idEncomienda);
+    if (
+      idEncomienda &&
+      idEncomienda !== "undefined" &&
+      idEncomienda !== "null"
+    ) {
+      encomiendas.push(idEncomienda);
     }
-    
-    console.log("Encomiendas seleccionadas:", encomiendas);
-    
-    if (encomiendas.length === 0) {
-        console.log("No hay encomiendas seleccionadas");
-        Swal.fire("Advertencia", "No hay encomiendas seleccionadas para registrar.", "warning");
-        return;
-    }
-    
-    console.log("Enviando datos:", {
-        idSalida: idSalida,
-        encomiendas: JSON.stringify(encomiendas)
-    });
-    
-    $.ajax({
-        url: "../controller/salidas_diarias/controlador_registrar_detalle_encomiendas.php",
-        type: "POST",
-        data: { 
-            idSalida: idSalida, 
-            encomiendas: JSON.stringify(encomiendas) 
-        },
-        beforeSend: function() {
-            console.log("Enviando petición para registrar encomiendas...");
-        },
-        success: function (resp) {
-            console.log("Respuesta del servidor:", resp);
-            if (resp == 1) {
-                Swal.fire("Éxito", "Encomiendas registradas correctamente.", "success");
-            } else {
-                console.log("Error en la respuesta:", resp);
-                Swal.fire("Advertencia", "No se pudieron registrar algunas encomiendas: " + resp, "warning");
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("Error AJAX:", {xhr, status, error});
-            Swal.fire("Error", "Error al registrar las encomiendas.", "error");
+  });
+
+  // MÉTODO 2: Si no funciona jQuery, intentar con vanilla JS
+  if (encomiendas.length === 0) {
+    console.log(
+      "Método jQuery no encontró encomiendas, probando vanilla JS..."
+    );
+    document.querySelectorAll(".check_encomienda").forEach((checkbox) => {
+      if (checkbox.checked) {
+        const idEncomienda = checkbox.dataset.id || checkbox.value;
+        console.log("Vanilla JS - Procesando encomienda:", idEncomienda);
+        if (
+          idEncomienda &&
+          idEncomienda !== "undefined" &&
+          idEncomienda !== "null"
+        ) {
+          encomiendas.push(idEncomienda);
         }
+      }
     });
+  }
+
+  console.log("Encomiendas seleccionadas:", encomiendas);
+
+  if (encomiendas.length === 0) {
+    console.log("No hay encomiendas seleccionadas");
+    Swal.fire(
+      "Advertencia",
+      "No hay encomiendas seleccionadas para registrar.",
+      "warning"
+    );
+    return;
+  }
+
+  console.log("Enviando datos:", {
+    idSalida: idSalida,
+    encomiendas: JSON.stringify(encomiendas),
+  });
+
+  $.ajax({
+    url: "../controller/salidas_diarias/controlador_registrar_detalle_encomiendas.php",
+    type: "POST",
+    data: {
+      idSalida: idSalida,
+      encomiendas: JSON.stringify(encomiendas),
+    },
+    beforeSend: function () {
+      console.log("Enviando petición para registrar encomiendas...");
+    },
+    success: function (resp) {
+      console.log("Respuesta del servidor:", resp);
+      if (resp == 1) {
+        Swal.fire("Éxito", "Encomiendas registradas correctamente.", "success");
+      } else {
+        console.log("Error en la respuesta:", resp);
+        Swal.fire(
+          "Advertencia",
+          "No se pudieron registrar algunas encomiendas: " + resp,
+          "warning"
+        );
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error AJAX:", { xhr, status, error });
+      Swal.fire("Error", "Error al registrar las encomiendas.", "error");
+    },
+  });
 }
 //AQUI SE GUARDA salida_encomienda y cambia estado encomienda
 //ABRIR MODAL MOSTRAR DATOS
 $("#tabla_salida_diaria").on("click", ".mostrar", function () {
-    var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
-    if (tbl_salidas_diarias.row(this).child.isShown()) {
-        var data = tbl_salidas_diarias.row(this).data();
-    }
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
+  }
 
-    // CARGAR CAMPOS BÁSICOS
-    document.getElementById("id_salida").value = data.id_salidas_diarias;
-    document.getElementById("select_conductor_mostrar").value = data.nombres_apellidos;
-    document.getElementById("select_origen_mostrar").value = data.origen_nombre;
-    document.getElementById("select_destino_mostrar").value = data.destino_nombre;
-    document.getElementById("txt_pago_mostrar").value = data.monto;
-    document.getElementById("txt_fecha_creacion_mostrar").value = data.fecha_hora;
-    document.getElementById("txt_descripcion_mostrar").value = data.observacion;
+  // CARGAR CAMPOS BÁSICOS
+  document.getElementById("id_salida").value = data.id_salidas_diarias;
+  document.getElementById("select_conductor_mostrar").value =
+    data.nombres_apellidos;
+  document.getElementById("select_origen_mostrar").value = data.origen_nombre;
+  document.getElementById("select_destino_mostrar").value = data.destino_nombre;
+  document.getElementById("txt_pago_mostrar").value = data.monto;
+  document.getElementById("txt_fecha_creacion_mostrar").value = data.fecha_hora;
+  document.getElementById("txt_descripcion_mostrar").value = data.observacion;
 
-    // MOSTRAR MODAL
-    $("#modal_mostrar").modal("show");
+  // MOSTRAR MODAL
+  $("#modal_mostrar").modal("show");
 
-    // CARGAR TABLAS DESPUÉS DE MOSTRAR EL MODAL
-    setTimeout(function() {
-        listar_pasajeros(data.id_salidas_diarias);
-        listar_encomiendas(data.id_salidas_diarias);
-    }, 300);
+  // CARGAR TABLAS DESPUÉS DE MOSTRAR EL MODAL
+  setTimeout(function () {
+    listar_pasajeros(data.id_salidas_diarias);
+    listar_encomiendas(data.id_salidas_diarias);
+  }, 300);
 });
 
 var tbl_detalle_pasajeros;
@@ -2254,218 +2333,221 @@ var tbl_detalle_encomiendas;
 
 // Función para listar pasajeros
 function listar_pasajeros(id) {
-    // Destruir tabla existente si existe
-    if ($.fn.DataTable.isDataTable('#tabla_pasajeros_mostrar')) {
-        $('#tabla_pasajeros_mostrar').DataTable().destroy();
-    }
+  // Destruir tabla existente si existe
+  if ($.fn.DataTable.isDataTable("#tabla_pasajeros_mostrar")) {
+    $("#tabla_pasajeros_mostrar").DataTable().destroy();
+  }
 
-    tbl_detalle_pasajeros = $("#tabla_pasajeros_mostrar").DataTable({
-        "ordering": false,
-        "bLengthChange": false,
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "processing": false,
-        "dom": 't',
-        "columnDefs": [
-            {
-                "targets": '_all',
-                "className": 'text-center'
-            }
-        ],
-        "ajax": {
-            "url": "../controller/salidas_diarias/controlador_listar_detalle_pasajeros.php",
-            "type": "POST",
-            "data": { id: id },
-            "dataSrc": function(json) {
-                console.log("Respuesta JSON pasajeros:", json);
-                // Actualizar contador de pasajeros
-                if(json.data && json.data.length > 0) {
-                    $("#total_pasajeros_mostrar").text(json.data.length);
-                } else {
-                    $("#total_pasajeros_mostrar").text(0);
-                }
-                return json.data;
-            },
-            "error": function(xhr, error, thrown) {
-                console.error("Error cargando pasajeros:", error, thrown);
-                $("#total_pasajeros_mostrar").text(0);
-            }
-        },
-        "columns": [
-            { 
-                "data": null, 
-                "render": function(data, type, row, meta) { 
-                    return meta.row + 1; 
-                },
-                "width": "8%"
-            },
-            { 
-                "data": "tipo_documento",
-                "width": "15%"
-            },
-            { 
-                "data": "nro_documento",
-                "width": "15%"
-            },
-            { 
-                "data": "nombre_completo",
-                "width": "30%"
-            },
-            { 
-                "data": "edad",
-                "width": "10%"
-            },
-            { 
-                "data": "celular",
-                "width": "15%"
-            },
-         
-        ],
-        "language": {
-            "emptyTable": "No hay pasajeros registrados",
-            "zeroRecords": "No se encontraron pasajeros",
-            "loadingRecords": "Cargando pasajeros..."
+  tbl_detalle_pasajeros = $("#tabla_pasajeros_mostrar").DataTable({
+    ordering: false,
+    bLengthChange: false,
+    searching: false,
+    paging: false,
+    info: false,
+    processing: false,
+    dom: "t",
+    columnDefs: [
+      {
+        targets: "_all",
+        className: "text-center",
+      },
+    ],
+    ajax: {
+      url: "../controller/salidas_diarias/controlador_listar_detalle_pasajeros.php",
+      type: "POST",
+      data: { id: id },
+      dataSrc: function (json) {
+        console.log("Respuesta JSON pasajeros:", json);
+        // Actualizar contador de pasajeros
+        if (json.data && json.data.length > 0) {
+          $("#total_pasajeros_mostrar").text(json.data.length);
+        } else {
+          $("#total_pasajeros_mostrar").text(0);
         }
-    });
+        return json.data;
+      },
+      error: function (xhr, error, thrown) {
+        console.error("Error cargando pasajeros:", error, thrown);
+        $("#total_pasajeros_mostrar").text(0);
+      },
+    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+        width: "8%",
+      },
+      {
+        data: "tipo_documento",
+        width: "15%",
+      },
+      {
+        data: "nro_documento",
+        width: "15%",
+      },
+      {
+        data: "nombre_completo",
+        width: "30%",
+      },
+      {
+        data: "edad",
+        width: "10%",
+      },
+      {
+        data: "celular",
+        width: "15%",
+      },
+    ],
+    language: {
+      emptyTable: "No hay pasajeros registrados",
+      zeroRecords: "No se encontraron pasajeros",
+      loadingRecords: "Cargando pasajeros...",
+    },
+  });
 }
 
 // Función para listar encomiendas
 function listar_encomiendas(id) {
-    // Destruir tabla existente si existe
-    if ($.fn.DataTable.isDataTable('#tabla_encomiendas_mostrar')) {
-        $('#tabla_encomiendas_mostrar').DataTable().destroy();
-    }
+  // Destruir tabla existente si existe
+  if ($.fn.DataTable.isDataTable("#tabla_encomiendas_mostrar")) {
+    $("#tabla_encomiendas_mostrar").DataTable().destroy();
+  }
 
-    tbl_detalle_encomiendas = $("#tabla_encomiendas_mostrar").DataTable({
-        "ordering": false,
-        "bLengthChange": false,
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "processing": false,
-        "dom": 't',
-        "columnDefs": [
-            {
-                "targets": [0, 1, 2, 3, 4, 5], // Todas las columnas excepto la última
-                "className": 'text-center'
-            },
-            {
-                "targets": [6], // Solo la columna del estado
-                "className": 'text-center align-middle'
-            }
-        ],
-        "ajax": {
-            "url": "../controller/salidas_diarias/controlador_listar_detalle_encomiendas.php",
-            "type": "POST",
-            "data": { id: id },
-            "dataSrc": function(json) {
-                console.log("Respuesta JSON encomiendas:", json);
-                // Actualizar contador de encomiendas
-                if(json.data && json.data.length > 0) {
-                    $("#total_encomiendas_mostrar").text(json.data.length);
-                } else {
-                    $("#total_encomiendas_mostrar").text(0);
-                }
-                return json.data;
-            },
-            "error": function(xhr, error, thrown) {
-                console.error("Error cargando encomiendas:", error, thrown);
-                $("#total_encomiendas_mostrar").text(0);
-            }
-        },
-        "columns": [
-            { 
-                "data": null, 
-                "render": function(data, type, row, meta) { 
-                    return meta.row + 1; 
-                },
-                "width": "8%"
-            },
-            { 
-                "data": "emisor",
-                "width": "20%"
-            },
-            { 
-                "data": "receptor",
-                "width": "20%"
-            },
-            { 
-                "data": "pago",
-                "width": "12%",
-                "render": function(data, type, row) {
-                    return 'S/ ' + parseFloat(data).toFixed(2);
-                }
-            },
-            { 
-                "data": "por_pagar",
-                "width": "12%",
-                "render": function(data, type, row) {
-                    return 'S/ ' + parseFloat(data).toFixed(2);
-                }
-            },
-            { 
-                "data": "a_domicilio",
-                "width": "13%",
-                "render": function(data, type, row) {
-                    return data == '1' || data == 'SI' ? 
-                        '<span class="badge badge-info">SÍ</span>' : 
-                        '<span class="badge badge-secondary">NO</span>';
-                }
-            },
-            { 
-                "data": "estado_pago",
-                "width": "15%",
-                "render": function(data, type, row) {
-                    let badgeClass = data == 'PAGADO' ? 'badge-success' : 
-                                   data == 'POR PAGAR' ? 'badge-danger' : 
-                                   data == 'A DOMICILIO' ? 'badge-warning' : 
-                                   'badge-secondary';
-                    
-                    return '<span class="badge ' + badgeClass + '">' + data + '</span>';
-                }
-            }
-        ],
-        "language": {
-            "emptyTable": "No hay encomiendas registradas",
-            "zeroRecords": "No se encontraron encomiendas",
-            "loadingRecords": "Cargando encomiendas..."
+  tbl_detalle_encomiendas = $("#tabla_encomiendas_mostrar").DataTable({
+    ordering: false,
+    bLengthChange: false,
+    searching: false,
+    paging: false,
+    info: false,
+    processing: false,
+    dom: "t",
+    columnDefs: [
+      {
+        targets: [0, 1, 2, 3, 4, 5], // Todas las columnas excepto la última
+        className: "text-center",
+      },
+      {
+        targets: [6], // Solo la columna del estado
+        className: "text-center align-middle",
+      },
+    ],
+    ajax: {
+      url: "../controller/salidas_diarias/controlador_listar_detalle_encomiendas.php",
+      type: "POST",
+      data: { id: id },
+      dataSrc: function (json) {
+        console.log("Respuesta JSON encomiendas:", json);
+        // Actualizar contador de encomiendas
+        if (json.data && json.data.length > 0) {
+          $("#total_encomiendas_mostrar").text(json.data.length);
+        } else {
+          $("#total_encomiendas_mostrar").text(0);
         }
-    });
+        return json.data;
+      },
+      error: function (xhr, error, thrown) {
+        console.error("Error cargando encomiendas:", error, thrown);
+        $("#total_encomiendas_mostrar").text(0);
+      },
+    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+        width: "8%",
+      },
+      {
+        data: "emisor",
+        width: "20%",
+      },
+      {
+        data: "receptor",
+        width: "20%",
+      },
+      {
+        data: "pago",
+        width: "12%",
+        render: function (data, type, row) {
+          return "S/ " + parseFloat(data).toFixed(2);
+        },
+      },
+      {
+        data: "por_pagar",
+        width: "12%",
+        render: function (data, type, row) {
+          return "S/ " + parseFloat(data).toFixed(2);
+        },
+      },
+      {
+        data: "a_domicilio",
+        width: "13%",
+        render: function (data, type, row) {
+          return data == "1" || data == "SI"
+            ? '<span class="badge badge-info">SÍ</span>'
+            : '<span class="badge badge-secondary">NO</span>';
+        },
+      },
+      {
+        data: "estado_pago",
+        width: "15%",
+        render: function (data, type, row) {
+          let badgeClass =
+            data == "PAGADO"
+              ? "badge-success"
+              : data == "POR PAGAR"
+              ? "badge-danger"
+              : data == "A DOMICILIO"
+              ? "badge-warning"
+              : "badge-secondary";
+
+          return '<span class="badge ' + badgeClass + '">' + data + "</span>";
+        },
+      },
+    ],
+    language: {
+      emptyTable: "No hay encomiendas registradas",
+      zeroRecords: "No se encontraron encomiendas",
+      loadingRecords: "Cargando encomiendas...",
+    },
+  });
 }
 
 // Función adicional para mostrar salida completa (si la necesitas)
 function mostrar_salida_completa(id) {
-    $("#modal_mostrar").modal("show");
-    
-    setTimeout(function() {
-        listar_pasajeros(id);
-        listar_encomiendas(id);
-    }, 300);
+  $("#modal_mostrar").modal("show");
+
+  setTimeout(function () {
+    listar_pasajeros(id);
+    listar_encomiendas(id);
+  }, 300);
 }
 
 //ABRIR MODAL EDITAR DATOS
 $("#tabla_salida_diaria").on("click", ".editar", function () {
-    var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
-    if (tbl_salidas_diarias.row(this).child.isShown()) {
-        var data = tbl_salidas_diarias.row(this).data();
-    }
-    document.getElementById("id_salida_editar").value = data.id_salidas_diarias;
+  var data = tbl_salidas_diarias.row($(this).parents("tr")).data();
+  if (tbl_salidas_diarias.row(this).child.isShown()) {
+    var data = tbl_salidas_diarias.row(this).data();
+  }
+  document.getElementById("id_salida_editar").value = data.id_salidas_diarias;
 
-    $("#select_conductor_editar").val(data.id_conductor).trigger("change");
-    document.getElementById("txt_pago_editar").value = data.monto;
-    $("#select_origen_editar").val(data.id_origen).trigger("change");
-    $("#select_destino_editar").val(data.id_destino).trigger("change");
-    document.getElementById("txt_descripcion_editar").value = data.observacion;
+  $("#select_conductor_editar").val(data.id_conductor).trigger("change");
+  document.getElementById("txt_pago_editar").value = data.monto;
+  $("#select_origen_editar").val(data.id_origen).trigger("change");
+  $("#select_destino_editar").val(data.id_destino).trigger("change");
+  document.getElementById("txt_descripcion_editar").value = data.observacion;
 
-    // MOSTRAR MODAL
-    $("#modal_editar").modal("show");
+  // MOSTRAR MODAL
+  $("#modal_editar").modal("show");
 
-    // CARGAR TABLAS DESPUÉS DE MOSTRAR EL MODAL
-    setTimeout(function() {
-        listar_pasajerosEditar(data.id_salidas_diarias);
-        listar_encomiendasEditar(data.id_salidas_diarias);
-    }, 300);
+  // CARGAR TABLAS DESPUÉS DE MOSTRAR EL MODAL
+  setTimeout(function () {
+    listar_pasajerosEditar(data.id_salidas_diarias);
+    listar_encomiendasEditar(data.id_salidas_diarias);
+  }, 300);
 });
 
 var tbl_detalle_pasajerosEditar;
@@ -2473,593 +2555,691 @@ var tbl_detalle_encomiendasEditar;
 
 // Función para listar pasajeros
 function listar_pasajerosEditar(id) {
-    // Destruir tabla existente si existe
-    if ($.fn.DataTable.isDataTable('#tabla_pasajeros_editar')) {
-        $('#tabla_pasajeros_editar').DataTable().destroy();
-    }
+  // Destruir tabla existente si existe
+  if ($.fn.DataTable.isDataTable("#tabla_pasajeros_editar")) {
+    $("#tabla_pasajeros_editar").DataTable().destroy();
+  }
 
-    tbl_detalle_pasajerosEditar = $("#tabla_pasajeros_editar").DataTable({
-        "ordering": false,
-        "bLengthChange": false,
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "processing": false,
-        "dom": 't',
-        "columnDefs": [
-            {
-                "targets": '_all',
-                "className": 'text-center'
-            }
-        ],
-        "ajax": {
-            "url": "../controller/salidas_diarias/controlador_listar_detalle_pasajeros.php",
-            "type": "POST",
-            "data": { id: id },
-            "dataSrc": function(json) {
-                console.log("Respuesta JSON pasajeros:", json);
-                // Actualizar contador de pasajeros
-                if(json.data && json.data.length > 0) {
-                    $("#total_pasajeros_editar").text(json.data.length);
-                } else {
-                    $("#total_pasajeros_editar").text(0);
-                }
-                return json.data;
-            },
-            "error": function(xhr, error, thrown) {
-                console.error("Error cargando pasajeros:", error, thrown);
-                $("#total_pasajeros_editar").text(0);
-            }
-        },
-        "columns": [
-            { 
-                "data": null,
-                "render": function(data, type, row, meta) {
-                    return meta.row + 1;
-                },
-                "width": "8%"
-            },
-            { 
-                "data": "tipo_documento",
-                "width": "15%"
-            },
-            { 
-                "data": "nro_documento",
-                "width": "15%"
-            },
-            { 
-                "data": "nombre_completo",
-                "width": "30%"
-            },
-            { 
-                "data": "edad",
-                "width": "10%"
-            },
-            { 
-                "data": "celular",
-                "width": "15%"
-            },
-            {
-                "data": null,
-                "render": function(data, type, row) {
-                    return '<button class="btn btn-danger btn-sm" onclick="eliminarPasajeroEditar(' + row.id_cliente_salida + ')" title="Eliminar pasajero">' +
-                           '<i class="fas fa-trash"></i>' +
-                           '</button>';
-                },
-                "width": "7%"
-            }
-        ],
-        "language": {
-            "emptyTable": "No hay pasajeros registrados",
-            "zeroRecords": "No se encontraron pasajeros",
-            "loadingRecords": "Cargando pasajeros..."
+  tbl_detalle_pasajerosEditar = $("#tabla_pasajeros_editar").DataTable({
+    ordering: false,
+    bLengthChange: false,
+    searching: false,
+    paging: false,
+    info: false,
+    processing: false,
+    dom: "t",
+    columnDefs: [
+      {
+        targets: "_all",
+        className: "text-center",
+      },
+    ],
+    ajax: {
+      url: "../controller/salidas_diarias/controlador_listar_detalle_pasajeros.php",
+      type: "POST",
+      data: { id: id },
+      dataSrc: function (json) {
+        console.log("Respuesta JSON pasajeros:", json);
+        // Actualizar contador de pasajeros
+        if (json.data && json.data.length > 0) {
+          $("#total_pasajeros_editar").text(json.data.length);
+        } else {
+          $("#total_pasajeros_editar").text(0);
         }
-    });
+        return json.data;
+      },
+      error: function (xhr, error, thrown) {
+        console.error("Error cargando pasajeros:", error, thrown);
+        $("#total_pasajeros_editar").text(0);
+      },
+    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+        width: "8%",
+      },
+      {
+        data: "tipo_documento",
+        width: "15%",
+      },
+      {
+        data: "nro_documento",
+        width: "15%",
+      },
+      {
+        data: "nombre_completo",
+        width: "30%",
+      },
+      {
+        data: "edad",
+        width: "10%",
+      },
+      {
+        data: "celular",
+        width: "15%",
+      },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return (
+            '<button class="btn btn-danger btn-sm" onclick="eliminarPasajeroEditar(' +
+            row.id_cliente_salida +
+            ')" title="Eliminar pasajero">' +
+            '<i class="fas fa-trash"></i>' +
+            "</button>"
+          );
+        },
+        width: "7%",
+      },
+    ],
+    language: {
+      emptyTable: "No hay pasajeros registrados",
+      zeroRecords: "No se encontraron pasajeros",
+      loadingRecords: "Cargando pasajeros...",
+    },
+  });
 }
 
 // Función para listar encomiendas con checkboxes correctamente marcados
 function listar_encomiendasEditar(id) {
-    if ($.fn.DataTable.isDataTable('#tabla_encomiendas_editar')) {
-        $('#tabla_encomiendas_editar').DataTable().destroy();
-    }
+  if ($.fn.DataTable.isDataTable("#tabla_encomiendas_editar")) {
+    $("#tabla_encomiendas_editar").DataTable().destroy();
+  }
 
-    tbl_detalle_encomiendasEditar = $("#tabla_encomiendas_editar").DataTable({
-        "ordering": false,
-        "bLengthChange": false,
-        "searching": false,
-        "paging": false,
-        "info": false,
-        "processing": false,
-        "dom": 't',
-        "columnDefs": [
-            {
-                "targets": [1, 2, 3, 4, 5, 6, 7],
-                "className": 'text-center'
-            },
-            {
-                "targets": [7],
-                "className": 'text-center align-middle'
-            }
-        ],
-        "ajax": {
-            "url": "../controller/salidas_diarias/controlador_listar_detalle_encomiendasEditar.php",
-            "type": "POST",
-            "data": { id: id },
-            "dataSrc": function(json) {
-                console.log("Respuesta JSON encomiendas:", json);
-                return json.data || [];
-            },
-            "error": function(xhr, error, thrown) {
-                console.error("Error cargando encomiendas:", error, thrown);
-                $("#total_encomiendas_editar").text(0);
-            }
+  tbl_detalle_encomiendasEditar = $("#tabla_encomiendas_editar").DataTable({
+    ordering: false,
+    bLengthChange: false,
+    searching: false,
+    paging: false,
+    info: false,
+    processing: false,
+    dom: "t",
+    columnDefs: [
+      {
+        targets: [1, 2, 3, 4, 5, 6, 7],
+        className: "text-center",
+      },
+      {
+        targets: [7],
+        className: "text-center align-middle",
+      },
+    ],
+    ajax: {
+      url: "../controller/salidas_diarias/controlador_listar_detalle_encomiendasEditar.php",
+      type: "POST",
+      data: { id: id },
+      dataSrc: function (json) {
+        console.log("Respuesta JSON encomiendas:", json);
+        return json.data || [];
+      },
+      error: function (xhr, error, thrown) {
+        console.error("Error cargando encomiendas:", error, thrown);
+        $("#total_encomiendas_editar").text(0);
+      },
+    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row) {
+          let estaIncluida = row.estado == 1 || row.estado == "1";
+          let checked = estaIncluida ? "checked" : "";
+          return `<input type="checkbox" class="encomienda-checkbox" value="${row.id_encomienda}" ${checked}>`;
         },
-        "columns": [
-            { 
-                "data": null,
-                "render": function(data, type, row) {
-                    let estaIncluida = (row.estado == 1 || row.estado == '1');
-                    let checked = estaIncluida ? 'checked' : '';
-                    return `<input type="checkbox" class="encomienda-checkbox" value="${row.id_encomienda}" ${checked}>`;
-                },
-                "width": "5%"
-            },
-            { "data": null, "render": (data, type, row, meta) => meta.row + 1, "width": "8%" },
-            { "data": "emisor", "width": "20%" },
-            { "data": "receptor", "width": "20%" },
-            { "data": "pago", "width": "12%", "render": data => 'S/ ' + parseFloat(data || 0).toFixed(2) },
-            { "data": "por_pagar", "width": "12%", "render": data => 'S/ ' + parseFloat(data || 0).toFixed(2) },
-            { 
-                "data": "a_domicilio",
-                "width": "13%",
-                "render": function(data) {
-                    let aDomicilio = String(data).toUpperCase().trim();
-                    return (aDomicilio === '1' || aDomicilio === 'SI' || aDomicilio === 'SÍ') ? 
-                        '<span class="badge badge-info">SÍ</span>' : 
-                        '<span class="badge badge-secondary">NO</span>';
-                }
-            },
-            { 
-                "data": "estado_pago",
-                "width": "10%",
-                "render": function(data) {
-                    let badgeClass = data == 'PAGADO' ? 'badge-success' : 
-                                   data == 'POR PAGAR' ? 'badge-danger' : 
-                                   data == 'A DOMICILIO' ? 'badge-warning' : 
-                                   'badge-secondary';
-                    return '<span class="badge ' + badgeClass + '">' + data + '</span>';
-                }
-            }
-        ],
-        "language": {
-            "emptyTable": "No hay encomiendas registradas",
-            "zeroRecords": "No se encontraron encomiendas",
-            "loadingRecords": "Cargando encomiendas..."
+        width: "5%",
+      },
+      {
+        data: null,
+        render: (data, type, row, meta) => meta.row + 1,
+        width: "8%",
+      },
+      { data: "emisor", width: "20%" },
+      { data: "receptor", width: "20%" },
+      {
+        data: "pago",
+        width: "12%",
+        render: (data) => "S/ " + parseFloat(data || 0).toFixed(2),
+      },
+      {
+        data: "por_pagar",
+        width: "12%",
+        render: (data) => "S/ " + parseFloat(data || 0).toFixed(2),
+      },
+      {
+        data: "a_domicilio",
+        width: "13%",
+        render: function (data) {
+          let aDomicilio = String(data).toUpperCase().trim();
+          return aDomicilio === "1" ||
+            aDomicilio === "SI" ||
+            aDomicilio === "SÍ"
+            ? '<span class="badge badge-info">SÍ</span>'
+            : '<span class="badge badge-secondary">NO</span>';
         },
-        "drawCallback": function(settings) {
-            console.log("Tabla dibujada, actualizando totales...");
+      },
+      {
+        data: "estado_pago",
+        width: "10%",
+        render: function (data) {
+          let badgeClass =
+            data == "PAGADO"
+              ? "badge-success"
+              : data == "POR PAGAR"
+              ? "badge-danger"
+              : data == "A DOMICILIO"
+              ? "badge-warning"
+              : "badge-secondary";
+          return '<span class="badge ' + badgeClass + '">' + data + "</span>";
+        },
+      },
+    ],
+    language: {
+      emptyTable: "No hay encomiendas registradas",
+      zeroRecords: "No se encontraron encomiendas",
+      loadingRecords: "Cargando encomiendas...",
+    },
+    drawCallback: function (settings) {
+      console.log("Tabla dibujada, actualizando totales...");
 
-            setTimeout(function() {
-                // Función para contar check seleccionados
-                function actualizarTotalSeleccionados() {
-                    let totalSeleccionados = $('.encomienda-checkbox:checked').length;
-                    $("#total_encomiendas_editar").text(totalSeleccionados);
-                }
-
-                // Actualizar al cargar
-                actualizarTotalSeleccionados();
-
-                // Event listeners
-                $('.encomienda-checkbox').off('change').on('change', function() {
-                    actualizarTotalSeleccionados();
-                });
-
-                $('#check_all_encomiendas_editar').off('change').on('change', function() {
-                    let isChecked = $(this).is(':checked');
-                    $('.encomienda-checkbox').prop('checked', isChecked);
-                    actualizarTotalSeleccionados();
-                });
-
-            }, 100);
+      setTimeout(function () {
+        // Función para contar check seleccionados
+        function actualizarTotalSeleccionados() {
+          let totalSeleccionados = $(".encomienda-checkbox:checked").length;
+          $("#total_encomiendas_editar").text(totalSeleccionados);
         }
-    });
-}
 
+        // Actualizar al cargar
+        actualizarTotalSeleccionados();
+
+        // Event listeners
+        $(".encomienda-checkbox")
+          .off("change")
+          .on("change", function () {
+            actualizarTotalSeleccionados();
+          });
+
+        $("#check_all_encomiendas_editar")
+          .off("change")
+          .on("change", function () {
+            let isChecked = $(this).is(":checked");
+            $(".encomienda-checkbox").prop("checked", isChecked);
+            actualizarTotalSeleccionados();
+          });
+      }, 100);
+    },
+  });
+}
 
 // Función para actualizar el estado del checkbox principal
 function actualizarCheckboxPrincipalEditar() {
-    let totalCheckboxes = $('.encomienda-checkbox').length;
-    let checkedCheckboxes = $('.encomienda-checkbox:checked').length;
-    
-    console.log(`Checkboxes: ${checkedCheckboxes}/${totalCheckboxes} marcados`);
-    
-    let checkboxPrincipal = $('#check_all_encomiendas_editar');
-    
-    if (totalCheckboxes === 0) {
-        checkboxPrincipal.prop('checked', false);
-        checkboxPrincipal.prop('indeterminate', false);
-    } else if (checkedCheckboxes === 0) {
-        checkboxPrincipal.prop('checked', false);
-        checkboxPrincipal.prop('indeterminate', false);
-    } else if (checkedCheckboxes === totalCheckboxes) {
-        checkboxPrincipal.prop('checked', true);
-        checkboxPrincipal.prop('indeterminate', false);
-    } else {
-        checkboxPrincipal.prop('checked', false);
-        checkboxPrincipal.prop('indeterminate', true);
-    }
+  let totalCheckboxes = $(".encomienda-checkbox").length;
+  let checkedCheckboxes = $(".encomienda-checkbox:checked").length;
+
+  console.log(`Checkboxes: ${checkedCheckboxes}/${totalCheckboxes} marcados`);
+
+  let checkboxPrincipal = $("#check_all_encomiendas_editar");
+
+  if (totalCheckboxes === 0) {
+    checkboxPrincipal.prop("checked", false);
+    checkboxPrincipal.prop("indeterminate", false);
+  } else if (checkedCheckboxes === 0) {
+    checkboxPrincipal.prop("checked", false);
+    checkboxPrincipal.prop("indeterminate", false);
+  } else if (checkedCheckboxes === totalCheckboxes) {
+    checkboxPrincipal.prop("checked", true);
+    checkboxPrincipal.prop("indeterminate", false);
+  } else {
+    checkboxPrincipal.prop("checked", false);
+    checkboxPrincipal.prop("indeterminate", true);
+  }
 }
 
 // Función auxiliar para obtener encomiendas seleccionadas
 function obtenerEncomiendasSeleccionadasEditar() {
-    let seleccionadas = [];
-    $('.encomienda-checkbox:checked').each(function() {
-        seleccionadas.push($(this).val());
-    });
-    console.log("Encomiendas seleccionadas:", seleccionadas);
-    return seleccionadas;
+  let seleccionadas = [];
+  $(".encomienda-checkbox:checked").each(function () {
+    seleccionadas.push($(this).val());
+  });
+  console.log("Encomiendas seleccionadas:", seleccionadas);
+  return seleccionadas;
 }
 // Función para eliminar pasajero
 function eliminarPasajeroEditar(idPasajero) {
-    Swal.fire({
-        title: '¿Está seguro?',
-        text: "¿Desea eliminar este pasajero de la salida?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: '../controller/salidas_diarias/controlador_eliminar_pasajero_salida.php',
-                type: 'POST',
-                data: {
-                    id_pasajero: idPasajero
-                },
-                success: function(response) {
-                    console.log("Respuesta del servidor:", response); // Para depuración
-                    
-                    // Verificar si la respuesta es mayor a 0
-                    if (response > 0) {
-                        Swal.fire(
-                            'Eliminado',
-                            'El pasajero ha sido eliminado correctamente.',
-                            'success'
-                        );
-                        // Recargar la tabla de pasajeros
-                        if (typeof tbl_detalle_pasajerosEditar !== 'undefined') {
-                            tbl_detalle_pasajerosEditar.ajax.reload();
-                        }
-                    } else {
-                        Swal.fire(
-                            'Error',
-                            'No se pudo eliminar el pasajero.',
-                            'error'
-                        );
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                    Swal.fire(
-                        'Error',
-                        'Ocurrió un error al eliminar el pasajero.',
-                        'error'
-                    );
-                }
-            });
-        }
-    });
+  Swal.fire({
+    title: "¿Está seguro?",
+    text: "¿Desea eliminar este pasajero de la salida?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "../controller/salidas_diarias/controlador_eliminar_pasajero_salida.php",
+        type: "POST",
+        data: {
+          id_pasajero: idPasajero,
+        },
+        success: function (response) {
+          console.log("Respuesta del servidor:", response); // Para depuración
+
+          // Verificar si la respuesta es mayor a 0
+          if (response > 0) {
+            Swal.fire(
+              "Eliminado",
+              "El pasajero ha sido eliminado correctamente.",
+              "success"
+            );
+            // Recargar la tabla de pasajeros
+            if (typeof tbl_detalle_pasajerosEditar !== "undefined") {
+              tbl_detalle_pasajerosEditar.ajax.reload();
+            }
+          } else {
+            Swal.fire("Error", "No se pudo eliminar el pasajero.", "error");
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+          Swal.fire(
+            "Error",
+            "Ocurrió un error al eliminar el pasajero.",
+            "error"
+          );
+        },
+      });
+    }
+  });
 }
 
-
-
 function agregarPasajeroEditar() {
-    var tipodocumento = $("#select_tipo_documento_emisor_editar").val();
-    var documento = $("#txt_dni_emisor_editar").val();
-    var documento2 = $("#txt_dni_emisor2_editar").val();
-    var nombres = $("#txt_nombre_pasajero_editar").val();
-    var edad = $("#txt_edad_editar").val();
-    var celular = $("#txt_cel_pasajero_editar").val();
+  var tipodocumento = $("#select_tipo_documento_emisor_editar").val();
+  var documento = $("#txt_dni_emisor_editar").val();
+  var documento2 = $("#txt_dni_emisor2_editar").val();
+  var nombres = $("#txt_nombre_pasajero_editar").val();
+  var edad = $("#txt_edad_editar").val();
+  var celular = $("#txt_cel_pasajero_editar").val();
 
-     let documentoFinal = '';
-    if (tipodocumento === 'DNI') {
-        if (!documento) {
-            return Swal.fire("Mensaje de Advertencia", "El campo DNI es obligatorio", "warning");
-        }
-        documentoFinal = documento;
-    } else {
-        if (!documento2) {
-            return Swal.fire("Mensaje de Advertencia", "El campo de documento es obligatorio", "warning");
-        }
-        documentoFinal = documento2;
+  let documentoFinal = "";
+  if (tipodocumento === "DNI") {
+    if (!documento) {
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo DNI es obligatorio",
+        "warning"
+      );
     }
-
-    if (!documentoFinal || documentoFinal.trim() === "" || !nombres || nombres.trim() === "") {
-        return Swal.fire("Mensaje de Advertencia", "Complete los campos obligatorios", "warning");
+    documentoFinal = documento;
+  } else {
+    if (!documento2) {
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo de documento es obligatorio",
+        "warning"
+      );
     }
+    documentoFinal = documento2;
+  }
 
-    if (verificarDocumentEditar(documentoFinal)) {
-        return Swal.fire("Mensaje de Advertencia", "El pasajero ya fue agregado a la tabla", "warning");
-    }
+  if (
+    !documentoFinal ||
+    documentoFinal.trim() === "" ||
+    !nombres ||
+    nombres.trim() === ""
+  ) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "Complete los campos obligatorios",
+      "warning"
+    );
+  }
 
-    var filasExistentes = document.querySelectorAll("#tabla_pasajeros_editar tbody tr").length;
-    var fila = "<tr>";
-    fila += "<td>" + (filasExistentes + 1) + "</td>";
-    fila += "<td>" + tipodocumento + "</td>";
-    fila += "<td>" + documentoFinal + "</td>";
-    fila += "<td>" + nombres + "</td>";
-    fila += "<td>" + (edad || "N/A") + "</td>";
-    fila += "<td>" + (celular || "N/A") + "</td>";
-    fila += "<td><button class='btn btn-danger' onclick='removePasajeroEditar(this)'><i class='fas fa-trash'></i></button></td>";
-    fila += "</tr>";
+  if (verificarDocumentEditar(documentoFinal)) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "El pasajero ya fue agregado a la tabla",
+      "warning"
+    );
+  }
 
-    $("#tabla_pasajeros_editar tbody").append(fila);
-    actualizarTotalPasajeros_Editar();
+  var filasExistentes = document.querySelectorAll(
+    "#tabla_pasajeros_editar tbody tr"
+  ).length;
+  var fila = "<tr>";
+  fila += "<td>" + (filasExistentes + 1) + "</td>";
+  fila += "<td>" + tipodocumento + "</td>";
+  fila += "<td>" + documentoFinal + "</td>";
+  fila += "<td>" + nombres + "</td>";
+  fila += "<td>" + (edad || "N/A") + "</td>";
+  fila += "<td>" + (celular || "N/A") + "</td>";
+  fila +=
+    "<td><button class='btn btn-danger' onclick='removePasajeroEditar(this)'><i class='fas fa-trash'></i></button></td>";
+  fila += "</tr>";
 
-    // Limpiar campos
-    $("#txt_dni_emisor_editar").val("");
-    $("#txt_nombre_pasajero_editar").val("");
-    $("#txt_edad_editar").val("");
-    $("#txt_cel_pasajero_editar").val("");
+  $("#tabla_pasajeros_editar tbody").append(fila);
+  actualizarTotalPasajeros_Editar();
+
+  // Limpiar campos
+  $("#txt_dni_emisor_editar").val("");
+  $("#txt_nombre_pasajero_editar").val("");
+  $("#txt_edad_editar").val("");
+  $("#txt_cel_pasajero_editar").val("");
 }
 
 function removePasajeroEditar(boton) {
-    var fila = boton.parentNode.parentNode;
-    fila.parentNode.removeChild(fila);
-    actualizarNumeracionEditar();
-    actualizarTotalPasajeros_Editar();
+  var fila = boton.parentNode.parentNode;
+  fila.parentNode.removeChild(fila);
+  actualizarNumeracionEditar();
+  actualizarTotalPasajeros_Editar();
 }
 
 function actualizarNumeracionEditar() {
-    var filas = document.querySelectorAll("#tabla_pasajeros_editar tbody tr");
-    filas.forEach((fila, index) => {
-        fila.cells[0].innerText = index + 1;
-    });
+  var filas = document.querySelectorAll("#tabla_pasajeros_editar tbody tr");
+  filas.forEach((fila, index) => {
+    fila.cells[0].innerText = index + 1;
+  });
 }
 
 function actualizarTotalPasajeros_Editar() {
-    var total = document.querySelectorAll("#tabla_pasajeros_editar tbody tr").length;
-    document.getElementById("total_pasajeros_editar").innerText = total;
+  var total = document.querySelectorAll(
+    "#tabla_pasajeros_editar tbody tr"
+  ).length;
+  document.getElementById("total_pasajeros_editar").innerText = total;
 }
 
 function verificarDocumentEditar(documento) {
-    var filas = document.querySelectorAll("#tabla_pasajeros_editar tbody tr");
-    for (var i = 0; i < filas.length; i++) {
-        var doc = filas[i].cells[1].innerText;
-        if (doc === documento) {
-            return true;
-        }
+  var filas = document.querySelectorAll("#tabla_pasajeros_editar tbody tr");
+  for (var i = 0; i < filas.length; i++) {
+    var doc = filas[i].cells[1].innerText;
+    if (doc === documento) {
+      return true;
     }
-    return false;
+  }
+  return false;
 }
 function Moidificar_Salida_Diaria() {
-    console.log("🚀 === INICIANDO Moidificar_Salida_Diaria ===");
-    
-    const idSalida = document.getElementById("id_salida_editar").value;
-    const monto = document.getElementById("txt_pago_editar").value;
-    const fechaactualizar = document.getElementById("txt_fecha_actualizacion").value;
-    const observacion = document.getElementById("txt_descripcion_editar").value;
-    const idUsuario = document.getElementById("txtprincipalid").value;
-    const totalPasajeros = document.querySelectorAll("#tabla_pasajeros_editar tbody tr").length;
-    const totalEncomiendas = document.querySelectorAll("#tabla_encomiendas_editar tbody tr").length;
+  console.log("🚀 === INICIANDO Moidificar_Salida_Diaria ===");
 
-    console.log("📊 Datos capturados:", {
-        idSalida, monto, fechaactualizar, observacion, 
-        idUsuario, totalPasajeros, totalEncomiendas
-    });
+  const idSalida = document.getElementById("id_salida_editar").value;
+  const monto = document.getElementById("txt_pago_editar").value;
+  const fechaactualizar = document.getElementById(
+    "txt_fecha_actualizacion"
+  ).value;
+  const observacion = document.getElementById("txt_descripcion_editar").value;
+  const idUsuario = document.getElementById("txtprincipalid").value;
+  const totalPasajeros = document.querySelectorAll(
+    "#tabla_pasajeros_editar tbody tr"
+  ).length;
+  const totalEncomiendas = document.querySelectorAll(
+    "#tabla_encomiendas_editar tbody tr"
+  ).length;
 
-    if (!monto || !fechaactualizar) {
-        console.log("❌ Validación fallida: campos obligatorios vacíos");
-        return Swal.fire("Advertencia", "Complete todos los campos obligatorios.", "warning");
-    }
+  console.log("📊 Datos capturados:", {
+    idSalida,
+    monto,
+    fechaactualizar,
+    observacion,
+    idUsuario,
+    totalPasajeros,
+    totalEncomiendas,
+  });
 
-    console.log("🌐 Enviando AJAX para modificar salida principal...");
-    
-    $.ajax({
-        url: "../controller/salidas_diarias/controlador_modificar_salida_diaria.php",
-        type: "POST",
-        data: {
-            idSalida,
-            monto,
-            fechaactualizar,
-            observacion,
-            idUsuario,
-            totalPasajeros,
-            totalEncomiendas
-        },
-        success: function (resp) {
-            console.log("✅ SUCCESS - Respuesta salida principal:", resp);
-            console.log("🔢 Tipo de respuesta:", typeof resp);
-            console.log("📏 Longitud respuesta:", resp.length);
-            
-            if (resp > 0) {
-                console.log("🎯 Respuesta válida, procediendo con funciones secundarias...");
-                
-                // ASEGÚRATE QUE ESTAS DOS LÍNEAS NO ESTÉN COMENTADAS
-                console.log("👥 Llamando Modificar_Detalle_Pasajeros...");
-                Modificar_Detalle_Pasajeros(resp);
-                
-                console.log("📦 Llamando Modificar_Detalle_Encomiendas...");
-                Modificar_Detalle_Encomiendas(resp);
-                
-                Swal.fire("Éxito", "Salida diaria modificada correctamente.", "success");
-                $("#modal_editar").modal("hide");
-                listar_salidas_diarias();
-            } else {
-                console.log("❌ Respuesta no válida:", resp);
-                Swal.fire("Error", "No se pudo registrar la salida diaria: " + resp, "error");
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("💥 ERROR AJAX:", {xhr, status, error});
-            console.error("📄 Response Text:", xhr.responseText);
-            Swal.fire("Error", "Error en la comunicación con el servidor.", "error");
-        }
-    });
+  if (!monto || !fechaactualizar) {
+    console.log("❌ Validación fallida: campos obligatorios vacíos");
+    return Swal.fire(
+      "Advertencia",
+      "Complete todos los campos obligatorios.",
+      "warning"
+    );
+  }
+
+  console.log("🌐 Enviando AJAX para modificar salida principal...");
+
+  $.ajax({
+    url: "../controller/salidas_diarias/controlador_modificar_salida_diaria.php",
+    type: "POST",
+    data: {
+      idSalida,
+      monto,
+      fechaactualizar,
+      observacion,
+      idUsuario,
+      totalPasajeros,
+      totalEncomiendas,
+    },
+    success: function (resp) {
+      console.log("✅ SUCCESS - Respuesta salida principal:", resp);
+      console.log("🔢 Tipo de respuesta:", typeof resp);
+      console.log("📏 Longitud respuesta:", resp.length);
+
+      if (resp > 0) {
+        console.log(
+          "🎯 Respuesta válida, procediendo con funciones secundarias..."
+        );
+
+        // ASEGÚRATE QUE ESTAS DOS LÍNEAS NO ESTÉN COMENTADAS
+        console.log("👥 Llamando Modificar_Detalle_Pasajeros...");
+        Modificar_Detalle_Pasajeros(resp);
+
+        console.log("📦 Llamando Modificar_Detalle_Encomiendas...");
+        Modificar_Detalle_Encomiendas(resp);
+
+        Swal.fire(
+          "Éxito",
+          "Salida diaria modificada correctamente.",
+          "success"
+        );
+        $("#modal_editar").modal("hide");
+        listar_salidas_diarias();
+      } else {
+        console.log("❌ Respuesta no válida:", resp);
+        Swal.fire(
+          "Error",
+          "No se pudo registrar la salida diaria: " + resp,
+          "error"
+        );
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("💥 ERROR AJAX:", { xhr, status, error });
+      console.error("📄 Response Text:", xhr.responseText);
+      Swal.fire("Error", "Error en la comunicación con el servidor.", "error");
+    },
+  });
 }
 
 //MODIFICAR DETALLE PASAJEROS
 function Modificar_Detalle_Pasajeros(idSalida) {
-    console.log("👥 === INICIANDO Modificar_Detalle_Pasajeros ===");
-    console.log("🆔 idSalida recibido:", idSalida);
-    
-    const pasajeros = [];
-    
-    document.querySelectorAll("#tabla_pasajeros_editar tbody tr").forEach((row, index) => {
-        console.log(`📋 Procesando fila ${index + 1}:`, row);
-        const celdas = row.cells;
-        
-        if (celdas.length >= 6) {
-            const pasajero = {
-                tipo_documento: (celdas[1].textContent || celdas[1].innerText || '').replace(/\s+/g, ' ').trim(),
-                documento: (celdas[2].textContent || celdas[2].innerText || '').replace(/\s+/g, ' ').trim(),
-                nombres: (celdas[3].textContent || celdas[3].innerText || '').replace(/\s+/g, ' ').trim(),
-                edad: (celdas[4].textContent || celdas[4].innerText || '').replace(/\s+/g, ' ').trim(),
-                celular: (celdas[5].textContent || celdas[5].innerText || '').replace(/\s+/g, ' ').trim()
-            };
-            
-            if (pasajero.documento && pasajero.nombres) {
-                pasajeros.push(pasajero);
-                console.log(`✅ Pasajero ${index + 1} agregado:`, pasajero);
-            } else {
-                console.log(`❌ Pasajero ${index + 1} rechazado (datos incompletos):`, pasajero);
-            }
+  console.log("👥 === INICIANDO Modificar_Detalle_Pasajeros ===");
+  console.log("🆔 idSalida recibido:", idSalida);
+
+  const pasajeros = [];
+
+  document
+    .querySelectorAll("#tabla_pasajeros_editar tbody tr")
+    .forEach((row, index) => {
+      console.log(`📋 Procesando fila ${index + 1}:`, row);
+      const celdas = row.cells;
+
+      if (celdas.length >= 6) {
+        const pasajero = {
+          tipo_documento: (celdas[1].textContent || celdas[1].innerText || "")
+            .replace(/\s+/g, " ")
+            .trim(),
+          documento: (celdas[2].textContent || celdas[2].innerText || "")
+            .replace(/\s+/g, " ")
+            .trim(),
+          nombres: (celdas[3].textContent || celdas[3].innerText || "")
+            .replace(/\s+/g, " ")
+            .trim(),
+          edad: (celdas[4].textContent || celdas[4].innerText || "")
+            .replace(/\s+/g, " ")
+            .trim(),
+          celular: (celdas[5].textContent || celdas[5].innerText || "")
+            .replace(/\s+/g, " ")
+            .trim(),
+        };
+
+        if (pasajero.documento && pasajero.nombres) {
+          pasajeros.push(pasajero);
+          console.log(`✅ Pasajero ${index + 1} agregado:`, pasajero);
+        } else {
+          console.log(
+            `❌ Pasajero ${index + 1} rechazado (datos incompletos):`,
+            pasajero
+          );
         }
+      }
     });
 
-    console.log("📊 Total pasajeros procesados:", pasajeros.length);
+  console.log("📊 Total pasajeros procesados:", pasajeros.length);
 
-    if (pasajeros.length === 0) {
-        console.log("⚠️ No hay pasajeros válidos para procesar");
-        return;
-    }
+  if (pasajeros.length === 0) {
+    console.log("⚠️ No hay pasajeros válidos para procesar");
+    return;
+  }
 
-    console.log("🌐 Enviando AJAX para modificar pasajeros...");
-    
-    $.ajax({
-        url: "../controller/salidas_diarias/controlador_modificar_detalle_pasajeros.php",
-        type: "POST",
-        data: { 
-            idSalida: idSalida, 
-            pasajeros: JSON.stringify(pasajeros) 
-        },
-        success: function (resp) {
-            console.log("✅ SUCCESS Pasajeros - Respuesta:", resp);
-            if (resp <= 0) {
-                Swal.fire("Advertencia", "No se pudieron modificar algunos pasajeros.", "warning");
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("💥 ERROR AJAX Pasajeros:", {xhr, status, error});
-            console.error("📄 Response Text:", xhr.responseText);
-            Swal.fire("Error", "Error al modificar los pasajeros.", "error");
-        }
-    });
+  console.log("🌐 Enviando AJAX para modificar pasajeros...");
+
+  $.ajax({
+    url: "../controller/salidas_diarias/controlador_modificar_detalle_pasajeros.php",
+    type: "POST",
+    data: {
+      idSalida: idSalida,
+      pasajeros: JSON.stringify(pasajeros),
+    },
+    success: function (resp) {
+      console.log("✅ SUCCESS Pasajeros - Respuesta:", resp);
+      if (resp <= 0) {
+        Swal.fire(
+          "Advertencia",
+          "No se pudieron modificar algunos pasajeros.",
+          "warning"
+        );
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("💥 ERROR AJAX Pasajeros:", { xhr, status, error });
+      console.error("📄 Response Text:", xhr.responseText);
+      Swal.fire("Error", "Error al modificar los pasajeros.", "error");
+    },
+  });
 }
 
-// FUNCIÓN PARA MODIFICAR DETALLE DE ENCOMIENDAS  
+// FUNCIÓN PARA MODIFICAR DETALLE DE ENCOMIENDAS
 // 🔍 FUNCIÓN TEMPORAL PARA DETECTAR CHECKBOXES
 function Debug_Detectar_Checkboxes() {
-    console.log("🔍 === ANALIZANDO TODOS LOS CHECKBOXES ===");
-    
-    const todosCheckboxes = $('input[type="checkbox"]');
-    console.log("📊 Total checkboxes:", todosCheckboxes.length);
-    
-    todosCheckboxes.each(function(index) {
-        const checkbox = $(this);
-        const padre = checkbox.closest('tr');
-        
-        console.log(`📦 Checkbox ${index + 1}:`, {
-            html: this.outerHTML,
-            id: checkbox.attr('id'),
-            name: checkbox.attr('name'),
-            class: checkbox.attr('class'),
-            value: checkbox.val(),
-            dataId: checkbox.data('id'),
-            checked: checkbox.is(':checked'),
-            enTablaEncomiendas: padre.closest('#tabla_encomiendas_editar').length > 0
-        });
+  console.log("🔍 === ANALIZANDO TODOS LOS CHECKBOXES ===");
+
+  const todosCheckboxes = $('input[type="checkbox"]');
+  console.log("📊 Total checkboxes:", todosCheckboxes.length);
+
+  todosCheckboxes.each(function (index) {
+    const checkbox = $(this);
+    const padre = checkbox.closest("tr");
+
+    console.log(`📦 Checkbox ${index + 1}:`, {
+      html: this.outerHTML,
+      id: checkbox.attr("id"),
+      name: checkbox.attr("name"),
+      class: checkbox.attr("class"),
+      value: checkbox.val(),
+      dataId: checkbox.data("id"),
+      checked: checkbox.is(":checked"),
+      enTablaEncomiendas: padre.closest("#tabla_encomiendas_editar").length > 0,
     });
-    
-    // Específicamente buscar en tabla de encomiendas
-    const tablaEncomiendas = $('#tabla_encomiendas_editar tbody tr');
-    console.log("\n🔍 Filas en tabla_encomiendas_editar:", tablaEncomiendas.length);
-    
-    tablaEncomiendas.each(function(index) {
-        const fila = $(this);
-        const checkbox = fila.find('input[type="checkbox"]');
-        console.log(`📋 Fila ${index + 1}:`, {
-            checkbox: checkbox.length > 0 ? checkbox[0].outerHTML : 'NO ENCONTRADO',
-            checked: checkbox.is(':checked'),
-            value: checkbox.val(),
-            dataId: checkbox.data('id')
-        });
+  });
+
+  // Específicamente buscar en tabla de encomiendas
+  const tablaEncomiendas = $("#tabla_encomiendas_editar tbody tr");
+  console.log(
+    "\n🔍 Filas en tabla_encomiendas_editar:",
+    tablaEncomiendas.length
+  );
+
+  tablaEncomiendas.each(function (index) {
+    const fila = $(this);
+    const checkbox = fila.find('input[type="checkbox"]');
+    console.log(`📋 Fila ${index + 1}:`, {
+      checkbox: checkbox.length > 0 ? checkbox[0].outerHTML : "NO ENCONTRADO",
+      checked: checkbox.is(":checked"),
+      value: checkbox.val(),
+      dataId: checkbox.data("id"),
     });
+  });
 }
 
 // 📦 FUNCIÓN CORREGIDA PARA MODIFICAR ENCOMIENDAS
 function Modificar_Detalle_Encomiendas(idSalida) {
-    console.log("📦 === INICIANDO Modificar_Detalle_Encomiendas ===");
-    console.log("🆔 idSalida recibido:", idSalida);
+  console.log("📦 === INICIANDO Modificar_Detalle_Encomiendas ===");
+  console.log("🆔 idSalida recibido:", idSalida);
 
-    // Arreglo para IDs a remover
-    const encomiendas = [];
+  // Arreglo para IDs a remover
+  const encomiendas = [];
 
-    // Buscar SOLO los checkboxes de encomiendas
-    $('#tabla_encomiendas_editar tbody input.encomienda-checkbox').each(function() {
-        const checkbox = $(this);
-        const idEncomienda = checkbox.val();
-        const isChecked = checkbox.is(':checked');
+  // Buscar SOLO los checkboxes de encomiendas
+  $("#tabla_encomiendas_editar tbody input.encomienda-checkbox").each(
+    function () {
+      const checkbox = $(this);
+      const idEncomienda = checkbox.val();
+      const isChecked = checkbox.is(":checked");
 
-        // ✅ Lógica: si NO está marcado, lo agregamos a la lista
-        if (!isChecked && idEncomienda) {
-            encomiendas.push(idEncomienda);
-            console.log(`❌ Encomienda ${idEncomienda} NO marcada -> SE REMOVERÁ`);
-        } else {
-            console.log(`✅ Encomienda ${idEncomienda} marcada -> SE MANTIENE`);
-        }
-    });
-
-    console.log("🗑️ IDs de encomiendas a REMOVER:", encomiendas);
-
-    if (encomiendas.length === 0) {
-        console.log("ℹ️ Todas las encomiendas siguen seleccionadas, nada que remover.");
-        return;
+      // ✅ Lógica: si NO está marcado, lo agregamos a la lista
+      if (!isChecked && idEncomienda) {
+        encomiendas.push(idEncomienda);
+        console.log(`❌ Encomienda ${idEncomienda} NO marcada -> SE REMOVERÁ`);
+      } else {
+        console.log(`✅ Encomienda ${idEncomienda} marcada -> SE MANTIENE`);
+      }
     }
+  );
 
-    // 🌐 Enviar al servidor
-    $.ajax({
-        url: "../controller/salidas_diarias/controlador_modificar_detalle_encomiendas.php",
-        type: "POST",
-        data: { 
-            idSalida: idSalida, 
-            encomiendas: JSON.stringify(encomiendas) 
-        },
-        beforeSend: function() {
-            console.log("⏳ Enviando petición con IDs:", encomiendas);
-        },
-        success: function (resp) {
-            console.log("✅ SUCCESS - Respuesta del servidor:", resp);
-            if (resp == 1 || resp === "1") {
-                Swal.fire("Éxito", "Encomiendas removidas exitosamente", "success");
-            } else {
-                Swal.fire("Advertencia", "Respuesta: " + resp, "warning");
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("💥 ERROR AJAX:", {xhr, status, error, responseText: xhr.responseText});
-            Swal.fire("Error", "Error al remover encomiendas: " + error, "error");
-        }
-    });
+  console.log("🗑️ IDs de encomiendas a REMOVER:", encomiendas);
+
+  if (encomiendas.length === 0) {
+    console.log(
+      "ℹ️ Todas las encomiendas siguen seleccionadas, nada que remover."
+    );
+    return;
+  }
+
+  // 🌐 Enviar al servidor
+  $.ajax({
+    url: "../controller/salidas_diarias/controlador_modificar_detalle_encomiendas.php",
+    type: "POST",
+    data: {
+      idSalida: idSalida,
+      encomiendas: JSON.stringify(encomiendas),
+    },
+    beforeSend: function () {
+      console.log("⏳ Enviando petición con IDs:", encomiendas);
+    },
+    success: function (resp) {
+      console.log("✅ SUCCESS - Respuesta del servidor:", resp);
+      if (resp == 1 || resp === "1") {
+        Swal.fire("Éxito", "Encomiendas removidas exitosamente", "success");
+      } else {
+        Swal.fire("Advertencia", "Respuesta: " + resp, "warning");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("💥 ERROR AJAX:", {
+        xhr,
+        status,
+        error,
+        responseText: xhr.responseText,
+      });
+      Swal.fire("Error", "Error al remover encomiendas: " + error, "error");
+    },
+  });
 }
-
-
 
 // 🚀 EJECUTAR DEBUG (llama esta función en la consola primero)
 function Ejecutar_Debug() {
-    console.clear();
-    console.log("🚀 Ejecutando debug de checkboxes...");
-    Debug_Detectar_Checkboxes();
+  console.clear();
+  console.log("🚀 Ejecutando debug de checkboxes...");
+  Debug_Detectar_Checkboxes();
 }

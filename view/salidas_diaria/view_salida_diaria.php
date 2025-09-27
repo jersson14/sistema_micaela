@@ -117,463 +117,463 @@
         </div>
         <!-- /.row -->
     </div><!-- /.container-fluid -->
-<div class="modal fade" id="modal_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <!-- Header -->
-            <div class="modal-header" style="background-color:#1FA0E0;">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center">
-                    <b>REGISTRO DE SALIDA DIARIA</b>
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 form-group" style="color:red">
-                        <h6><b>Campos Obligatorios (*)</b></h6>
-                    </div>
-
-                    <!-- DATOS DE SALIDA -->
-                    <div class="col-12 form-group">
-                        <label>Conductor<b style="color:red">(*)</b>:</label>
-                        <select class="js-example-basic-single" id="select_conductor" style="width:100%"></select>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Pago de Salida<b style="color:red">(*)</b>:</label>
-                        <input type="text" class="form-control" value="3.00" id="txt_pago" onkeypress="return soloNumeros(event)">
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Fecha y hora<b style="color:red">(*)</b>:</label>
-                        <input type="datetime-local" class="form-control" id="txt_fecha_creacion" readonly>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Origen<b style="color:red">(*)</b>:</label>
-                        <select class="js-example-basic-single" id="select_origen" style="width:100%"></select>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Destino<b style="color:red">(*)</b>:</label>
-                        <select class="js-example-basic-single" id="select_destino" style="width:100%"></select>
-                    </div>
-
-                    <!-- SECCION PASAJEROS -->
-                    <div class="col-12 mt-3">
-                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
-                            <b>PASAJEROS</b>
-                        </li>
-                    </div>
-                    <div class="col-6 form-group"><br>
-                        <label for="">Tipo de documento - Emisor<b style="color:red">(*)</b>:</label>
-                        <select class="form-control" id="select_tipo_documento_emisor" style="width:100%">
-                            <option value="" disabled>Seleccione</option>
-                            <option value="DNI" selected>DNI</option>
-                            <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
-                            <option value="PASAPORTE">PASAPORTE</option>
-                        </select>
-                    </div>
-                    <div id="dni_section" class="col-6 form-group"><br>
-                        <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="txt_dni_emisor" maxlength="8" onkeypress="return soloNumeros(event)">
-                            <div class="input-group-append">
-                                <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                <button onclick="" class="btn btn-primary" id="btn_buscar_reniec"><i class="fa fa-search"></i><b> RENIEC</b></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="otros_documentos_section" class="col-6 form-group" style="display: none;"><br>
-                        <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="txt_dni_emisor2">
-                            <div class="input-group-append">
-                                <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Nombres y Apellidos<b style="color:red">(*)</b>:</label>
-                        <input type="text" class="form-control" id="txt_nombre_pasajero" onkeypress="return sololetras(event)">
-                    </div>
-                    <div class="col-3 form-group">
-                        <label>Edad(Opcional):</label>
-                        <input type="number" class="form-control" id="txt_edad">
-                    </div>
-                    <div class="col-3 form-group">
-                        <label>Celular(Opcional):</label>
-                        <input type="text" class="form-control" id="txt_cel_pasajero" maxlength="9" onkeypress="return soloNumeros(event)">
-                    </div>
-                    <div class="col-12 text-right">
-                        <button type="button" class="btn btn-primary" onclick="agregarPasajero()">
-                            <i class="fa fa-user-plus"></i> Agregar pasajero
-                        </button>
-                    </div>
-
-                    <!-- TABLA PASAJEROS -->
-                    <div class="col-12 mt-3">
-                        <table class="table table-bordered table-sm text-center" id="tabla_pasajeros">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tipo Documento</th>
-                                    <th>Documento</th>
-                                    <th>Nombres y Apellidos</th>
-                                    <th>Edad</th>
-                                    <th>Celular</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="5" class="text-right">Total pasajeros: <span id="total_pasajeros">0</span></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <!-- SECCION ENCOMIENDAS -->
-                    <div class="col-12 mt-4">
-                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
-                            <b>ENCOMIENDAS</b>
-                        </li>
-                    </div>
-                    <!-- SOLO TABLA DE ENCOMIENDAS -->
-                    <div class="col-12 mt-3">
-                        <table class="table table-bordered table-sm text-center" id="tabla_encomiendas">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th><input type="checkbox" id="check_all_encomiendas"></th>
-                                    <th>#</th>
-                                    <th>Emisor</th>
-                                    <th>Receptor</th>
-                                    <th>Pago</th>
-                                    <th>Por pagar</th>
-                                    <th>A domicilio</th>
-                                    <th>Estado pago</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Aquí se llenarán dinámicamente las encomiendas -->
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="8" class="text-right">Total encomiendas: <span id="total_encomiendas">0</span></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <!-- OBSERVACIONES -->
-                    <div class="col-12 form-group mt-3">
-                        <label>Descripción u Observación de la salida(Opcional):</label>
-                        <textarea class="form-control" id="txt_descripcion" rows="3" style="resize:none" placeholder="Ingrese la descripción de la salida"></textarea>
-                    </div>
-
+    <div class="modal fade" id="modal_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header" style="background-color:#1FA0E0;">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center">
+                        <b>REGISTRO DE SALIDA DIARIA</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
 
-            <!-- Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
-                <button type="button" class="btn btn-success" onclick="Registrar_Salida_Diaria()"><i class="fas fa-save"></i> Registrar</button>
+                <!-- Body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 form-group" style="color:red">
+                            <h6><b>Campos Obligatorios (*)</b></h6>
+                        </div>
+
+                        <!-- DATOS DE SALIDA -->
+                        <div class="col-12 form-group">
+                            <label>Conductor<b style="color:red">(*)</b>:</label>
+                            <select class="js-example-basic-single" id="select_conductor" style="width:100%"></select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Pago de Salida<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" value="3.00" id="txt_pago" onkeypress="return soloNumeros(event)">
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Fecha y hora<b style="color:red">(*)</b>:</label>
+                            <input type="datetime-local" class="form-control" id="txt_fecha_creacion" readonly>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Origen<b style="color:red">(*)</b>:</label>
+                            <select class="js-example-basic-single" id="select_origen" style="width:100%"></select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Destino<b style="color:red">(*)</b>:</label>
+                            <select class="js-example-basic-single" id="select_destino" style="width:100%"></select>
+                        </div>
+
+                        <!-- SECCION PASAJEROS -->
+                        <div class="col-12 mt-3">
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                                <b>PASAJEROS</b>
+                            </li>
+                        </div>
+                        <div class="col-6 form-group"><br>
+                            <label for="">Tipo de documento - Emisor<b style="color:red">(*)</b>:</label>
+                            <select class="form-control" id="select_tipo_documento_emisor" style="width:100%">
+                                <option value="" disabled>Seleccione</option>
+                                <option value="DNI" selected>DNI</option>
+                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
+                                <option value="PASAPORTE">PASAPORTE</option>
+                            </select>
+                        </div>
+                        <div id="dni_section" class="col-6 form-group"><br>
+                            <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txt_dni_emisor" maxlength="8" onkeypress="return soloNumeros(event)">
+                                <div class="input-group-append">
+                                    <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                    <button onclick="" class="btn btn-primary" id="btn_buscar_reniec"><i class="fa fa-search"></i><b> RENIEC</b></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="otros_documentos_section" class="col-6 form-group" style="display: none;"><br>
+                            <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txt_dni_emisor2">
+                                <div class="input-group-append">
+                                    <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Nombres y Apellidos<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_nombre_pasajero" onkeypress="return sololetras(event)">
+                        </div>
+                        <div class="col-3 form-group">
+                            <label>Edad(Opcional):</label>
+                            <input type="number" class="form-control" id="txt_edad">
+                        </div>
+                        <div class="col-3 form-group">
+                            <label>Celular(Opcional):</label>
+                            <input type="text" class="form-control" id="txt_cel_pasajero" maxlength="9" onkeypress="return soloNumeros(event)">
+                        </div>
+                        <div class="col-12 text-right">
+                            <button type="button" class="btn btn-primary" onclick="agregarPasajero()">
+                                <i class="fa fa-user-plus"></i> Agregar pasajero
+                            </button>
+                        </div>
+
+                        <!-- TABLA PASAJEROS -->
+                        <div class="col-12 mt-3">
+                            <table class="table table-bordered table-sm text-center" id="tabla_pasajeros">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tipo Documento</th>
+                                        <th>Documento</th>
+                                        <th>Nombres y Apellidos</th>
+                                        <th>Edad</th>
+                                        <th>Celular</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="5" class="text-right">Total pasajeros: <span id="total_pasajeros">0</span></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- SECCION ENCOMIENDAS -->
+                        <div class="col-12 mt-4">
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                                <b>ENCOMIENDAS</b>
+                            </li>
+                        </div>
+                        <!-- SOLO TABLA DE ENCOMIENDAS -->
+                        <div class="col-12 mt-3">
+                            <table class="table table-bordered table-sm text-center" id="tabla_encomiendas">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th><input type="checkbox" id="check_all_encomiendas"></th>
+                                        <th>#</th>
+                                        <th>Emisor</th>
+                                        <th>Receptor</th>
+                                        <th>Pago</th>
+                                        <th>Por pagar</th>
+                                        <th>A domicilio</th>
+                                        <th>Estado pago</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Aquí se llenarán dinámicamente las encomiendas -->
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="8" class="text-right">Total encomiendas: <span id="total_encomiendas">0</span></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- OBSERVACIONES -->
+                        <div class="col-12 form-group mt-3">
+                            <label>Descripción u Observación de la salida(Opcional):</label>
+                            <textarea class="form-control" id="txt_descripcion" rows="3" style="resize:none" placeholder="Ingrese la descripción de la salida"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+                    <button type="button" class="btn btn-success" onclick="Registrar_Salida_Diaria()"><i class="fas fa-save"></i> Registrar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Editar datos de la salida diaria -->
-<div class="modal fade" id="modal_editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <!-- Header -->
-            <div class="modal-header" style="background-color:#1FA0E0;">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center">
-                    <b>MODIFICAR DE SALIDA DIARIA</b>
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 form-group" style="color:red">
-                        <h6><b>Campos Obligatorios (*)</b></h6>
-                    </div>
-
-                    <!-- DATOS DE SALIDA -->
-                    <div class="col-12 form-group">
-                        <label>Conductor<b style="color:red"> (No se puede editar)</b>:</label>
-                        <input type="text" id="id_salida_editar" hidden>
-                        <select class="js-example-basic-single" id="select_conductor_editar" disabled style="width:100%"></select>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Pago de Salida<b style="color:red">(*)</b>:</label>
-                        <input type="text" class="form-control"  id="txt_pago_editar" onkeypress="return soloNumeros(event)">
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Fecha y hora de actualización<b style="color:red">(*)</b>:</label>
-                        <input type="datetime-local" class="form-control" id="txt_fecha_actualizacion" readonly>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Origen<b style="color:red"> (No se puede editar)</b>:</label>
-                        <select class="js-example-basic-single" id="select_origen_editar" style="width:100%" disabled></select>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Destino<b style="color:red"> (No se puede editar)</b>:</label>
-                        <select class="js-example-basic-single" id="select_destino_editar" style="width:100%" disabled></select>
-                    </div>
-
-                    <!-- SECCION PASAJEROS -->
-                    <div class="col-12 mt-3">
-                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
-                            <b>PASAJEROS</b>
-                        </li>
-                    </div>
-                    <div class="col-6 form-group"><br>
-                        <label for="">Tipo de documento - Emisor<b style="color:red">(*)</b>:</label>
-                        <select class="form-control" id="select_tipo_documento_emisor_editar" style="width:100%">
-                            <option value="" disabled>Seleccione</option>
-                            <option value="DNI" selected>DNI</option>
-                            <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
-                            <option value="PASAPORTE">PASAPORTE</option>
-                        </select>
-                    </div>
-                    <div id="dni_section_editar" class="col-6 form-group"><br>
-                        <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="txt_dni_emisor_editar" maxlength="8" onkeypress="return soloNumeros(event)">
-                            <div class="input-group-append">
-                                <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi_editar"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                <button onclick="" class="btn btn-primary" id="btn_buscar_reniec_editar"><i class="fa fa-search"></i><b> RENIEC</b></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="otros_documentos_section_editar" class="col-6 form-group" style="display: none;"><br>
-                        <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="txt_dni_emisor2_editar">
-                            <div class="input-group-append">
-                                <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi_editar"><i class="fa fa-search"></i><b> Buscar</b></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Nombres y Apellidos<b style="color:red">(*)</b>:</label>
-                        <input type="text" class="form-control" id="txt_nombre_pasajero_editar" onkeypress="return sololetras(event)">
-                    </div>
-                    <div class="col-3 form-group">
-                        <label>Edad(Opcional):</label>
-                        <input type="number" class="form-control" id="txt_edad_editar">
-                    </div>
-                    <div class="col-3 form-group">
-                        <label>Celular(Opcional):</label>
-                        <input type="text" class="form-control" id="txt_cel_pasajero_editar" maxlength="9" onkeypress="return soloNumeros(event)">
-                    </div>
-                    <div class="col-12 text-right">
-                        <button type="button" class="btn btn-primary" onclick="agregarPasajeroEditar()">
-                            <i class="fa fa-user-plus"></i> Agregar pasajero
-                        </button>
-                    </div>
-
-                    <!-- TABLA PASAJEROS -->
-                    <div class="col-12 mt-3">
-                        <table class="table table-bordered table-sm text-center" id="tabla_pasajeros_editar">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tipo Documento</th>
-                                    <th>Documento</th>
-                                    <th>Nombres y Apellidos</th>
-                                    <th>Edad</th>
-                                    <th>Celular</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="6" class="text-right">Total pasajeros: <span id="total_pasajeros_editar">0</span></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <!-- SECCION ENCOMIENDAS -->
-                    <div class="col-12 mt-4">
-                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
-                            <b>ENCOMIENDAS</b>
-                        </li>
-                    </div>
-                    <!-- SOLO TABLA DE ENCOMIENDAS -->
-                    <div class="col-12 mt-3">
-                        <table class="table table-bordered table-sm text-center" id="tabla_encomiendas_editar">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th><input type="checkbox" id="check_all_encomiendas_editar"></th>
-                                    <th>#</th>
-                                    <th>Emisor</th>
-                                    <th>Receptor</th>
-                                    <th>Pago</th>
-                                    <th>Por pagar</th>
-                                    <th>A domicilio</th>
-                                    <th>Estado pago</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Aquí se llenarán dinámicamente las encomiendas -->
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="8" class="text-right">Total encomiendas: <span id="total_encomiendas_editar">0</span></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <!-- OBSERVACIONES -->
-                    <div class="col-12 form-group mt-3">
-                        <label>Descripción u Observación de la salida(Opcional):</label>
-                        <textarea class="form-control" id="txt_descripcion_editar" rows="3" style="resize:none" placeholder="Ingrese la descripción de la salida"></textarea>
-                    </div>
-
+    <!-- Editar datos de la salida diaria -->
+    <div class="modal fade" id="modal_editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header" style="background-color:#1FA0E0;">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center">
+                        <b>MODIFICAR DE SALIDA DIARIA</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
 
-            <!-- Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
-                <button type="button" class="btn btn-success" onclick="Moidificar_Salida_Diaria()"><i class="fas fa-save"></i> Modificar</button>
+                <!-- Body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 form-group" style="color:red">
+                            <h6><b>Campos Obligatorios (*)</b></h6>
+                        </div>
+
+                        <!-- DATOS DE SALIDA -->
+                        <div class="col-12 form-group">
+                            <label>Conductor<b style="color:red"> (No se puede editar)</b>:</label>
+                            <input type="text" id="id_salida_editar" hidden>
+                            <select class="js-example-basic-single" id="select_conductor_editar" disabled style="width:100%"></select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Pago de Salida<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_pago_editar" onkeypress="return soloNumeros(event)">
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Fecha y hora de actualización<b style="color:red">(*)</b>:</label>
+                            <input type="datetime-local" class="form-control" id="txt_fecha_actualizacion" readonly>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Origen<b style="color:red"> (No se puede editar)</b>:</label>
+                            <select class="js-example-basic-single" id="select_origen_editar" style="width:100%" disabled></select>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Destino<b style="color:red"> (No se puede editar)</b>:</label>
+                            <select class="js-example-basic-single" id="select_destino_editar" style="width:100%" disabled></select>
+                        </div>
+
+                        <!-- SECCION PASAJEROS -->
+                        <div class="col-12 mt-3">
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                                <b>PASAJEROS</b>
+                            </li>
+                        </div>
+                        <div class="col-6 form-group"><br>
+                            <label for="">Tipo de documento - Emisor<b style="color:red">(*)</b>:</label>
+                            <select class="form-control" id="select_tipo_documento_emisor_editar" style="width:100%">
+                                <option value="" disabled>Seleccione</option>
+                                <option value="DNI" selected>DNI</option>
+                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
+                                <option value="PASAPORTE">PASAPORTE</option>
+                            </select>
+                        </div>
+                        <div id="dni_section_editar" class="col-6 form-group"><br>
+                            <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txt_dni_emisor_editar" maxlength="8" onkeypress="return soloNumeros(event)">
+                                <div class="input-group-append">
+                                    <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi_editar"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                    <button onclick="" class="btn btn-primary" id="btn_buscar_reniec_editar"><i class="fa fa-search"></i><b> RENIEC</b></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="otros_documentos_section_editar" class="col-6 form-group" style="display: none;"><br>
+                            <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="txt_dni_emisor2_editar">
+                                <div class="input-group-append">
+                                    <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi_editar"><i class="fa fa-search"></i><b> Buscar</b></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Nombres y Apellidos<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_nombre_pasajero_editar" onkeypress="return sololetras(event)">
+                        </div>
+                        <div class="col-3 form-group">
+                            <label>Edad(Opcional):</label>
+                            <input type="number" class="form-control" id="txt_edad_editar">
+                        </div>
+                        <div class="col-3 form-group">
+                            <label>Celular(Opcional):</label>
+                            <input type="text" class="form-control" id="txt_cel_pasajero_editar" maxlength="9" onkeypress="return soloNumeros(event)">
+                        </div>
+                        <div class="col-12 text-right">
+                            <button type="button" class="btn btn-primary" onclick="agregarPasajeroEditar()">
+                                <i class="fa fa-user-plus"></i> Agregar pasajero
+                            </button>
+                        </div>
+
+                        <!-- TABLA PASAJEROS -->
+                        <div class="col-12 mt-3">
+                            <table class="table table-bordered table-sm text-center" id="tabla_pasajeros_editar">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tipo Documento</th>
+                                        <th>Documento</th>
+                                        <th>Nombres y Apellidos</th>
+                                        <th>Edad</th>
+                                        <th>Celular</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="6" class="text-right">Total pasajeros: <span id="total_pasajeros_editar">0</span></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- SECCION ENCOMIENDAS -->
+                        <div class="col-12 mt-4">
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                                <b>ENCOMIENDAS</b>
+                            </li>
+                        </div>
+                        <!-- SOLO TABLA DE ENCOMIENDAS -->
+                        <div class="col-12 mt-3">
+                            <table class="table table-bordered table-sm text-center" id="tabla_encomiendas_editar">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th><input type="checkbox" id="check_all_encomiendas_editar"></th>
+                                        <th>#</th>
+                                        <th>Emisor</th>
+                                        <th>Receptor</th>
+                                        <th>Pago</th>
+                                        <th>Por pagar</th>
+                                        <th>A domicilio</th>
+                                        <th>Estado pago</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Aquí se llenarán dinámicamente las encomiendas -->
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="8" class="text-right">Total encomiendas: <span id="total_encomiendas_editar">0</span></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- OBSERVACIONES -->
+                        <div class="col-12 form-group mt-3">
+                            <label>Descripción u Observación de la salida(Opcional):</label>
+                            <textarea class="form-control" id="txt_descripcion_editar" rows="3" style="resize:none" placeholder="Ingrese la descripción de la salida"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+                    <button type="button" class="btn btn-success" onclick="Moidificar_Salida_Diaria()"><i class="fas fa-save"></i> Modificar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="modal fade" id="modal_mostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <!-- Header -->
-            <div class="modal-header" style="background-color:#1FA0E0;">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center">
-                    <b>REGISTRO DE SALIDA DIARIA</b>
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <!-- Body -->
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 form-group" style="color:red">
-                        <h6><b>Campos Obligatorios (*)</b></h6>
-                    </div>
-
-                    <!-- DATOS DE SALIDA -->
-                    <div class="col-12 form-group">
-                        <label>Conductor<b style="color:red">(*)</b>:</label>
-                        <input type="text" id="id_salida" hidden>
-                        <input type="text" class="form-control" id="select_conductor_mostrar" readonly>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Pago de Salida<b style="color:red">(*)</b>:</label>
-                        <input type="text" class="form-control" id="txt_pago_mostrar" readonly>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Fecha y hora<b style="color:red">(*)</b>:</label>
-                        <input type="datetime-local" class="form-control" id="txt_fecha_creacion_mostrar" readonly>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Origen<b style="color:red">(*)</b>:</label>
-                        <input type="text" class="form-control" id="select_origen_mostrar" readonly>
-                    </div>
-                    <div class="col-6 form-group">
-                        <label>Destino<b style="color:red">(*)</b>:</label>
-                        <input type="text" class="form-control" id="select_destino_mostrar" readonly>
-                    </div>
-                    <!-- SECCION PASAJEROS -->
-                    <div class="col-12 mt-3">
-                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
-                            <b>PASAJEROS</b>
-                        </li>
-                    </div>
-             
-                    <!-- TABLA PASAJEROS -->
-                   <div class="col-12 mt-3">
-                        <table class="table table-bordered table-sm text-center" id="tabla_pasajeros_mostrar">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tipo Documento</th>
-                                    <th>Documento</th>
-                                    <th>Nombres y Apellidos</th>
-                                    <th>Edad</th>
-                                    <th>Celular</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="6" class="text-right" style="background-color: #f8f9fa;">
-                                        Total pasajeros: <span id="total_pasajeros_mostrar">0</span>
-                                    </th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <!-- SECCION ENCOMIENDAS -->
-                    <div class="col-12 mt-4">
-                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
-                            <b>ENCOMIENDAS</b>
-                        </li>
-                    </div>
-                    <!-- SOLO TABLA DE ENCOMIENDAS -->
-                    <div class="col-12 mt-3">
-                        <table class="table table-bordered table-sm text-center" id="tabla_encomiendas_mostrar">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Emisor</th>
-                                    <th>Receptor</th>
-                                    <th>Pago</th>
-                                    <th>Por pagar</th>
-                                    <th>A domicilio</th>
-                                    <th>Estado pago</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="7" class="text-right" style="background-color: #f8f9fa;">
-                                        Total encomiendas: <span id="total_encomiendas_mostrar">0</span>
-                                    </th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                    <!-- OBSERVACIONES -->
-                    <div class="col-12 form-group mt-3">
-                        <label>Descripción u Observación de la salida(Opcional):</label>
-                        <textarea class="form-control" readonly id="txt_descripcion_mostrar" rows="3" style="resize:none" placeholder="Ingrese la descripción de la salida"></textarea>
-                    </div>
-
+    <div class="modal fade" id="modal_mostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header" style="background-color:#1FA0E0;">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center">
+                        <b>REGISTRO DE SALIDA DIARIA</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
 
-            <!-- Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+                <!-- Body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 form-group" style="color:red">
+                            <h6><b>Campos Obligatorios (*)</b></h6>
+                        </div>
+
+                        <!-- DATOS DE SALIDA -->
+                        <div class="col-12 form-group">
+                            <label>Conductor<b style="color:red">(*)</b>:</label>
+                            <input type="text" id="id_salida" hidden>
+                            <input type="text" class="form-control" id="select_conductor_mostrar" readonly>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Pago de Salida<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="txt_pago_mostrar" readonly>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Fecha y hora<b style="color:red">(*)</b>:</label>
+                            <input type="datetime-local" class="form-control" id="txt_fecha_creacion_mostrar" readonly>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Origen<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="select_origen_mostrar" readonly>
+                        </div>
+                        <div class="col-6 form-group">
+                            <label>Destino<b style="color:red">(*)</b>:</label>
+                            <input type="text" class="form-control" id="select_destino_mostrar" readonly>
+                        </div>
+                        <!-- SECCION PASAJEROS -->
+                        <div class="col-12 mt-3">
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                                <b>PASAJEROS</b>
+                            </li>
+                        </div>
+
+                        <!-- TABLA PASAJEROS -->
+                        <div class="col-12 mt-3">
+                            <table class="table table-bordered table-sm text-center" id="tabla_pasajeros_mostrar">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tipo Documento</th>
+                                        <th>Documento</th>
+                                        <th>Nombres y Apellidos</th>
+                                        <th>Edad</th>
+                                        <th>Celular</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="6" class="text-right" style="background-color: #f8f9fa;">
+                                            Total pasajeros: <span id="total_pasajeros_mostrar">0</span>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- SECCION ENCOMIENDAS -->
+                        <div class="col-12 mt-4">
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                                <b>ENCOMIENDAS</b>
+                            </li>
+                        </div>
+                        <!-- SOLO TABLA DE ENCOMIENDAS -->
+                        <div class="col-12 mt-3">
+                            <table class="table table-bordered table-sm text-center" id="tabla_encomiendas_mostrar">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Emisor</th>
+                                        <th>Receptor</th>
+                                        <th>Pago</th>
+                                        <th>Por pagar</th>
+                                        <th>A domicilio</th>
+                                        <th>Estado pago</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="7" class="text-right" style="background-color: #f8f9fa;">
+                                            Total encomiendas: <span id="total_encomiendas_mostrar">0</span>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- OBSERVACIONES -->
+                        <div class="col-12 form-group mt-3">
+                            <label>Descripción u Observación de la salida(Opcional):</label>
+                            <textarea class="form-control" readonly id="txt_descripcion_mostrar" rows="3" style="resize:none" placeholder="Ingrese la descripción de la salida"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
     <div class="modal fade" id="modal_ver_historial" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -708,8 +708,6 @@
             if (this.value.length > 8)
                 this.value = this.value.slice(0, 8);
         })
-
-        
     </script>
     <script>
         var n = new Date();
@@ -730,7 +728,7 @@
         // Establece el valor con fecha y hora (YYYY-MM-DD HH:MM:SS)
         document.getElementById('txt_fecha_creacion').value =
             y + "-" + m + "-" + d + "T" + h + ":" + min;
-     document.getElementById('txt_fecha_actualizacion').value =
+        document.getElementById('txt_fecha_actualizacion').value =
             y + "-" + m + "-" + d + "T" + h + ":" + min;
         // PARA EMISOR
         // Mostrar la sección correcta al cargar la página
@@ -764,7 +762,7 @@
         });
 
 
-         // PARA EDITAR EMISOR
+        // PARA EDITAR EMISOR
         // Mostrar la sección correcta al cargar la página
         window.addEventListener('DOMContentLoaded', function() {
             const selectTipoDocumento = document.getElementById('select_tipo_documento_emisor_editar');
@@ -812,7 +810,9 @@
                 $.ajax({
                     type: "POST",
                     url: "consulta-dni-ajax.php",
-                    data: { dni: dni },
+                    data: {
+                        dni: dni
+                    },
                     dataType: 'json',
                     success: function(data) {
                         if (data == 1) {
@@ -834,10 +834,9 @@
         // Configurar para el emisor (buscar en RENIEC)
         configurarBusquedaDNI("txt_dni_emisor", "btn_buscar_reniec", "txt_nombre_pasajero");
         configurarBusquedaDNI("txt_dni_emisor_editar", "btn_buscar_reniec_editar", "txt_nombre_pasajero_editar");
-
     </script>
 
-   
+
 
     <script>
         $(document).ready(function() {
@@ -931,5 +930,3 @@
             /* más alto que la tabla */
         }
     </styLe>
-
-
