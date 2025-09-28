@@ -256,6 +256,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                 </ul>
               </li>
+              <li class="nav-item">
+                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="nav-link">
+                  <i class="nav-icon fas fa-map-marked-alt"></i>
+                  <p style="color:white">GPS - Vehículos</p>
+                </a>
+              </li>
               <li class="header text-center" style="color:#FFFFFF; background-color:#023D77; border-radius: 10px;">
                 <b>REPORTES</b>
               </li>
@@ -382,30 +388,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p style="color:white">Gestión de clientes</p>
                 </a>
               </li>
-             
+
               <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-boxes"></i>
-                <p style="color:white">
-                  Encomiendas
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php')" class="nav-link">
-                    <i class="nav-icon fas fa-inbox"></i>
-                    <p style="color:white">Recibir encomienda</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_env.php')" class="nav-link">
-                    <i class="nav-icon fas fa-shipping-fast"></i>
-                    <p style="color:white">Enviar encomienda</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-boxes"></i>
+                  <p style="color:white">
+                    Encomiendas
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php')" class="nav-link">
+                      <i class="nav-icon fas fa-inbox"></i>
+                      <p style="color:white">Recibir encomienda</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_env.php')" class="nav-link">
+                      <i class="nav-icon fas fa-shipping-fast"></i>
+                      <p style="color:white">Enviar encomienda</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
 
               <li class="nav-item">
                 <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php')" class="nav-link">
@@ -460,7 +466,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                 </ul>
               </li>
-
+              <li class="nav-item">
+                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="nav-link">
+                  <i class="nav-icon fas fa-map-marked-alt"></i>
+                  <p style="color:white">GPS - Vehículos</p>
+                </a>
+              </li>
 
               <li class="header text-center" style="color:#FFFFFF; background-color:#023D77; border-radius: 10px;">
                 <b>REPORTES</b>
@@ -774,7 +785,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </a>
                     </div>
                   </div>
-                   <!-- FALTA TOTAL COMPROBANTES -->
+                  <!-- FALTA TOTAL COMPROBANTES -->
                   <div class="col-lg-3 col-6">
                     <div class="small-box bg-danger">
                       <div class="inner">
@@ -1098,7 +1109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <?php } ?>
       <?php if ($_SESSION['S_ROL'] == "2") { ?>
 
-          <div class="content-header">
+        <div class="content-header">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -1242,7 +1253,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="table-responsive" style="text-align:center">
               <div class="card-body" style="background-color:white">
 
-               
+
 
                 <!-- Sección de Encomiendas -->
                 <div class="row mb-3 mt-4">
@@ -1483,8 +1494,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
       ?>
       <?php if ($_SESSION['S_ROL'] == "5") { ?>
 
-     
-          <div class="content-header">
+
+        <div class="content-header">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
@@ -1571,83 +1582,85 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
           </div>
         </div>
-<div class="col-md-12">
-  <div class="card card-primary">
-    <div class="card-header py-2" style="background: linear-gradient(135deg, #023D77, #0266C8)">
-      <h5 class="m-0 text-center" style="font-family:cooper; line-height: 1;">
-        <i class="fas fa-image" style="margin-right: 8px;"></i>CATÁLOGO DE FOTOS
-      </h5>
-    </div>
+        <div class="col-md-12">
+          <div class="card card-primary">
+            <div class="card-header py-2" style="background: linear-gradient(135deg, #023D77, #0266C8)">
+              <h5 class="m-0 text-center" style="font-family:cooper; line-height: 1;">
+                <i class="fas fa-image" style="margin-right: 8px;"></i>CATÁLOGO DE FOTOS
+              </h5>
+            </div>
 
-    <div class="card-body text-center">
-      <div id="photoCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
-        <div class="carousel-inner">
-          <!-- Foto 1 -->
-          <div class="carousel-item active">
-            <img src="../Fotos/1.jpg" class="d-block mx-auto img-fluid" alt="Foto 1">
-          </div>
-          <!-- Foto 2 -->
-          <div class="carousel-item">
-            <img src="../Fotos/2.jpg" class="d-block mx-auto img-fluid" alt="Foto 2">
-          </div>
-          <!-- Foto 3 -->
-          <div class="carousel-item">
-            <img src="../Fotos/3.jpg" class="d-block mx-auto img-fluid" alt="Foto 3">
-          </div>
-          <!-- Foto 4 -->
-          <div class="carousel-item">
-            <img src="../Fotos/4.jpg" class="d-block mx-auto img-fluid" alt="Foto 4">
-          </div>
-          <!-- Foto 5 -->
-          <div class="carousel-item">
-            <img src="../Fotos/5.jpg" class="d-block mx-auto img-fluid" alt="Foto 5">
-          </div>
-          <!-- Foto 6 -->
-          <div class="carousel-item">
-            <img src="../Fotos/6.jpg" class="d-block mx-auto img-fluid" alt="Foto 6">
-          </div>
-          <!-- Foto 7 -->
-          <div class="carousel-item">
-            <img src="../Fotos/7.jpg" class="d-block mx-auto img-fluid" alt="Foto 7">
-          </div>
-          <!-- Foto 8 -->
-          <div class="carousel-item">
-            <img src="../Fotos/8.jpg" class="d-block mx-auto img-fluid" alt="Foto 8">
-          </div>
-          <!-- Foto 9 -->
-          <div class="carousel-item">
-            <img src="../Fotos/9.jpg" class="d-block mx-auto img-fluid" alt="Foto 9">
-          </div>
-          <!-- Foto 10 -->
-          <div class="carousel-item">
-            <img src="../Fotos/10.jpg" class="d-block mx-auto img-fluid" alt="Foto 10">
-          </div>
-          <!-- Foto 11 -->
-          <div class="carousel-item">
-            <img src="../Fotos/11.jpg" class="d-block mx-auto img-fluid" alt="Foto 11">
+            <div class="card-body text-center">
+              <div id="photoCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+                <div class="carousel-inner">
+                  <!-- Foto 1 -->
+                  <div class="carousel-item active">
+                    <img src="../Fotos/1.jpg" class="d-block mx-auto img-fluid" alt="Foto 1">
+                  </div>
+                  <!-- Foto 2 -->
+                  <div class="carousel-item">
+                    <img src="../Fotos/2.jpg" class="d-block mx-auto img-fluid" alt="Foto 2">
+                  </div>
+                  <!-- Foto 3 -->
+                  <div class="carousel-item">
+                    <img src="../Fotos/3.jpg" class="d-block mx-auto img-fluid" alt="Foto 3">
+                  </div>
+                  <!-- Foto 4 -->
+                  <div class="carousel-item">
+                    <img src="../Fotos/4.jpg" class="d-block mx-auto img-fluid" alt="Foto 4">
+                  </div>
+                  <!-- Foto 5 -->
+                  <div class="carousel-item">
+                    <img src="../Fotos/5.jpg" class="d-block mx-auto img-fluid" alt="Foto 5">
+                  </div>
+                  <!-- Foto 6 -->
+                  <div class="carousel-item">
+                    <img src="../Fotos/6.jpg" class="d-block mx-auto img-fluid" alt="Foto 6">
+                  </div>
+                  <!-- Foto 7 -->
+                  <div class="carousel-item">
+                    <img src="../Fotos/7.jpg" class="d-block mx-auto img-fluid" alt="Foto 7">
+                  </div>
+                  <!-- Foto 8 -->
+                  <div class="carousel-item">
+                    <img src="../Fotos/8.jpg" class="d-block mx-auto img-fluid" alt="Foto 8">
+                  </div>
+                  <!-- Foto 9 -->
+                  <div class="carousel-item">
+                    <img src="../Fotos/9.jpg" class="d-block mx-auto img-fluid" alt="Foto 9">
+                  </div>
+                  <!-- Foto 10 -->
+                  <div class="carousel-item">
+                    <img src="../Fotos/10.jpg" class="d-block mx-auto img-fluid" alt="Foto 10">
+                  </div>
+                  <!-- Foto 11 -->
+                  <div class="carousel-item">
+                    <img src="../Fotos/11.jpg" class="d-block mx-auto img-fluid" alt="Foto 11">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botones personalizados -->
+              <button id="prevBtn" class="btn btn-primary mt-3" data-target="#photoCarousel" data-slide="prev">
+                <i class="fas fa-chevron-left"></i> Anterior
+              </button>
+              <button id="nextBtn" class="btn btn-primary mt-3" data-target="#photoCarousel" data-slide="next">
+                Siguiente <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Botones personalizados -->
-      <button id="prevBtn" class="btn btn-primary mt-3" data-target="#photoCarousel" data-slide="prev">
-        <i class="fas fa-chevron-left"></i> Anterior
-      </button>
-      <button id="nextBtn" class="btn btn-primary mt-3" data-target="#photoCarousel" data-slide="next">
-        Siguiente <i class="fas fa-chevron-right"></i>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Ajustes CSS -->
-<style>
-  .carousel-inner img {
-    max-height: 500px; /* Ajusta el límite de altura sin deformar */
-    width: auto;
-    object-fit: contain; /* Hace que se adapte sin recortar ni deformar */
-  }
-</style>
+        <!-- Ajustes CSS -->
+        <style>
+          .carousel-inner img {
+            max-height: 500px;
+            /* Ajusta el límite de altura sin deformar */
+            width: auto;
+            object-fit: contain;
+            /* Hace que se adapte sin recortar ni deformar */
+          }
+        </style>
 
         <!-- Estilos CSS para animaciones -->
         <style>
@@ -1692,7 +1705,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Carrusel de fotografías -->
 
 
-         <script>
+        <script>
           function actualizarFechaHora() {
             const ahora = new Date();
             const opciones = {
@@ -1833,23 +1846,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </html>
 <script>
   $(document).ready(function() {
-  Total_servicios();
-  Total_choferes();
-  Total_clientes();
-  // Total_comprobantes();
-  Total_encomiendas_dia();
-  Total_encomiendas_semanales();
-  Total_encomiendas_mes();
-  Total_encomiendas();
-  Total_salidas_dia();
-  Total_salidas_semana();
-  Total_salidas_mes();
-  Total_salidas();
-  Total_ingresos_hoy();
-  Total_gastos_hoy();
-  Total_ingresos_mes_actual();
-  Total_gastos_mes_actual();
-  
+    Total_servicios();
+    Total_choferes();
+    Total_clientes();
+    // Total_comprobantes();
+    Total_encomiendas_dia();
+    Total_encomiendas_semanales();
+    Total_encomiendas_mes();
+    Total_encomiendas();
+    Total_salidas_dia();
+    Total_salidas_semana();
+    Total_salidas_mes();
+    Total_salidas();
+    Total_ingresos_hoy();
+    Total_gastos_hoy();
+    Total_ingresos_mes_actual();
+    Total_gastos_mes_actual();
+
 
   });
 </script>
