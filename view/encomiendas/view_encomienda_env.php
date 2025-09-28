@@ -1,4 +1,4 @@
-<script src="../js/console_encomiendas.js?rev=<?php echo time(); ?>"></script>
+<script src="../js/console_encomiendas_env.js?rev=<?php echo time(); ?>"></script>
 <link rel="stylesheet" href="../plantilla/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
 <!-- Content Header (Page header) -->
@@ -19,7 +19,7 @@
 </div>
 <!-- /.content-header -->
 
-<!-- Main content -->
+
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -27,29 +27,26 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-user"></i>&nbsp;&nbsp;<b>Listado de Encomiendas</b></h3>
+                        <h3 class="card-title"><i class="fas fa-shipping-fast"></i>&nbsp;&nbsp;<b>ENCOMIENDAS ENVIADAS</b></h3>
                         <button class="btn btn-success float-right" onclick="AbrirRegistro()"><i class="fas fa-plus"></i> Nuevo Registro</button>
+
                     </div>
+    
                     <div class="table-responsive" style="text-align:left">
                         <div class="card-body">
                             <div class="row" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
-
                                 <div class="col-2 form-group">
-                                    <label for="">Origen:</label>
-                                    <select class="js-example-basic-single" id="select_origen_bus" style="width:100%">
-                                    </select>
+                                    <label for="">Fecha desde:</label>
+                                    <input type="date" class="form-control" id="txt_fecha_desde">
                                 </div>
                                 <div class="col-2 form-group">
-                                    <label for="">Destino:</label>
-                                    <select class="js-example-basic-single" id="select_destino_bus" style="width:100%">
-                                    </select>
+                                    <label for="">Fecha hasta:</label>
+                                    <input type="date" class="form-control" id="txt_fecha_hasta">
                                 </div>
                                 <div class="col-4 form-group">
                                     <label for="">Estado<b style="color:red">(*)</b>:</label>
-
                                     <select class="form-control" id="select_estado_buscar" style="width:100%">
                                         <option value="" disabled selected>Seleccione</option>
-                                        <option value="PENDIENTE">PENDIENTE</option>
                                         <option value="EN TRANSITO">EN TRANSITO</option>
                                         <option value="EN AGENCIA">EN AGENCIA</option>
                                         <option value="ENTREGADO">ENTREGADO</option>
@@ -59,36 +56,12 @@
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_encomiendas_ruta_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
+                                    <button onclick="listar_encomiendas_fecha_estado_env()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_encomiendas()" class="btn btn-success mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Listar todos</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table-responsive" style="text-align:left">
-                        <div class="card-body">
-                            <div class="row" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
-                                <div class="col-3 form-group">
-                                    <label for="">Fecha desde:</label>
-                                    <input type="date" class="form-control" id="txt_fecha_desde">
-                                </div>
-                                <div class="col-3 form-group">
-                                    <label for="">Fecha hasta:</label>
-                                    <input type="date" class="form-control" id="txt_fecha_hasta">
-                                </div>
-                                <div class="col-3 form-group">
-                                    <label for="">Usuario:</label>
-                                    <select class="js-example-basic-single" id="select_usuario" style="width:100%">
-                                    </select>
-                                </div>
-                                <div class="col-12 col-md-3" role="document">
-                                    <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_encomiendas_fecha_usu()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
-                                </div>
-
+                                    <button onclick="listar_todas_los_encomiendas_env()" class="btn btn-success mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Listar todos</button>
+                                 </div>
                             </div>
                         </div>
                     </div>
@@ -122,6 +95,9 @@
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
+
+
+<!-- MODALES -->
     <div class="modal fade" id="modal_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -142,12 +118,12 @@
                         </div>
                         <div class="col-4 form-group">
                             <label for="">Origen<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_origen" style="width:100%"></select>
+                            <select class="js-example-basic-single" disabled id="select_origen" style="width:100%"></select>
 
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Destino<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_destino" style="width:100%"></select>
+                            <select class="js-example-basic-single" disabled id="select_destino" style="width:100%"></select>
 
                         </div>
                         <div class="col-6 form-group">
@@ -285,12 +261,12 @@
                         </div>
                         <div class="col-4 form-group">
                             <label for="">Origen<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_origen_editar" style="width:100%"></select>
+                            <select class="js-example-basic-single" disabled id="select_origen_editar" style="width:100%"></select>
 
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Destino<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_destino_editar" style="width:100%"></select>
+                            <select class="js-example-basic-single" disabled id="select_destino_editar" style="width:100%"></select>
 
                         </div>
                         <div class="col-6 form-group">
@@ -675,7 +651,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="modal_ver_historial" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
@@ -800,7 +775,7 @@
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
             Cargar_Select_Usuarios();
-            listar_encomiendas_pordia();
+            listar_encomiendas_por_dia_env();
             Cargar_Select_Conductores();
             Cargar_Select_Rutas();
         });

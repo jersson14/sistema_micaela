@@ -32,6 +32,7 @@ function Iniciar_Sesion(){
                 type: 'POST',
                 data:{
                     idusuario:data[0][0],
+                    DNIusuario:data[0][1],
                     nombres:data[0][2], //solo nombre
                     solonombres:data[0][4], // nombres completos
                     usuario:data[0][7],
@@ -39,7 +40,8 @@ function Iniciar_Sesion(){
                     foto:data[0][15], // foto de usuario
                     foto_empresa:data[0][17],                  // foto de empresa
                     razon:data[0][18],       // razón de la empresa
-                    nombre_rol:data[0][19]       // nombre de rol
+                    nombre_rol:data[0][19],       // nombre de rol
+                    sucursal:data[0][20]       // nombre de sucursal
 
 
                 }

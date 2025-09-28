@@ -1,4 +1,4 @@
-<script src="../js/console_encomiendas.js?rev=<?php echo time(); ?>"></script>
+<script src="../js/console_encomiendas_asis.js?rev=<?php echo time(); ?>"></script>
 <link rel="stylesheet" href="../plantilla/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
 <!-- Content Header (Page header) -->
@@ -27,29 +27,24 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="fas fa-user"></i>&nbsp;&nbsp;<b>Listado de Encomiendas</b></h3>
-                        <button class="btn btn-success float-right" onclick="AbrirRegistro()"><i class="fas fa-plus"></i> Nuevo Registro</button>
+                        <h3 class="card-title"><i class="fas fa-inbox"></i>&nbsp;&nbsp;<b>ENCOMIENDAS POR RECEPCIONAR</b></h3>
                     </div>
+    
                     <div class="table-responsive" style="text-align:left">
                         <div class="card-body">
                             <div class="row" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
-
                                 <div class="col-2 form-group">
-                                    <label for="">Origen:</label>
-                                    <select class="js-example-basic-single" id="select_origen_bus" style="width:100%">
-                                    </select>
+                                    <label for="">Fecha desde:</label>
+                                    <input type="date" class="form-control" id="txt_fecha_desde">
                                 </div>
                                 <div class="col-2 form-group">
-                                    <label for="">Destino:</label>
-                                    <select class="js-example-basic-single" id="select_destino_bus" style="width:100%">
-                                    </select>
+                                    <label for="">Fecha hasta:</label>
+                                    <input type="date" class="form-control" id="txt_fecha_hasta">
                                 </div>
                                 <div class="col-4 form-group">
                                     <label for="">Estado<b style="color:red">(*)</b>:</label>
-
                                     <select class="form-control" id="select_estado_buscar" style="width:100%">
                                         <option value="" disabled selected>Seleccione</option>
-                                        <option value="PENDIENTE">PENDIENTE</option>
                                         <option value="EN TRANSITO">EN TRANSITO</option>
                                         <option value="EN AGENCIA">EN AGENCIA</option>
                                         <option value="ENTREGADO">ENTREGADO</option>
@@ -59,36 +54,12 @@
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_encomiendas_ruta_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
+                                    <button onclick="listar_encomiendas_fecha_estado_re()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_encomiendas()" class="btn btn-success mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Listar todos</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table-responsive" style="text-align:left">
-                        <div class="card-body">
-                            <div class="row" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
-                                <div class="col-3 form-group">
-                                    <label for="">Fecha desde:</label>
-                                    <input type="date" class="form-control" id="txt_fecha_desde">
-                                </div>
-                                <div class="col-3 form-group">
-                                    <label for="">Fecha hasta:</label>
-                                    <input type="date" class="form-control" id="txt_fecha_hasta">
-                                </div>
-                                <div class="col-3 form-group">
-                                    <label for="">Usuario:</label>
-                                    <select class="js-example-basic-single" id="select_usuario" style="width:100%">
-                                    </select>
-                                </div>
-                                <div class="col-12 col-md-3" role="document">
-                                    <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_encomiendas_fecha_usu()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
-                                </div>
-
+                                    <button onclick="listar_todas_los_encomiendas_re()" class="btn btn-success mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Listar todos</button>
+                                 </div>
                             </div>
                         </div>
                     </div>
@@ -122,145 +93,11 @@
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
-    <div class="modal fade" id="modal_registro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>REGISTRO DE ENCOMIENDA</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12 form-group" style="color:red">
-                            <h6><b>Campos Obligatorios (*)</b></h6>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Conductor<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_conductor" style="width:100%"></select>
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Origen<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_origen" style="width:100%"></select>
 
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Destino<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_destino" style="width:100%"></select>
 
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Fecha y hora<b style="color:red">(*)</b>:</label>
-                            <input type="datetime-local" class="form-control" id="txt_fecha_creacion" readonly>
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL EMISOR</b></li>
-                        </div>
-                        <div class="col-6 form-group"><br>
-                            <label for="">Tipo de documento - Emisor<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" id="select_tipo_documento_emisor" style="width:100%">
-                                <option value="" disabled>Seleccione</option>
-                                <option value="DNI" selected>DNI</option>
-                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
-                                <option value="PASAPORTE">PASAPORTE</option>
-                            </select>
-                        </div>
-                        <div id="dni_section" class="col-6 form-group"><br>
-                            <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_emisor" maxlength="8" onkeypress="return soloNumeros(event)">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                    <button onclick="" class="btn btn-primary" id="prueba_emisor"><i class="fa fa-search"></i><b> RENIEC</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="otros_documentos_section" class="col-6 form-group" style="display: none;"><br>
-                            <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_emisor2">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Nombres y apellidos - Emisor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_nomb_emisor" placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Celular - Emisor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_celu1_emisor" placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL RECEPTOR</b></li>
-                        </div>
-                        <div class="col-6 form-group"><br>
-                            <label for="">Tipo de documento - Receptor<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" id="select_tipo_documento_receptor" style="width:100%">
-                                <option value="" disabled>Seleccione</option>
-                                <option value="DNI" selected>DNI</option>
-                                <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
-                                <option value="PASAPORTE">PASAPORTE</option>
-                            </select>
-                        </div>
-                        <div id="dni_section2" class="col-6 form-group"><br>
-                            <label for="">N° Documento Receptor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_receptor" maxlength="8" onkeypress="return soloNumeros(event)">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumento2()" class="btn btn-success" id="buscar_receptor"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                    <button onclick="" class="btn btn-primary" id="prueba_receptor"><i class="fa fa-search"></i><b> RENIEC</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="otros_documentos_section2" class="col-6 form-group" style="display: none;"><br>
-                            <label for="">N° Documento Receptor<b style="color:red">(*)</b>:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txt_dni_recepto2">
-                                <div class="input-group-append">
-                                    <button onclick="buscarPorDocumento2()" class="btn btn-success" id="buscar_receptor"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Nombres y apellidos - Receptor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_nomb_receptor" placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Celular - Receptor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_celu1_recepto" placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
-                        </div>
-                        <div class="col-12"><br>
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DETALLES DE LA ENCOMIENDA</b></li>
-                        </div><br>
-                        <div class="col-4 form-group"><br>
-                            <label for="">Pago<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_pago" placeholder="Ingrese el monto del pago" onkeypress="return soloNumeros(event)">
-                        </div>
-                        <div class="col-4 form-group"><br>
-                            <label for="">Por pagar<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_por_pagar" placeholder="Ingrese el monto por pagar" onkeypress="return soloNumeros(event)" maxlenght="7">
-                        </div>
-                        <div class="col-4 form-group"><br>
-                            <label for="">A domicilio<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" value="0.00" id="txt_a_domicilio" placeholder="Ingrese el monto si es a domicilio" onkeypress="return soloNumeros(event)">
-                        </div>
-                        <div class="col-12 form-group">
-                            <label for="">Descripción de la encomienda<b style="color:red">(*)</b>:</label>
-                            <textarea style="color:red" class="form-control" id="txt_descripcion" rows="2" style="resize:none" placeholder="Ingrese la descripción de la encomienda"></textarea>
-                        </div>
 
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Registrar_Encomiendas()"><i class="fas fa-save"></i> Registrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- MODALES -->
+
 
 
 
@@ -285,12 +122,12 @@
                         </div>
                         <div class="col-4 form-group">
                             <label for="">Origen<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_origen_editar" style="width:100%"></select>
+                            <select class="js-example-basic-single" disabled id="select_origen_editar" style="width:100%"></select>
 
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Destino<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_destino_editar" style="width:100%"></select>
+                            <select class="js-example-basic-single" disabled id="select_destino_editar" style="width:100%"></select>
 
                         </div>
                         <div class="col-6 form-group">
@@ -675,7 +512,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="modal_ver_historial" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
@@ -800,7 +636,7 @@
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
             Cargar_Select_Usuarios();
-            listar_encomiendas_pordia();
+            listar_encomiendas_por_dia();
             Cargar_Select_Conductores();
             Cargar_Select_Rutas();
         });

@@ -82,7 +82,7 @@
     </div>
     <!-- /.content -->
 
-    <div class="content">
+<div class="content">
   <div class="container-fluid">
     <div class="row">
       <!-- /.col-md-6 -->

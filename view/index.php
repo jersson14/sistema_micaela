@@ -118,6 +118,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="info">
             <a style="text-align:center;" href="#" class="d-block"><i class="fa fa-circle text-success fa-0x"></i> ¡Hola!<br> <b style="color:white"><?php echo $_SESSION['S_NOMBRE']; ?></b></a>
             <a style="text-align:center;margin:5px;color:white;font-size:15px" href="#" class="d-block">&nbsp;&nbsp;<b style="text-align:center"><i class="fa fa-user text-success fa-0x"></i><em> ROL: <?php echo $_SESSION['S_NOMBRE_ROL']; ?></em></b></a>
+            <a style="text-align:center;margin:5px;color:white;font-size:15px" href="#" class="d-block">
+              &nbsp;&nbsp;
+              <b style="text-align:center">
+                <i class="fa fa-building text-info"></i>
+                <em> SUCURSAL: <?php echo $_SESSION['S_SUCURSAL']; ?></em>
+              </b>
+            </a>
+
           </div>
         </div>
         <!-- Sidebar Menu -->
@@ -363,33 +371,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <?php if ($_SESSION['S_ROL'] == "2") { ?>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','choferes/view_choferes.php')" class="nav-link">
+                <a href="#" onclick="cargar_contenido('contenido_principal','choferes/view_choferes_asis.php')" class="nav-link">
                   <i class="nav-icon fas fa-id-badge"></i>
                   <p style="color:white">Conductores</p>
                 </a>
               </li>
-
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','clientes/view_clientes.php')" class="nav-link">
+                <a href="#" onclick="cargar_contenido('contenido_principal','clientes/view_clientes_asis.php')" class="nav-link">
                   <i class="nav-icon fas fa-user-friends"></i>
                   <p style="color:white">Gestión de clientes</p>
                 </a>
               </li>
+             
+              <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-boxes"></i>
+                <p style="color:white">
+                  Encomiendas
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php')" class="nav-link">
+                    <i class="nav-icon fas fa-inbox"></i>
+                    <p style="color:white">Recibir encomienda</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_env.php')" class="nav-link">
+                    <i class="nav-icon fas fa-shipping-fast"></i>
+                    <p style="color:white">Enviar encomienda</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="nav-link">
-                  <i class="nav-icon fas fa-box"></i>
-                  <p style="color:white">Encomiendas</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="nav-link">
+                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php')" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>
                   <p style="color:white">Salidas diarias</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-file-invoice-dollar"></i>
@@ -537,12 +560,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- /.sidebar -->
     </aside>
     <input type="text" id="txtprincipalid" value="<?php echo $_SESSION['S_ID']; ?>" hidden>
+    <input type="text" id="txtDNIusuario" value="<?php echo $_SESSION['S_DNIUSUARIO']; ?>" hidden>
     <input type="text" id="txtprincipalusu" value="<?php echo $_SESSION['S_USU']; ?>" hidden>
     <input type="text" id="txtprincipalrol" value="<?php echo $_SESSION['S_ROL']; ?>" hidden>
     <input type="text" id="txtfotoempresa" value="<?php echo $_SESSION['S_FOTO_EMPRESA']; ?>" hidden>
     <input type="text" id="txtnombrerol" value="<?php echo $_SESSION['S_NOMBRE_ROL']; ?>" hidden>
-
     <input type="text" id="txtrazon" value="<?php echo $_SESSION['S_RAZON']; ?>" hidden>
+    <input type="text" id="txt_sucursal" value="<?php echo $_SESSION['S_SUCURSAL']; ?>" hidden>
 
 
     <div class="content-wrapper" id="contenido_principal">
@@ -786,7 +810,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-calendar-day"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
-                        <b>Ver del Día</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -801,7 +825,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-calendar-week"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
-                        <b>Ver Semanales</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -816,7 +840,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-calendar-alt"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
-                        <b>Ver del Mes</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -831,7 +855,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-boxes"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
-                        <b>Ver Todas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -856,7 +880,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-truck-loading"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
-                        <b>Ver Salidas del Día</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -871,7 +895,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-shipping-fast"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
-                        <b>Ver Semanales</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -886,7 +910,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-map-marked-alt"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
-                        <b>Ver del Mes</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -901,7 +925,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-clock"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
-                        <b>Ver Programadas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -1218,75 +1242,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="table-responsive" style="text-align:center">
               <div class="card-body" style="background-color:white">
 
-                <!-- Sección de Servicios y Personal -->
-                <div class="row mb-3">
-                  <div class="col-12">
-                    <h6 class="text-primary"><i class="fas fa-cogs"></i> <b>SERVICIOS Y PERSONAL</b></h6>
-                    <hr style="border-top: 2px solid #007bff;">
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-lg-3 col-6">
-                    <div class="small-box bg-info">
-                      <div class="inner">
-                        <b>Total de Servicios</b>
-                        <h3 id="total_servicios"><sup style="font-size: 20px"></sup></h3>
-                      </div>
-                      <div class="icon">
-                        <i class="fas fa-concierge-bell"></i>
-                      </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','servicios/view_servicios.php')" class="small-box-footer">
-                        <b>Ver Servicios</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
-                      </a>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-3 col-6">
-                    <div class="small-box bg-warning">
-                      <div class="inner">
-                        <b>Total de Choferes</b>
-                        <h3 id="total_choferes"><sup style="font-size: 20px"></sup></h3>
-                      </div>
-                      <div class="icon">
-                        <i class="fas fa-id-card"></i>
-                      </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','choferes/view_choferes.php')" class="small-box-footer">
-                        <b>Ver Choferes</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
-                      </a>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-3 col-6">
-                    <div class="small-box bg-success">
-                      <div class="inner">
-                        <b>Total de Clientes</b>
-                        <h3 id="total_clientes"><sup style="font-size: 20px"></sup></h3>
-                      </div>
-                      <div class="icon">
-                        <i class="fas fa-users"></i>
-                      </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','clientes/view_clientes.php')" class="small-box-footer">
-                        <b>Ver Clientes</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
-                      </a>
-                    </div>
-                  </div>
-                   <!-- FALTA TOTAL COMPROBANTES -->
-                  <div class="col-lg-3 col-6">
-                    <div class="small-box bg-danger">
-                      <div class="inner">
-                        <b>Total de Comprobantes</b>
-                        <h3 id="total_comprobantes"><sup style="font-size: 20px"></sup>0</h3>
-                      </div>
-                      <div class="icon">
-                        <i class="fas fa-file-alt"></i>
-                      </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_comprobantes.php')" class="small-box-footer">
-                        <b>Ver Comprobantes</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
+               
 
                 <!-- Sección de Encomiendas -->
                 <div class="row mb-3 mt-4">
@@ -1307,7 +1263,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-calendar-day"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
-                        <b>Ver del Día</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -1322,7 +1278,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-calendar-week"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
-                        <b>Ver Semanales</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -1337,7 +1293,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-calendar-alt"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
-                        <b>Ver del Mes</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -1352,7 +1308,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-boxes"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
-                        <b>Ver Todas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -1377,7 +1333,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-truck-loading"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
-                        <b>Ver Salidas del Día</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -1392,7 +1348,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-shipping-fast"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
-                        <b>Ver Semanales</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -1407,7 +1363,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-map-marked-alt"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
-                        <b>Ver del Mes</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
@@ -1422,7 +1378,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <i class="fas fa-clock"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
-                        <b>Ver Programadas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                        <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>

@@ -17,6 +17,19 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
+         public function Listar_Salidas_Diarias_pordia(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_SALIDAS_DIARIAS_PORDIA()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
          public function Listar_encomienda_ruta_estado($ori,$des,$esta){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_LISTAR_SALIDAS_RUTA_ESTADO(?,?,?)";
@@ -442,7 +455,58 @@
             conexionBD::cerrar_conexion();
         }
 
-     
+     //ASISTENTE:
+     public function Listar_Historial_Estado_Salida_Asis($ori,$usu){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_SALIDAS_DIARIAS_TODOS_ASIS(?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$ori);
+            $query->bindParam(2,$usu);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function Listar_Historial_Estado_Salida_Asis_pordia($ori,$usu){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_SALIDAS_DIARIAS_TODOS_ASIS_PORDIA(?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$ori);
+            $query->bindParam(2,$usu);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function Listar_salida_fecha_estado_usuario($ori,$fedes,$fehas,$estado,$usu){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_SALIDAS_DIARIAS_FECHAS_ESTADO(?,?,?,?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$ori);
+            $query->bindParam(2,$fedes);
+            $query->bindParam(3,$fehas);
+            $query->bindParam(4,$estado);
+            $query->bindParam(5,$usu);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
     }
 
 

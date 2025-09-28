@@ -1,201 +1,4 @@
 var tbl_salidas_diarias;
-function listar_salidas_diarias_dia() {
-
-
-  tbl_salidas_diarias = $("#tabla_salida_diaria").DataTable({
-    pagingType: "full_numbers",
-    scrollCollapse: true,
-    responsive: true,
-    ordering: false,
-    bLengthChange: true,
-    searching: { regex: false },
-    lengthMenu: [
-      [10, 25, 50, 100, -1],
-      [10, 25, 50, 100, "All"],
-    ],
-    pageLength: 10,
-    destroy: true,
-    async: false,
-    processing: true,
-    ajax: {
-      url: "../controller/salidas_diarias/controlador_listar_salidas_diarias_pordia.php",
-      type: "POST",
-    },
-    dom: "Bfrtip",
-
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
-        },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-pdf",
-        orientation: "landscape",
-        pageSize: "A4",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
-        },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
-        },
-      },
-    ],
-    columns: [
-      { data: "salida_nro" },
-      {
-        data: null,
-        render: function (data, type, row) {
-          return (
-            "<strong>" +
-            row.tipo_documen +
-            ": " +
-            row.nro_doc +
-            "</strong><br>" +
-            row.nombres_apellidos
-          );
-        },
-      },
-      {
-        data: "monto",
-        render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-success">S/ ' + data + "</span>";
-          } else {
-            return '<span class="badge bg-secondary">-</span>';
-          }
-        },
-      },
-      { data: "fecha_formateada_salida" },
-      { data: "origen_nombre" },
-      { data: "destino_nombre" },
-
-      // TOTAL PASAJEROS más grande
-      {
-        data: "total_pasajeros",
-        render: function (data, type, row) {
-          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
-        },
-      },
-
-      // TOTAL ENCOMIENDAS más grande
-      {
-        data: "total_encomiendas",
-        render: function (data, type, row) {
-          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
-        },
-      },
-
-      // ---- ESTADO SALIDA ----
-      {
-        data: "estado",
-        render: function (data, type, row) {
-          if (data == "EN TRANSITO") {
-            return '<span class="badge bg-dark">EN TRANSITO</span>';
-          } else if (data == "COMPLETADO") {
-            return '<span class="badge bg-success">COMPLETADO</span>';
-          } else if (data == "INCOMPLETO") {
-            return '<span class="badge bg-warning">INCOMPLETO</span>';
-          } else {
-            return '<span class="badge bg-danger">ELIMINADO</span>';
-          }
-        },
-      },
-      { data: "usuario_nombre_completo" },
-
-      // ---- BOTONES DE ACCIÓN ----
-      {
-        data: "estado",
-        render: function (data, type, row) {
-          let botones = "";
-
-          // EN TRANSITO / INCOMPLETO => Editar + Eliminar
-          if (data === "EN TRANSITO") {
-            botones += `
-
-              <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
-                <i class='fa fa-trash'></i> Eliminar
-              </button>
-
-            `;
-          }
-
-          // EN TRANSITO / INCOMPLETO / COMPLETADO => Manifiesto + Mostrar
-          if (
-            data === "COMPLETADO" ||
-            data === "EN TRANSITO" ||
-            data === "INCOMPLETO"
-          ) {
-            botones += `
-               <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
-                <i class='fa fa-edit'></i> Editar
-              </button>
-              <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
-                <i class='fa fa-print'></i> Manifiesto
-              </button>
-              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
-                <i class='fa fa-eye'></i> Mostrar
-              </button>
-              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
-                <i class='fa fa-history'></i> Historial
-              </button>
-            `;
-          }
-
-          // SOLO EN TRANSITO => Completar viaje
-          if (data === "EN TRANSITO") {
-            botones += `
-           
-              <button class='completar btn btn-info btn-sm' title='Completar viaje'>
-                <i class='fa fa-check-circle'></i> Completar
-              </button>
-              <button class='incompleto btn btn-warning btn-sm' title='Viaje Incompleto'>
-                <i class='fa fa-times-circle'></i> Incompleto
-              </button>
-              
-
-            `;
-          }
-
-          // ELIMINADO => Solo Mostrar
-          if (data === "ELIMINADO") {
-            botones += `
-              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
-                <i class='fa fa-eye'></i> Mostrar
-              </button>
-              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
-                <i class='fa fa-history'></i> Historial
-              </button>
-
-            `;
-          }
-
-          return botones;
-        },
-      },
-    ],
-    language: idioma_espanol,
-    select: true,
-  });
-}
 function listar_salidas_diarias() {
   Cargar_Select_Usuarios();
   Cargar_Select_Rutas();
@@ -203,6 +6,10 @@ function listar_salidas_diarias() {
   document.getElementById("txt_fecha_hasta").value = "";
   document.getElementById("select_estado_buscar").value = "";
 
+  let ori = document.getElementById("txt_sucursal").value;
+  let usu = document.getElementById("txtprincipalid").value;
+
+
   tbl_salidas_diarias = $("#tabla_salida_diaria").DataTable({
     pagingType: "full_numbers",
     scrollCollapse: true,
@@ -219,8 +26,12 @@ function listar_salidas_diarias() {
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/salidas_diarias/controlador_listar_salidas_diarias.php",
+      url: "../controller/salidas_diarias/controlador_listar_salidas_diarias_asis.php",
       type: "POST",
+        data: {
+        ori: ori,
+        usu: usu,
+        },
     },
     dom: "Bfrtip",
 
@@ -320,7 +131,17 @@ function listar_salidas_diarias() {
           }
         },
       },
-      { data: "usuario_nombre_completo" },
+     {
+    data: null,
+    render: function (data, type, row) {
+        return (
+        row.usuario_nombre_completo +
+        " - <br><small><strong>" + 
+        row.rol + // o el campo que contenga el rol
+        "</strong></small>"
+        );
+    },
+    },
 
       // ---- BOTONES DE ACCIÓN ----
       {
@@ -328,13 +149,14 @@ function listar_salidas_diarias() {
         render: function (data, type, row) {
           let botones = "";
 
-          // EN TRANSITO / INCOMPLETO => Editar + Eliminar
+ // SOLO EN TRANSITO => Completar viaje
           if (data === "EN TRANSITO") {
             botones += `
-
-              <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
-                <i class='fa fa-trash'></i> Eliminar
+            <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
+                <i class='fa fa-edit'></i> Editar
               </button>
+        
+              
 
             `;
           }
@@ -346,9 +168,7 @@ function listar_salidas_diarias() {
             data === "INCOMPLETO"
           ) {
             botones += `
-               <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
-                <i class='fa fa-edit'></i> Editar
-              </button>
+
               <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
                 <i class='fa fa-print'></i> Manifiesto
               </button>
@@ -364,7 +184,7 @@ function listar_salidas_diarias() {
           // SOLO EN TRANSITO => Completar viaje
           if (data === "EN TRANSITO") {
             botones += `
-           
+
               <button class='completar btn btn-info btn-sm' title='Completar viaje'>
                 <i class='fa fa-check-circle'></i> Completar
               </button>
@@ -398,10 +218,16 @@ function listar_salidas_diarias() {
   });
 }
 
-function listar_salidas_diarias_ruta_estado() {
-  let ori = document.getElementById("select_origen_bus").value;
-  let des = document.getElementById("select_destino_bus").value;
-  let esta = document.getElementById("select_estado_buscar").value;
+function listar_salidas_diarias_pordia() {
+  Cargar_Select_Usuarios();
+  Cargar_Select_Rutas();
+  document.getElementById("txt_fecha_desde").value = "";
+  document.getElementById("txt_fecha_hasta").value = "";
+  document.getElementById("select_estado_buscar").value = "";
+
+  let ori = document.getElementById("txt_sucursal").value;
+  let usu = document.getElementById("txtprincipalid").value;
+
 
   tbl_salidas_diarias = $("#tabla_salida_diaria").DataTable({
     pagingType: "full_numbers",
@@ -419,215 +245,229 @@ function listar_salidas_diarias_ruta_estado() {
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/salidas_diarias/controlador_listar_salidas_diarias_ruta_estado.php",
+      url: "../controller/salidas_diarias/controlador_listar_salidas_diarias_asis_pordia.php",
+      type: "POST",
+        data: {
+        ori: ori,
+        usu: usu,
+        },
+    },
+    dom: "Bfrtip",
+
+    buttons: [
+      {
+        extend: "excelHtml5",
+        text: '<i class="fas fa-file-excel"></i> Excel',
+        titleAttr: "Exportar a Excel",
+        filename: "LISTA DE SALIDAS DIARIAS",
+        title: "LISTA DE SALIDAS DIARIAS",
+        className: "btn btn-excel",
+        exportOptions: {
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        },
+      },
+      {
+        extend: "pdfHtml5",
+        text: '<i class="fas fa-file-pdf"></i> PDF',
+        titleAttr: "Exportar a PDF",
+        filename: "LISTA DE SALIDAS DIARIAS",
+        title: "LISTA DE SALIDAS DIARIAS",
+        className: "btn btn-pdf",
+        orientation: "landscape",
+        pageSize: "A4",
+        exportOptions: {
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        },
+      },
+      {
+        extend: "print",
+        text: '<i class="fa fa-print"></i> Imprimir',
+        titleAttr: "Imprimir",
+        title: "LISTA DE SALIDAS DIARIAS",
+        className: "btn btn-print",
+        exportOptions: {
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        },
+      },
+    ],
+    columns: [
+      { data: "salida_nro" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return (
+            "<strong>" +
+            row.tipo_documen +
+            ": " +
+            row.nro_doc +
+            "</strong><br>" +
+            row.nombres_apellidos
+          );
+        },
+      },
+      {
+        data: "monto",
+        render: function (data, type, row) {
+          if (parseFloat(data) > 0) {
+            return '<span class="badge bg-success">S/ ' + data + "</span>";
+          } else {
+            return '<span class="badge bg-secondary">-</span>';
+          }
+        },
+      },
+      { data: "fecha_formateada_salida" },
+      { data: "origen_nombre" },
+      { data: "destino_nombre" },
+
+      // TOTAL PASAJEROS más grande
+      {
+        data: "total_pasajeros",
+        render: function (data, type, row) {
+          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
+        },
+      },
+
+      // TOTAL ENCOMIENDAS más grande
+      {
+        data: "total_encomiendas",
+        render: function (data, type, row) {
+          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
+        },
+      },
+
+       // ---- ESTADO SALIDA ----
+      {
+        data: "estado",
+        render: function (data, type, row) {
+          if (data == "EN TRANSITO") {
+            return '<span class="badge bg-dark">EN TRANSITO</span>';
+          } else if (data == "COMPLETADO") {
+            return '<span class="badge bg-success">COMPLETADO</span>';
+          } else if (data == "INCOMPLETO") {
+            return '<span class="badge bg-warning">INCOMPLETO</span>';
+          } else {
+            return '<span class="badge bg-danger">ELIMINADO</span>';
+          }
+        },
+      },
+ {
+    data: null,
+    render: function (data, type, row) {
+        return (
+        row.usuario_nombre_completo +
+        " - <br><small><strong>" + 
+        row.rol + // o el campo que contenga el rol
+        "</strong></small>"
+        );
+    },
+    },
+      // ---- BOTONES DE ACCIÓN ----
+      {
+        data: "estado",
+        render: function (data, type, row) {
+          let botones = "";
+
+ // SOLO EN TRANSITO => Completar viaje
+          if (data === "EN TRANSITO") {
+            botones += `
+            <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
+                <i class='fa fa-edit'></i> Editar
+              </button>
+        
+              
+
+            `;
+          }
+
+          // EN TRANSITO / INCOMPLETO / COMPLETADO => Manifiesto + Mostrar
+          if (
+            data === "COMPLETADO" ||
+            data === "EN TRANSITO" ||
+            data === "INCOMPLETO"
+          ) {
+            botones += `
+
+              <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
+                <i class='fa fa-print'></i> Manifiesto
+              </button>
+              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
+                <i class='fa fa-eye'></i> Mostrar
+              </button>
+              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
+                <i class='fa fa-history'></i> Historial
+              </button>
+            `;
+          }
+
+          // SOLO EN TRANSITO => Completar viaje
+          if (data === "EN TRANSITO") {
+            botones += `
+
+              <button class='completar btn btn-info btn-sm' title='Completar viaje'>
+                <i class='fa fa-check-circle'></i> Completar
+              </button>
+              <button class='incompleto btn btn-warning btn-sm' title='Viaje Incompleto'>
+                <i class='fa fa-times-circle'></i> Incompleto
+              </button>
+              
+
+            `;
+          }
+
+          // ELIMINADO => Solo Mostrar
+          if (data === "ELIMINADO") {
+            botones += `
+              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
+                <i class='fa fa-eye'></i> Mostrar
+              </button>
+              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
+                <i class='fa fa-history'></i> Historial
+              </button>
+
+            `;
+          }
+
+          return botones;
+        },
+      },
+    ],
+    language: idioma_espanol,
+    select: true,
+  });
+}
+
+
+function listar_salidas_diarias_fecha_estado() {
+
+  let ori = document.getElementById("txt_sucursal").value;
+  let fedes = document.getElementById("txt_fecha_desde").value;
+  let fehas = document.getElementById("txt_fecha_hasta").value;
+  let estado = document.getElementById("select_estado_buscar").value;
+  let usu = document.getElementById("txtprincipalid").value;
+
+  tbl_salidas_diarias = $("#tabla_salida_diaria").DataTable({
+    pagingType: "full_numbers",
+    scrollCollapse: true,
+    responsive: true,
+    ordering: false,
+    bLengthChange: true,
+    searching: { regex: false },
+    lengthMenu: [
+      [10, 25, 50, 100, -1],
+      [10, 25, 50, 100, "All"],
+    ],
+    pageLength: 10,
+    destroy: true,
+    async: false,
+    processing: true,
+    ajax: {
+      url: "../controller/salidas_diarias/controlador_listar_salidas_diarias_fechas_estado.php",
       type: "POST",
       data: {
         ori: ori,
-        des: des,
-        esta: esta,
-      },
-    },
-    dom: "Bfrtip",
-
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
-        },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-pdf",
-        orientation: "landscape",
-        pageSize: "A4",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
-        },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
-        },
-      },
-    ],
-    columns: [
-      { data: "salida_nro" },
-      {
-        data: null,
-        render: function (data, type, row) {
-          return (
-            "<strong>" +
-            row.tipo_documen +
-            ": " +
-            row.nro_doc +
-            "</strong><br>" +
-            row.nombres_apellidos
-          );
-        },
-      },
-      {
-        data: "monto",
-        render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-success">S/ ' + data + "</span>";
-          } else {
-            return '<span class="badge bg-secondary">-</span>';
-          }
-        },
-      },
-      { data: "fecha_formateada_salida" },
-      { data: "origen_nombre" },
-      { data: "destino_nombre" },
-
-      // TOTAL PASAJEROS más grande
-      {
-        data: "total_pasajeros",
-        render: function (data, type, row) {
-          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
-        },
-      },
-
-      // TOTAL ENCOMIENDAS más grande
-      {
-        data: "total_encomiendas",
-        render: function (data, type, row) {
-          return `<span style="font-size:18px; font-weight:bold;">${data}</span>`;
-        },
-      },
-
-      // ---- ESTADO SALIDA ----
-      {
-        data: "estado",
-        render: function (data, type, row) {
-          if (data == "EN TRANSITO") {
-            return '<span class="badge bg-dark">EN TRANSITO</span>';
-          } else if (data == "COMPLETADO") {
-            return '<span class="badge bg-success">COMPLETADO</span>';
-          } else if (data == "INCOMPLETO") {
-            return '<span class="badge bg-warning">INCOMPLETO</span>';
-          } else {
-            return '<span class="badge bg-danger">ELIMINADO</span>';
-          }
-        },
-      },
-      { data: "usuario_nombre_completo" },
-
-      // ---- BOTONES DE ACCIÓN ----
-      {
-        data: "estado",
-        render: function (data, type, row) {
-          let botones = "";
-
-          // EN TRANSITO / INCOMPLETO => Editar + Eliminar
-          if (data === "EN TRANSITO" || data === "INCOMPLETO") {
-            botones += `
-
-              <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
-                <i class='fa fa-trash'></i> Eliminar
-              </button>
-
-            `;
-          }
-
-          // EN TRANSITO / INCOMPLETO / COMPLETADO => Manifiesto + Mostrar
-          if (
-            data === "COMPLETADO" ||
-            data === "EN TRANSITO" ||
-            data === "INCOMPLETO"
-          ) {
-            botones += `
-              <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
-                <i class='fa fa-edit'></i> Editar
-              </button>
-              <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
-                <i class='fa fa-print'></i> Manifiesto
-              </button>
-              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
-                <i class='fa fa-eye'></i> Mostrar
-              </button>
-              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
-                <i class='fa fa-history'></i> Historial
-              </button>
-            `;
-          }
-
-          // SOLO EN TRANSITO => Completar viaje
-          if (data === "EN TRANSITO") {
-            botones += `
-              <button class='completar btn btn-info btn-sm' title='Completar viaje'>
-                <i class='fa fa-check-circle'></i> Completar
-              </button>
-              <button class='incompleto btn btn-warning btn-sm' title='Viaje Incompleto'>
-                <i class='fa fa-times-circle'></i> Incompleto
-              </button>
-              
-
-            `;
-          }
-
-          // ELIMINADO => Solo Mostrar
-          if (data === "ELIMINADO") {
-            botones += `
-              <button class='mostrar btn btn-secondary btn-sm' title='Mostrar'>
-                <i class='fa fa-eye'></i> Mostrar
-              </button>
-              <button class='historial btn btn-dark btn-sm' title='Historial de viaje'>
-                <i class='fa fa-history'></i> Historial
-              </button>
-
-            `;
-          }
-
-          return botones;
-        },
-      },
-    ],
-    language: idioma_espanol,
-    select: true,
-  });
-}
-
-function listar_salidas_diarias_fecha_usu() {
-  let fedes = document.getElementById("txt_fecha_desde").value;
-  let fehas = document.getElementById("txt_fecha_hasta").value;
-  let usu = document.getElementById("select_usuario").value;
-
-  tbl_salidas_diarias = $("#tabla_salida_diaria").DataTable({
-    pagingType: "full_numbers",
-    scrollCollapse: true,
-    responsive: true,
-    ordering: false,
-    bLengthChange: true,
-    searching: { regex: false },
-    lengthMenu: [
-      [10, 25, 50, 100, -1],
-      [10, 25, 50, 100, "All"],
-    ],
-    pageLength: 10,
-    destroy: true,
-    async: false,
-    processing: true,
-    ajax: {
-      url: "../controller/salidas_diarias/controlador_listar_salidas_diarias_fecha_usu.php",
-      type: "POST",
-      data: {
         fedes: fedes,
         fehas: fehas,
+        estado: estado,
         usu: usu,
       },
     },
@@ -714,7 +554,7 @@ function listar_salidas_diarias_fecha_usu() {
         },
       },
 
-      // ---- ESTADO SALIDA ----
+         // ---- ESTADO SALIDA ----
       {
         data: "estado",
         render: function (data, type, row) {
@@ -729,21 +569,31 @@ function listar_salidas_diarias_fecha_usu() {
           }
         },
       },
-      { data: "usuario_nombre_completo" },
-
+ {
+    data: null,
+    render: function (data, type, row) {
+        return (
+        row.usuario_nombre_completo +
+        " - <br><small><strong>" + 
+        row.rol + // o el campo que contenga el rol
+        "</strong></small>"
+        );
+    },
+    },
       // ---- BOTONES DE ACCIÓN ----
       {
         data: "estado",
         render: function (data, type, row) {
           let botones = "";
 
-          // EN TRANSITO / INCOMPLETO => Editar + Eliminar
+ // SOLO EN TRANSITO => Completar viaje
           if (data === "EN TRANSITO") {
             botones += `
-
-              <button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de servicio'>
-                <i class='fa fa-trash'></i> Eliminar
+            <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
+                <i class='fa fa-edit'></i> Editar
               </button>
+        
+              
 
             `;
           }
@@ -755,9 +605,7 @@ function listar_salidas_diarias_fecha_usu() {
             data === "INCOMPLETO"
           ) {
             botones += `
-              <button class='editar btn btn-primary btn-sm' title='Editar datos de servicio'>
-                <i class='fa fa-edit'></i> Editar
-              </button>
+
               <button class='imprimir btn btn-success btn-sm' title='Imprimir Manifiesto'>
                 <i class='fa fa-print'></i> Manifiesto
               </button>
@@ -773,6 +621,7 @@ function listar_salidas_diarias_fecha_usu() {
           // SOLO EN TRANSITO => Completar viaje
           if (data === "EN TRANSITO") {
             botones += `
+
               <button class='completar btn btn-info btn-sm' title='Completar viaje'>
                 <i class='fa fa-check-circle'></i> Completar
               </button>
@@ -810,6 +659,40 @@ function listar_salidas_diarias_fecha_usu() {
 function AbrirRegistro() {
   $("#modal_registro").modal({ backdrop: "static", keyboard: false });
   $("#modal_registro").modal("show");
+  
+  // Validar que el elemento existe antes de obtener su valor
+  let sucursalElement = document.getElementById("txt_sucursal");
+  if (!sucursalElement) {
+    console.error("Elemento 'txt_sucursal' no encontrado");
+    return;
+  }
+  
+  let des = sucursalElement.value;
+  
+  // Validar que los elementos destino existen
+  let origenElement = document.getElementById("select_origen");
+  let destinoElement = document.getElementById("select_destino");
+  
+  if (!origenElement) {
+    console.error("Elemento 'txt_origen' no encontrado");
+    return;
+  }
+  
+  if (!destinoElement) {
+    console.error("Elemento 'txt_destino' no encontrado");
+    return;
+  }
+  
+  // Asignar valores
+  if (des == "ABANCAY") {
+    origenElement.value = "1";
+    destinoElement.value = "2";
+  } else {
+    origenElement.value = "2";
+    destinoElement.value = "1";
+  }
+  
+  console.log("Sucursal:", des, "Origen:", origenElement.value, "Destino:", destinoElement.value);
 }
 //CARGAR SELECT CONDUCTORES
 function Cargar_Select_Conductores() {
@@ -2363,7 +2246,7 @@ function Registrar_Salida_Diaria() {
           "success"
         );
         $("#modal_registro").modal("hide");
-        listar_salidas_diarias_dia();
+        listar_salidas_diarias();
       } else {
         Swal.fire("Error", "No se pudo registrar la salida diaria.", "error");
       }
@@ -3230,7 +3113,7 @@ function Moidificar_Salida_Diaria() {
           "success"
         );
         $("#modal_editar").modal("hide");
-        listar_salidas_diarias_dia();
+        listar_salidas_diarias();
       } else {
         console.log("❌ Respuesta no válida:", resp);
         Swal.fire(

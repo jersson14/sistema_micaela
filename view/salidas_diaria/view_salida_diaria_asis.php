@@ -1,4 +1,4 @@
-<script src="../js/console_salidas_diarias.js?rev=<?php echo time(); ?>"></script>
+<script src="../js/console_salidas_diarias_asis.js?rev=<?php echo time(); ?>"></script>
 <link rel="stylesheet" href="../plantilla/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
 <!-- Content Header (Page header) -->
@@ -34,15 +34,13 @@
                         <div class="card-body">
                             <div class="row" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
 
-                                <div class="col-2 form-group">
-                                    <label for="">Origen:</label>
-                                    <select class="js-example-basic-single" id="select_origen_bus" style="width:100%">
-                                    </select>
+                               <div class="col-2 form-group">
+                                    <label for="">Fecha desde:</label>
+                                    <input type="date" class="form-control" id="txt_fecha_desde">
                                 </div>
                                 <div class="col-2 form-group">
-                                    <label for="">Destino:</label>
-                                    <select class="js-example-basic-single" id="select_destino_bus" style="width:100%">
-                                    </select>
+                                    <label for="">Fecha hasta:</label>
+                                    <input type="date" class="form-control" id="txt_fecha_hasta">
                                 </div>
                                 <div class="col-4 form-group">
                                     <label for="">Estado<b style="color:red">(*)</b>:</label>
@@ -52,12 +50,11 @@
                                         <option value="EN TRANSITO">EN TRANSITO</option>
                                         <option value="COMPLETADO">COMPLETADO</option>
                                         <option value="INCOMPLETO">INCOMPLETO</option>
-                                        <option value="ELIMINADO">ELIMINADO</option>
                                     </select>
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_salidas_diarias_ruta_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
+                                    <button onclick="listar_salidas_diarias_fecha_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
@@ -66,30 +63,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive" style="text-align:left">
-                        <div class="card-body">
-                            <div class="row" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
-                                <div class="col-3 form-group">
-                                    <label for="">Fecha desde:</label>
-                                    <input type="date" class="form-control" id="txt_fecha_desde">
-                                </div>
-                                <div class="col-3 form-group">
-                                    <label for="">Fecha hasta:</label>
-                                    <input type="date" class="form-control" id="txt_fecha_hasta">
-                                </div>
-                                <div class="col-3 form-group">
-                                    <label for="">Usuario:</label>
-                                    <select class="js-example-basic-single" id="select_usuario" style="width:100%">
-                                    </select>
-                                </div>
-                                <div class="col-12 col-md-3" role="document">
-                                    <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_salidas_diarias_fecha_usu()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+                   
                     <div class="table-responsive" style="text-align:center">
                         <div class="card-body">
                             <table id="tabla_salida_diaria" class="table table-striped table-bordered" style="width:100%">
@@ -152,11 +126,11 @@
                         </div>
                         <div class="col-6 form-group">
                             <label>Origen<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_origen" style="width:100%"></select>
+                            <select class="js-example-basic-single" disabled id="select_origen" style="width:100%"></select>
                         </div>
                         <div class="col-6 form-group">
                             <label>Destino<b style="color:red">(*)</b>:</label>
-                            <select class="js-example-basic-single" id="select_destino" style="width:100%"></select>
+                            <select class="js-example-basic-single" disabled id="select_destino" style="width:100%"></select>
                         </div>
 
                         <!-- SECCION PASAJEROS -->
@@ -694,7 +668,7 @@
         $(document).ready(function() {
             $('.js-example-basic-single').select2();
             Cargar_Select_Usuarios();
-            listar_salidas_diarias_dia();
+            listar_salidas_diarias_pordia();
             Cargar_Select_Conductores();
             Cargar_Select_Rutas();
         });

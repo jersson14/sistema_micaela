@@ -17,6 +17,19 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
+          public function Listar_Encomiendas_pordia(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_ENCOMIENDAS_PORDIA()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
          public function Listar_encomienda_ruta_estado($ori,$des,$esta){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_LISTAR_ENCOMIENDAS_RUTA_ESTADO(?,?,?)";
@@ -303,8 +316,105 @@
             }
             conexionBD::cerrar_conexion();
         }
+        // ASISTENTE:
+         public function Listar_todas_encomienda_asis($des){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_ENCOMIENDAS_TODOS_ASIS(?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$des);
 
-     
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function Listar_todas_encomienda_por_dia_asis($des){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_ENCOMIENDAS_POR_DIA_ASIS(?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$des);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+        public function Listar_todas_encomienda_por_fechas_estado($des,$fedes,$fehas,$esta){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_ENCOMIENDAS_POR_FECHA_ESTADO(?,?,?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$des);
+            $query->bindParam(2,$fedes);
+            $query->bindParam(3,$fehas);
+            $query->bindParam(4,$esta);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+        // ASISTENTE ENVIO:
+         public function Listar_todas_encomienda_env($usu,$des){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_ENCOMIENDAS_TODOS_ENVI(?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$usu);
+            $query->bindParam(2,$des);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+            public function Listar_todas_encomienda_por_dia_env($usu,$des){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_ENCOMIENDAS_POR_DIA_ENV(?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$usu);
+            $query->bindParam(2,$des);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function Listar_todas_encomienda_por_fechas_estado_env($usu,$des,$fedes,$fehas,$esta){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_ENCOMIENDAS_POR_FECHA_ESTADO_ENV(?,?,?,?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$usu);
+            $query->bindParam(2,$des);
+            $query->bindParam(3,$fedes);
+            $query->bindParam(4,$fehas);
+            $query->bindParam(5,$esta);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
     }
 
 
