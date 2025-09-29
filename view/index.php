@@ -345,6 +345,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                 </ul>
               </li>
+              <li class="nav-item">
+                <a onclick="cargar_contenido('contenido_principal','tipo_pago/view_tipo_pago.php')" class="nav-link">
+                  <i class="nav-icon fas fa-credit-card"></i>
+                  <p style="color:white">Tipos de pago</p>
+                </a>
+              </li>
 
               <!-- Sucursales -->
               <li class="nav-item">
