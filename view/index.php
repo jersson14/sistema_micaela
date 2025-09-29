@@ -541,7 +541,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="nav-link">
+                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_con.php')" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>
                   <p style="color:white">Salidas diarias</p>
                 </a>
@@ -1492,239 +1492,260 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <?php
       }
       ?>
-      <?php if ($_SESSION['S_ROL'] == "5") { ?>
+     <?php if ($_SESSION['S_ROL'] == "5") { ?>
 
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0"><i class="fas fa-home"></i>
+          <b>BIENVENIDOS AL SISTEMA - TOURS MICAELA</b>
+        </h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i> INICIO</a></li>
+          <li class="breadcrumb-item active">DASHBOARD PRINCIPAL</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div class="content-header">
-          <div class="container-fluid">
-            <div class="row mb-2">
-              <div class="col-sm-6">
-                <h1 class="m-0"><i class="fas fa-home"></i>
-                  <b>BIENVENIDOS AL SISTEMA - TOURS MICAELA</b>
-                </h1>
+<!-- Tarjeta de fecha, hora y botón de registro -->
+<div class="col-md-12 mb-4">
+  <div class="card card-outline card-primary shadow-lg" style="border: none; border-radius: 15px; overflow: hidden;">
+    <div class="card-body text-center py-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative;">
+      <!-- Efectos decorativos -->
+      <div style="position: absolute; top: -50px; left: -50px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; animation: float 3s ease-in-out infinite;"></div>
+      <div style="position: absolute; top: 20px; right: -30px; width: 60px; height: 60px; background: rgba(255,255,255,0.08); border-radius: 50%; animation: float 4s ease-in-out infinite reverse;"></div>
+      <div style="position: absolute; bottom: -30px; left: 50%; width: 80px; height: 80px; background: rgba(255,255,255,0.05); border-radius: 50%; transform: translateX(-50%); animation: float 5s ease-in-out infinite;"></div>
+
+      <!-- Contenido principal -->
+      <div class="row align-items-center">
+        <div class="col-md-4">
+          <div class="d-flex align-items-center justify-content-center">
+            <div class="text-center">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                <i class="far fa-calendar-alt text-white" style="font-size: 2rem;"></i>
               </div>
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i> INICIO</a></li>
-                  <li class="breadcrumb-item active">DASHBOARD PRINCIPAL</li>
-                </ol>
-              </div>
+              <h4 class="text-white mb-1" style="font-weight: 600; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-size: 1.3rem;">
+                <span id="fecha_actual">Cargando fecha...</span>
+              </h4>
+              <p class="text-white-50 mb-0" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">
+                Fecha actual
+              </p>
             </div>
           </div>
         </div>
 
-        <!-- Tarjeta de fecha y hora actual -->
-        <div class="col-md-12 mb-4">
-          <div class="card card-outline card-primary shadow-lg" style="border: none; border-radius: 15px; overflow: hidden;">
-            <div class="card-body text-center py-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative;">
-              <!-- Efectos decorativos -->
-              <div style="position: absolute; top: -50px; left: -50px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; animation: float 3s ease-in-out infinite;"></div>
-              <div style="position: absolute; top: 20px; right: -30px; width: 60px; height: 60px; background: rgba(255,255,255,0.08); border-radius: 50%; animation: float 4s ease-in-out infinite reverse;"></div>
-              <div style="position: absolute; bottom: -30px; left: 50%; width: 80px; height: 80px; background: rgba(255,255,255,0.05); border-radius: 50%; transform: translateX(-50%); animation: float 5s ease-in-out infinite;"></div>
-
-              <!-- Contenido principal -->
-              <div class="row align-items-center">
-                <div class="col-md-5">
-                  <div class="d-flex align-items-center justify-content-center">
-                    <div class="text-center">
-                      <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
-                        <i class="far fa-calendar-alt text-white" style="font-size: 2.5rem;"></i>
-                      </div>
-                      <h3 class="text-white mb-1" style="font-weight: 600; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-                        <span id="fecha_actual">Cargando fecha...</span>
-                      </h3>
-                      <p class="text-white-50 mb-0" style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
-                        Fecha actual
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-2">
-                  <div class="text-center">
-                    <div style="width: 2px; height: 100px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.5), transparent); margin: 0 auto;"></div>
-                  </div>
-                </div>
-
-                <div class="col-md-5">
-                  <div class="d-flex align-items-center justify-content-center">
-                    <div class="text-center">
-                      <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
-                        <i class="far fa-clock text-white" style="font-size: 2.5rem;"></i>
-                      </div>
-                      <h3 class="text-white mb-1" style="font-weight: 600; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-family: 'Courier New', monospace;">
-                        <span id="hora_actual">00:00:00</span>
-                      </h3>
-                      <p class="text-white-50 mb-0" style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
-                        Hora actual
-                      </p>
-                    </div>
-                  </div>
-                </div>
+        <div class="col-md-4">
+          <div class="d-flex align-items-center justify-content-center">
+            <div class="text-center">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                <i class="far fa-clock text-white" style="font-size: 2rem;"></i>
               </div>
-
-              <!-- Información adicional -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <div class="d-flex justify-content-center align-items-center" style="background: rgba(255,255,255,0.1); border-radius: 25px; padding: 10px 20px; backdrop-filter: blur(10px);">
-                    <i class="fas fa-map-marker-alt text-white me-2" style="font-size: 1.2rem;"></i>
-                    <span class="text-white" style="font-weight: 500; margin-left: 8px;">
-                      Sistema de Transporte - Abancay - Cusco y Viceversa
-                    </span>
-                    <span class="text-white-50 mx-3">|</span>
-                    <i class="fas fa-user-tie text-white me-2" style="font-size: 1.2rem;"></i>
-                    <span class="text-white" style="font-weight: 500; margin-left: 8px;">
-                      Panel Conductor
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="card card-primary">
-            <div class="card-header py-2" style="background: linear-gradient(135deg, #023D77, #0266C8)">
-              <h5 class="m-0 text-center" style="font-family:cooper; line-height: 1;">
-                <i class="fas fa-image" style="margin-right: 8px;"></i>CATÁLOGO DE FOTOS
-              </h5>
-            </div>
-
-            <div class="card-body text-center">
-              <div id="photoCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
-                <div class="carousel-inner">
-                  <!-- Foto 1 -->
-                  <div class="carousel-item active">
-                    <img src="../Fotos/1.jpg" class="d-block mx-auto img-fluid" alt="Foto 1">
-                  </div>
-                  <!-- Foto 2 -->
-                  <div class="carousel-item">
-                    <img src="../Fotos/2.jpg" class="d-block mx-auto img-fluid" alt="Foto 2">
-                  </div>
-                  <!-- Foto 3 -->
-                  <div class="carousel-item">
-                    <img src="../Fotos/3.jpg" class="d-block mx-auto img-fluid" alt="Foto 3">
-                  </div>
-                  <!-- Foto 4 -->
-                  <div class="carousel-item">
-                    <img src="../Fotos/4.jpg" class="d-block mx-auto img-fluid" alt="Foto 4">
-                  </div>
-                  <!-- Foto 5 -->
-                  <div class="carousel-item">
-                    <img src="../Fotos/5.jpg" class="d-block mx-auto img-fluid" alt="Foto 5">
-                  </div>
-                  <!-- Foto 6 -->
-                  <div class="carousel-item">
-                    <img src="../Fotos/6.jpg" class="d-block mx-auto img-fluid" alt="Foto 6">
-                  </div>
-                  <!-- Foto 7 -->
-                  <div class="carousel-item">
-                    <img src="../Fotos/7.jpg" class="d-block mx-auto img-fluid" alt="Foto 7">
-                  </div>
-                  <!-- Foto 8 -->
-                  <div class="carousel-item">
-                    <img src="../Fotos/8.jpg" class="d-block mx-auto img-fluid" alt="Foto 8">
-                  </div>
-                  <!-- Foto 9 -->
-                  <div class="carousel-item">
-                    <img src="../Fotos/9.jpg" class="d-block mx-auto img-fluid" alt="Foto 9">
-                  </div>
-                  <!-- Foto 10 -->
-                  <div class="carousel-item">
-                    <img src="../Fotos/10.jpg" class="d-block mx-auto img-fluid" alt="Foto 10">
-                  </div>
-                  <!-- Foto 11 -->
-                  <div class="carousel-item">
-                    <img src="../Fotos/11.jpg" class="d-block mx-auto img-fluid" alt="Foto 11">
-                  </div>
-                </div>
-              </div>
-
-              <!-- Botones personalizados -->
-              <button id="prevBtn" class="btn btn-primary mt-3" data-target="#photoCarousel" data-slide="prev">
-                <i class="fas fa-chevron-left"></i> Anterior
-              </button>
-              <button id="nextBtn" class="btn btn-primary mt-3" data-target="#photoCarousel" data-slide="next">
-                Siguiente <i class="fas fa-chevron-right"></i>
-              </button>
+              <h4 class="text-white mb-1" style="font-weight: 600; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-family: 'Courier New', monospace; font-size: 1.3rem;">
+                <span id="hora_actual">00:00:00</span>
+              </h4>
+              <p class="text-white-50 mb-0" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">
+                Hora actual
+              </p>
             </div>
           </div>
         </div>
 
-        <!-- Ajustes CSS -->
-        <style>
-          .carousel-inner img {
-            max-height: 500px;
-            /* Ajusta el límite de altura sin deformar */
-            width: auto;
-            object-fit: contain;
-            /* Hace que se adapte sin recortar ni deformar */
-          }
-        </style>
+        <div class="col-md-4">
+          <div class="d-flex align-items-center justify-content-center">
+            <div class="text-center">
+              <a onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_con.php')" class="btn btn-lg text-white shadow-lg" style="background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 50px; padding: 15px 35px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; backdrop-filter: blur(10px); text-decoration: none; font-size: 0.95rem;">
+                <i class="fas fa-bus" style="font-size: 1.5rem; margin-bottom: 8px; display: block;"></i>
+                Registrar<br>Salida Diaria
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <!-- Estilos CSS para animaciones -->
-        <style>
-          @keyframes float {
+      <!-- Información adicional -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="d-flex justify-content-center align-items-center flex-wrap" style="background: rgba(255,255,255,0.1); border-radius: 25px; padding: 10px 20px; backdrop-filter: blur(10px);">
+            <i class="fas fa-map-marker-alt text-white me-2" style="font-size: 1.2rem;"></i>
+            <span class="text-white" style="font-weight: 500; margin-left: 8px;">
+              Sistema de Transporte - Abancay - Cusco y Viceversa
+            </span>
+            <span class="text-white-50 mx-3">|</span>
+            <i class="fas fa-user-tie text-white me-2" style="font-size: 1.2rem;"></i>
+            <span class="text-white" style="font-weight: 500; margin-left: 8px;">
+              Panel Conductor
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-            0%,
-            100% {
-              transform: translateY(0px);
-            }
+<!-- Tarjeta de fotografías lado a lado -->
+<div class="col-md-12">
+  <div class="card card-primary">
+    <div class="card-header py-2" style="background: linear-gradient(135deg, #023D77, #0266C8)">
+      <h5 class="m-0 text-center" style="font-family:cooper; line-height: 1;">
+        <i class="fas fa-image" style="margin-right: 8px;"></i>NUESTRAS RUTAS
+      </h5>
+    </div>
 
-            50% {
-              transform: translateY(-10px);
-            }
-          }
+ <div class="card-body p-0">
+  <div class="row g-0">
+    <!-- Foto Cusco -->
+    <div class="col-md-6 position-relative foto-container">
+      <img src="../Fotos/1.jpg" class="img-fluid w-100" alt="Cusco" style="height: 350px; object-fit: contain; background: #f8f9fa;">
+      <div class="foto-overlay">
+        <div class="foto-text">
+          <i class="fas fa-map-marker-alt mb-2" style="font-size: 2.5rem;"></i>
+          <h3 class="font-weight-bold">CUSCO</h3>
+          <p class="mb-0">Ciudad Imperial del Perú</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Foto Abancay -->
+    <div class="col-md-6 position-relative foto-container">
+      <img src="../Fotos/10.jpg" class="img-fluid w-100" alt="Abancay" style="height: 350px; object-fit: contain; background: #f8f9fa;">
+      <div class="foto-overlay">
+        <div class="foto-text">
+          <i class="fas fa-map-marker-alt mb-2" style="font-size: 2.5rem;"></i>
+          <h3 class="font-weight-bold">ABANCAY</h3>
+          <p class="mb-0">Capital de Apurímac</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
 
-          @keyframes pulse {
+<!-- Estilos CSS -->
+<style>
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
 
-            0%,
-            100% {
-              opacity: 0.8;
-            }
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
 
-            50% {
-              opacity: 1;
-            }
-          }
+  .card-outline.card-primary {
+    transition: all 0.3s ease;
+  }
 
-          .card-outline.card-primary {
-            transition: all 0.3s ease;
-          }
+  .card-outline.card-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0, 123, 255, 0.3) !important;
+  }
 
-          .card-outline.card-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 123, 255, 0.3) !important;
-          }
+  #fecha_actual, #hora_actual {
+    animation: pulse 2s infinite;
+  }
 
-          #fecha_actual,
-          #hora_actual {
-            animation: pulse 2s infinite;
-          }
-        </style>
-        <!-- Carrusel de fotografías -->
+  .btn:hover {
+    background: rgba(255,255,255,0.35) !important;
+    border-color: rgba(255,255,255,0.7) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3) !important;
+  }
 
+  .foto-container {
+    overflow: hidden;
+    position: relative;
+  }
 
-        <script>
-          function actualizarFechaHora() {
-            const ahora = new Date();
-            const opciones = {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            };
+  .foto-container img {
+    transition: transform 0.5s ease;
+  }
 
-            document.getElementById('fecha_actual').textContent = ahora.toLocaleDateString('es-ES', opciones);
-            document.getElementById('hora_actual').textContent = ahora.toLocaleTimeString('es-ES');
-          }
-          // Actualizar cada segundo
-          setInterval(actualizarFechaHora, 1000);
-          actualizarFechaHora(); // Ejecutar inmediatamente
-        </script>
-      <?php
-      }
-      ?>
+  .foto-container:hover img {
+    transform: scale(1.05);
+  }
+
+  .foto-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 30px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .foto-container:hover .foto-overlay {
+    opacity: 1;
+  }
+
+  .foto-text {
+    color: white;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  }
+
+  .foto-text h3 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+  }
+
+  .foto-text p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+
+  @media (max-width: 768px) {
+    .foto-container img {
+      height: 300px !important;
+    }
+    
+    .col-md-4 {
+      margin-bottom: 20px;
+    }
+  }
+</style>
+
+<script>
+  function actualizarFechaHora() {
+    const ahora = new Date();
+    const opciones = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+
+    document.getElementById('fecha_actual').textContent = ahora.toLocaleDateString('es-ES', opciones);
+    document.getElementById('hora_actual').textContent = ahora.toLocaleTimeString('es-ES');
+  }
+  
+  // Actualizar cada segundo
+  setInterval(actualizarFechaHora, 1000);
+  actualizarFechaHora(); // Ejecutar inmediatamente
+</script>
+
+<?php } ?>
     </div>
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">

@@ -3157,8 +3157,7 @@ function Cargar_Select_Rutas() {
 
     $("#select_origen").html(cadena);
     $("#select_destino").html(cadena);
-    $("#select_origen_bus").html(cadena);
-    $("#select_destino_bus").html(cadena);
+
     $("#select_origen_editar").html(cadena);
     $("#select_destino_editar").html(cadena);
   });

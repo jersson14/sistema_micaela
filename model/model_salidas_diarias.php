@@ -507,6 +507,55 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
+        //CONDUCTOR:
+         public function Listar_Historial_Estado_Salida_Conduc($usu){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_SALIDAS_DIARIAS_TODOS_CONDUC(?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$usu);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+                 public function Listar_Historial_Estado_Salida_Asis_pordia_conduc($usu){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_SALIDAS_DIARIAS_TODOS_ASIS_PORDIA_CONDUC(?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$usu);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+         public function Listar_salida_fecha_estado_condu($fedes,$fehas,$estado,$usu){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_SALIDAS_DIARIAS_FECHAS_ESTADO_CONDUC(?,?,?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$fedes);
+            $query->bindParam(2,$fehas);
+            $query->bindParam(3,$estado);
+            $query->bindParam(4,$usu);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
     }
 
 
