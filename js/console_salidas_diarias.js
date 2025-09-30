@@ -2357,13 +2357,54 @@ function Registrar_Salida_Diaria() {
       if (resp > 0) {
         Registrar_Detalle_Pasajeros(resp);
         Registrar_Detalle_Encomiendas(resp);
-        Swal.fire(
-          "Éxito",
-          "Salida diaria registrada correctamente.",
-          "success"
-        );
-        $("#modal_registro").modal("hide");
-        listar_salidas_diarias_dia();
+
+        // Fecha y hora actual
+        let ahora = new Date();
+        let fechaActual =
+          ahora.getDate().toString().padStart(2, "0") +
+          "/" +
+          (ahora.getMonth() + 1).toString().padStart(2, "0") +
+          "/" +
+          ahora.getFullYear() +
+          " a las " +
+          ahora.getHours().toString().padStart(2, "0") +
+          ":" +
+          ahora.getMinutes().toString().padStart(2, "0");
+
+        // CONFIRMACIÓN CON OPCIÓN DE IMPRIMIR MANIFIESTO
+        Swal.fire({
+          title: "Salida diaria registrada correctamente",
+          html:
+            "Registrada el: <b>" +
+            fechaActual +
+            "</b><br>Pasajeros: <b>" +
+            totalPasajeros +
+            "</b><br>Encomiendas: <b>" +
+            totalEncomiendas +
+            "</b><br><br>¿Desea imprimir el manifiesto?",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Imprimir Manifiesto!",
+          cancelButtonText: "No, gracias",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var url =
+              "../view/MPDF/REPORTE/manifiesto.php?id=" +
+              encodeURIComponent(resp) +
+              "#zoom=100%";
+            var newWindow = window.open(url, "MANIFIESTO", "scrollbars=NO");
+
+            if (newWindow) {
+              newWindow.moveTo(0, 0);
+              newWindow.resizeTo(screen.width, screen.height);
+            }
+          }
+
+          $("#modal_registro").modal("hide");
+          listar_salidas_diarias_dia();
+        });
       } else {
         Swal.fire("Error", "No se pudo registrar la salida diaria.", "error");
       }

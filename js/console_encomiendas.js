@@ -3157,6 +3157,8 @@ function Cargar_Select_Rutas() {
 
     $("#select_origen").html(cadena);
     $("#select_destino").html(cadena);
+    $("#select_origen_bus").html(cadena);
+    $("#select_destino_bus").html(cadena);
 
     $("#select_origen_editar").html(cadena);
     $("#select_destino_editar").html(cadena);
@@ -3729,16 +3731,51 @@ function Realizar_pago() {
     })
       .done(function (resp) {
         if (resp > 0) {
-          let mensajeExito = `Pago procesado correctamente!\n\nVuelto entregado: S/ ${vueltoCalculado.toFixed(
-            2
-          )}`;
+          // Fecha y hora actual
+          let ahora = new Date();
+          let fechaActual =
+            ahora.getDate().toString().padStart(2, "0") +
+            "/" +
+            (ahora.getMonth() + 1).toString().padStart(2, "0") +
+            "/" +
+            ahora.getFullYear() +
+            " a las " +
+            ahora.getHours().toString().padStart(2, "0") +
+            ":" +
+            ahora.getMinutes().toString().padStart(2, "0");
 
-          Swal.fire("Pago Completado", mensajeExito, "success").then(
-            (value) => {
-              tbl_encomiendas.ajax.reload();
-              $("#modal_pagar").modal("hide");
+          // CONFIRMACIÓN CON OPCIÓN DE IMPRIMIR BOLETA
+          Swal.fire({
+            title: "Pago procesado correctamente",
+            html:
+              "Procesado el: <b>" +
+              fechaActual +
+              "</b><br>Vuelto entregado: <b>S/ " +
+              vueltoCalculado.toFixed(2) +
+              "</b><br><br>¿Desea imprimir la boleta?",
+            icon: "success",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Imprimir Boleta!",
+            cancelButtonText: "No, gracias",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              var url =
+                "../view/MPDF/REPORTE/boleta_pago.php?id=" +
+                encodeURIComponent(id) +
+                "#zoom=100%";
+              var newWindow = window.open(url, "BOLETA_PAGO", "scrollbars=NO");
+
+              if (newWindow) {
+                newWindow.moveTo(0, 0);
+                newWindow.resizeTo(screen.width, screen.height);
+              }
             }
-          );
+            
+            tbl_encomiendas.ajax.reload();
+            $("#modal_pagar").modal("hide");
+          });
         } else {
           return Swal.fire(
             "Mensaje de Error",
