@@ -157,11 +157,11 @@
                     </div>
                     <div class="col-4 form-group">
                         <label for="">Origen<b style="color:red">(*)</b>:</label>
-                        <select class="js-example-basic-single" id="select_origen" style="width:100%"></select>
+                        <select class="js-example-basic-single" disabled id="select_origen" style="width:100%"></select>
                     </div>
                     <div class="col-4 form-group">
                         <label for="">Destino<b style="color:red">(*)</b>:</label>
-                        <select class="js-example-basic-single" id="select_destino" style="width:100%"></select>
+                        <select class="js-example-basic-single" disabled id="select_destino" style="width:100%"></select>
                     </div>
                     <div class="col-4 form-group">
                         <label for="">Monto adelantado(Opcional):</label>
@@ -251,11 +251,11 @@
                     </div>
                     <div class="col-4 form-group">
                         <label for="">Origen<b style="color:red">(*)</b>:</label>
-                        <select class="js-example-basic-single" id="select_origen_editar" style="width:100%"></select>
+                        <select class="js-example-basic-single" disabled id="select_origen_editar" style="width:100%"></select>
                     </div>
                     <div class="col-4 form-group">
                         <label for="">Destino<b style="color:red">(*)</b>:</label>
-                        <select class="js-example-basic-single" id="select_destino_editar" style="width:100%"></select>
+                        <select class="js-example-basic-single" disabled id="select_destino_editar" style="width:100%"></select>
                     </div>
                     <div class="col-4 form-group">
                         <label for="">Monto adelantado(Opcional):</label>

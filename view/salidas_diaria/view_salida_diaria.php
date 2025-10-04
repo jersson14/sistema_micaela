@@ -193,7 +193,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6 form-group">
+                        <div class="col-4 form-group">
                             <label>Nombres y Apellidos<b style="color:red">(*)</b>:</label>
                             <input type="text" class="form-control" id="txt_nombre_pasajero" onkeypress="return sololetras(event)">
                         </div>
@@ -205,12 +205,21 @@
                             <label>Celular(Opcional):</label>
                             <input type="text" class="form-control" id="txt_cel_pasajero" maxlength="9" onkeypress="return soloNumeros(event)">
                         </div>
-                        <div class="col-12 text-right">
+                        <div class="col-2 text-right"><br>
                             <button type="button" class="btn btn-primary" onclick="agregarPasajero()">
                                 <i class="fa fa-user-plus"></i> Agregar pasajero
                             </button>
                         </div>
-
+                        <div class="col-10 form-group">
+                            <label for="">Reservas<b style="color:red">(*)</b>:</label><br>
+                            <select class="js-example-basic-single" id="select_reservas" style="width:100%"></select><br>
+                        </div><br>
+                        <div class="col-2 text-right">
+                            <label for=""></label><br>
+                            <button type="button" class="btn btn-success" onclick="agregarPasajeroDesdeReserva()">
+                                <i class="fa fa-user-plus"></i> Agregar reservas
+                            </button>
+                        </div>
                         <!-- TABLA PASAJEROS -->
                         <div class="col-12 mt-3">
                             <table class="table table-bordered table-sm text-center" id="tabla_pasajeros">

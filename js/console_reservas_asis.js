@@ -695,6 +695,43 @@ function listar_reservas_fecha_usu() {
 function AbrirRegistro() {
   $("#modal_registro").modal({ backdrop: "static", keyboard: false });
   $("#modal_registro").modal("show");
+  
+  // Validar que el elemento existe antes de obtener su valor
+  let sucursalElement = document.getElementById("txt_sucursal");
+  if (!sucursalElement) {
+    console.error("Elemento 'txt_sucursal' no encontrado");
+    return;
+  }
+  
+  let des = sucursalElement.value;
+  
+  // Validar que los elementos destino existen
+  let origenElement = document.getElementById("select_origen");
+  let destinoElement = document.getElementById("select_destino");
+  
+  if (!origenElement) {
+    console.error("Elemento 'select_origen' no encontrado");
+    return;
+  }
+  
+  if (!destinoElement) {
+    console.error("Elemento 'select_destino' no encontrado");
+    return;
+  }
+  
+  // Asignar valores según la sucursal
+  if (des == "ABANCAY") {
+    $(origenElement).val("1").trigger('change');
+    $(destinoElement).val("2").trigger('change');
+  } else {
+    $(origenElement).val("2").trigger('change');
+    $(destinoElement).val("1").trigger('change');
+  }
+  
+  // Esperar un momento para que los selects se actualicen antes de cargar reservas
+  setTimeout(function() {
+    console.log("Sucursal:", des, "Origen:", origenElement.value, "Destino:", destinoElement.value);
+  }, 300);
 }
 
 async function buscarPorDocumento() {

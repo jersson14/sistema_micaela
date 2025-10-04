@@ -216,6 +216,22 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
+        public function Cargar_Reservas($ori,$des){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_CARGAR_RESERVAS(?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$ori);
+            $query->bindParam(2,$des);
+            
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
 
     }
 
