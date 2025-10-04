@@ -400,11 +400,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p style="color:white">Gestión de clientes</p>
                 </a>
               </li>
-                <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asis.php')" class="nav-link">
+              <li class="nav-item">
+                <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php')" class="nav-link">
                       <i class="nav-icon fas fa-calendar-check"></i>
                       <p style="color:white">Reservas</p>
                   </a>
               </li>
+
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-boxes"></i>

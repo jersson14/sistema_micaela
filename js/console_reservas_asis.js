@@ -8,7 +8,7 @@ function listar_reservas() {
   document.getElementById("txt_fecha_hasta").value = "";
   document.getElementById("select_estado_buscar").value = "";
 
-
+      let ori = document.getElementById("txt_sucursal").value;
 
   tbl_reservas = $("#tabla_reservas").DataTable({
     pagingType: "full_numbers",
@@ -29,8 +29,11 @@ function listar_reservas() {
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/reservas/controlador_listar_reservas.php",
+      url: "../controller/reservas/controlador_listar_reservas_asi.php",
       type: "POST",
+        data: {
+        ori: ori
+        },
     },
     dom: "Bfrtip",
 
@@ -173,6 +176,8 @@ function listar_reservas() {
 }
 
 function listar_reservas_pordia() {
+          let ori = document.getElementById("txt_sucursal").value;
+
   tbl_reservas = $("#tabla_reservas").DataTable({
     pagingType: "full_numbers",
     scrollCollapse: true,
@@ -192,8 +197,11 @@ function listar_reservas_pordia() {
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/reservas/controlador_listar_reservas_pordia.php",
+      url: "../controller/reservas/controlador_listar_reservas_pordia_asis.php",
       type: "POST",
+        data: {
+        ori: ori
+        },
     },
     dom: "Bfrtip",
 
@@ -336,9 +344,10 @@ function listar_reservas_pordia() {
 }
 
 //FILTRO POR RUTAS Y ESTADO
-function listar_reservas_ruta_estado() {
-  let ori = document.getElementById("select_origen_bus").value;
-  let des = document.getElementById("select_destino_bus").value;
+function listar_reservas_fecha_estado() {
+let ori = document.getElementById("txt_sucursal").value;
+  let fechaini = document.getElementById("txt_fecha_desde").value;
+  let fechafin = document.getElementById("txt_fecha_hasta").value;
   let esta = document.getElementById("select_estado_buscar").value;
 
   tbl_reservas = $("#tabla_reservas").DataTable({
@@ -360,11 +369,12 @@ function listar_reservas_ruta_estado() {
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/reservas/controlador_listar_reservas_filtro1.php",
+      url: "../controller/reservas/controlador_listar_reservas_fecha_estado_asis.php",
       type: "POST",
       data: {
         ori: ori,
-        des: des,
+        fechaini: fechaini,
+        fechafin: fechafin,
         esta: esta,
       },
     },

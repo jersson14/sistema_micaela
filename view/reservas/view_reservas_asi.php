@@ -1,4 +1,4 @@
-<script src="../js/console_reservas.js?rev=<?php echo time(); ?>"></script>
+<script src="../js/console_reservas_asis.js?rev=<?php echo time(); ?>"></script>
 <link rel="stylesheet" href="../plantilla/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
 <!-- Content Header (Page header) -->
@@ -35,18 +35,15 @@
                             <div class="row" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
 
                                 <div class="col-2 form-group">
-                                    <label for="">Origen:</label>
-                                    <select class="js-example-basic-single" id="select_origen_bus" style="width:100%">
-                                    </select>
+                                    <label for="">Fecha desde:</label>
+                                    <input type="date" class="form-control" id="txt_fecha_desde">
                                 </div>
                                 <div class="col-2 form-group">
-                                    <label for="">Destino:</label>
-                                    <select class="js-example-basic-single" id="select_destino_bus" style="width:100%">
-                                    </select>
+                                    <label for="">Fecha hasta:</label>
+                                    <input type="date" class="form-control" id="txt_fecha_hasta">
                                 </div>
                                 <div class="col-4 form-group">
                                     <label for="">Estado<b style="color:red">(*)</b>:</label>
-
                                     <select class="form-control" id="select_estado_buscar" style="width:100%">
                                         <option value="" disabled selected>Seleccione</option>
                                         <option value="PENDIENTE">PENDIENTE</option>
@@ -56,39 +53,16 @@
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_reservas_ruta_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
+                                    <button onclick="listar_reservas_fecha_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
                                 </div>
-                                <div class="col-12 col-md-2" role="document">
+                               <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_reservas()" class="btn btn-success mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Listar todos</button>
+                                    <button onclick="listar_reservas()" class="btn btn-success mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Listar todo</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive" style="text-align:left">
-                        <div class="card-body">
-                            <div class="row" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
-                                <div class="col-3 form-group">
-                                    <label for="">Fecha desde:</label>
-                                    <input type="date" class="form-control" id="txt_fecha_desde">
-                                </div>
-                                <div class="col-3 form-group">
-                                    <label for="">Fecha hasta:</label>
-                                    <input type="date" class="form-control" id="txt_fecha_hasta">
-                                </div>
-                                <div class="col-3 form-group">
-                                    <label for="">Usuario:</label>
-                                    <select class="js-example-basic-single" id="select_usuario" style="width:100%">
-                                    </select>
-                                </div>
-                                <div class="col-12 col-md-3" role="document">
-                                    <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_reservas_fecha_usu()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
+               
                     <div class="table-responsive" style="text-align:center">
                         <div class="card-body">
                             <table id="tabla_reservas" class="table table-striped table-bordered" style="width:100%">
