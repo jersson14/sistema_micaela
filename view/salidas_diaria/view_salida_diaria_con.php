@@ -96,7 +96,7 @@
                 <!-- Header -->
                 <div class="modal-header" style="background-color:#1FA0E0;">
                     <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center">
-                        <b>REGISTRO DE SALIDA DIARIA - CONDUCTORES</b>
+                        <b>REGISTRO DE SALIDA DIARIA</b>
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -113,11 +113,11 @@
                         <!-- DATOS DE SALIDA -->
                         <div class="col-12 form-group">
                             <label>Conductor<b style="color:red">(*)</b>:</label>
-                            <select class="form-control" disabled id="select_conductor" style="width:100%"></select>
+                            <select class="js-example-basic-single" disabled id="select_conductor" style="width:100%"></select>
                         </div>
                         <div class="col-6 form-group">
                             <label>Pago de Salida<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" value="3.00" disabled id="txt_pago" onkeypress="return soloNumeros(event)">
+                            <input type="text" class="form-control" value="3.00" id="txt_pago" onkeypress="return soloNumeros(event)">
                         </div>
                         <div class="col-6 form-group">
                             <label>Fecha y hora<b style="color:red">(*)</b>:</label>
@@ -166,7 +166,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6 form-group">
+                        <div class="col-4 form-group">
                             <label>Nombres y Apellidos<b style="color:red">(*)</b>:</label>
                             <input type="text" class="form-control" id="txt_nombre_pasajero" onkeypress="return sololetras(event)">
                         </div>
@@ -178,12 +178,21 @@
                             <label>Celular(Opcional):</label>
                             <input type="text" class="form-control" id="txt_cel_pasajero" maxlength="9" onkeypress="return soloNumeros(event)">
                         </div>
-                        <div class="col-12 text-right">
+                        <div class="col-2 text-right"><br>
                             <button type="button" class="btn btn-primary" onclick="agregarPasajero()">
                                 <i class="fa fa-user-plus"></i> Agregar pasajero
                             </button>
                         </div>
-
+                        <div class="col-10 form-group">
+                            <label for="">Reservas<b style="color:red">(*)</b>:</label><br>
+                            <select class="js-example-basic-single" id="select_reservas" style="width:100%"></select><br>
+                        </div><br>
+                        <div class="col-2 text-right">
+                            <label for=""></label><br>
+                            <button type="button" class="btn btn-success" onclick="agregarPasajeroDesdeReserva()">
+                                <i class="fa fa-user-plus"></i> Agregar reservas
+                            </button>
+                        </div>
                         <!-- TABLA PASAJEROS -->
                         <div class="col-12 mt-3">
                             <table class="table table-bordered table-sm text-center" id="tabla_pasajeros">
@@ -207,6 +216,37 @@
                             </table>
                         </div>
 
+                        <!-- SECCION ENCOMIENDAS -->
+                        <div class="col-12 mt-4">
+                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
+                                <b>ENCOMIENDAS</b>
+                            </li>
+                        </div>
+                        <!-- SOLO TABLA DE ENCOMIENDAS -->
+                        <div class="col-12 mt-3">
+                            <table class="table table-bordered table-sm text-center" id="tabla_encomiendas">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th><input type="checkbox" id="check_all_encomiendas"></th>
+                                        <th>#</th>
+                                        <th>Emisor</th>
+                                        <th>Receptor</th>
+                                        <th>Pago</th>
+                                        <th>Por pagar</th>
+                                        <th>A domicilio</th>
+                                        <th>Estado pago</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Aquí se llenarán dinámicamente las encomiendas -->
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="8" class="text-right">Total encomiendas: <span id="total_encomiendas">0</span></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
 
                         <!-- OBSERVACIONES -->
                         <div class="col-12 form-group mt-3">

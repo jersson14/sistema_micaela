@@ -163,11 +163,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p style="color:white">Gestión de clientes</p>
                 </a>
               </li>
-             <li class="nav-item">
+              <li class="nav-item">
                 <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas.php')" class="nav-link">
-                      <i class="nav-icon fas fa-calendar-check"></i>
-                      <p style="color:white">Reservas</p>
-                  </a>
+                  <i class="nav-icon fas fa-calendar-check"></i>
+                  <p style="color:white">Reservas</p>
+                </a>
               </li>
 
               <li class="nav-item">
@@ -402,9 +402,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
               <li class="nav-item">
                 <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php')" class="nav-link">
-                      <i class="nav-icon fas fa-calendar-check"></i>
-                      <p style="color:white">Reservas</p>
-                  </a>
+                  <i class="nav-icon fas fa-calendar-check"></i>
+                  <p style="color:white">Reservas</p>
+                </a>
               </li>
 
               <li class="nav-item">
@@ -836,7 +836,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_encomiendas_dia"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-calendar-day"></i>
+                        <i class="fas fa-box"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -851,7 +851,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_encomiendas_semanales"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-calendar-week"></i>
+                        <i class="fas fa-box"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -866,7 +866,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_encomiendas_mes"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-calendar-alt"></i>
+                        <i class="fas fa-box"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -881,7 +881,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_encomiendas"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-boxes"></i>
+                        <i class="fas fa-box"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -906,7 +906,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_salidas_dia"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-truck-loading"></i>
+                        <i class="fas fa-route"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -921,7 +921,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_salidas_semana"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-shipping-fast"></i>
+                        <i class="fas fa-route"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -936,7 +936,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_salidas_mes"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-map-marked-alt"></i>
+                        <i class="fas fa-route"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -951,7 +951,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_salidas_diarias"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-clock"></i>
+                        <i class="fas fa-route"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -959,7 +959,75 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                   </div>
                 </div>
+                <!-- Sección de Reservas -->
+                <div class="row mb-3 mt-4">
+                  <div class="col-12">
+                    <h6 class="text-danger"><i class="fas fa-route"></i> <b>CONTROL DE RESERVAS</b></h6>
+                    <hr style="border-top: 2px solid #df1616ff;">
+                  </div>
+                </div>
 
+                <div class="row">
+                  <div class="col-lg-3 col-6">
+                    <div class="small-box bg-dark">
+                      <div class="inner">
+                        <b>Reservas pendientes del Día</b>
+                        <h3 id="total_reservas_pendientes_dia"><sup style="font-size: 20px"></sup></h3>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                      </div>
+                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas.php.php.php')" class="small-box-footer">
+                        <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                      <div class="inner">
+                        <b>Total Reservas Semanales</b>
+                        <h3 id="total_reservas_semana"><sup style="font-size: 20px"></sup></h3>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                      </div>
+                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas.php.php.php')" class="small-box-footer">
+                        <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-6">
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <b>Total Reservas del Mes</b>
+                        <h3 id="total_reservas_mes"><sup style="font-size: 20px"></sup></h3>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                      </div>
+                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas.php.php.php')" class="small-box-footer">
+                        <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-6">
+                    <div class="small-box bg-warning">
+                      <div class="inner">
+                        <b>Total Reservas</b>
+                        <h3 id="total_reservas"><sup style="font-size: 20px"></sup></h3>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                      </div>
+                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas.php.php.php')" class="small-box-footer">
+                        <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
                 <!-- Sección Financiera -->
                 <div class="row mb-3 mt-4">
                   <div class="col-12">
@@ -976,7 +1044,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_ingresos_hoy"><span></span></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-cash-register"></i>
+                        <i class="fas fa-arrow-down"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','ingresos/view_ingresos.php')" class="small-box-footer">
                         <b>Ver Ingresos</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -991,7 +1059,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_gastos_hoy">S/. <span>0</span></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-credit-card"></i>
+                        <i class="fas fa-arrow-up"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','gastos/view_gastos.php')" class="small-box-footer">
                         <b>Ver Gastos</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -1006,7 +1074,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_ingresos_mes_actual">S/. <span>0</span></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-chart-line"></i>
+                        <i class="fas fa-arrow-down"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','ingresos/view_ingresos.php')" class="small-box-footer">
                         <b>Ver Ingresos</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -1021,7 +1089,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <h3 id="total_gastos_mes_actual">S/. <span>0</span></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-chart-line-down"></i>
+                        <i class="fas fa-arrow-up"></i>
                       </div>
                       <a href="#" onclick="cargar_contenido('contenido_principal','gastos/view_gastos.php')" class="small-box-footer">
                         <b>Ver Gastos</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
@@ -1260,7 +1328,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="card card-primary">
             <div class="card-header py-2" style="background: linear-gradient(135deg, #023D77, #0266C8)">
               <h5 class="m-0" style="font-family:cooper; text-align:center; line-height: 1; padding: 0;">
-                <i class="fas fa-chart-pie" style="margin-right: 8px;"></i>PANEL DE CONTROL EJECUTIVO
+                <i class="fas fa-chart-pie" style="margin-right: 8px;"></i>PANEL DE CONTROL EJECUTIVO POR SUCURSAL
               </h5>
               <div class="card-tools" style="position: absolute; right: 10px; top: 5px;">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -1276,7 +1344,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- Sección de Encomiendas -->
                 <div class="row mb-3 mt-4">
                   <div class="col-12">
-                    <h6 class="text-success"><i class="fas fa-box"></i> <b>GESTIÓN DE ENCOMIENDAS</b></h6>
+                    <h6 class="text-success"><i class="fas fa-box"></i> <b>GESTIÓN DE ENVIO DE ENCOMIENDAS</b></h6>
                     <hr style="border-top: 2px solid #28a745;">
                   </div>
                 </div>
@@ -1286,12 +1354,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="small-box bg-dark">
                       <div class="inner">
                         <b>Encomiendas del Día</b>
-                        <h3 id="total_encomiendas_dia"><sup style="font-size: 20px"></sup></h3>
+                        <h3 id="total_encomiendas_dia_asis"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-calendar-day"></i>
+                        <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
+                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php.php')" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1301,12 +1369,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="small-box bg-success">
                       <div class="inner">
                         <b>Encomiendas Semanales</b>
-                        <h3 id="total_encomiendas_semanales"><sup style="font-size: 20px"></sup></h3>
+                        <h3 id="total_encomiendas_semanales_asis"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-calendar-week"></i>
+                        <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
+                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php.php')" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1316,12 +1384,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="small-box bg-info">
                       <div class="inner">
                         <b>Encomiendas del Mes</b>
-                        <h3 id="total_encomiendas_mes"><sup style="font-size: 20px"></sup></h3>
+                        <h3 id="total_encomiendas_mes_asis"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-calendar-alt"></i>
+                        <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
+                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php.php')" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1331,12 +1399,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="small-box bg-warning">
                       <div class="inner">
                         <b>Total de Encomiendas</b>
-                        <h3 id="total_encomiendas"><sup style="font-size: 20px"></sup></h3>
+                        <h3 id="total_encomiendas_asis"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-boxes"></i>
+                        <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
+                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php.php')" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1356,12 +1424,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="small-box bg-dark">
                       <div class="inner">
                         <b>Salidas del Día</b>
-                        <h3 id="total_salidas_dia"><sup style="font-size: 20px"></sup></h3>
+                        <h3 id="total_salidas_dia_asis"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-truck-loading"></i>
+                        <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
+                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php.php')" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1371,12 +1439,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="small-box bg-success">
                       <div class="inner">
                         <b>Salidas Semanales</b>
-                        <h3 id="total_salidas_semana"><sup style="font-size: 20px"></sup></h3>
+                        <h3 id="total_salidas_semana_asis"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-shipping-fast"></i>
+                        <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
+                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php.php')" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1386,12 +1454,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="small-box bg-info">
                       <div class="inner">
                         <b>Salidas del Mes</b>
-                        <h3 id="total_salidas_mes"><sup style="font-size: 20px"></sup></h3>
+                        <h3 id="total_salidas_mes_asis"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-map-marked-alt"></i>
+                        <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
+                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php.php')" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1401,19 +1469,87 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="small-box bg-warning">
                       <div class="inner">
                         <b>Total Salidas Diarias</b>
-                        <h3 id="total_salidas_diarias"><sup style="font-size: 20px"></sup></h3>
+                        <h3 id="total_salidas_diarias_asis"><sup style="font-size: 20px"></sup></h3>
                       </div>
                       <div class="icon">
-                        <i class="fas fa-clock"></i>
+                        <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
+                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php.php')" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
                   </div>
                 </div>
 
+                <!-- Sección de Reservas -->
+                <div class="row mb-3 mt-4">
+                  <div class="col-12">
+                    <h6 class="text-danger"><i class="fas fa-route"></i> <b>CONTROL DE RESERVAS</b></h6>
+                    <hr style="border-top: 2px solid #df1616ff;">
+                  </div>
+                </div>
 
+                <div class="row">
+                  <div class="col-lg-3 col-6">
+                    <div class="small-box bg-dark">
+                      <div class="inner">
+                        <b>Reservas pendientes del Día</b>
+                        <h3 id="total_reservas_pendientes_dia_asis"><sup style="font-size: 20px"></sup></h3>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                      </div>
+                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php.php')" class="small-box-footer">
+                        <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                      <div class="inner">
+                        <b>Total Reservas Semanales</b>
+                        <h3 id="total_reservas_semana_asis"><sup style="font-size: 20px"></sup></h3>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                      </div>
+                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php.php')" class="small-box-footer">
+                        <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-6">
+                    <div class="small-box bg-info">
+                      <div class="inner">
+                        <b>Total Reservas del Mes</b>
+                        <h3 id="total_reservas_mes_asis"><sup style="font-size: 20px"></sup></h3>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                      </div>
+                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php.php')" class="small-box-footer">
+                        <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-6">
+                    <div class="small-box bg-warning">
+                      <div class="inner">
+                        <b>Total Reservas</b>
+                        <h3 id="total_reservas_asis"><sup style="font-size: 20px"></sup></h3>
+                      </div>
+                      <div class="icon">
+                        <i class="fas fa-calendar-check"></i>
+                      </div>
+                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php.php')" class="small-box-footer">
+                        <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
 
                 <!-- Sección de Comprobantes -->
                 <div class="row mb-3 mt-4">
@@ -1510,260 +1646,267 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <?php
       }
       ?>
-     <?php if ($_SESSION['S_ROL'] == "5") { ?>
+      <?php if ($_SESSION['S_ROL'] == "5") { ?>
 
-<div class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0"><i class="fas fa-home"></i>
-          <b>BIENVENIDOS AL SISTEMA - TOURS MICAELA</b>
-        </h1>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i> INICIO</a></li>
-          <li class="breadcrumb-item active">DASHBOARD PRINCIPAL</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Tarjeta de fecha, hora y botón de registro -->
-<div class="col-md-12 mb-4">
-  <div class="card card-outline card-primary shadow-lg" style="border: none; border-radius: 15px; overflow: hidden;">
-    <div class="card-body text-center py-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative;">
-      <!-- Efectos decorativos -->
-      <div style="position: absolute; top: -50px; left: -50px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; animation: float 3s ease-in-out infinite;"></div>
-      <div style="position: absolute; top: 20px; right: -30px; width: 60px; height: 60px; background: rgba(255,255,255,0.08); border-radius: 50%; animation: float 4s ease-in-out infinite reverse;"></div>
-      <div style="position: absolute; bottom: -30px; left: 50%; width: 80px; height: 80px; background: rgba(255,255,255,0.05); border-radius: 50%; transform: translateX(-50%); animation: float 5s ease-in-out infinite;"></div>
-
-      <!-- Contenido principal -->
-      <div class="row align-items-center">
-        <div class="col-md-4">
-          <div class="d-flex align-items-center justify-content-center">
-            <div class="text-center">
-              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
-                <i class="far fa-calendar-alt text-white" style="font-size: 2rem;"></i>
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1 class="m-0"><i class="fas fa-home"></i>
+                  <b>BIENVENIDOS AL SISTEMA - TOURS MICAELA</b>
+                </h1>
               </div>
-              <h4 class="text-white mb-1" style="font-weight: 600; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-size: 1.3rem;">
-                <span id="fecha_actual">Cargando fecha...</span>
-              </h4>
-              <p class="text-white-50 mb-0" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">
-                Fecha actual
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="d-flex align-items-center justify-content-center">
-            <div class="text-center">
-              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
-                <i class="far fa-clock text-white" style="font-size: 2rem;"></i>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i> INICIO</a></li>
+                  <li class="breadcrumb-item active">DASHBOARD PRINCIPAL</li>
+                </ol>
               </div>
-              <h4 class="text-white mb-1" style="font-weight: 600; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-family: 'Courier New', monospace; font-size: 1.3rem;">
-                <span id="hora_actual">00:00:00</span>
-              </h4>
-              <p class="text-white-50 mb-0" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">
-                Hora actual
-              </p>
             </div>
           </div>
         </div>
 
-        <div class="col-md-4">
-          <div class="d-flex align-items-center justify-content-center">
-            <div class="text-center">
-              <a onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_con.php')" class="btn btn-lg text-white shadow-lg" style="background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 50px; padding: 15px 35px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; backdrop-filter: blur(10px); text-decoration: none; font-size: 0.95rem;">
-                <i class="fas fa-bus" style="font-size: 1.5rem; margin-bottom: 8px; display: block;"></i>
-                Registrar<br>Salida Diaria
-              </a>
+        <!-- Tarjeta de fecha, hora y botón de registro -->
+        <div class="col-md-12 mb-4">
+          <div class="card card-outline card-primary shadow-lg" style="border: none; border-radius: 15px; overflow: hidden;">
+            <div class="card-body text-center py-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative;">
+              <!-- Efectos decorativos -->
+              <div style="position: absolute; top: -50px; left: -50px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%; animation: float 3s ease-in-out infinite;"></div>
+              <div style="position: absolute; top: 20px; right: -30px; width: 60px; height: 60px; background: rgba(255,255,255,0.08); border-radius: 50%; animation: float 4s ease-in-out infinite reverse;"></div>
+              <div style="position: absolute; bottom: -30px; left: 50%; width: 80px; height: 80px; background: rgba(255,255,255,0.05); border-radius: 50%; transform: translateX(-50%); animation: float 5s ease-in-out infinite;"></div>
+
+              <!-- Contenido principal -->
+              <div class="row align-items-center">
+                <div class="col-md-4">
+                  <div class="d-flex align-items-center justify-content-center">
+                    <div class="text-center">
+                      <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                        <i class="far fa-calendar-alt text-white" style="font-size: 2rem;"></i>
+                      </div>
+                      <h4 class="text-white mb-1" style="font-weight: 600; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-size: 1.3rem;">
+                        <span id="fecha_actual">Cargando fecha...</span>
+                      </h4>
+                      <p class="text-white-50 mb-0" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">
+                        Fecha actual
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="d-flex align-items-center justify-content-center">
+                    <div class="text-center">
+                      <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                        <i class="far fa-clock text-white" style="font-size: 2rem;"></i>
+                      </div>
+                      <h4 class="text-white mb-1" style="font-weight: 600; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-family: 'Courier New', monospace; font-size: 1.3rem;">
+                        <span id="hora_actual">00:00:00</span>
+                      </h4>
+                      <p class="text-white-50 mb-0" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">
+                        Hora actual
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="d-flex align-items-center justify-content-center">
+                    <div class="text-center">
+                      <a onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_con.php')" class="btn btn-lg text-white shadow-lg" style="background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 50px; padding: 15px 35px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; backdrop-filter: blur(10px); text-decoration: none; font-size: 0.95rem;">
+                        <i class="fas fa-bus" style="font-size: 1.5rem; margin-bottom: 8px; display: block;"></i>
+                        Registrar<br>Salida Diaria
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Información adicional -->
+              <div class="row mt-4">
+                <div class="col-12">
+                  <div class="d-flex justify-content-center align-items-center flex-wrap" style="background: rgba(255,255,255,0.1); border-radius: 25px; padding: 10px 20px; backdrop-filter: blur(10px);">
+                    <i class="fas fa-map-marker-alt text-white me-2" style="font-size: 1.2rem;"></i>
+                    <span class="text-white" style="font-weight: 500; margin-left: 8px;">
+                      Sistema de Transporte - Abancay - Cusco y Viceversa
+                    </span>
+                    <span class="text-white-50 mx-3">|</span>
+                    <i class="fas fa-user-tie text-white me-2" style="font-size: 1.2rem;"></i>
+                    <span class="text-white" style="font-weight: 500; margin-left: 8px;">
+                      Panel Conductor
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Información adicional -->
-      <div class="row mt-4">
-        <div class="col-12">
-          <div class="d-flex justify-content-center align-items-center flex-wrap" style="background: rgba(255,255,255,0.1); border-radius: 25px; padding: 10px 20px; backdrop-filter: blur(10px);">
-            <i class="fas fa-map-marker-alt text-white me-2" style="font-size: 1.2rem;"></i>
-            <span class="text-white" style="font-weight: 500; margin-left: 8px;">
-              Sistema de Transporte - Abancay - Cusco y Viceversa
-            </span>
-            <span class="text-white-50 mx-3">|</span>
-            <i class="fas fa-user-tie text-white me-2" style="font-size: 1.2rem;"></i>
-            <span class="text-white" style="font-weight: 500; margin-left: 8px;">
-              Panel Conductor
-            </span>
+        <!-- Tarjeta de fotografías lado a lado -->
+        <div class="col-md-12">
+          <div class="card card-primary">
+            <div class="card-header py-2" style="background: linear-gradient(135deg, #023D77, #0266C8)">
+              <h5 class="m-0 text-center" style="font-family:cooper; line-height: 1;">
+                <i class="fas fa-image" style="margin-right: 8px;"></i>NUESTRAS RUTAS
+              </h5>
+            </div>
+
+            <div class="card-body p-0">
+              <div class="row g-0">
+                <!-- Foto Cusco -->
+                <div class="col-md-6 position-relative foto-container">
+                  <img src="../Fotos/1.jpg" class="img-fluid w-100" alt="Cusco" style="height: 350px; object-fit: contain; background: #f8f9fa;">
+                  <div class="foto-overlay">
+                    <div class="foto-text">
+                      <i class="fas fa-map-marker-alt mb-2" style="font-size: 2.5rem;"></i>
+                      <h3 class="font-weight-bold">CUSCO</h3>
+                      <p class="mb-0">Ciudad Imperial del Perú</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Foto Abancay -->
+                <div class="col-md-6 position-relative foto-container">
+                  <img src="../Fotos/10.jpg" class="img-fluid w-100" alt="Abancay" style="height: 350px; object-fit: contain; background: #f8f9fa;">
+                  <div class="foto-overlay">
+                    <div class="foto-text">
+                      <i class="fas fa-map-marker-alt mb-2" style="font-size: 2.5rem;"></i>
+                      <h3 class="font-weight-bold">ABANCAY</h3>
+                      <p class="mb-0">Capital de Apurímac</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Tarjeta de fotografías lado a lado -->
-<div class="col-md-12">
-  <div class="card card-primary">
-    <div class="card-header py-2" style="background: linear-gradient(135deg, #023D77, #0266C8)">
-      <h5 class="m-0 text-center" style="font-family:cooper; line-height: 1;">
-        <i class="fas fa-image" style="margin-right: 8px;"></i>NUESTRAS RUTAS
-      </h5>
-    </div>
+        <!-- Estilos CSS -->
+        <style>
+          @keyframes float {
 
- <div class="card-body p-0">
-  <div class="row g-0">
-    <!-- Foto Cusco -->
-    <div class="col-md-6 position-relative foto-container">
-      <img src="../Fotos/1.jpg" class="img-fluid w-100" alt="Cusco" style="height: 350px; object-fit: contain; background: #f8f9fa;">
-      <div class="foto-overlay">
-        <div class="foto-text">
-          <i class="fas fa-map-marker-alt mb-2" style="font-size: 2.5rem;"></i>
-          <h3 class="font-weight-bold">CUSCO</h3>
-          <p class="mb-0">Ciudad Imperial del Perú</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Foto Abancay -->
-    <div class="col-md-6 position-relative foto-container">
-      <img src="../Fotos/10.jpg" class="img-fluid w-100" alt="Abancay" style="height: 350px; object-fit: contain; background: #f8f9fa;">
-      <div class="foto-overlay">
-        <div class="foto-text">
-          <i class="fas fa-map-marker-alt mb-2" style="font-size: 2.5rem;"></i>
-          <h3 class="font-weight-bold">ABANCAY</h3>
-          <p class="mb-0">Capital de Apurímac</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-  </div>
-</div>
+            0%,
+            100% {
+              transform: translateY(0px);
+            }
 
-<!-- Estilos CSS -->
-<style>
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
+            50% {
+              transform: translateY(-10px);
+            }
+          }
 
-  @keyframes pulse {
-    0%, 100% {
-      opacity: 0.8;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
+          @keyframes pulse {
 
-  .card-outline.card-primary {
-    transition: all 0.3s ease;
-  }
+            0%,
+            100% {
+              opacity: 0.8;
+            }
 
-  .card-outline.card-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(0, 123, 255, 0.3) !important;
-  }
+            50% {
+              opacity: 1;
+            }
+          }
 
-  #fecha_actual, #hora_actual {
-    animation: pulse 2s infinite;
-  }
+          .card-outline.card-primary {
+            transition: all 0.3s ease;
+          }
 
-  .btn:hover {
-    background: rgba(255,255,255,0.35) !important;
-    border-color: rgba(255,255,255,0.7) !important;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3) !important;
-  }
+          .card-outline.card-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 123, 255, 0.3) !important;
+          }
 
-  .foto-container {
-    overflow: hidden;
-    position: relative;
-  }
+          #fecha_actual,
+          #hora_actual {
+            animation: pulse 2s infinite;
+          }
 
-  .foto-container img {
-    transition: transform 0.5s ease;
-  }
+          .btn:hover {
+            background: rgba(255, 255, 255, 0.35) !important;
+            border-color: rgba(255, 255, 255, 0.7) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+          }
 
-  .foto-container:hover img {
-    transform: scale(1.05);
-  }
+          .foto-container {
+            overflow: hidden;
+            position: relative;
+          }
 
-  .foto-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 30px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
+          .foto-container img {
+            transition: transform 0.5s ease;
+          }
 
-  .foto-container:hover .foto-overlay {
-    opacity: 1;
-  }
+          .foto-container:hover img {
+            transform: scale(1.05);
+          }
 
-  .foto-text {
-    color: white;
-    text-align: center;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-  }
+          .foto-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 30px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+          }
 
-  .foto-text h3 {
-    font-size: 2rem;
-    margin-bottom: 5px;
-    letter-spacing: 2px;
-  }
+          .foto-container:hover .foto-overlay {
+            opacity: 1;
+          }
 
-  .foto-text p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-  }
+          .foto-text {
+            color: white;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+          }
 
-  @media (max-width: 768px) {
-    .foto-container img {
-      height: 300px !important;
-    }
-    
-    .col-md-4 {
-      margin-bottom: 20px;
-    }
-  }
-</style>
+          .foto-text h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+          }
 
-<script>
-  function actualizarFechaHora() {
-    const ahora = new Date();
-    const opciones = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    };
+          .foto-text p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+          }
 
-    document.getElementById('fecha_actual').textContent = ahora.toLocaleDateString('es-ES', opciones);
-    document.getElementById('hora_actual').textContent = ahora.toLocaleTimeString('es-ES');
-  }
-  
-  // Actualizar cada segundo
-  setInterval(actualizarFechaHora, 1000);
-  actualizarFechaHora(); // Ejecutar inmediatamente
-</script>
+          @media (max-width: 768px) {
+            .foto-container img {
+              height: 300px !important;
+            }
 
-<?php } ?>
+            .col-md-4 {
+              margin-bottom: 20px;
+            }
+          }
+        </style>
+
+        <script>
+          function actualizarFechaHora() {
+            const ahora = new Date();
+            const opciones = {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            };
+
+            document.getElementById('fecha_actual').textContent = ahora.toLocaleDateString('es-ES', opciones);
+            document.getElementById('hora_actual').textContent = ahora.toLocaleTimeString('es-ES');
+          }
+
+          // Actualizar cada segundo
+          setInterval(actualizarFechaHora, 1000);
+          actualizarFechaHora(); // Ejecutar inmediatamente
+        </script>
+
+      <?php } ?>
     </div>
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
@@ -1897,12 +2040,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
     Total_salidas_semana();
     Total_salidas_mes();
     Total_salidas();
+
+    Total_reservas_dia();
+    Total_reservas_semana();
+    Total_reservas_mes();
+    Total_reservas();
+
     Total_ingresos_hoy();
     Total_gastos_hoy();
     Total_ingresos_mes_actual();
     Total_gastos_mes_actual();
+    //asistentete
+    Total_salidas_dia_asis();
+    Total_salidas_semana_asis();
+    Total_salidas_mes_asis();
+    Total_salidas_asis();
 
+    Total_encomiendas_dia_asis();
+    Total_encomiendas_semana_asis();
+    Total_encomiendas_mes_asis();
+    Total_encomiendas_asis();
 
+    Total_reservas_pendientes_dia_asis();
+    Total_reservas_semanales_asis();
+    Total_reservas_mes_asis();
+    Total_reservas_asis();
   });
 </script>
 

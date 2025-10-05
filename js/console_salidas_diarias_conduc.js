@@ -1153,6 +1153,15 @@ function Cargar_Select_Rutas() {
     $("#select_destino_bus").html(cadena);
     $("#select_origen_editar").html(cadena);
     $("#select_destino_editar").html(cadena);
+       $("#select_origen, #select_destino").off('change').on('change', function() {
+      let origen = $("#select_origen").val();
+      let destino = $("#select_destino").val();
+      
+      // Solo cargar reservas si ambos están seleccionados
+      if (origen && destino) {
+        Cargar_Select_Reservas();
+      }
+    });
   });
 }
 
@@ -2574,4 +2583,95 @@ function Modificar_Detalle_Pasajeros(idSalida) {
       Swal.fire("Error", "Error al modificar los pasajeros.", "error");
     },
   });
+}
+
+
+
+function Cargar_Select_Reservas() {
+  let ori = $("#select_origen").val();
+  let des = $("#select_destino").val();
+  
+  if (!ori || !des) {
+    $("#select_reservas").html("<option value='' disabled selected>Primero seleccione origen y destino</option>");
+    return;
+  }
+  
+  $.ajax({
+    url: "../controller/reservas/controlador_cargar_select_reservas.php",
+    type: "POST",
+    data: { ori: ori, des: des },
+  }).done(function (resp) {
+    let data = JSON.parse(resp);
+    let cadena = "<option value='' disabled selected>Seleccione una reserva</option>";
+    
+    if (data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        // data[i][0] = id_reserva
+        // data[i][1] = tipo_documento
+        // data[i][2] = nro_documento
+        // data[i][3] = nombre_completo
+        // data[i][4] = celular
+        // data[i][5] = edad
+        cadena +=
+          "<option value='" + data[i][0] + "'" +
+          " data-tipodoc='" + data[i][1] + "'" +
+          " data-dni='" + data[i][2] + "'" +
+          " data-nombre='" + data[i][3] + "'" +
+          " data-celular='" + data[i][4] + "'" +
+          " data-edad='" + data[i][5] + "'>" +
+          "DNI: " + data[i][2] + 
+          " - " + data[i][3] + 
+          " - CEL: " + data[i][4] + 
+          "</option>";
+      }
+    } else {
+      cadena += "<option value=''>No hay reservas disponibles</option>";
+    }
+    $("#select_reservas").html(cadena);
+  });
+}
+
+function agregarPasajeroDesdeReserva() {
+  var reservaSeleccionada = $("#select_reservas").val();
+  
+  if (!reservaSeleccionada) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "Debe seleccionar una reserva",
+      "warning"
+    );
+  }
+
+  var optionSeleccionado = $("#select_reservas option:selected");
+  var tipodoc = optionSeleccionado.data("tipodoc");
+  var dni = optionSeleccionado.data("dni");
+  var nombre = optionSeleccionado.data("nombre");
+  var celular = optionSeleccionado.data("celular");
+  var edad = optionSeleccionado.data("edad");
+
+  if (verificarDocumento(dni)) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "Este pasajero ya fue agregado a la tabla",
+      "warning"
+    );
+  }
+
+  var filasExistentes = document.querySelectorAll("#tabla_pasajeros tbody tr").length;
+  var fila = "<tr>";
+  fila += "<td>" + (filasExistentes + 1) + "</td>";
+  fila += "<td>" + tipodoc + "</td>";
+  fila += "<td>" + dni + "</td>";
+  fila += "<td>" + nombre + "</td>";
+  fila += "<td>" + (edad || "N/A") + "</td>";
+  fila += "<td>" + (celular || "N/A") + "</td>";
+  fila += "<td><button class='btn btn-danger btn-sm' onclick='removePasajero(this)'><i class='fas fa-trash'></i></button></td>";
+  fila += "</tr>";
+
+  $("#tabla_pasajeros tbody").append(fila);
+  actualizarTotalPasajeros();
+
+  $("#select_reservas").val('').trigger('change');
+
+ 
 }
