@@ -1191,8 +1191,98 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </script>
         <!-- Script para actualizar fecha y hora -->
 
+   <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <!-- /.col-md-6 -->
+              <div class="col-lg-12">
+                <div class="card-primary">
+                  <div class="card-header">
+                    <h5 class="m-0" style="font-family:cooper;text-align:center"><i class="fas fa-bullhorn"></i><b> VENCIMIENTO DE LICENCIAS</b></h5>
+                  </div>
+                  <div class="table-responsive" style="text-align:center">
+                    <div class="card-body" style="overflow: hidden; border-radius: 20px;">
+                      <table id="tabla_choferes_vencidos" class="table table-striped table-bordered" style="width:100%; border-radius: 20px; overflow: hidden;">
+                        <thead style="background-color:#023D77;color:white;">
+                          <tr>
+                            <th style="text-align:center">Nro.</th>
+                            <th style="text-align:center">Tipo Doc y N°</th>
+                            <th style="text-align:center">Conductor</th>
+                            <th style="text-align:center">Vehículo</th>
+                            <th style="text-align:center">Licencia</th>
+                            <th style="text-align:center">Categoria</th>
+                            <th style="text-align:center">Fecha de vencimiento</th>
+                            <th style="text-align:center">Vista</th>
+                            <th style="text-align:center">Estado</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.col-md-6 -->
+              </div>
+              <!-- /.row -->
+            </div><!-- /.container-fluid -->
+          </div>
+        </div>
+<!-- Modal Mejorado de Alertas de Vencimiento -->
+<div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="modalAlertaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden;">
+      <!-- El contenido se genera dinámicamente desde JavaScript -->
+    </div>
+  </div>
+</div>
 
-      <?php } ?>
+<style>
+  /* Animación de entrada del modal */
+  .modal.fade .modal-dialog {
+    transition: transform 0.4s ease-out;
+    transform: translateY(-100px);
+  }
+  
+  .modal.show .modal-dialog {
+    transform: translateY(0);
+  }
+  
+  /* Efectos hover en las filas de información */
+  .info-row:hover {
+    background-color: #f8f9fa !important;
+    transition: background-color 0.3s ease;
+    cursor: default;
+  }
+  
+  /* Animación del botón */
+  .btn-alerta {
+    transition: all 0.3s ease;
+  }
+  
+  .btn-alerta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3) !important;
+  }
+  
+  .btn-alerta:active {
+    transform: scale(0.98);
+  }
+  
+  /* Efecto de pulso en el icono principal */
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  
+  .icon-pulse {
+    animation: pulse 2s infinite;
+  }
+</style>
+
+      <?php } ?> 
       <?php if ($_SESSION['S_ROL'] == "2") { ?>
 
         <div class="content-header">
@@ -1625,6 +1715,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
           </div>
         </div>
+         
         <script>
           function actualizarFechaHora() {
             const ahora = new Date();
@@ -2022,6 +2113,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="../js/console_usuario.js?rev=<?php echo time(); ?>"></script>
+  <script src="../js/console_choferes.js?php echo time(); ?>"></script>
 
 </body>
 
@@ -2065,6 +2157,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     Total_reservas_semanales_asis();
     Total_reservas_mes_asis();
     Total_reservas_asis();
+    listar_choferes_vencidos();
   });
 </script>
 

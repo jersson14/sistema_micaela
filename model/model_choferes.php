@@ -16,6 +16,19 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }   
+          public function Listar_Choferes_vencidos(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_CHOFERES_VENCIDOS()";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }   
         public function Registrar_choferes($tipo_doc,$documentoFinal,$nom_ape,$celu,$celu2,$proc,$dire,$ruta,$marca,$placa,$clase_cate,$nro_lice,$fec_ven,$idusuario){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_REGISTRAR_CHOFERES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
