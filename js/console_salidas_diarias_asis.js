@@ -2388,11 +2388,7 @@ function Registrar_Detalle_Encomiendas(idSalida) {
 
   if (encomiendas.length === 0) {
     console.log("No hay encomiendas seleccionadas");
-    Swal.fire(
-      "Advertencia",
-      "No hay encomiendas seleccionadas para registrar.",
-      "warning"
-    );
+    // NO MOSTRAR ALERTA AQUÍ - es normal que no siempre haya encomiendas
     return;
   }
 
@@ -2413,20 +2409,18 @@ function Registrar_Detalle_Encomiendas(idSalida) {
     },
     success: function (resp) {
       console.log("Respuesta del servidor:", resp);
-      if (resp == 1) {
-        Swal.fire("Éxito", "Encomiendas registradas correctamente.", "success");
-      } else {
-        console.log("Error en la respuesta:", resp);
-        Swal.fire(
-          "Advertencia",
-          "No se pudieron registrar algunas encomiendas: " + resp,
-          "warning"
-        );
+      // ELIMINAR ESTE SWAL - Ya se mostró el mensaje principal
+      // if (resp == 1) {
+      //   Swal.fire("Éxito", "Encomiendas registradas correctamente.", "success");
+      // }
+      if (resp != 1) {
+        console.error("Error al registrar encomiendas:", resp);
+        // Solo mostrar error si falla
       }
     },
     error: function (xhr, status, error) {
       console.error("Error AJAX:", { xhr, status, error });
-      Swal.fire("Error", "Error al registrar las encomiendas.", "error");
+      // Solo mantener log del error, no mostrar Swal aquí
     },
   });
 }
@@ -2551,15 +2545,15 @@ function listar_encomiendas(id) {
     searching: false,
     paging: false,
     info: false,
-    processing: false,
+    processing: true, // Cambiado a true para mostrar "Cargando..."
     dom: "t",
     columnDefs: [
       {
-        targets: [0, 1, 2, 3, 4, 5], // Todas las columnas excepto la última
+        targets: [0, 1, 2, 3, 4, 5],
         className: "text-center",
       },
       {
-        targets: [6], // Solo la columna del estado
+        targets: [6],
         className: "text-center align-middle",
       },
     ],
@@ -2569,17 +2563,42 @@ function listar_encomiendas(id) {
       data: { id: id },
       dataSrc: function (json) {
         console.log("Respuesta JSON encomiendas:", json);
-        // Actualizar contador de encomiendas
-        if (json.data && json.data.length > 0) {
-          $("#total_encomiendas_mostrar").text(json.data.length);
-        } else {
+        
+        // Validar que json y json.data existan
+        if (!json || typeof json !== 'object') {
+          console.error("Respuesta inválida del servidor");
           $("#total_encomiendas_mostrar").text(0);
+          return [];
         }
+        
+        // Si no tiene la propiedad data, crear un array vacío
+        if (!json.data || !Array.isArray(json.data)) {
+          console.log("No hay datos de encomiendas o formato incorrecto");
+          $("#total_encomiendas_mostrar").text(0);
+          return [];
+        }
+        
+        // Actualizar contador de encomiendas
+        $("#total_encomiendas_mostrar").text(json.data.length);
         return json.data;
       },
       error: function (xhr, error, thrown) {
-        console.error("Error cargando encomiendas:", error, thrown);
+        console.error("Error cargando encomiendas:", {
+          status: xhr.status,
+          error: error,
+          thrown: thrown,
+          response: xhr.responseText
+        });
         $("#total_encomiendas_mostrar").text(0);
+        
+        // Mostrar mensaje de error al usuario
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar encomiendas',
+          text: 'No se pudieron cargar las encomiendas. Por favor, intente nuevamente.',
+          timer: 3000,
+          showConfirmButton: false
+        });
       },
     },
     columns: [
@@ -2602,14 +2621,14 @@ function listar_encomiendas(id) {
         data: "pago",
         width: "12%",
         render: function (data, type, row) {
-          return "S/ " + parseFloat(data).toFixed(2);
+          return "S/ " + parseFloat(data || 0).toFixed(2);
         },
       },
       {
         data: "por_pagar",
         width: "12%",
         render: function (data, type, row) {
-          return "S/ " + parseFloat(data).toFixed(2);
+          return "S/ " + parseFloat(data || 0).toFixed(2);
         },
       },
       {
@@ -2642,6 +2661,7 @@ function listar_encomiendas(id) {
       emptyTable: "No hay encomiendas registradas",
       zeroRecords: "No se encontraron encomiendas",
       loadingRecords: "Cargando encomiendas...",
+      processing: "Cargando...",
     },
   });
 }

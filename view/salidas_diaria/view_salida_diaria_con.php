@@ -214,40 +214,7 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-
-                        <!-- SECCION ENCOMIENDAS -->
-                        <div class="col-12 mt-4">
-                            <li class="header text-center" style="color:#FFFFFF;background-color:Black;">
-                                <b>ENCOMIENDAS</b>
-                            </li>
-                        </div>
-                        <!-- SOLO TABLA DE ENCOMIENDAS -->
-                        <div class="col-12 mt-3">
-                            <table class="table table-bordered table-sm text-center" id="tabla_encomiendas">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th><input type="checkbox" id="check_all_encomiendas"></th>
-                                        <th>#</th>
-                                        <th>Emisor</th>
-                                        <th>Receptor</th>
-                                        <th>Pago</th>
-                                        <th>Por pagar</th>
-                                        <th>A domicilio</th>
-                                        <th>Estado pago</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Aquí se llenarán dinámicamente las encomiendas -->
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="8" class="text-right">Total encomiendas: <span id="total_encomiendas">0</span></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-
+                        </div>                     
                         <!-- OBSERVACIONES -->
                         <div class="col-12 form-group mt-3">
                             <label>Descripción u Observación de la salida(Opcional):</label>

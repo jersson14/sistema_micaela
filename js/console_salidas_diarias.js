@@ -808,6 +808,51 @@ function listar_salidas_diarias_fecha_usu() {
 
 //ABRIR MODAL REGISTRO
 function AbrirRegistro() {
+  console.log("Abriendo modal de registro");
+  
+  // 1. PRIMERO: Cargar los datos en los selects
+  Cargar_Select_Conductores();
+  Cargar_Select_Rutas();
+  
+  // 2. SEGUNDO: Inicializar Select2 si no está inicializado
+  // Usar setTimeout para asegurar que los datos se carguen primero
+  setTimeout(function() {
+    if (!$("#select_conductor").hasClass("select2-hidden-accessible")) {
+      $("#select_conductor").select2({
+        placeholder: "Seleccionar Conductor",
+        allowClear: true,
+        dropdownParent: $("#modal_registro"),
+      });
+      console.log("Select2 conductor inicializado");
+    }
+    
+    if (!$("#select_origen").hasClass("select2-hidden-accessible")) {
+      $("#select_origen").select2({
+        placeholder: "Seleccionar Origen",
+        allowClear: true,
+        dropdownParent: $("#modal_registro"),
+      });
+      console.log("Select2 origen inicializado");
+    }
+    
+    if (!$("#select_destino").hasClass("select2-hidden-accessible")) {
+      $("#select_destino").select2({
+        placeholder: "Seleccionar Destino",
+        allowClear: true,
+        dropdownParent: $("#modal_registro"),
+      });
+      console.log("Select2 destino inicializado");
+    }
+    
+    // Establecer fecha y hora actual
+    const now = new Date();
+    const fechaActual = now.toISOString().slice(0, 16);
+    $("#txt_fecha_creacion").val(fechaActual);
+    console.log("Fecha establecida:", fechaActual);
+    
+  }, 300); // Esperar 300ms para que los datos se carguen
+  
+  // 3. TERCERO: Abrir el modal
   $("#modal_registro").modal({ backdrop: "static", keyboard: false });
   $("#modal_registro").modal("show");
 }
@@ -2188,109 +2233,87 @@ function actualizarCheckboxTodos() {
     checkboxTodos.prop("checked", false).prop("indeterminate", true);
   }
 }
-
-// Eventos del documento
+// === Eventos del documento ===
 $(document).ready(function () {
   console.log("Document ready ejecutado");
-
-  // Cargar datos iniciales
-  Cargar_Select_Conductores();
-  Cargar_Select_Rutas();
-
-  // Escuchar cambios en los selectores para cargar encomiendas
-  $("#select_conductor, #select_origen, #select_destino").on(
-    "change",
-    function () {
-      console.log("Cambio detectado en selectores");
-
-      const idConductor = $("#select_conductor").val();
-      const idOrigen = $("#select_origen").val();
-      const idDestino = $("#select_destino").val();
-
-      console.log("Valores actuales:");
-      console.log("- Conductor:", idConductor);
-      console.log("- Origen:", idOrigen);
-      console.log("- Destino:", idDestino);
-
-      // Verificar que los tres parámetros estén seleccionados
-      if (idConductor && idOrigen && idDestino) {
-        console.log(
-          "Todos los parámetros seleccionados, cargando encomiendas..."
-        );
-        cargarEncomiendas(idConductor, idOrigen, idDestino);
-      } else {
-        console.log("Faltan parámetros por seleccionar");
-        // Limpiar la tabla si no están todos los parámetros
-        $("#tabla_encomiendas tbody").html(
-          '<tr><td colspan="8" class="text-muted">Seleccione conductor, origen y destino para cargar encomiendas</td></tr>'
-        );
-        $("#total_encomiendas").text(0);
-      }
+  
+  // Cargar datos iniciales (opcional, solo si los necesitas fuera del modal)
+  // Cargar_Select_Conductores();
+  // Cargar_Select_Rutas();
+  
+  // USAR $(document).on() para elementos dinámicos en modales
+  $(document).on("change", "#select_conductor, #select_origen, #select_destino", function () {
+    console.log("Cambio detectado en selectores");
+    console.log("Elemento que cambió:", this.id);
+    
+    const idConductor = $("#select_conductor").val();
+    const idOrigen = $("#select_origen").val();
+    const idDestino = $("#select_destino").val();
+    
+    console.log("Valores actuales:");
+    console.log("- Conductor:", idConductor);
+    console.log("- Origen:", idOrigen);
+    console.log("- Destino:", idDestino);
+    
+    // Verificar que los tres parámetros estén seleccionados
+    if (idConductor && idOrigen && idDestino) {
+      console.log("Todos los parámetros seleccionados, cargando encomiendas...");
+      cargarEncomiendas(idConductor, idOrigen, idDestino);
+    } else {
+      console.log("Faltan parámetros por seleccionar");
+      $("#tabla_encomiendas tbody").html(
+        '<tr><td colspan="8" class="text-muted">Seleccione conductor, origen y destino para cargar encomiendas</td></tr>'
+      );
+      $("#total_encomiendas").text(0);
     }
-  );
-
-  // Manejar checkbox "Seleccionar todos"
+  });
+  
   // Manejar checkbox "Seleccionar todos"
   $(document).on("change", "#check_all_encomiendas", function () {
     console.log("Checkbox 'todos' cambiado");
     const isChecked = $(this).is(":checked");
     $(".check_encomienda").prop("checked", isChecked);
-
-    // Recontar los seleccionados
+    
     let totalEncomiendas = $(".check_encomienda:checked").length;
     $("#total_encomiendas").text(totalEncomiendas);
   });
-
+  
   // Manejar checkboxes individuales
   $(document).on("change", ".check_encomienda", function () {
     console.log("Checkbox individual cambiado");
     actualizarCheckboxTodos();
-
-    // Recontar los seleccionados
+    
     let totalEncomiendas = $(".check_encomienda:checked").length;
     $("#total_encomiendas").text(totalEncomiendas);
   });
+  
+  // === Evento cuando se cierra el modal (limpiar todo) ===
+  $('#modal_registro').on('hidden.bs.modal', function () {
+    console.log("Modal cerrado - Limpiando todo");
+    
+    // Destruir Select2
+    if ($("#select_conductor").hasClass("select2-hidden-accessible")) {
+      $("#select_conductor").select2('destroy');
+    }
+    if ($("#select_origen").hasClass("select2-hidden-accessible")) {
+      $("#select_origen").select2('destroy');
+    }
+    if ($("#select_destino").hasClass("select2-hidden-accessible")) {
+      $("#select_destino").select2('destroy');
+    }
+    
+    // Limpiar valores
+    $("#select_conductor").val('');
+    $("#select_origen").val('');
+    $("#select_destino").val('');
+    
+    // Limpiar tabla
+    $("#tabla_encomiendas tbody").html(
+      '<tr><td colspan="8" class="text-muted">Seleccione conductor, origen y destino para cargar encomiendas</td></tr>'
+    );
+    $("#total_encomiendas").text(0);
+  });
 });
-
-// Configuración del modal
-$("#modal_registro").on("shown.bs.modal", function () {
-  console.log("Modal mostrado");
-
-  // Verificar si Select2 ya está inicializado
-  if (!$("#select_conductor").hasClass("select2-hidden-accessible")) {
-    $("#select_conductor").select2({
-      placeholder: "Seleccionar Conductor",
-      allowClear: true,
-      dropdownParent: $("#modal_registro"),
-    });
-    console.log("Select2 conductor inicializado");
-  }
-
-  if (!$("#select_origen").hasClass("select2-hidden-accessible")) {
-    $("#select_origen").select2({
-      placeholder: "Seleccionar Origen",
-      allowClear: true,
-      dropdownParent: $("#modal_registro"),
-    });
-    console.log("Select2 origen inicializado");
-  }
-
-  if (!$("#select_destino").hasClass("select2-hidden-accessible")) {
-    $("#select_destino").select2({
-      placeholder: "Seleccionar Destino",
-      allowClear: true,
-      dropdownParent: $("#modal_registro"),
-    });
-    console.log("Select2 destino inicializado");
-  }
-
-  // Establecer fecha y hora actual
-  const now = new Date();
-  const fechaActual = now.toISOString().slice(0, 16);
-  $("#txt_fecha_creacion").val(fechaActual);
-  console.log("Fecha establecida:", fechaActual);
-});
-
 // Limpiar formulario al cerrar modal
 $("#modal_registro").on("hidden.bs.modal", function () {
   console.log("Modal ocultado, limpiando formulario");
@@ -2506,11 +2529,7 @@ function Registrar_Detalle_Encomiendas(idSalida) {
 
   if (encomiendas.length === 0) {
     console.log("No hay encomiendas seleccionadas");
-    Swal.fire(
-      "Advertencia",
-      "No hay encomiendas seleccionadas para registrar.",
-      "warning"
-    );
+    // NO MOSTRAR ALERTA AQUÍ - es normal que no siempre haya encomiendas
     return;
   }
 
@@ -2531,20 +2550,18 @@ function Registrar_Detalle_Encomiendas(idSalida) {
     },
     success: function (resp) {
       console.log("Respuesta del servidor:", resp);
-      if (resp == 1) {
-        Swal.fire("Éxito", "Encomiendas registradas correctamente.", "success");
-      } else {
-        console.log("Error en la respuesta:", resp);
-        Swal.fire(
-          "Advertencia",
-          "No se pudieron registrar algunas encomiendas: " + resp,
-          "warning"
-        );
+      // ELIMINAR ESTE SWAL - Ya se mostró el mensaje principal
+      // if (resp == 1) {
+      //   Swal.fire("Éxito", "Encomiendas registradas correctamente.", "success");
+      // }
+      if (resp != 1) {
+        console.error("Error al registrar encomiendas:", resp);
+        // Solo mostrar error si falla
       }
     },
     error: function (xhr, status, error) {
       console.error("Error AJAX:", { xhr, status, error });
-      Swal.fire("Error", "Error al registrar las encomiendas.", "error");
+      // Solo mantener log del error, no mostrar Swal aquí
     },
   });
 }
@@ -2655,7 +2672,6 @@ function listar_pasajeros(id) {
     },
   });
 }
-
 // Función para listar encomiendas
 function listar_encomiendas(id) {
   // Destruir tabla existente si existe
@@ -2669,15 +2685,15 @@ function listar_encomiendas(id) {
     searching: false,
     paging: false,
     info: false,
-    processing: false,
+    processing: true, // Cambiado a true para mostrar "Cargando..."
     dom: "t",
     columnDefs: [
       {
-        targets: [0, 1, 2, 3, 4, 5], // Todas las columnas excepto la última
+        targets: [0, 1, 2, 3, 4, 5],
         className: "text-center",
       },
       {
-        targets: [6], // Solo la columna del estado
+        targets: [6],
         className: "text-center align-middle",
       },
     ],
@@ -2687,17 +2703,42 @@ function listar_encomiendas(id) {
       data: { id: id },
       dataSrc: function (json) {
         console.log("Respuesta JSON encomiendas:", json);
-        // Actualizar contador de encomiendas
-        if (json.data && json.data.length > 0) {
-          $("#total_encomiendas_mostrar").text(json.data.length);
-        } else {
+        
+        // Validar que json y json.data existan
+        if (!json || typeof json !== 'object') {
+          console.error("Respuesta inválida del servidor");
           $("#total_encomiendas_mostrar").text(0);
+          return [];
         }
+        
+        // Si no tiene la propiedad data, crear un array vacío
+        if (!json.data || !Array.isArray(json.data)) {
+          console.log("No hay datos de encomiendas o formato incorrecto");
+          $("#total_encomiendas_mostrar").text(0);
+          return [];
+        }
+        
+        // Actualizar contador de encomiendas
+        $("#total_encomiendas_mostrar").text(json.data.length);
         return json.data;
       },
       error: function (xhr, error, thrown) {
-        console.error("Error cargando encomiendas:", error, thrown);
+        console.error("Error cargando encomiendas:", {
+          status: xhr.status,
+          error: error,
+          thrown: thrown,
+          response: xhr.responseText
+        });
         $("#total_encomiendas_mostrar").text(0);
+        
+        // Mostrar mensaje de error al usuario
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar encomiendas',
+          text: 'No se pudieron cargar las encomiendas. Por favor, intente nuevamente.',
+          timer: 3000,
+          showConfirmButton: false
+        });
       },
     },
     columns: [
@@ -2720,14 +2761,14 @@ function listar_encomiendas(id) {
         data: "pago",
         width: "12%",
         render: function (data, type, row) {
-          return "S/ " + parseFloat(data).toFixed(2);
+          return "S/ " + parseFloat(data || 0).toFixed(2);
         },
       },
       {
         data: "por_pagar",
         width: "12%",
         render: function (data, type, row) {
-          return "S/ " + parseFloat(data).toFixed(2);
+          return "S/ " + parseFloat(data || 0).toFixed(2);
         },
       },
       {
@@ -2760,6 +2801,7 @@ function listar_encomiendas(id) {
       emptyTable: "No hay encomiendas registradas",
       zeroRecords: "No se encontraron encomiendas",
       loadingRecords: "Cargando encomiendas...",
+      processing: "Cargando...",
     },
   });
 }
