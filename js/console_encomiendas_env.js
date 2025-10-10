@@ -1717,7 +1717,7 @@ function Registrar_Encomiendas() {
   if (pago.length == 0 || porpagar.length == 0 || adomicilio.length == 0) {
     return Swal.fire(
       "Mensaje de Advertencia",
-      "Los campos de pago, por pagar y a domicilio no pueden ir vacíos, en caso de no tener monto colocar 0.00",
+      "Los campos de pago, por pagar y a domicilio no pueden ir vacíos, uno de los 3 siempre debe ser mayor a 0",
       "warning"
     );
   }

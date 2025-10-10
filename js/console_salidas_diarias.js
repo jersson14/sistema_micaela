@@ -2013,6 +2013,7 @@ function agregarPasajero() {
     }
     documentoFinal = documento2;
   }
+
   if (
     !documentoFinal ||
     documentoFinal.trim() === "" ||
@@ -2022,6 +2023,15 @@ function agregarPasajero() {
     return Swal.fire(
       "Mensaje de Advertencia",
       "Complete los campos obligatorios",
+      "warning"
+    );
+  }
+
+  // Validar edad
+  if (edad && parseInt(edad) >= 100) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "La edad no puede ser mayor a 100",
       "warning"
     );
   }
@@ -2057,6 +2067,7 @@ function agregarPasajero() {
   $("#txt_edad").val("");
   $("#txt_cel_pasajero").val("");
 }
+
 
 function removePasajero(boton) {
   var fila = boton.parentNode.parentNode;

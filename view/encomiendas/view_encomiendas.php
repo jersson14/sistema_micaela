@@ -147,7 +147,7 @@
                     </div>
                     <div class="col-6 form-group">
                         <label for="">Destino<b style="color:red">(*)</b>:</label>
-                        <select class="js-example-basic-single"  id="select_destino" style="width:100%"></select>
+                        <select class="js-example-basic-single" id="select_destino" style="width:100%"></select>
 
                     </div>
                     <div class="col-6 form-group">
@@ -820,6 +820,20 @@
         if (this.value.length > 8)
             this.value = this.value.slice(0, 8);
     })
+
+    var input = document.getElementById('txt_celu1_emisor');
+    input.addEventListener('input', function() {
+        if (this.value.length > 9)
+            this.value = this.value.slice(0, 9);
+    })
+    var input = document.getElementById('txt_celu1_recepto');
+    input.addEventListener('input', function() {
+        if (this.value.length > 9)
+            this.value = this.value.slice(0, 9);
+    })
+
+
+
     var input = document.getElementById('txt_dni_emisor_editar');
     input.addEventListener('input', function() {
         if (this.value.length > 8)
@@ -830,6 +844,17 @@
     input.addEventListener('input', function() {
         if (this.value.length > 8)
             this.value = this.value.slice(0, 8);
+    })
+
+    var input = document.getElementById('txt_celu1_emisor_editar');
+    input.addEventListener('input', function() {
+        if (this.value.length > 9)
+            this.value = this.value.slice(0, 9);
+    })
+    var input = document.getElementById('txt_celu1_recepto_editar');
+    input.addEventListener('input', function() {
+        if (this.value.length > 9)
+            this.value = this.value.slice(0, 9);
     })
 </script>
 <script>

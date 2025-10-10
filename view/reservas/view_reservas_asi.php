@@ -403,11 +403,22 @@
             this.value = this.value.slice(0, 8);
     })
 
+        var input = document.getElementById('txt_celu1_emisor');
+    input.addEventListener('input', function() {
+        if (this.value.length > 9)
+            this.value = this.value.slice(0, 9);
+    })
 
     var input = document.getElementById('txt_dni_emisor_editar');
     input.addEventListener('input', function() {
         if (this.value.length > 8)
             this.value = this.value.slice(0, 8);
+    })
+
+            var input = document.getElementById('txt_celu1_emisor_editar');
+    input.addEventListener('input', function() {
+        if (this.value.length > 9)
+            this.value = this.value.slice(0, 9);
     })
 </script>
 <script>

@@ -384,17 +384,40 @@
             $('#txt_usu').trigger('focus')
         })
 
-
         var input = document.getElementById('txt_dni');
         input.addEventListener('input', function() {
             if (this.value.length > 8)
                 this.value = this.value.slice(0, 8);
         })
 
+        var input = document.getElementById('txt_celu1');
+        input.addEventListener('input', function() {
+            if (this.value.length > 9)
+                this.value = this.value.slice(0, 9);
+        })
+
+                var input = document.getElementById('txt_celu2');
+        input.addEventListener('input', function() {
+            if (this.value.length > 9)
+                this.value = this.value.slice(0, 9);
+        })
+
         var input = document.getElementById('txt_dni_editar');
         input.addEventListener('input', function() {
             if (this.value.length > 8)
                 this.value = this.value.slice(0, 8);
+        })
+
+                var input = document.getElementById('txt_celu1_editar');
+        input.addEventListener('input', function() {
+            if (this.value.length > 9)
+                this.value = this.value.slice(0, 9);
+        })
+
+                var input = document.getElementById('txt_celu2_editar');
+        input.addEventListener('input', function() {
+            if (this.value.length > 9)
+                this.value = this.value.slice(0, 9);
         })
          //TRAER FECHA ACTUAL
         var n = new Date();
@@ -551,27 +574,95 @@
                 document.getElementById("prueba").click();
             }
         });
-$("#prueba").click(function() {
-    var dni = $("#txt_dni").val();
+        $("#prueba").click(function() {
+            var dni = $("#txt_dni").val().trim();
 
-    $.ajax({
-        type: "POST",
-        url: "consulta-dni-ajax.php",
-        data: { dni: dni },
-        dataType: 'json',
-        success: function(data) {
-            if (data == 1) {
-                alert('El DNI tiene que tener 8 dígitos');
-            } else if (data.error) {
-                alert('Error en la consulta: ' + data.error);
-            } else {
-                $("#txt_nomb").val(
-                    data.first_name + ' ' + data.first_last_name + ' ' + data.second_last_name
-                );
+            // 🔍 Validar formato de DNI antes de enviar
+            if (dni === '' || dni.length !== 8 || isNaN(dni)) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'DNI inválido',
+                    text: 'El DNI debe tener 8 dígitos numéricos.',
+                    confirmButtonColor: '#3085d6',
+                });
+                return;
             }
-        }
-    });
-});
+
+            $.ajax({
+                type: "POST",
+                url: "consulta-dni-ajax.php",
+                data: {
+                    dni: dni
+                },
+                dataType: 'json',
+                success: function(data) {
+
+                    // ⚠️ Caso: error de formato o validación
+                    if (data == 1) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'DNI incorrecto',
+                            text: 'El DNI debe tener 8 dígitos.',
+                            confirmButtonColor: '#3085d6',
+                        });
+                    }
+
+                    // ⚠️ Caso: error devuelto por el servidor
+                    else if (data.error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error en la consulta',
+                            text: data.error,
+                            confirmButtonColor: '#d33',
+                        });
+                    }
+
+                    // ⚠️ Caso: DNI ya existe en base de datos
+                    else if (data.existe) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'DNI ya registrado',
+                            text: 'Este DNI ya está registrado en el sistema.',
+                            confirmButtonColor: '#3085d6',
+                        });
+                    }
+
+                    // ⚠️ Caso: no se encontraron datos válidos (evita undefined)
+                    else if (!data.first_name || !data.first_last_name) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'No encontrado',
+                            text: 'No se encontró información para este DNI.',
+                            confirmButtonColor: '#3085d6',
+                        });
+                        $("#txt_nomb").val(''); // Limpiar campo si no hay datos
+                    }
+
+                    // ✅ Caso: éxito
+                    else {
+                        $("#txt_nomb").val(
+                            data.first_name + ' ' + data.first_last_name + ' ' + data.second_last_name
+                        );
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Consulta exitosa',
+                            text: 'Datos obtenidos correctamente.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de conexión',
+                        text: 'No se pudo realizar la consulta: ' + error,
+                        confirmButtonColor: '#d33',
+                    });
+                }
+            });
+        });
 
 
     </script>

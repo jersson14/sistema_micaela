@@ -3005,13 +3005,13 @@ function eliminarPasajeroEditar(idPasajero) {
   });
 }
 
-function agregarPasajeroEditar() {
-  var tipodocumento = $("#select_tipo_documento_emisor_editar").val();
-  var documento = $("#txt_dni_emisor_editar").val();
-  var documento2 = $("#txt_dni_emisor2_editar").val();
-  var nombres = $("#txt_nombre_pasajero_editar").val();
-  var edad = $("#txt_edad_editar").val();
-  var celular = $("#txt_cel_pasajero_editar").val();
+function agregarPasajero() {
+  var tipodocumento = $("#select_tipo_documento_emisor").val();
+  var documento = $("#txt_dni_emisor").val();
+  var documento2 = $("#txt_dni_emisor2").val();
+  var nombres = $("#txt_nombre_pasajero").val();
+  var edad = $("#txt_edad").val();
+  var celular = $("#txt_cel_pasajero").val();
 
   let documentoFinal = "";
   if (tipodocumento === "DNI") {
@@ -3047,7 +3047,16 @@ function agregarPasajeroEditar() {
     );
   }
 
-  if (verificarDocumentEditar(documentoFinal)) {
+  // Validar edad
+  if (edad && parseInt(edad) >= 100) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "La edad no puede ser mayor a 100",
+      "warning"
+    );
+  }
+
+  if (verificarDocumento(documentoFinal)) {
     return Swal.fire(
       "Mensaje de Advertencia",
       "El pasajero ya fue agregado a la tabla",
@@ -3056,7 +3065,7 @@ function agregarPasajeroEditar() {
   }
 
   var filasExistentes = document.querySelectorAll(
-    "#tabla_pasajeros_editar tbody tr"
+    "#tabla_pasajeros tbody tr"
   ).length;
   var fila = "<tr>";
   fila += "<td>" + (filasExistentes + 1) + "</td>";
@@ -3066,17 +3075,17 @@ function agregarPasajeroEditar() {
   fila += "<td>" + (edad || "N/A") + "</td>";
   fila += "<td>" + (celular || "N/A") + "</td>";
   fila +=
-    "<td><button class='btn btn-danger' onclick='removePasajeroEditar(this)'><i class='fas fa-trash'></i></button></td>";
+    "<td><button class='btn btn-danger' onclick='removePasajero(this)'><i class='fas fa-trash'></i></button></td>";
   fila += "</tr>";
 
-  $("#tabla_pasajeros_editar tbody").append(fila);
-  actualizarTotalPasajeros_Editar();
+  $("#tabla_pasajeros tbody").append(fila);
+  actualizarTotalPasajeros();
 
   // Limpiar campos
-  $("#txt_dni_emisor_editar").val("");
-  $("#txt_nombre_pasajero_editar").val("");
-  $("#txt_edad_editar").val("");
-  $("#txt_cel_pasajero_editar").val("");
+  $("#txt_dni_emisor").val("");
+  $("#txt_nombre_pasajero").val("");
+  $("#txt_edad").val("");
+  $("#txt_cel_pasajero").val("");
 }
 
 function removePasajeroEditar(boton) {

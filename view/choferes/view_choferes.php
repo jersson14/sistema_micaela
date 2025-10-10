@@ -72,7 +72,7 @@
                             <h6><b>Campos Obligatorios (*)</b></h6>
                         </div>
                         <div class="col-6 form-group">
-                            <label for="" >Tipo de documento<b style="color:red">(*)</b>:</label>
+                            <label for="">Tipo de documento<b style="color:red">(*)</b>:</label>
                             <select class="form-control" id="select_tipo_documento" style="width:100%">
                                 <option value="" disabled>Seleccione</option>
                                 <option value="DNI" selected>DNI</option>
@@ -82,7 +82,7 @@
                         </div>
 
                         <div id="dni_section" class="col-6 form-group">
-                            <label for="" >N° Documento<b style="color:red">(*)</b>:</label>
+                            <label for="">N° Documento<b style="color:red">(*)</b>:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="txt_dni" maxlength="8" onkeypress="return soloNumeros(event)">
                                 <div class="input-group-append">
@@ -91,7 +91,7 @@
                             </div>
                         </div>
                         <div id="otros_documentos_section" class="col-6 form-group" style="display: none;">
-                            <label for="" >N° Documento<b style="color:red">(*)</b>:</label>
+                            <label for="">N° Documento<b style="color:red">(*)</b>:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="txt_dni2">
                                 <div class="input-group-append">
@@ -141,7 +141,7 @@
                         </div><br>
                         <div class="col-6 form-group"><br>
                             <label for="">Marca del vehiculo<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_marca" placeholder="Ingrese la marca del vehiculo" >
+                            <input type="text" class="form-control" id="txt_marca" placeholder="Ingrese la marca del vehiculo">
                         </div>
                         <div class="col-6 form-group"><br>
                             <label for="">Placa del vehiculo<b style="color:red">(*)</b>:</label>
@@ -155,11 +155,11 @@
                             <label for="">Nro. de Licencia<b style="color:red">(*)</b>:</label>
                             <input type="text" class="form-control" id="txt_nro_licencia" placeholder="Ingrese el Nro. de licencia">
                         </div>
-                         <div class="col-6 form-group">
+                        <div class="col-6 form-group">
                             <label for="">Fecha de expiración de licencia<b style="color:red">(*)</b>:</label>
                             <input type="date" class="form-control" id="txt_fecha_expira">
                         </div>
-                         <div class="col-6 form-group">
+                        <div class="col-6 form-group">
                             <label for="">Fecha de creación de registro<b style="color:red">(*)</b>:</label>
                             <input type="date" class="form-control" id="txt_fecha_creacion" readonly>
                         </div>
@@ -186,11 +186,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                       <div class="col-12 form-group" style="color:red">
+                        <div class="col-12 form-group" style="color:red">
                             <h6><b>Campos Obligatorios (*)</b></h6>
                         </div>
                         <div class="col-6 form-group">
-                            <label for="" >Tipo de documento<b style="color:red">(*)</b>:</label>
+                            <label for="">Tipo de documento<b style="color:red">(*)</b>:</label>
                             <select class="form-control" id="select_tipo_documento_editar" style="width:100%" disabled>
                                 <option value="" disabled>Seleccione</option>
                                 <option value="DNI" selected>DNI</option>
@@ -245,7 +245,7 @@
                         </div><br>
                         <div class="col-6 form-group"><br>
                             <label for="">Marca del vehiculo<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_marca_editar" placeholder="Ingrese la marca del vehiculo" >
+                            <input type="text" class="form-control" id="txt_marca_editar" placeholder="Ingrese la marca del vehiculo">
                         </div>
                         <div class="col-6 form-group"><br>
                             <label for="">Placa del vehiculo<b style="color:red">(*)</b>:</label>
@@ -259,7 +259,7 @@
                             <label for="">Nro. de Licencia<b style="color:red">(*)</b>:</label>
                             <input type="text" class="form-control" id="txt_nro_licencia_editar" placeholder="Ingrese el Nro. de licencia">
                         </div>
-                         <div class="col-6 form-group">
+                        <div class="col-6 form-group">
                             <label for="">Fecha de expiración de licencia<b style="color:red">(*)</b>:</label>
                             <input type="date" class="form-control" id="txt_fecha_expira_editar">
                         </div>
@@ -281,7 +281,7 @@
         </div>
     </div>
 
-        <div class="modal fade" id="modal_mostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_mostrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background-color:#1FA0E0;">
@@ -292,11 +292,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                       <div class="col-12 form-group" style="color:red">
+                        <div class="col-12 form-group" style="color:red">
                             <h6><b>Campos Obligatorios (*)</b></h6>
                         </div>
                         <div class="col-6 form-group">
-                            <label for="" >Tipo de documento<b style="color:red">(*)</b>:</label>
+                            <label for="">Tipo de documento<b style="color:red">(*)</b>:</label>
                             <select class="form-control" id="select_tipo_documento_mostrar" style="width:100%" disabled>
                                 <option value="" disabled>Seleccione</option>
                                 <option value="DNI" selected>DNI</option>
@@ -310,7 +310,7 @@
                         </div>
                         <div class="col-12 form-group">
                             <label for="">Nombres y apellidos<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_nomb_mostrar" placeholder="Ingrese los nombres y apellidos"disabled>
+                            <input type="text" class="form-control" id="txt_nomb_mostrar" placeholder="Ingrese los nombres y apellidos" disabled>
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Celular 1<b style="color:red">(*)</b>:</label>
@@ -351,7 +351,7 @@
                             <label for="">Nro. de Licencia<b style="color:red">(*)</b>:</label>
                             <input type="text" class="form-control" id="txt_nro_licencia_mostrar" placeholder="Ingrese el Nro. de licencia" disabled>
                         </div>
-                         <div class="col-6 form-group">
+                        <div class="col-6 form-group">
                             <label for="">Fecha de expiración de licencia<b style="color:red">(*)</b>:</label>
                             <input type="date" class="form-control" id="txt_fecha_expira_mostrar" disabled>
                         </div>
@@ -391,12 +391,36 @@
                 this.value = this.value.slice(0, 8);
         })
 
+        var input = document.getElementById('txt_celu1');
+        input.addEventListener('input', function() {
+            if (this.value.length > 9)
+                this.value = this.value.slice(0, 9);
+        })
+
+                var input = document.getElementById('txt_celu2');
+        input.addEventListener('input', function() {
+            if (this.value.length > 9)
+                this.value = this.value.slice(0, 9);
+        })
+
         var input = document.getElementById('txt_dni_editar');
         input.addEventListener('input', function() {
             if (this.value.length > 8)
                 this.value = this.value.slice(0, 8);
         })
-         //TRAER FECHA ACTUAL
+
+                var input = document.getElementById('txt_celu1_editar');
+        input.addEventListener('input', function() {
+            if (this.value.length > 9)
+                this.value = this.value.slice(0, 9);
+        })
+
+                var input = document.getElementById('txt_celu2_editar');
+        input.addEventListener('input', function() {
+            if (this.value.length > 9)
+                this.value = this.value.slice(0, 9);
+        })
+        //TRAER FECHA ACTUAL
         var n = new Date();
         var y = n.getFullYear();
         var m = n.getMonth() + 1; // Los meses empiezan desde 0, por eso se suma 1
@@ -487,7 +511,7 @@
             preview2.style.display = 'none';
         }
 
-         function previewImage3(event) {
+        function previewImage3(event) {
             const input = event.target;
             const preview3 = document.getElementById('preview3');
             const label = document.getElementById('label_txt_foto_mostrar');
@@ -506,7 +530,7 @@
                 clearPhoto2(); // Si no hay archivo seleccionado, limpiar la vista previa
             }
         }
-         // Mostrar la sección correcta al cargar la página
+        // Mostrar la sección correcta al cargar la página
         window.addEventListener('DOMContentLoaded', function() {
             const selectTipoDocumento = document.getElementById('select_tipo_documento');
             const dniSection = document.getElementById('dni_section');
@@ -551,27 +575,93 @@
                 document.getElementById("prueba").click();
             }
         });
-$("#prueba").click(function() {
-    var dni = $("#txt_dni").val();
+        $("#prueba").click(function() {
+            var dni = $("#txt_dni").val().trim();
 
-    $.ajax({
-        type: "POST",
-        url: "consulta-dni-ajax.php",
-        data: { dni: dni },
-        dataType: 'json',
-        success: function(data) {
-            if (data == 1) {
-                alert('El DNI tiene que tener 8 dígitos');
-            } else if (data.error) {
-                alert('Error en la consulta: ' + data.error);
-            } else {
-                $("#txt_nomb").val(
-                    data.first_name + ' ' + data.first_last_name + ' ' + data.second_last_name
-                );
+            // 🔍 Validar formato de DNI antes de enviar
+            if (dni === '' || dni.length !== 8 || isNaN(dni)) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'DNI inválido',
+                    text: 'El DNI debe tener 8 dígitos numéricos.',
+                    confirmButtonColor: '#3085d6',
+                });
+                return;
             }
-        }
-    });
-});
 
+            $.ajax({
+                type: "POST",
+                url: "consulta-dni-ajax.php",
+                data: {
+                    dni: dni
+                },
+                dataType: 'json',
+                success: function(data) {
 
+                    // ⚠️ Caso: error de formato o validación
+                    if (data == 1) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'DNI incorrecto',
+                            text: 'El DNI debe tener 8 dígitos.',
+                            confirmButtonColor: '#3085d6',
+                        });
+                    }
+
+                    // ⚠️ Caso: error devuelto por el servidor
+                    else if (data.error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error en la consulta',
+                            text: data.error,
+                            confirmButtonColor: '#d33',
+                        });
+                    }
+
+                    // ⚠️ Caso: DNI ya existe en base de datos
+                    else if (data.existe) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'DNI ya registrado',
+                            text: 'Este DNI ya está registrado en el sistema.',
+                            confirmButtonColor: '#3085d6',
+                        });
+                    }
+
+                    // ⚠️ Caso: no se encontraron datos válidos (evita undefined)
+                    else if (!data.first_name || !data.first_last_name) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'No encontrado',
+                            text: 'No se encontró información para este DNI.',
+                            confirmButtonColor: '#3085d6',
+                        });
+                        $("#txt_nomb").val(''); // Limpiar campo si no hay datos
+                    }
+
+                    // ✅ Caso: éxito
+                    else {
+                        $("#txt_nomb").val(
+                            data.first_name + ' ' + data.first_last_name + ' ' + data.second_last_name
+                        );
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Consulta exitosa',
+                            text: 'Datos obtenidos correctamente.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de conexión',
+                        text: 'No se pudo realizar la consulta: ' + error,
+                        confirmButtonColor: '#d33',
+                    });
+                }
+            });
+        });
     </script>
