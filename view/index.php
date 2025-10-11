@@ -1191,43 +1191,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </script>
         <!-- Script para actualizar fecha y hora -->
 
-   <div class="content">
-          <div class="container-fluid">
-            <div class="row">
-              <!-- /.col-md-6 -->
-              <div class="col-lg-12">
-                <div class="card-primary">
-                  <div class="card-header">
-                    <h5 class="m-0" style="font-family:cooper;text-align:center"><i class="fas fa-bullhorn"></i><b> VENCIMIENTO DE LICENCIAS</b></h5>
-                  </div>
-                  <div class="table-responsive" style="text-align:center">
-                    <div class="card-body" style="overflow: hidden; border-radius: 20px;">
-                      <table id="tabla_choferes_vencidos" class="table table-striped table-bordered" style="width:100%; border-radius: 20px; overflow: hidden;">
-                        <thead style="background-color:#023D77;color:white;">
-                          <tr>
-                            <th style="text-align:center">Nro.</th>
-                            <th style="text-align:center">Tipo Doc y N°</th>
-                            <th style="text-align:center">Conductor</th>
-                            <th style="text-align:center">Vehículo</th>
-                            <th style="text-align:center">Licencia</th>
-                            <th style="text-align:center">Categoria</th>
-                            <th style="text-align:center">Fecha de vencimiento</th>
-                            <th style="text-align:center">Vista</th>
-                            <th style="text-align:center">Estado</th>
-                          </tr>
-                        </thead>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.col-md-6 -->
-              </div>
-              <!-- /.row -->
-            </div><!-- /.container-fluid -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h5 class="m-0" style="font-family:cooper;text-align:center">
+              <i class="fas fa-bullhorn"></i><b> VENCIMIENTO DE LICENCIAS</b>
+            </h5>
+          </div>
+          <div class="table-responsive" style="text-align:center">
+            <div class="card-body" style="overflow: hidden; border-radius: 20px;">
+              <table id="tabla_choferes_vencidos" class="table table-striped table-bordered" style="width:100%; border-radius: 20px; overflow: hidden;">
+                <thead style="background-color:#023D77;color:white;">
+                  <tr>
+                    <th style="text-align:center">Nro.</th>
+                    <th style="text-align:center">Tipo Doc y N°</th>
+                    <th style="text-align:center">Conductor</th>
+                    <th style="text-align:center">Vehículo</th>
+                    <th style="text-align:center">Licencia</th>
+                    <th style="text-align:center">Categoría</th>
+                    <th style="text-align:center">Fecha de vencimiento</th>
+                    <th style="text-align:center">Acción</th>
+                    <th style="text-align:center">Estado</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal Mejorado de Alertas de Vencimiento -->
-<div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="modalAlertaLabel" aria-hidden="true">
+<div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="modalAlertaLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden;">
       <!-- El contenido se genera dinámicamente desde JavaScript -->
@@ -1236,50 +1236,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
 
 <style>
-  /* Animación de entrada del modal */
-  .modal.fade .modal-dialog {
-    transition: transform 0.4s ease-out;
-    transform: translateY(-100px);
+/* Estilos adicionales para el modal */
+#modal_ver .modal-dialog {
+  max-width: 700px;
+}
+
+#modal_ver .modal-content {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
   }
-  
-  .modal.show .modal-dialog {
+  to {
     transform: translateY(0);
+    opacity: 1;
   }
-  
-  /* Efectos hover en las filas de información */
-  .info-row:hover {
-    background-color: #f8f9fa !important;
-    transition: background-color 0.3s ease;
-    cursor: default;
-  }
-  
-  /* Animación del botón */
-  .btn-alerta {
-    transition: all 0.3s ease;
-  }
-  
-  .btn-alerta:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3) !important;
-  }
-  
-  .btn-alerta:active {
-    transform: scale(0.98);
-  }
-  
-  /* Efecto de pulso en el icono principal */
-  @keyframes pulse {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-  }
-  
-  .icon-pulse {
-    animation: pulse 2s infinite;
-  }
+}
+
+/* Hover effect para las filas de la tabla */
+#tabla_choferes_vencidos tbody tr {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+#tabla_choferes_vencidos tbody tr:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Estilos para el botón Ver */
+.mostrar {
+  transition: all 0.3s ease;
+  border: none;
+  font-weight: bold;
+}
+
+.mostrar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
 </style>
 
       <?php } ?> 
@@ -1734,6 +1732,95 @@ scratch. This page gets rid of all links and provides the needed markup only.
           actualizarFechaHora(); // Ejecutar inmediatamente
         </script>
         <!-- Script para actualizar fecha y hora -->
+   <div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h5 class="m-0" style="font-family:cooper;text-align:center">
+              <i class="fas fa-bullhorn"></i><b> VENCIMIENTO DE LICENCIAS</b>
+            </h5>
+          </div>
+          <div class="table-responsive" style="text-align:center">
+            <div class="card-body" style="overflow: hidden; border-radius: 20px;">
+              <table id="tabla_choferes_vencidos" class="table table-striped table-bordered" style="width:100%; border-radius: 20px; overflow: hidden;">
+                <thead style="background-color:#023D77;color:white;">
+                  <tr>
+                    <th style="text-align:center">Nro.</th>
+                    <th style="text-align:center">Tipo Doc y N°</th>
+                    <th style="text-align:center">Conductor</th>
+                    <th style="text-align:center">Vehículo</th>
+                    <th style="text-align:center">Licencia</th>
+                    <th style="text-align:center">Categoría</th>
+                    <th style="text-align:center">Fecha de vencimiento</th>
+                    <th style="text-align:center">Acción</th>
+                    <th style="text-align:center">Estado</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Mejorado de Alertas de Vencimiento -->
+<div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="modalAlertaLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden;">
+      <!-- El contenido se genera dinámicamente desde JavaScript -->
+    </div>
+  </div>
+</div>
+
+<style>
+/* Estilos adicionales para el modal */
+#modal_ver .modal-dialog {
+  max-width: 700px;
+}
+
+#modal_ver .modal-content {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Hover effect para las filas de la tabla */
+#tabla_choferes_vencidos tbody tr {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+#tabla_choferes_vencidos tbody tr:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Estilos para el botón Ver */
+.mostrar {
+  transition: all 0.3s ease;
+  border: none;
+  font-weight: bold;
+}
+
+.mostrar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+</style>
+
       <?php
       }
       ?>
@@ -1996,6 +2083,95 @@ scratch. This page gets rid of all links and provides the needed markup only.
           setInterval(actualizarFechaHora, 1000);
           actualizarFechaHora(); // Ejecutar inmediatamente
         </script>
+ <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <!-- /.col-md-6 -->
+              <div class="col-lg-12">
+                <div class="card-primary">
+                  <div class="card-header">
+                    <h5 class="m-0" style="font-family:cooper;text-align:center"><i class="fas fa-bullhorn"></i><b> VENCIMIENTO DE LICENCIAS</b></h5>
+                  </div>
+                  <div class="table-responsive" style="text-align:center">
+                    <div class="card-body" style="overflow: hidden; border-radius: 20px;">
+                      <table id="tabla_choferes_vencidos" class="table table-striped table-bordered" style="width:100%; border-radius: 20px; overflow: hidden;">
+                        <thead style="background-color:#023D77;color:white;">
+                          <tr>
+                            <th style="text-align:center">Nro.</th>
+                            <th style="text-align:center">Tipo Doc y N°</th>
+                            <th style="text-align:center">Conductor</th>
+                            <th style="text-align:center">Vehículo</th>
+                            <th style="text-align:center">Licencia</th>
+                            <th style="text-align:center">Categoria</th>
+                            <th style="text-align:center">Fecha de vencimiento</th>
+                            <th style="text-align:center">Estado</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.col-md-6 -->
+              </div>
+              <!-- /.row -->
+            </div><!-- /.container-fluid -->
+          </div>
+        </div>
+<!-- Modal Mejorado de Alertas de Vencimiento -->
+<div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="modalAlertaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden;">
+      <!-- El contenido se genera dinámicamente desde JavaScript -->
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Animación de entrada del modal */
+  .modal.fade .modal-dialog {
+    transition: transform 0.4s ease-out;
+    transform: translateY(-100px);
+  }
+  
+  .modal.show .modal-dialog {
+    transform: translateY(0);
+  }
+  
+  /* Efectos hover en las filas de información */
+  .info-row:hover {
+    background-color: #f8f9fa !important;
+    transition: background-color 0.3s ease;
+    cursor: default;
+  }
+  
+  /* Animación del botón */
+  .btn-alerta {
+    transition: all 0.3s ease;
+  }
+  
+  .btn-alerta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3) !important;
+  }
+  
+  .btn-alerta:active {
+    transform: scale(0.98);
+  }
+  
+  /* Efecto de pulso en el icono principal */
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  
+  .icon-pulse {
+    animation: pulse 2s infinite;
+  }
+</style>
 
       <?php } ?>
     </div>

@@ -463,3 +463,341 @@ $('#tabla_choferes').on('click','.eliminar',function(){
     }
   })
 })
+// LISTAR CHOFERES VENCIDOS
+var tbl_choferes_dash;
+var alertasActivas = [];
+var currentModalIndex = 0;
+
+function listar_choferes_vencidos() {
+  tbl_choferes_dash = $("#tabla_choferes_vencidos").DataTable({
+    "ordering": false,
+    "processing": true,
+    responsive: true,
+    "searching": false,
+    "bPaginate": false,
+    "ajax": {
+      "url": "../controller/choferes/controlador_listar_choferes_vencidos.php",
+      type: 'POST'
+    },
+    "columns": [
+      { "data": "id_chofer" },
+      { "data": null, render: data => `${data.tipo_documen} - ${data.nro_doc}` },
+      { "data": "nombres_apellidos" },
+      { "data": "marca_vehiculo" },
+      { "data": "nro_licencia" },
+      { "data": "clase_categoria" },
+      { "data": "fecha_venci" },
+      {
+        "data": null,
+        "render": function(data, type, row) {
+          const diasRestantes = calcularDiasRestantes(row.fecha_venci);
+          // Solo mostrar botón si faltan 60 días o menos (o ya está vencida)
+          if (diasRestantes <= 60) {
+            return "<button class='mostrar btn btn-warning btn-sm'><i class='fa fa-eye'></i> Ver</button>";
+          } else {
+            return "<span class='text-muted' style='font-size: 12px;'>Sin alerta</span>";
+          }
+        }
+      },
+      {
+        "data": "estado",
+        render: function (data) {
+          return data === 'ACTIVO'
+            ? '<span class="badge bg-success">ACTIVO</span>'
+            : '<span class="badge bg-danger">INACTIVO</span>';
+        }
+      }
+    ],
+    "language": idioma_espanol,
+    select: false,
+
+    "createdRow": function (row, data) {
+      const diasRestantes = calcularDiasRestantes(data.fecha_venci);
+
+      if (diasRestantes < 0) {
+        $(row).css("background-color", "#ff4444"); // Rojo fuerte - VENCIDO
+      } else if (diasRestantes <= 7) {
+        $(row).css("background-color", "#ff6666"); // Rojo medio
+      } else if (diasRestantes <= 14) {
+        $(row).css("background-color", "#ff9999"); // Rojo suave
+      } else if (diasRestantes <= 30) {
+        $(row).css("background-color", "#ffcc99"); // Naranja
+      } else if (diasRestantes <= 60) {
+        $(row).css("background-color", "#ffff99"); // Amarillo
+      } else {
+        $(row).css("background-color", "#b3ffb3"); // Verde suave
+      }
+    },
+
+    "drawCallback": function () {
+      if (tbl_choferes_dash) {
+        alertasActivas = [];
+        currentModalIndex = 0;
+        
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+        const ultimoDiaMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
+        const esFinDeMes = hoy.getDate() === ultimoDiaMes;
+        
+        console.log(`Hoy: ${hoy.toLocaleDateString()}, Es fin de mes: ${esFinDeMes}`);
+        
+        tbl_choferes_dash.rows().every(function () {
+          var data = this.data();
+          var diasRestantes = calcularDiasRestantes(data.fecha_venci);
+
+          let debeAgregar = false;
+          
+          // 🔹 Para licencias VENCIDAS: solo mostrar en el ÚLTIMO DÍA del mes
+          if (diasRestantes < 0) {
+            if (esFinDeMes) {
+              console.log(`Licencia vencida encontrada (${data.nombres_apellidos}): ${diasRestantes} días - Se mostrará porque es fin de mes`);
+              debeAgregar = true;
+            }
+          } 
+          // 🔹 Para alertas PREVENTIVAS: solo mostrar en días EXACTOS (60, 30, 14, 7, 0)
+          else {
+            const diasExactos = [60, 30, 14, 7, 0];
+            if (diasExactos.includes(diasRestantes)) {
+              console.log(`Alerta preventiva encontrada (${data.nombres_apellidos}): Exactamente ${diasRestantes} días`);
+              debeAgregar = true;
+            }
+          }
+          
+          if (debeAgregar) {
+            alertasActivas.push({
+              nombre: data.nombres_apellidos,
+              fecha: data.fecha_venci,
+              dias: diasRestantes,
+              licencia: data.nro_licencia,
+              documento: `${data.tipo_documen} - ${data.nro_doc}`,
+              vehiculo: data.marca_vehiculo,
+              categoria: data.clase_categoria
+            });
+          }
+        });
+
+        // 🔹 Ordenar alertas por urgencia (vencidas primero, luego por días restantes)
+        alertasActivas.sort((a, b) => {
+          if (a.dias < 0 && b.dias >= 0) return -1;
+          if (a.dias >= 0 && b.dias < 0) return 1;
+          return a.dias - b.dias;
+        });
+
+        console.log("Total de alertas para mostrar:", alertasActivas.length);
+        if (alertasActivas.length > 0) {
+          console.log("Detalle de alertas:", alertasActivas.map(a => `${a.nombre}: ${a.dias} días (${a.fecha})`));
+        }
+        
+        // 🔹 Mostrar alertas automáticas
+        if (alertasActivas.length > 0) {
+          setTimeout(function() {
+            mostrarAlertasSecuenciales();
+          }, 500);
+        }
+      }
+    }
+  });
+
+  // Evento manual para botón "Ver"
+  $('#tabla_choferes_vencidos').on('click', '.mostrar', function () {
+    var data = tbl_choferes_dash.row($(this).parents('tr')).data();
+    mostrarAlertaVencimiento({
+      nombre: data.nombres_apellidos,
+      fecha: data.fecha_venci,
+      dias: calcularDiasRestantes(data.fecha_venci),
+      licencia: data.nro_licencia,
+      documento: `${data.tipo_documen} - ${data.nro_doc}`,
+      vehiculo: data.marca_vehiculo,
+      categoria: data.clase_categoria
+    });
+  });
+}
+
+// 🔹 Calcula días restantes desde hoy hasta la fecha de vencimiento
+function calcularDiasRestantes(fechaVenci) {
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  
+  let venc;
+  
+  // Detectar formato de fecha
+  if (fechaVenci.includes('-')) {
+    const partes = fechaVenci.split('-');
+    
+    // Formato DD-MM-YYYY (09-08-2025)
+    if (partes[0].length <= 2) {
+      const dia = parseInt(partes[0]);
+      const mes = parseInt(partes[1]) - 1; // Mes en JS es 0-11
+      const año = parseInt(partes[2]);
+      venc = new Date(año, mes, dia);
+    } 
+    // Formato YYYY-MM-DD (2025-08-09)
+    else {
+      const año = parseInt(partes[0]);
+      const mes = parseInt(partes[1]) - 1;
+      const dia = parseInt(partes[2]);
+      venc = new Date(año, mes, dia);
+    }
+  } 
+  // Formato MM/DD/YYYY
+  else if (fechaVenci.includes('/')) {
+    const partes = fechaVenci.split('/');
+    const mes = parseInt(partes[0]) - 1;
+    const dia = parseInt(partes[1]);
+    const año = parseInt(partes[2]);
+    venc = new Date(año, mes, dia);
+  }
+  else {
+    venc = new Date(fechaVenci);
+  }
+  
+  venc.setHours(0, 0, 0, 0);
+  
+  const diff = venc - hoy;
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  
+  // Log para debug
+  console.log(`Fecha vencimiento: ${fechaVenci} -> Convertida: ${venc.toLocaleDateString()} -> Días restantes: ${dias}`);
+  
+  return dias;
+}
+
+// 🔹 Muestra alertas de forma secuencial
+function mostrarAlertasSecuenciales() {
+  if (currentModalIndex < alertasActivas.length) {
+    mostrarAlertaVencimiento(alertasActivas[currentModalIndex]);
+  }
+}
+
+// 🔹 Muestra un modal mejorado tipo alerta
+function mostrarAlertaVencimiento(data) {
+  let mensaje = "";
+  let icono = "";
+  let colorHeader = "";
+  let nivelAlerta = "";
+  let colorBorde = "";
+
+  if (data.dias < 0) {
+    // VENCIDO
+    nivelAlerta = "LICENCIA VENCIDA";
+    icono = "🚫";
+    colorHeader = "#8B0000";
+    colorBorde = "#8B0000";
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> YA VENCIÓ hace <strong>${Math.abs(data.dias)}</strong> día(s).`;
+  } else if (data.dias === 0) {
+    // DÍA DEL VENCIMIENTO
+    nivelAlerta = "VENCE HOY";
+    icono = "🔴";
+    colorHeader = "#dc3545";
+    colorBorde = "#dc3545";
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> VENCE HOY.`;
+  } else if (data.dias === 7) {
+    // EXACTAMENTE 1 semana
+    nivelAlerta = "ALERTA CRÍTICA";
+    icono = "🔴";
+    colorHeader = "#dc3545";
+    colorBorde = "#dc3545";
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>1 semana exacta</strong> (7 días).`;
+  } else if (data.dias === 14) {
+    // EXACTAMENTE 2 semanas
+    nivelAlerta = "ALERTA URGENTE";
+    icono = "⚠️";
+    colorHeader = "#fd7e14";
+    colorBorde = "#fd7e14";
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>2 semanas exactas</strong> (14 días).`;
+  } else if (data.dias === 30) {
+    // EXACTAMENTE 1 mes
+    nivelAlerta = "ALERTA IMPORTANTE";
+    icono = "⚡";
+    colorHeader = "#ffc107";
+    colorBorde = "#ffc107";
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>1 mes exacto</strong> (30 días).`;
+  } else if (data.dias === 60) {
+    // EXACTAMENTE 2 meses
+    nivelAlerta = "AVISO PREVENTIVO";
+    icono = "ℹ️";
+    colorHeader = "#17a2b8";
+    colorBorde = "#17a2b8";
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>2 meses exactos</strong> (60 días).`;
+  }
+
+  // Construir HTML del modal mejorado
+  const modalHTML = `
+    <div class="modal-header" style="background: linear-gradient(135deg, ${colorHeader} 0%, ${colorHeader}dd 100%); color:white; border-radius: 15px 15px 0 0; border: none;">
+      <h4 class="modal-title w-100 text-center mb-0" style="font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+        <span style="font-size: 2rem;">${icono}</span><br>
+        ${nivelAlerta}
+      </h4>
+    </div>
+    <div class="modal-body" style="padding: 30px;">
+      <div class="alert-content" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 25px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div class="text-center mb-4">
+          <div style="font-size: 4rem; margin-bottom: 15px;">${icono}</div>
+          <p style="font-size: 18px; line-height: 1.8; color: #333; margin-bottom: 20px;">${mensaje}</p>
+        </div>
+        
+        <div class="info-grid" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+          <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+            <strong style="color: #555;">📋 Documento:</strong>
+            <span style="color: #333;">${data.documento}</span>
+          </div>
+          <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+            <strong style="color: #555;">🚗 Vehículo:</strong>
+            <span style="color: #333;">${data.vehiculo}</span>
+          </div>
+          <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+            <strong style="color: #555;">🪪 Licencia N°:</strong>
+            <span style="color: #333;">${data.licencia}</span>
+          </div>
+          <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+            <strong style="color: #555;">📊 Categoría:</strong>
+            <span style="color: #333;">${data.categoria}</span>
+          </div>
+          <div class="info-row" style="display: flex; justify-content: space-between; padding: 10px 0;">
+            <strong style="color: #555;">📅 Fecha Vencimiento:</strong>
+            <span style="color: #333; font-weight: bold;">${data.fecha}</span>
+          </div>
+        </div>
+
+        ${data.dias <= 0 ? 
+          '<div class="mt-3 p-3" style="background-color: #fff3cd; border-left: 4px solid #856404; border-radius: 5px;"><strong>⚠️ Acción Requerida:</strong> El conductor NO debe operar vehículos hasta renovar su licencia.</div>' : 
+          '<div class="mt-3 p-3" style="background-color: #d1ecf1; border-left: 4px solid #0c5460; border-radius: 5px;"><strong>📌 Recomendación:</strong> Coordinar la renovación de la licencia con anticipación.</div>'
+        }
+      </div>
+    </div>
+    <div class="modal-footer justify-content-center" style="border-top: 2px solid ${colorBorde}; padding: 20px;">
+      <button type="button" class="btn btn-lg" style="background-color: ${colorHeader}; color: white; padding: 12px 30px; font-weight: bold; border-radius: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="cerrarYSiguiente()">
+        <i class="fas fa-check-circle"></i> Entendido
+      </button>
+    </div>
+  `;
+
+  $("#modal_ver .modal-content").html(modalHTML);
+  $("#modal_ver").modal({ backdrop: 'static', keyboard: false });
+  $("#modal_ver").modal('show');
+}
+
+// 🔹 Función para cerrar modal y mostrar siguiente alerta
+function cerrarYSiguiente() {
+  currentModalIndex++;
+  console.log("Cerrando modal. Índice actual:", currentModalIndex, "Total alertas:", alertasActivas.length);
+  
+  $("#modal_ver").modal('hide');
+  
+  // Esperar a que el modal se cierre completamente antes de mostrar el siguiente
+  $('#modal_ver').on('hidden.bs.modal', function (e) {
+    // Remover el event listener para evitar múltiples llamadas
+    $(this).off('hidden.bs.modal');
+    
+    if (currentModalIndex < alertasActivas.length) {
+      console.log("Mostrando siguiente alerta...");
+      // Delay más largo para asegurar que el modal anterior se cerró
+      setTimeout(function() {
+        mostrarAlertaVencimiento(alertasActivas[currentModalIndex]);
+      }, 600);
+    } else {
+      console.log("No hay más alertas por mostrar");
+      currentModalIndex = 0; // Resetear para la próxima vez
+    }
+  });
+}

@@ -469,7 +469,6 @@ $('#tabla_choferes').on('click','.eliminar',function(){
 var tbl_choferes_dash;
 var alertasActivas = [];
 var currentModalIndex = 0;
-var modalMostradoHoy = false;
 
 function listar_choferes_vencidos() {
   tbl_choferes_dash = $("#tabla_choferes_vencidos").DataTable({
@@ -491,7 +490,16 @@ function listar_choferes_vencidos() {
       { "data": "clase_categoria" },
       { "data": "fecha_venci" },
       {
-        "defaultContent": "<button class='mostrar btn btn-warning btn-sm'><i class='fa fa-eye'></i> Ver</button>"
+        "data": null,
+        "render": function(data, type, row) {
+          const diasRestantes = calcularDiasRestantes(row.fecha_venci);
+          // Solo mostrar botón si faltan 60 días o menos (o ya está vencida)
+          if (diasRestantes <= 60) {
+            return "<button class='mostrar btn btn-warning btn-sm'><i class='fa fa-eye'></i> Ver</button>";
+          } else {
+            return "<span class='text-muted' style='font-size: 12px;'>Sin alerta</span>";
+          }
+        }
       },
       {
         "data": "estado",
@@ -526,15 +534,38 @@ function listar_choferes_vencidos() {
     "drawCallback": function () {
       if (tbl_choferes_dash) {
         alertasActivas = [];
-        currentModalIndex = 0; // Resetear índice
+        currentModalIndex = 0;
+        
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+        const ultimoDiaMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
+        const esFinDeMes = hoy.getDate() === ultimoDiaMes;
+        
+        console.log(`Hoy: ${hoy.toLocaleDateString()}, Es fin de mes: ${esFinDeMes}`);
         
         tbl_choferes_dash.rows().every(function () {
           var data = this.data();
           var diasRestantes = calcularDiasRestantes(data.fecha_venci);
 
-          // 🔹 Alertas automáticas usando RANGOS en lugar de días exactos
-          // Vencido, ≤7 días, ≤14 días, ≤30 días, ≤60 días
-          if (diasRestantes < 0 || diasRestantes <= 60) {
+          let debeAgregar = false;
+          
+          // 🔹 Para licencias VENCIDAS: solo mostrar en el ÚLTIMO DÍA del mes
+          if (diasRestantes < 0) {
+            if (esFinDeMes) {
+              console.log(`Licencia vencida encontrada (${data.nombres_apellidos}): ${diasRestantes} días - Se mostrará porque es fin de mes`);
+              debeAgregar = true;
+            }
+          } 
+          // 🔹 Para alertas PREVENTIVAS: solo mostrar en días EXACTOS (60, 30, 14, 7, 0)
+          else {
+            const diasExactos = [60, 30, 14, 7, 0];
+            if (diasExactos.includes(diasRestantes)) {
+              console.log(`Alerta preventiva encontrada (${data.nombres_apellidos}): Exactamente ${diasRestantes} días`);
+              debeAgregar = true;
+            }
+          }
+          
+          if (debeAgregar) {
             alertasActivas.push({
               nombre: data.nombres_apellidos,
               fecha: data.fecha_venci,
@@ -554,9 +585,12 @@ function listar_choferes_vencidos() {
           return a.dias - b.dias;
         });
 
-        console.log("Total de alertas encontradas:", alertasActivas.length);
+        console.log("Total de alertas para mostrar:", alertasActivas.length);
+        if (alertasActivas.length > 0) {
+          console.log("Detalle de alertas:", alertasActivas.map(a => `${a.nombre}: ${a.dias} días (${a.fecha})`));
+        }
         
-        // 🔹 Mostrar alertas automáticas (sin restricción de "una por día")
+        // 🔹 Mostrar alertas automáticas
         if (alertasActivas.length > 0) {
           setTimeout(function() {
             mostrarAlertasSecuenciales();
@@ -586,26 +620,48 @@ function calcularDiasRestantes(fechaVenci) {
   const hoy = new Date();
   hoy.setHours(0, 0, 0, 0);
   
-  // Convertir la fecha desde formato DD-MM-YYYY o YYYY-MM-DD
   let venc;
+  
+  // Detectar formato de fecha
   if (fechaVenci.includes('-')) {
     const partes = fechaVenci.split('-');
     
-    // Si el formato es DD-MM-YYYY
+    // Formato DD-MM-YYYY (09-08-2025)
     if (partes[0].length <= 2) {
-      venc = new Date(partes[2], partes[1] - 1, partes[0]);
+      const dia = parseInt(partes[0]);
+      const mes = parseInt(partes[1]) - 1; // Mes en JS es 0-11
+      const año = parseInt(partes[2]);
+      venc = new Date(año, mes, dia);
     } 
-    // Si el formato es YYYY-MM-DD
+    // Formato YYYY-MM-DD (2025-08-09)
     else {
-      venc = new Date(fechaVenci);
+      const año = parseInt(partes[0]);
+      const mes = parseInt(partes[1]) - 1;
+      const dia = parseInt(partes[2]);
+      venc = new Date(año, mes, dia);
     }
-  } else {
+  } 
+  // Formato MM/DD/YYYY
+  else if (fechaVenci.includes('/')) {
+    const partes = fechaVenci.split('/');
+    const mes = parseInt(partes[0]) - 1;
+    const dia = parseInt(partes[1]);
+    const año = parseInt(partes[2]);
+    venc = new Date(año, mes, dia);
+  }
+  else {
     venc = new Date(fechaVenci);
   }
   
   venc.setHours(0, 0, 0, 0);
+  
   const diff = venc - hoy;
-  return Math.ceil(diff / (1000 * 60 * 60 * 24));
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  
+  // Log para debug
+  console.log(`Fecha vencimiento: ${fechaVenci} -> Convertida: ${venc.toLocaleDateString()} -> Días restantes: ${dias}`);
+  
+  return dias;
 }
 
 // 🔹 Muestra alertas de forma secuencial
@@ -630,34 +686,41 @@ function mostrarAlertaVencimiento(data) {
     colorHeader = "#8B0000";
     colorBorde = "#8B0000";
     mensaje = `La licencia del conductor <strong>${data.nombre}</strong> YA VENCIÓ hace <strong>${Math.abs(data.dias)}</strong> día(s).`;
-  } else if (data.dias <= 7) {
-    // 1 semana o menos
+  } else if (data.dias === 0) {
+    // DÍA DEL VENCIMIENTO
+    nivelAlerta = "VENCE HOY";
+    icono = "🔴";
+    colorHeader = "#dc3545";
+    colorBorde = "#dc3545";
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> VENCE HOY.`;
+  } else if (data.dias === 7) {
+    // EXACTAMENTE 1 semana
     nivelAlerta = "ALERTA CRÍTICA";
     icono = "🔴";
     colorHeader = "#dc3545";
     colorBorde = "#dc3545";
-    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>1 semana</strong> (<strong>${data.dias}</strong> día(s)).`;
-  } else if (data.dias <= 14) {
-    // 2 semanas
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>1 semana exacta</strong> (7 días).`;
+  } else if (data.dias === 14) {
+    // EXACTAMENTE 2 semanas
     nivelAlerta = "ALERTA URGENTE";
     icono = "⚠️";
     colorHeader = "#fd7e14";
     colorBorde = "#fd7e14";
-    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>2 semanas</strong>.`;
-  } else if (data.dias <= 30) {
-    // 1 mes
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>2 semanas exactas</strong> (14 días).`;
+  } else if (data.dias === 30) {
+    // EXACTAMENTE 1 mes
     nivelAlerta = "ALERTA IMPORTANTE";
     icono = "⚡";
     colorHeader = "#ffc107";
     colorBorde = "#ffc107";
-    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>1 mes</strong>.`;
-  } else if (data.dias <= 60) {
-    // 2 meses
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>1 mes exacto</strong> (30 días).`;
+  } else if (data.dias === 60) {
+    // EXACTAMENTE 2 meses
     nivelAlerta = "AVISO PREVENTIVO";
     icono = "ℹ️";
     colorHeader = "#17a2b8";
     colorBorde = "#17a2b8";
-    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>2 meses</strong>.`;
+    mensaje = `La licencia del conductor <strong>${data.nombre}</strong> CADUCARÁ en <strong>2 meses exactos</strong> (60 días).`;
   }
 
   // Construir HTML del modal mejorado
@@ -698,7 +761,7 @@ function mostrarAlertaVencimiento(data) {
           </div>
         </div>
 
-        ${data.dias < 0 ? 
+        ${data.dias <= 0 ? 
           '<div class="mt-3 p-3" style="background-color: #fff3cd; border-left: 4px solid #856404; border-radius: 5px;"><strong>⚠️ Acción Requerida:</strong> El conductor NO debe operar vehículos hasta renovar su licencia.</div>' : 
           '<div class="mt-3 p-3" style="background-color: #d1ecf1; border-left: 4px solid #0c5460; border-radius: 5px;"><strong>📌 Recomendación:</strong> Coordinar la renovación de la licencia con anticipación.</div>'
         }
