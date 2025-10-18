@@ -130,7 +130,7 @@
             </div>
             <div class="col-6 form-group">
               <label for="">Sucursal<b style="color:red">(*)</b>:</label>
-              <select type="text" class="js-example-basic-single" id="txt_sucursal" style="width:100%"></select>
+              <select type="text" class="js-example-basic-single" id="txt_sucursal1" style="width:100%"></select>
             </div>
         </div>
       </div>
