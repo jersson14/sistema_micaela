@@ -374,7 +374,7 @@ function Registrar_Usuario() {
   let usu = document.getElementById("txt_usu").value;
   let contra = document.getElementById("txt_contra").value;
   let rol = document.getElementById("txt_roles").value;
-  let sucu = document.getElementById("txt_sucursal").value;
+  let sucu = document.getElementById("txt_sucursal1").value;
 
   if (
     dni.length == 0 ||
@@ -666,27 +666,37 @@ function Cargar_Select_roles() {
   });
 }
 
+
 function Cargar_Select_sucursal() {
   $.ajax({
     url: "../controller/sucursal/controlador_cargar_select_sucursal.php",
     type: "POST",
   }).done(function (resp) {
-    let data = JSON.parse(resp);
-    if (data.length > 0) {
-      let cadena = "";
-      for (let i = 0; i < data.length; i++) {
-        cadena +=
-          "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
-      }
-      document.getElementById("txt_sucursal").innerHTML = cadena;
-      document.getElementById("txt_sucursal_editar").innerHTML = cadena;
-    } else {
-      cadena += "<option value=''>No hay empleado en la base de datos</option>";
-      document.getElementById("txt_sucursal").innerHTML = cadena;
-      document.getElementById("txt_sucursal_editar").innerHTML = cadena;
+    console.log("Respuesta del servidor:", resp);
+
+    let data;
+    try {
+      data = JSON.parse(resp);
+    } catch (e) {
+      console.error("Error al parsear JSON:", e, resp);
+      return;
     }
+
+    let cadena = "";
+    if (data.length > 0) {
+      data.forEach(row => {
+        cadena += `<option value="${row.id_sucursal}">${row.sucrusal}</option>`;
+      });
+    } else {
+      cadena = "<option value='' disabled selected>No hay sucursales disponibles</option>";
+    }
+
+    $("#txt_sucursal1").html(cadena).trigger('change.select2');
+    $("#txt_sucursal_editar").html(cadena).trigger('change.select2');
   });
 }
+
+
 
 // TOTALES
 function Total_servicios() {

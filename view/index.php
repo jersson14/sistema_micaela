@@ -194,37 +194,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','facturas/view_facturas.php')" class="nav-link">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/facturas.php')" class="nav-link">
                       <i class="nav-icon fas fa-file-invoice"></i>
-                      <p style="color:white">Facturas</p>
+                      <p style="color:white">Comprobantes</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','boletas/view_boletas.php')" class="nav-link">
-                      <i class="nav-icon fas fa-receipt"></i>
-                      <p style="color:white">Boletas</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','notas_credito/view_notas_credito.php')" class="nav-link">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_credito.php')" class="nav-link">
                       <i class="nav-icon fas fa-file-alt"></i>
                       <p style="color:white">Notas de crédito</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','notas_debito/view_notas_debito.php')" class="nav-link">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_debito.php')" class="nav-link">
                       <i class="nav-icon fas fa-file-signature"></i>
                       <p style="color:white">Notas de débito</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','sunat/envios_sunat.php')" class="nav-link">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/envios_sunat.php')" class="nav-link">
                       <i class="nav-icon fas fa-paper-plane"></i>
                       <p style="color:white">Envíos a SUNAT</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','consultas/view_consultas_comprobante.php')" class="nav-link">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/comprobantes_lista.php')" class="nav-link">
                       <i class="nav-icon fas fa-search-dollar"></i>
                       <p style="color:white">Consultas de comprobantes</p>
                     </a>
@@ -2083,48 +2077,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
           setInterval(actualizarFechaHora, 1000);
           actualizarFechaHora(); // Ejecutar inmediatamente
         </script>
- <div class="content">
-          <div class="container-fluid">
-            <div class="row">
-              <!-- /.col-md-6 -->
-              <div class="col-lg-12">
-                <div class="card-primary">
-                  <div class="card-header">
-                    <h5 class="m-0" style="font-family:cooper;text-align:center"><i class="fas fa-bullhorn"></i><b> VENCIMIENTO DE LICENCIAS</b></h5>
-                  </div>
-                  <div class="table-responsive" style="text-align:center">
-                    <div class="card-body" style="overflow: hidden; border-radius: 20px;">
-                      <table id="tabla_choferes_vencidos" class="table table-striped table-bordered" style="width:100%; border-radius: 20px; overflow: hidden;">
-                        <thead style="background-color:#023D77;color:white;">
-                          <tr>
-                            <th style="text-align:center">Nro.</th>
-                            <th style="text-align:center">Tipo Doc y N°</th>
-                            <th style="text-align:center">Conductor</th>
-                            <th style="text-align:center">Vehículo</th>
-                            <th style="text-align:center">Licencia</th>
-                            <th style="text-align:center">Categoria</th>
-                            <th style="text-align:center">Fecha de vencimiento</th>
-                            <th style="text-align:center">Estado</th>
-                          </tr>
-                        </thead>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.col-md-6 -->
-              </div>
-              <!-- /.row -->
-            </div><!-- /.container-fluid -->
-          </div>
-        </div>
-<!-- Modal Mejorado de Alertas de Vencimiento -->
-<div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="modalAlertaLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden;">
-      <!-- El contenido se genera dinámicamente desde JavaScript -->
-    </div>
-  </div>
-</div>
 
 <style>
   /* Animación de entrada del modal */

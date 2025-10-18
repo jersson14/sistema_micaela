@@ -21,7 +21,6 @@ function listar_empresa(){
          },
         {"data":"nombre"},
         {"data":"email"},
-        {"data":"codigo"},
         {"data":"telefono"},
         {"data":"direccion"},
         {"defaultContent":"<button class='editar btn btn-primary  btn-sm' title='Editar datos de empresa'><i class='fa fa-edit'></i> Editar</button>&nbsp;<button class='foto btn btn-warning btn-sm' title='Cambiar logo'><i class='fa fa-image'></i> Cambiar foto</button>"},

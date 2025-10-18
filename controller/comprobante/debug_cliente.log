@@ -1,0 +1,1230 @@
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:20
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:24
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:26
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:29
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:31
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:31
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:34
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:34
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:38
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:38
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:48
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:48
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:49
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:51
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:51
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => CONTADO
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:53
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:53
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:55
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:55
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:55
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T16:59
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 2
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T17:09
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000001
+    [fecha_emision] => 2025-10-12
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. NICOLAS DE PIEROLA N° 255
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-12T17:11
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-13
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20177395227
+    [razon_social] => UNIVERSIDAD ANDINA DEL CUSCO
+    [direccion] => MZA. A LOTE 5 URB. INGENIERIA LARAPA GRANDE 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-13T14:56
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-13
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => Jr. Cusco N° 23
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-13T16:07
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-13
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 09747535
+    [razon_social] => CELIA MIRANDA MUNGUIA
+    [direccion] => JR. CANADA N° 545
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 4
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2025-10-13T16:10
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000004
+    [fecha_emision] => 2025-10-13
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72251151
+    [razon_social] => NICOLLE ALEXANDRA MANRIQUE ZUÑIGA
+    [direccion] => av. camana 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 8
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-13T16:13
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000004
+    [fecha_emision] => 2025-10-13
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20100038146
+    [razon_social] => CONTINENTAL S.A.C.
+    [direccion] => CAL. RENEE DESCARTES NRO 114 URB. SANTA RAQUEL II ETAPA 
+    [departamento] => LIMA
+    [provincia] => LIMA
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-13T16:59
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 1
+    [fecha_viaje] => 2025-10-15T16:26
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 09747535
+    [razon_social] => CELIA MIRANDA MUNGUIA
+    [direccion] => JR. CUSCO N° 23
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T16:39
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000003
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72641422
+    [razon_social] => LUCINDA CONTRERAS BALTAZAR
+    [direccion] => AV. PERU
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T16:39
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 2
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000004
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 09745485
+    [razon_social] => MARIA ELIZABETH CUYA BERROCAL
+    [direccion] => PSJ. ALCIDES
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T16:44
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 2
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000004
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20319363221
+    [razon_social] => UNIVERSIDAD CONTINENTAL SOCIEDAD ANONIMA CERRADA
+    [direccion] => AV. SAN CARLOS NRO 1980 URB. SAN ANTONIO 
+    [departamento] => JUNIN
+    [provincia] => HUANCAYO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T16:48
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 2
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000005
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20319363221
+    [razon_social] => UNIVERSIDAD CONTINENTAL SOCIEDAD ANONIMA CERRADA
+    [direccion] => AV. SAN CARLOS NRO 1980 URB. SAN ANTONIO 
+    [departamento] => JUNIN
+    [provincia] => HUANCAYO
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2025-10-15T16:50
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000005
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72658855
+    [razon_social] => MAZZIEL STEFFANY DE LOS MILAGROS CESPEDES MAURIOLA
+    [direccion] => AV. DIAZ BARCENAS
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 4
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T17:04
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000006
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72465771
+    [razon_social] => ANTHONY JESUS PERDOMO YUCRA
+    [direccion] => AV. CUSCO N° 223
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T17:12
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000006
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20177395227
+    [razon_social] => UNIVERSIDAD ANDINA DEL CUSCO
+    [direccion] => MZA. A LOTE 5 URB. INGENIERIA LARAPA GRANDE 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T17:14
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000006
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20177395227
+    [razon_social] => UNIVERSIDAD ANDINA DEL CUSCO
+    [direccion] => MZA. A LOTE 5 URB. INGENIERIA LARAPA GRANDE 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T17:14
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000007
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72354847
+    [razon_social] => JOSE MARIA MANRIQUE COMPAÑY
+    [direccion] => AV. CHILE N° 331
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T17:17
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000008
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72641578
+    [razon_social] => KIMBERLIN MARICIELO CERVERA VILLANUEVA
+    [direccion] => AV. NUÑEZ
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 7
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T17:24
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 2
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000009
+    [fecha_emision] => 2025-10-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72654145
+    [razon_social] => EDWIN MAMANI MENDOZA
+    [direccion] => AV. CANADA N° 342
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 5
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-15T18:18
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)

@@ -1,0 +1,847 @@
+=========================
+FECHA: 2025-10-13 23:13:35
+ID COMPROBANTE: 17
+OUTPUT:
+📄 Procesando: B001-4
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-13
+
+👤 Cliente: NICOLLE ALEXANDRA MANRIQUE ZUÑIGA
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/B001-4.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Boleta numero B001-4, ha sido aceptada
+📝 Código: 0
+🔑 Hash: yEotAPeH2kh4IZWMdXp8vj5+ivk=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-B001-4.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-13 23:59:56
+ID COMPROBANTE: 18
+OUTPUT:
+📄 Procesando: F001-4
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-13
+
+👤 Cliente: RUC 20100038146
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/F001-4.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Factura numero F001-4, ha sido aceptada
+📝 Código: 0
+🔑 Hash: TO6s/nL/wNJVF6fcdWhMyrLlR10=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-F001-4.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-15 23:27:22
+ID COMPROBANTE: 14
+OUTPUT:
+📄 Procesando: F001-3
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: RUC 20527056579
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/F001-3.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Factura numero F001-3, ha sido aceptada
+📝 Código: 0
+🔑 Hash: aNNV5UcnWjNYG2xFmxumEyD8DVc=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-F001-3.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-15 23:39:33
+ID COMPROBANTE: 15
+OUTPUT:
+📄 Procesando: B001-2
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: CELIA MIRANDA MUNGUIA
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/B001-2.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Boleta numero B001-2, ha sido aceptada
+📝 Código: 0
+🔑 Hash: DItDijV31YYoU6r+4nkOlcRpkjI=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-B001-2.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-15 23:40:52
+ID COMPROBANTE: 16
+OUTPUT:
+📄 Procesando: B001-3
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: LUCINDA CONTRERAS BALTAZAR
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/B001-3.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Boleta numero B001-3, ha sido aceptada
+📝 Código: 0
+🔑 Hash: 6QkB/f47PnnT4PSH/kbh2rdTLt4=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-B001-3.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-15 23:45:30
+ID COMPROBANTE: 17
+OUTPUT:
+📄 Procesando: B001-4
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: MARIA ELIZABETH CUYA BERROCAL
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/B001-4.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Boleta numero B001-4, ha sido aceptada
+📝 Código: 0
+🔑 Hash: oW5WrqoBo6SGyWxMM91rPUpO62U=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-B001-4.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-15 23:48:58
+ID COMPROBANTE: 18
+OUTPUT:
+📄 Procesando: F001-4
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: RUC 20319363221
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/F001-4.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Factura numero F001-4, ha sido aceptada
+📝 Código: 0
+🔑 Hash: XVUjZnGqBW1dEAF0+8Og1xFNKhc=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-F001-4.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-15 23:51:00
+ID COMPROBANTE: 19
+OUTPUT:
+📄 Procesando: F001-5
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: RUC 20319363221
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/F001-5.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Factura numero F001-5, ha sido aceptada
+📝 Código: 0
+🔑 Hash: 6gL1oCPbSDZuc3hBq4/lbXoWc5U=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-F001-5.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-16 00:04:59
+ID COMPROBANTE: 20
+OUTPUT:
+📄 Procesando: B001-5
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: MAZZIEL STEFFANY DE LOS MILAGROS CESPEDES MAURIOLA
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/B001-5.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Boleta numero B001-5, ha sido aceptada
+📝 Código: 0
+🔑 Hash: glzXkqQxBxTYpiJ2Ok7ximcZLM0=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-B001-5.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-16 00:13:24
+ID COMPROBANTE: 21
+OUTPUT:
+📄 Procesando: B001-6
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: ANTHONY JESUS PERDOMO YUCRA
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/B001-6.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Boleta numero B001-6, ha sido aceptada
+📝 Código: 0
+🔑 Hash: w7+f/upAbi7D0+mRk7kul9Ryphs=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-B001-6.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-16 00:18:05
+ID COMPROBANTE: 24
+OUTPUT:
+📄 Procesando: B001-7
+💰 Total: S/ 35.40
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: JOSE MARIA MANRIQUE COMPAÑY
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 30.00
+   ├─ IGV (18%):    S/ 5.40
+   └─ Total:        S/ 35.40
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 30
+  - IGV: S/ 5.4
+  - Precio Unitario: S/ 35.4
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 35.4)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 30
+   IGV (18%):           S/ 5.4
+   Total Impuestos:     S/ 5.4
+   Valor Venta:         S/ 30
+   Total a Pagar:       S/ 35.4
+
+📤 Generando XML...
+📄 XML generado: xml/B001-7.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 30.00
+  ✓ Monto del IGV: 5.40
+  ✓ Base Imponible: 30.00
+  ✓ Total a Pagar: 35.40
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Boleta numero B001-7, ha sido aceptada
+📝 Código: 0
+🔑 Hash: jUhqF4xucA/JX6ScKjK14Cxp8Ko=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-B001-7.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-16 00:24:36
+ID COMPROBANTE: 25
+OUTPUT:
+📄 Procesando: B001-8
+💰 Total: S/ 35.40
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: KIMBERLIN MARICIELO CERVERA VILLANUEVA
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 30.00
+   ├─ IGV (18%):    S/ 5.40
+   └─ Total:        S/ 35.40
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 30
+  - IGV: S/ 5.4
+  - Precio Unitario: S/ 35.4
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 35.4)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 30
+   IGV (18%):           S/ 5.4
+   Total Impuestos:     S/ 5.4
+   Valor Venta:         S/ 30
+   Total a Pagar:       S/ 35.4
+
+📤 Generando XML...
+📄 XML generado: xml/B001-8.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 30.00
+  ✓ Monto del IGV: 5.40
+  ✓ Base Imponible: 30.00
+  ✓ Total a Pagar: 35.40
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Boleta numero B001-8, ha sido aceptada
+📝 Código: 0
+🔑 Hash: 8tA9LTAZ7Sr5zeAc09I1sLW2WQE=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-B001-8.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-16 01:10:54
+ID COMPROBANTE: 22
+OUTPUT:
+📄 Procesando: F001-6
+💰 Total: S/ 35.40
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: RUC 20177395227
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 30.00
+   ├─ IGV (18%):    S/ 5.40
+   └─ Total:        S/ 35.40
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 30
+  - IGV: S/ 5.4
+  - Precio Unitario: S/ 35.4
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 35.4)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 30
+   IGV (18%):           S/ 5.4
+   Total Impuestos:     S/ 5.4
+   Valor Venta:         S/ 30
+   Total a Pagar:       S/ 35.4
+
+📤 Generando XML...
+📄 XML generado: xml/F001-6.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 30.00
+  ✓ Monto del IGV: 5.40
+  ✓ Base Imponible: 30.00
+  ✓ Total a Pagar: 35.40
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Factura numero F001-6, ha sido aceptada
+📝 Código: 0
+🔑 Hash: U/Q513t72JzotfrTF3FUSKx3Td0=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-F001-6.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-16 01:11:32
+ID COMPROBANTE: 12
+OUTPUT:
+📄 Procesando: B001-1
+💰 Total: S/ 59.00
+📅 Fecha emisión: 2025-10-12
+
+👤 Cliente: JERSSON JORGE CORILLA MIRANDA
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 50.00
+   ├─ IGV (18%):    S/ 9.00
+   └─ Total:        S/ 59.00
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 50
+  - IGV: S/ 9
+  - Precio Unitario: S/ 59
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 59)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 50
+   IGV (18%):           S/ 9
+   Total Impuestos:     S/ 9
+   Valor Venta:         S/ 50
+   Total a Pagar:       S/ 59
+
+📤 Generando XML...
+📄 XML generado: xml/B001-1.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 50.00
+  ✓ Monto del IGV: 9.00
+  ✓ Base Imponible: 50.00
+  ✓ Total a Pagar: 59.00
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Boleta numero B001-1, ha sido aceptada
+📝 Código: 0
+🔑 Hash: y5s5pZ5HRr9mL7ZsJo0ByRm2C8A=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-B001-1.zip
+
+💾 Estado actualizado en base de datos.
+
+
+=========================
+FECHA: 2025-10-16 01:11:34
+ID COMPROBANTE: 13
+OUTPUT:
+❌ No se encontró ningún comprobante PENDIENTE.
+
+
+=========================
+FECHA: 2025-10-16 01:26:51
+ID COMPROBANTE: 26
+OUTPUT:
+📄 Procesando: B001-9
+💰 Total: S/ 35.40
+📅 Fecha emisión: 2025-10-15
+
+👤 Cliente: EDWIN MAMANI MENDOZA
+🏢 Emisor: ETTOM S.A.
+
+📦 Creando detalle del comprobante...
+   ├─ Base Gravada: S/ 30.00
+   ├─ IGV (18%):    S/ 5.40
+   └─ Total:        S/ 35.40
+
+✓ Detalle creado: PRODUCTO O SERVICIO
+  - Valor Venta (LineExtensionAmount): S/ 30
+  - IGV: S/ 5.4
+  - Precio Unitario: S/ 35.4
+
+✓ Validación de totales: OK
+  Base (100.00) + IGV (18.00) = Total (118.00)
+
+💳 Forma de pago: Contado (S/ 35.4)
+
+📊 Resumen de la factura:
+   Operaciones Gravadas: S/ 30
+   IGV (18%):           S/ 5.4
+   Total Impuestos:     S/ 5.4
+   Valor Venta:         S/ 30
+   Total a Pagar:       S/ 35.4
+
+📤 Generando XML...
+📄 XML generado: xml/B001-9.xml
+
+🔍 Verificando campos en el XML:
+  ✓ Total Precio de Venta del detalle: 30.00
+  ✓ Monto del IGV: 5.40
+  ✓ Base Imponible: 30.00
+  ✓ Total a Pagar: 35.40
+
+📤 Enviando a SUNAT...
+
+✅ ¡ÉXITO! Comprobante aceptado por SUNAT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Descripción: La Boleta numero B001-9, ha sido aceptada
+📝 Código: 0
+🔑 Hash: MowrEix8TkzMlI+0XEtQ3zX6oZE=
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 CDR guardado: cdr/R-B001-9.zip
+
+💾 Estado actualizado en base de datos.
+
+

@@ -37,7 +37,6 @@
                       <th style="text-align:center; border-top: none;">Logo</th>
                       <th style="text-align:center; border-top: none;">Nombre</th>
                       <th style="text-align:center; border-top: none;">Email</th>
-                      <th style="text-align:center; border-top: none;">Código</th>
                       <th style="text-align:center; border-top: none;">Teléfono</th>
                       <th style="text-align:center; border-top: none;">Dirección</th>
                       <th style="text-align:center; border-top: none;">Acciones</th>
