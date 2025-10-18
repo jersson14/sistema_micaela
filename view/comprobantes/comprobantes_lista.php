@@ -45,6 +45,7 @@
                                     <option value="">TODOS</option>
                                     <option value="PENDIENTE">PENDIENTE</option>
                                     <option value="ENVIADO">ENVIADO</option>
+                                    <option value="ACEPTADO">ACEPTADO</option>
                                     <option value="ANULADO">ANULADO</option>
                                 </select>
                             </div>

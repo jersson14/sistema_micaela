@@ -200,6 +200,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </a>
                   </li>
                   <li class="nav-item">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/comprobantes_lista.php')" class="nav-link">
+                      <i class="nav-icon fas fa-search-dollar"></i>
+                      <p style="color:white">Consultas de comprobantes</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/envios_sunat.php')" class="nav-link">
+                      <i class="nav-icon fas fa-paper-plane"></i>
+                      <p style="color:white">Envíos a SUNAT</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_credito.php')" class="nav-link">
                       <i class="nav-icon fas fa-file-alt"></i>
                       <p style="color:white">Notas de crédito</p>
@@ -211,22 +223,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <p style="color:white">Notas de débito</p>
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/envios_sunat.php')" class="nav-link">
-                      <i class="nav-icon fas fa-paper-plane"></i>
-                      <p style="color:white">Envíos a SUNAT</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/comprobantes_lista.php')" class="nav-link">
-                      <i class="nav-icon fas fa-search-dollar"></i>
-                      <p style="color:white">Consultas de comprobantes</p>
-                    </a>
-                  </li>
                 </ul>
               </li>
-
-
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-wallet"></i>
@@ -431,7 +429,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p style="color:white">Salidas diarias</p>
                 </a>
               </li>
-              <li class="nav-item">
+               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-file-invoice-dollar"></i>
                   <p style="color:white">
@@ -441,39 +439,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','facturas/view_facturas.php')" class="nav-link">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/facturas.php')" class="nav-link">
                       <i class="nav-icon fas fa-file-invoice"></i>
-                      <p style="color:white">Facturas</p>
+                      <p style="color:white">Comprobantes</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','boletas/view_boletas.php')" class="nav-link">
-                      <i class="nav-icon fas fa-receipt"></i>
-                      <p style="color:white">Boletas</p>
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/comprobantes_lista.php')" class="nav-link">
+                      <i class="nav-icon fas fa-search-dollar"></i>
+                      <p style="color:white">Consultas de comprobantes</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','notas_credito/view_notas_credito.php')" class="nav-link">
-                      <i class="nav-icon fas fa-file-alt"></i>
-                      <p style="color:white">Notas de crédito</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','notas_debito/view_notas_debito.php')" class="nav-link">
-                      <i class="nav-icon fas fa-file-signature"></i>
-                      <p style="color:white">Notas de débito</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','sunat/envios_sunat.php')" class="nav-link">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/envios_sunat.php')" class="nav-link">
                       <i class="nav-icon fas fa-paper-plane"></i>
                       <p style="color:white">Envíos a SUNAT</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','consultas/view_consultas_comprobante.php')" class="nav-link">
-                      <i class="nav-icon fas fa-search-dollar"></i>
-                      <p style="color:white">Consultas de comprobantes</p>
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_credito.php')" class="nav-link">
+                      <i class="nav-icon fas fa-file-alt"></i>
+                      <p style="color:white">Notas de crédito</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_debito.php')" class="nav-link">
+                      <i class="nav-icon fas fa-file-signature"></i>
+                      <p style="color:white">Notas de débito</p>
                     </a>
                   </li>
                 </ul>

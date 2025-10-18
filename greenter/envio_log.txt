@@ -845,3 +845,271 @@ OUTPUT:
 💾 Estado actualizado en base de datos.
 
 
+=========================
+FECHA: 2025-10-18 17:16:28
+ID COMPROBANTE: 27
+OUTPUT:
+📄 Procesando comprobante 03: B001-10
+📄 XML generado: xml/B001-10.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-10, ha sido aceptada
+   Código: 0
+   Hash: 75ZBNxwHJ2SSJmdHQW8FKaT/9CE=
+
+
+=========================
+FECHA: 2025-10-18 18:45:07
+ID COMPROBANTE: 
+OUTPUT:
+📄 Procesando comprobante 07: BN01-1
+📄 XML generado: xml/BN01-1.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 2399
+Mensaje: El tipo de documento modificado por la Nota de credito debe ser boleta electronica - Detalle: xxx.xxx.xxx value='ticket: 1760806055037 error: INFO : 2399 (nodo: "cac:InvoiceDocumentReference/cbc:DocumentTypeCode" valor: "01")'
+
+
+=========================
+FECHA: 2025-10-18 18:50:38
+ID COMPROBANTE: 29
+OUTPUT:
+📄 Procesando comprobante 07: BN01-1
+📄 XML generado: xml/BN01-1.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 2399
+Mensaje: El tipo de documento modificado por la Nota de credito debe ser boleta electronica - Detalle: xxx.xxx.xxx value='ticket: 1760806386061 error: INFO : 2399 (nodo: "cac:InvoiceDocumentReference/cbc:DocumentTypeCode" valor: "01")'
+
+
+=========================
+FECHA: 2025-10-18 18:56:48
+ID COMPROBANTE: 29
+OUTPUT:
+📄 Procesando comprobante 07: BN01-1
+📌 Documento de referencia: 03 (B001-8)
+📄 XML generado: xml/BN01-1.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Credito numero BN01-1, ha sido aceptada
+   Código: 0
+   Hash: tAFyWWcf4CMtCtrV/pRUp0VTA4k=
+
+
+=========================
+FECHA: 2025-10-18 19:08:57
+ID COMPROBANTE: 30
+OUTPUT:
+📄 Procesando comprobante 01: F001-7
+📄 XML generado: xml/F001-7.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-7, ha sido aceptada
+   Código: 0
+   Hash: x4Z1maWe52foIuZiSMWiwFWQVY4=
+
+
+=========================
+FECHA: 2025-10-18 19:16:04
+ID COMPROBANTE: 28
+OUTPUT:
+📄 Procesando comprobante 07: FC01-1
+📌 Documento de referencia: 01 (F001-3)
+📄 XML generado: xml/FC01-1.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Credito numero FC01-1, ha sido aceptada
+   Código: 0
+   Hash: oVO6IHiIUBOO6iC1tZvHy4jFIsQ=
+
+
+=========================
+FECHA: 2025-10-18 19:31:05
+ID COMPROBANTE: 31
+OUTPUT:
+📄 Procesando comprobante 07: FN01-1
+📌 Documento de referencia: 01 (F001-7)
+📄 XML generado: xml/FN01-1.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Credito numero FN01-1, ha sido aceptada
+   Código: 0
+   Hash: QEvYUC0QEqwE0tIBdUx8JhXb2xY=
+
+
+=========================
+FECHA: 2025-10-18 19:37:12
+ID COMPROBANTE: 32
+OUTPUT:
+📄 Procesando comprobante 07: BN01-2
+📌 Documento de referencia: 03 (B001-4)
+📄 XML generado: xml/BN01-2.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 2135
+Mensaje: cac:DiscrepancyResponse/cbc:Description - El dato ingresado no cumple con la estructura - Detalle: xxx.xxx.xxx value='ticket: 1760809180181 error: INFO: 2135 (nodo: "cac:DiscrepancyResponse/cbc:Description" valor: "
+                            Seleccione el motivo
+                            01 - ANULACIÓN DE LA OPERACIÓN
+                            02 - ANULACIÓN POR ERROR EN EL RUC
+                            03 - CORRECCIÓN POR ERROR EN LA DESCRIPCIÓN
+           ")'
+
+
+=========================
+FECHA: 2025-10-18 19:38:17
+ID COMPROBANTE: 33
+OUTPUT:
+📄 Procesando comprobante 01: F001-8
+📄 XML generado: xml/F001-8.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-8, ha sido aceptada
+   Código: 0
+   Hash: oob/3bKfcRvZ8BkFa+qHzEmsjHM=
+
+
+=========================
+FECHA: 2025-10-18 19:39:04
+ID COMPROBANTE: 34
+OUTPUT:
+📄 Procesando comprobante 07: FN01-2
+📌 Documento de referencia: 01 (F001-8)
+📄 XML generado: xml/FN01-2.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 2135
+Mensaje: cac:DiscrepancyResponse/cbc:Description - El dato ingresado no cumple con la estructura - Detalle: xxx.xxx.xxx value='ticket: 1760809291948 error: INFO: 2135 (nodo: "cac:DiscrepancyResponse/cbc:Description" valor: "
+                            Seleccione el motivo
+                            01 - ANULACIÓN DE LA OPERACIÓN
+                            02 - ANULACIÓN POR ERROR EN EL RUC
+                            03 - CORRECCIÓN POR ERROR EN LA DESCRIPCIÓN
+           ")'
+
+
+=========================
+FECHA: 2025-10-18 19:40:10
+ID COMPROBANTE: 34
+OUTPUT:
+📄 Procesando comprobante 07: FN01-2
+📌 Documento de referencia: 01 (F001-8)
+📄 XML generado: xml/FN01-2.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 2135
+Mensaje: cac:DiscrepancyResponse/cbc:Description - El dato ingresado no cumple con la estructura - Detalle: xxx.xxx.xxx value='ticket: 1760809357491 error: INFO: 2135 (nodo: "cac:DiscrepancyResponse/cbc:Description" valor: "
+                            Seleccione el motivo
+                            01 - ANULACIÓN DE LA OPERACIÓN
+                            02 - ANULACIÓN POR ERROR EN EL RUC
+                            03 - CORRECCIÓN POR ERROR EN LA DESCRIPCIÓN
+           ")'
+
+
+=========================
+FECHA: 2025-10-18 19:42:04
+ID COMPROBANTE: 34
+OUTPUT:
+📄 Procesando comprobante 07: FN01-2
+📌 Documento de referencia: 01 (F001-8)
+📄 XML generado: xml/FN01-2.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Credito numero FN01-2, ha sido aceptada
+   Código: 0
+   Hash: 1ottad0SiguTy0AIFrxJO5T9ksQ=
+
+
+=========================
+FECHA: 2025-10-18 19:59:43
+ID COMPROBANTE: 36
+OUTPUT:
+📄 Procesando comprobante 03: B001-11
+📄 XML generado: xml/B001-11.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-11, ha sido aceptada
+   Código: 0
+   Hash: 14fBJZwOdyERFY/jZKOWdtBWGYI=
+
+
+=========================
+FECHA: 2025-10-18 20:00:11
+ID COMPROBANTE: 37
+OUTPUT:
+📄 Procesando comprobante 07: BN01-2
+📌 Documento de referencia: 03 (B001-11)
+📄 XML generado: xml/BN01-2.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Credito numero BN01-2, ha sido aceptada
+   Código: 0
+   Hash: GyZZKkaCbMZhIhX3fNSlf+nOjYY=
+
+
+=========================
+FECHA: 2025-10-18 20:21:40
+ID COMPROBANTE: 38
+OUTPUT:
+📄 Procesando comprobante 03: B001-12
+📄 XML generado: xml/B001-12.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-12, ha sido aceptada
+   Código: 0
+   Hash: MrlmZsNlnn1FxkSMsL/NHyQoDSo=
+
+
+=========================
+FECHA: 2025-10-18 20:22:39
+ID COMPROBANTE: 39
+OUTPUT:
+📄 Procesando comprobante 07: BN01-3
+📌 Documento de referencia: 03 (B001-12)
+📄 XML generado: xml/BN01-3.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Credito numero BN01-3, ha sido aceptada
+   Código: 0
+   Hash: 4oyDIDhxC45gIaj6EncbNUl8ehw=
+
+
+=========================
+FECHA: 2025-10-18 22:50:21
+ID COMPROBANTE: 40
+OUTPUT:
+📄 Procesando comprobante 08: BD01-1
+📌 Documento de referencia: 03 (B001-11)
+📄 XML generado: xml/BD01-1.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Debito numero BD01-1, ha sido aceptada
+   Código: 0
+   Hash: 8jTZt2gFLNW8mMUjR9xwQrgT9dE=
+
+
+=========================
+FECHA: 2025-10-18 22:55:27
+ID COMPROBANTE: 41
+OUTPUT:
+📄 Procesando comprobante 08: BD01-2
+📌 Documento de referencia: 03 (B001-10)
+📄 XML generado: xml/BD01-2.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Debito numero BD01-2, ha sido aceptada
+   Código: 0
+   Hash: nxDdryvz6t7uFZopxc90Q0UCaZ8=
+
+
+=========================
+FECHA: 2025-10-18 23:06:48
+ID COMPROBANTE: 42
+OUTPUT:
+📄 Procesando comprobante 03: B001-13
+📄 XML generado: xml/B001-13.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-13, ha sido aceptada
+   Código: 0
+   Hash: rNL4u6TeQKZFjIaV5927L8dCn6E=
+
+

@@ -748,6 +748,11 @@ function actualizarLista() {
 // ============================================================
 // VER DETALLE DEL COMPROBANTE (COMPLETO Y FUNCIONAL)
 // ============================================================
+
+
+
+
+
 function verDetallePendiente(id) {
     $.ajax({
         url: "../controller/comprobante/controller_comprobante.php",
@@ -757,89 +762,100 @@ function verDetallePendiente(id) {
             id_comprobante: id
         },
         dataType: "json"
-    }).done(function(data) {
+    }).done(function (data) {
         if (data) {
             let html = `
-                <div class="container-fluid">
+                <div class="container-fluid px-3 py-2">
+
                     <!-- ENCABEZADO -->
-                    <div class="card shadow-sm mb-3 border-0">
-                        <div class="card-body bg-light rounded p-3">
-                            <div class="row">
-                                <div class="col-md-6 mb-2">
-                                    <h6 class="text-primary mb-0"><i class="fas fa-file-invoice"></i> Tipo:</h6>
-                                    <span class="fw-bold">${data.tipo_comprobante == "01" ? "FACTURA" : "BOLETA"}</span>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <h6 class="text-primary mb-0"><i class="fas fa-hashtag"></i> N° Comprobante:</h6>
-                                    <span class="fw-bold text-dark">${data.numero_comprobante}</span>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <h6 class="text-primary mb-0"><i class="far fa-calendar-alt"></i> Fecha Emisión:</h6>
-                                    <span>${data.fecha_emision}</span>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <h6 class="text-primary mb-0"><i class="fas fa-coins"></i> Moneda:</h6>
-                                    <span>${data.moneda || "Soles"}</span>
-                                </div>
+                    <div class="card shadow-sm border-0 mb-3">
+                        <div class="card-body p-3 bg-light">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="text-primary fw-bold mb-0">
+                                    <i class="fas fa-file-invoice"></i> ${data.tipo_comprobante == "01" ? "FACTURA" : "BOLETA"}
+                                </h5>
+                                <span class="badge bg-secondary fs-6">${data.numero_comprobante}</span>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-md-4"><i class="far fa-calendar-alt text-muted"></i> <b>Fecha:</b> ${data.fecha_emision}</div>
+                                <div class="col-md-4"><i class="fas fa-coins text-muted"></i> <b>Moneda:</b> ${data.moneda || "Soles"}</div>
+                                <div class="col-md-4"><i class="fas fa-credit-card text-muted"></i> <b>Tipo de Pago:</b> ${data.tipo_pago_actual || "No especificado"}</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- DATOS DEL CLIENTE -->
-                    <div class="card shadow-sm mb-3 border-0">
+                    <div class="card shadow-sm border-0 mb-3">
                         <div class="card-header bg-primary text-white py-2">
-                            <i class="fas fa-user"></i> <b>Datos del Cliente</b>
+                            <i class="fas fa-user-circle"></i> <b>Datos del Cliente</b>
                         </div>
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-md-6 mb-2">
-                                    <strong>Razón Social:</strong><br> ${data.razon_social}
+                                    <strong>Razón Social:</strong><br>
+                                    ${data.razon_social}
                                 </div>
                                 <div class="col-md-6 mb-2">
-                                    <strong>N° Documento:</strong><br> ${data.numero_documento}
+                                    <strong>N° Documento:</strong><br>
+                                    ${data.numero_documento}
                                 </div>
                                 <div class="col-md-12 mb-2">
-                                    <strong>Dirección:</strong><br> ${(data.direccion || "-")}
+                                    <strong>Dirección:</strong><br>
+                                    ${data.direccion || "-"}
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- RESUMEN DE MONTOS -->
-                    <div class="card shadow-sm mb-3 border-0">
+                    <div class="card shadow-sm border-0 mb-3">
                         <div class="card-header bg-success text-white py-2">
                             <i class="fas fa-cash-register"></i> <b>Resumen del Comprobante</b>
                         </div>
                         <div class="card-body p-3">
                             <div class="row text-center">
-                                <div class="col-md-4 mb-2">
+                                <div class="col-md-3 mb-2">
                                     <h6 class="text-muted mb-1">Base Gravada</h6>
                                     <span class="fw-bold">S/ ${parseFloat(data.total_gravada).toFixed(2)}</span>
                                 </div>
-                                <div class="col-md-4 mb-2">
+                                <div class="col-md-3 mb-2">
                                     <h6 class="text-muted mb-1">IGV</h6>
                                     <span class="fw-bold">S/ ${parseFloat(data.total_igv).toFixed(2)}</span>
                                 </div>
-                                <div class="col-md-4 mb-2">
+                                <div class="col-md-3 mb-2">
+                                    <h6 class="text-muted mb-1">Descuento</h6>
+                                    <span class="fw-bold">S/ ${(parseFloat(data.total_descuento) || 0).toFixed(2)}</span>
+                                </div>
+                                <div class="col-md-3 mb-2">
                                     <h6 class="text-muted mb-1">Total</h6>
-                                    <span class="fw-bold text-success" style="font-size:18px;">S/ ${parseFloat(data.total).toFixed(2)}</span>
+                                    <span class="fw-bold text-success fs-5">S/ ${parseFloat(data.total).toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- ESTADO SUNAT -->
-                    <div class="card shadow-sm mb-3 border-0">
+                    <div class="card shadow-sm border-0 mb-3">
                         <div class="card-header bg-info text-white py-2">
                             <i class="fas fa-paper-plane"></i> <b>Estado SUNAT</b>
                         </div>
                         <div class="card-body p-3">
                             <div class="row">
-                                <div class="col-md-6 mb-2">
-                                    <strong>Estado:</strong> ${data.estado_sunat}
+                                <div class="col-md-4 mb-2">
+                                    <strong>Estado:</strong>
+                                    <span class="badge ${data.estado_sunat === 'ACEPTADO' ? 'bg-success' : 'bg-danger'}">
+                                        ${data.estado_sunat}
+                                    </span>
                                 </div>
-                                ${data.fecha_envio_sunat ? `<div class="col-md-6 mb-2"><strong>Fecha Envío:</strong> ${data.fecha_envio_sunat}</div>` : ""}
-                                ${data.descripcion_respuesta_sunat ? `<div class="col-md-12"><strong>Respuesta SUNAT:</strong><br><small>${data.descripcion_respuesta_sunat}</small></div>` : ""}
+                                ${data.fecha_envio_sunat ? `
+                                    <div class="col-md-4 mb-2">
+                                        <strong>Fecha Envío:</strong> ${data.fecha_envio_sunat}
+                                    </div>` : ""}
+                                ${data.descripcion_respuesta_sunat ? `
+                                    <div class="col-md-12 mt-2">
+                                        <strong>Respuesta SUNAT:</strong><br>
+                                        <small class="text-muted">${data.descripcion_respuesta_sunat}</small>
+                                    </div>` : ""}
                             </div>
                         </div>
                     </div>
@@ -853,8 +869,8 @@ function verDetallePendiente(id) {
                             <i class="fas fa-list"></i> <b>Detalle de Ítems</b>
                         </div>
                         <div class="card-body p-3 table-responsive">
-                            <table class="table table-bordered table-hover table-sm align-middle mb-0">
-                                <thead class="thead-light text-center">
+                            <table class="table table-hover table-bordered table-sm align-middle mb-0">
+                                <thead class="table-light text-center">
                                     <tr>
                                         <th>#</th>
                                         <th>Descripción</th>
@@ -870,26 +886,26 @@ function verDetallePendiente(id) {
                             <td class="text-center">${i + 1}</td>
                             <td>${item.descripcion}</td>
                             <td class="text-center">${item.cantidad}</td>
-                            <td class="text-right">S/ ${parseFloat(item.precio_unitario).toFixed(2)}</td>
-                            <td class="text-right fw-bold">S/ ${parseFloat(item.subtotal).toFixed(2)}</td>
+                            <td class="text-end">S/ ${parseFloat(item.precio_unitario).toFixed(2)}</td>
+                            <td class="text-end fw-bold">S/ ${parseFloat(item.subtotal).toFixed(2)}</td>
                         </tr>`;
                 });
                 html += `
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }
 
-            html += `</div>`; // cierre container
+            html += `</div>`;
 
             $("#contenido_detalle").html(html);
             $("#modal_detalle").modal("show");
+
         } else {
             Swal.fire("Advertencia", "No se encontró información del comprobante.", "warning");
         }
-    }).fail(function() {
+    }).fail(function () {
         Swal.fire("Error", "No se pudo obtener el detalle del comprobante.", "error");
     });
 }

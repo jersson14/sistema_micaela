@@ -45,7 +45,7 @@
                                 <select class="form-control" id="select_estado_filtro">
                                     <option value="">TODOS</option>
                                     <option value="PENDIENTE">PENDIENTE</option>
-                                    <option value="ENVIADO">ENVIADO</option>
+                                    <option value="ACEPTADO">ACEPTADO</option>
                                     <option value="ANULADO">ANULADO</option>
                                 </select>
                             </div>
@@ -75,16 +75,16 @@
                             <table id="tabla_notas_credito" class="table table-striped table-bordered" style="width:100%">
                                 <thead style="background-color:#dc3545; color:#FFFFFF;">
                                     <tr>
-                                        <th>N°</th>
-                                        <th>Nota de Crédito</th>
-                                        <th>Fecha Emisión</th>
-                                        <th>Comprobante Afectado</th>
-                                        <th>Cliente</th>
-                                        <th>Motivo</th>
-                                        <th>Monto</th>
-                                        <th>Estado</th>
-                                        <th>Usuario</th>
-                                        <th>Acciones</th>
+                                        <th style="text-align:center">N°</th>
+                                        <th style="text-align:center">Nota de Crédito</th>
+                                        <th style="text-align:center">Fecha Emisión</th>
+                                        <th style="text-align:center">Comprobante Afectado</th>
+                                        <th style="text-align:center">Cliente</th>
+                                        <th style="text-align:center">Motivo</th>
+                                        <th style="text-align:center">Monto</th>
+                                        <th style="text-align:center">Estado</th>
+                                        <th style="text-align:center">Usuario</th>
+                                        <th style="text-align:center">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -186,12 +186,12 @@
                     
                     <div class="col-md-4 form-group">
                         <label>Serie Nota de Crédito:</label>
-                        <input type="text" class="form-control" id="txt_serie_nc" value="FC01" readonly>
+                        <input type="text" class="form-control" id="txt_serie_nc" value="FN01" readonly>
                     </div>
                     
                     <div class="col-md-4 form-group">
                         <label>Correlativo:</label>
-                        <input type="text" class="form-control" id="txt_correlativo_nc" readonly placeholder="Automático">
+                    <input type="text" class="form-control" id="txt_correlativo_nc" readonly placeholder="Automático">                    
                     </div>
                     
                     <div class="col-md-4 form-group">

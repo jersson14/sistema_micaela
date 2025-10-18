@@ -1228,3 +1228,183 @@ Array
     [estado_sunat] => PENDIENTE
     [id_usuario] => 1
 )
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000010
+    [fecha_emision] => 2025-10-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. CUSCO N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-18T10:15
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 2
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000007
+    [fecha_emision] => 2025-10-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20107798049
+    [razon_social] => UNIVERSIDAD DE LIMA
+    [direccion] => AV. JAVIER PRADO ESTE NRO 4600 URB. FUNDO MONTERRICO CHICO 
+    [departamento] => LIMA
+    [provincia] => LIMA
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 7
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-18T12:08
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000008
+    [fecha_emision] => 2025-10-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20155945860
+    [razon_social] => PONTIFICIA UNIVERSIDAD CATOLICA DEL PERU
+    [direccion] => AV. UNIVERSITARIA NRO 1801 URB. PANDO 
+    [departamento] => LIMA
+    [provincia] => LIMA
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 7
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2025-10-18T12:37
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000011
+    [fecha_emision] => 2025-10-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72414555
+    [razon_social] => INTI ALEJANDRO SANCHEZ LIZARES
+    [direccion] => JR. URUGUAY N° 332
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 7
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-18T12:59
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000012
+    [fecha_emision] => 2025-10-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72645874
+    [razon_social] => YESLY BERCELITA MAZA OROZCO
+    [direccion] => AV. CUSCO 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 7
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-18T13:21
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000013
+    [fecha_emision] => 2025-10-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 75621458
+    [razon_social] => BLANCA YULISA PULACHE MIRANDA
+    [direccion] => JR. PUNO N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 7
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-18T16:04
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)

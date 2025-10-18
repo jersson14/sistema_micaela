@@ -296,4 +296,227 @@ elseif ($accion == 'OBTENER_RESPUESTA_SUNAT') {
     echo json_encode($datos);
 }
 
+// ============================================================
+// BUSCAR COMPROBANTE PARA NOTA DE CRÉDITO
+// ============================================================
+elseif ($accion == 'BUSCAR_COMPROBANTE') {
+    $tipo_comprobante = $_POST['tipo_comprobante'];
+    $serie = strtoupper($_POST['serie']);
+    $correlativo = $_POST['correlativo'];
+    
+    $resultado = $MC->Buscar_Comprobante_Para_NC($tipo_comprobante, $serie, $correlativo);
+    
+    if ($resultado && count($resultado) > 0) {
+        echo json_encode([
+            'status' => 'success',
+            'data' => $resultado
+        ]);
+    } else {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'No se encontró el comprobante o no está disponible para nota de crédito. Verifique que esté ACEPTADO por SUNAT.'
+        ]);
+    }
+}
+
+// ============================================================
+// REGISTRAR NOTA DE CRÉDITO
+// ============================================================
+elseif ($accion == 'REGISTRAR_NOTA_CREDITO') {
+    header('Content-Type: application/json; charset=utf-8');
+    
+    $id_comprobante_origen = intval($_POST['id_comprobante_origen']);
+    $serie = isset($_POST['serie']) ? strtoupper(trim($_POST['serie'])) : ''; // AGREGAR
+    $correlativo = isset($_POST['correlativo']) ? trim($_POST['correlativo']) : ''; // AGREGAR
+    $motivo_nota = $_POST['motivo_nota'];
+    $motivo2 = $_POST['motivo2'];
+
+    $observaciones = strtoupper($_POST['observaciones']);
+    $total_gravada = floatval($_POST['total_gravada']);
+    $total_igv = floatval($_POST['total_igv']);
+    $total = floatval($_POST['total']);
+    $estado_sunat = isset($_POST['estado_sunat']) ? $_POST['estado_sunat'] : 'PENDIENTE';
+    $id_usuario = isset($_POST['id_usuario']) ? intval($_POST['id_usuario']) : 0;
+    
+    // Validaciones
+    if ($id_comprobante_origen <= 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Comprobante origen inválido']);
+        exit;
+    }
+    
+    if (empty($serie) || empty($correlativo)) { // AGREGAR
+        echo json_encode(['status' => 'error', 'message' => 'Serie y correlativo son obligatorios']);
+        exit;
+    }
+    
+    if (empty($motivo_nota) || empty($observaciones)) {
+        echo json_encode(['status' => 'error', 'message' => 'Complete todos los campos obligatorios']);
+        exit;
+    }
+    
+    if ($total <= 0) {
+        echo json_encode(['status' => 'error', 'message' => 'El monto debe ser mayor a 0']);
+        exit;
+    }
+    
+    if ($id_usuario <= 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Usuario no identificado']);
+        exit;
+    }
+    
+    // Registrar nota de crédito
+    $resultado = $MC->Registrar_Nota_Credito(
+        $id_comprobante_origen,
+        $serie, // AGREGAR
+        $correlativo, // AGREGAR
+        $motivo_nota,
+        $motivo2,
+        $observaciones,
+        $total_gravada,
+        $total_igv,
+        $total,
+        $estado_sunat,
+        $id_usuario
+    );
+    
+    if ($resultado > 0) {
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Nota de crédito registrada correctamente',
+            'id_comprobante' => $resultado
+        ]);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Error al registrar la nota de crédito']);
+    }
+}
+
+// ============================================================
+// LISTAR NOTAS DE CRÉDITO
+// ============================================================
+elseif ($accion == 'LISTAR_NOTAS_CREDITO') {
+    $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : '';
+    $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : '';
+    
+    $consulta = $MC->Listar_Notas_Credito($estado, $fecha_desde, $fecha_hasta);
+    
+    $data = array();
+    foreach ($consulta as $row) {
+        $data[] = $row;
+    }
+    
+    echo json_encode(array('data' => $data));
+}
+// ============================================================
+// OBTENER CORRELATIVO PARA NOTA DE CRÉDITO
+// ============================================================
+elseif ($accion == 'OBTENER_CORRELATIVO_NC') {
+    $tipo_comprobante = $_POST['tipo_comprobante'];
+    $correlativo = $MC->Obtener_Correlativo_NC($tipo_comprobante);
+    
+    echo json_encode([
+        'status' => 'success',
+        'correlativo' => $correlativo
+    ]);
+}
+// ============================================================
+// REGISTRAR NOTA DE DÉBITO
+// ============================================================
+elseif ($accion == 'REGISTRAR_NOTA_DEBITO') {
+    header('Content-Type: application/json; charset=utf-8');
+    
+    $id_comprobante_origen = intval($_POST['id_comprobante_origen']);
+    $serie = isset($_POST['serie']) ? strtoupper(trim($_POST['serie'])) : '';
+    $correlativo = isset($_POST['correlativo']) ? trim($_POST['correlativo']) : '';
+    $motivo_nota = $_POST['motivo_nota'];
+    $motivo2 = $_POST['motivo2'];
+    $observaciones = strtoupper($_POST['observaciones']);
+    $total_gravada = floatval($_POST['total_gravada']);
+    $total_igv = floatval($_POST['total_igv']);
+    $total = floatval($_POST['total']);
+    $estado_sunat = isset($_POST['estado_sunat']) ? $_POST['estado_sunat'] : 'PENDIENTE';
+    $id_usuario = isset($_POST['id_usuario']) ? intval($_POST['id_usuario']) : 0;
+    
+    // Validaciones
+    if ($id_comprobante_origen <= 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Comprobante origen inválido']);
+        exit;
+    }
+    
+    if (empty($serie) || empty($correlativo)) {
+        echo json_encode(['status' => 'error', 'message' => 'Serie y correlativo son obligatorios']);
+        exit;
+    }
+    
+    if (empty($motivo_nota) || empty($observaciones)) {
+        echo json_encode(['status' => 'error', 'message' => 'Complete todos los campos obligatorios']);
+        exit;
+    }
+    
+    if ($total <= 0) {
+        echo json_encode(['status' => 'error', 'message' => 'El monto debe ser mayor a 0']);
+        exit;
+    }
+    
+    if ($id_usuario <= 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Usuario no identificado']);
+        exit;
+    }
+    
+    // Registrar nota de débito
+    $resultado = $MC->Registrar_Nota_Debito(
+        $id_comprobante_origen,
+        $serie,
+        $correlativo,
+        $motivo_nota,
+        $motivo2,
+        $observaciones,
+        $total_gravada,
+        $total_igv,
+        $total,
+        $estado_sunat,
+        $id_usuario
+    );
+    
+    if ($resultado > 0) {
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Nota de débito registrada correctamente',
+            'id_comprobante' => $resultado
+        ]);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Error al registrar la nota de débito']);
+    }
+}
+
+// ============================================================
+// LISTAR NOTAS DE DÉBITO
+// ============================================================
+elseif ($accion == 'LISTAR_NOTAS_DEBITO') {
+    $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : '';
+    $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : '';
+    
+    $consulta = $MC->Listar_Notas_Debito($estado, $fecha_desde, $fecha_hasta);
+    
+    $data = array();
+    foreach ($consulta as $row) {
+        $data[] = $row;
+    }
+    
+    echo json_encode(array('data' => $data));
+}
+
+// ============================================================
+// OBTENER CORRELATIVO PARA NOTA DE DÉBITO
+// ============================================================
+elseif ($accion == 'OBTENER_CORRELATIVO_ND') {
+    $tipo_comprobante = $_POST['tipo_comprobante'];
+    $correlativo = $MC->Obtener_Correlativo_ND($tipo_comprobante);
+    
+    echo json_encode([
+        'status' => 'success',
+        'correlativo' => $correlativo
+    ]);
+}
 ?>

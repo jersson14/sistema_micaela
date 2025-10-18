@@ -53,20 +53,29 @@ function Cargar_Select_Tipopago() {
     type: "POST",
   }).done(function (resp) {
     let data = JSON.parse(resp);
-    let cadena = "<option value=''>Seleccionar tipo pago</option>";
+    let cadena = "";
 
     if (data.length > 0) {
+      // Llenar las opciones
+      cadena = "<option value=''>Seleccionar tipo pago</option>";
       for (let i = 0; i < data.length; i++) {
-        cadena +=
-          "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
+        cadena += `<option value="${data[i][0]}">${data[i][1]}</option>`;
       }
-    } else {
-      cadena += "<option value=''>No hay tipo de pago disponibles</option>";
-    }
 
-    $("#select_tipo_pago").html(cadena);
+      // Insertar opciones en el select
+      $("#select_tipo_pago").html(cadena);
+
+      // ✅ Seleccionar automáticamente el primer tipo de pago
+      $("#select_tipo_pago").val(data[0][0]);
+    } else {
+      // Si no hay datos
+      $("#select_tipo_pago").html("<option value=''>No hay tipo de pago disponibles</option>");
+    }
+  }).fail(function (xhr, status, error) {
+    console.error("Error al cargar tipos de pago:", error);
   });
 }
+
 
 // 1️⃣ Cargar servicios al iniciar
 function Cargar_Select_Servicios() {
@@ -702,7 +711,7 @@ var tbl_comprobantes;
 
 
 // ============================================================
-// LISTAR TODOS LOS COMPROBANTES (CORREGIDO)
+// LISTAR TODOS LOS COMPROBANTES CON EXPORTACIÓN
 // ============================================================
 function listar_comprobantes() {
     tbl_comprobantes = $("#tabla_comprobantes").DataTable({
@@ -714,6 +723,76 @@ function listar_comprobantes() {
         "destroy": true,
         "async": false,
         "processing": true,
+        "responsive": true,
+        "dom": '<"row"<"col-sm-6"l><"col-sm-6"f>><"row"<"col-sm-12 text-right"B>>rtip',
+        "buttons": [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success btn-sm',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                },
+                title: 'Comprobantes Electrónicos',
+                filename: 'Comprobantes_' + new Date().toISOString().slice(0,10),
+                customize: function(xlsx) {
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                    // Estilos personalizados para Excel
+                    $('row c[r^="H"]', sheet).attr('s', '67'); // Formato moneda
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger btn-sm',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 10]
+                },
+                title: 'Comprobantes Electrónicos',
+                filename: 'Comprobantes_' + new Date().toISOString().slice(0,10),
+                orientation: 'landscape',
+                pageSize: 'A4',
+                customize: function(doc) {
+                    doc.styles.title = {
+                        color: '#0066cc',
+                        fontSize: '20',
+                        alignment: 'center',
+                        bold: true,
+                        margin: [0, 0, 0, 20]
+                    };
+                    doc.defaultStyle.fontSize = 7;
+                    doc.styles.tableHeader = {
+                        bold: true,
+                        fontSize: 8,
+                        color: 'white',
+                        fillColor: '#2c3e50',
+                        alignment: 'center'
+                    };
+                    // Ancho de columnas
+                    doc.content[1].table.widths = ['5%', '10%', '12%', '10%', '18%', '12%', '13%', '8%', '7%', '5%'];
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info btn-sm',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 10]
+                },
+                title: 'Comprobantes Electrónicos',
+                messageTop: '<h4 style="text-align:center; color:#0066cc;">Listado de Comprobantes Electrónicos</h4>',
+                customize: function(win) {
+                    $(win.document.body).css('font-size', '9pt');
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', '9pt');
+                    $(win.document.body).find('h1').css('text-align', 'center');
+                }
+            }
+        ],
         "ajax": {
             "url": "../controller/comprobante/controller_comprobante.php",
             "type": "POST",
@@ -752,10 +831,10 @@ function listar_comprobantes() {
             { 
                 "data": "estado_sunat",
                 "render": function(data) {
-                    if (data == "PENDIENTE") return '<span class="badge badge-pendiente"><i class="fas fa-clock"></i> PENDIENTE</span>';
-                    if (data == "ENVIADO" || data == "ACEPTADO") return '<span class="badge badge-enviado"><i class="fas fa-check-circle"></i> ACEPTADO</span>';
+                    if (data == "PENDIENTE") return '<span class="badge badge-warning"><i class="fas fa-clock"></i> PENDIENTE</span>';
+                    if (data == "ENVIADO" || data == "ACEPTADO") return '<span class="badge badge-success"><i class="fas fa-check-circle"></i> ACEPTADO</span>';
                     if (data == "RECHAZADO") return '<span class="badge badge-danger"><i class="fas fa-times-circle"></i> RECHAZADO</span>';
-                    if (data == "ANULADO") return '<span class="badge badge-anulado"><i class="fas fa-ban"></i> ANULADO</span>';
+                    if (data == "ANULADO") return '<span class="badge badge-secondary"><i class="fas fa-ban"></i> ANULADO</span>';
                     return data;
                 }
             },
@@ -766,13 +845,14 @@ function listar_comprobantes() {
             { "data": "usuario_nombre" },
             { 
                 "data": null,
+                "orderable": false,
                 "render": function(data) {
                     let estado = data.estado_sunat;
                     let estado_doc = data.estado_documento;
                     let botones = `
                         <div class="btn-group" role="group">
                             <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" data-boundary="window">
-                                <i class="fas fa-bars"></i> Opciones
+                                <i class="fas fa-bars"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" style="z-index:1050;">
                                 <a class="dropdown-item" href="javascript:void(0)" onclick="verDetalle(${data.id_comprobante})">
@@ -806,8 +886,6 @@ function listar_comprobantes() {
                                 </a>`;
                     }
 
-
-
                     if ((estado == "PENDIENTE" || estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
                         botones += `
                                 <div class="dropdown-divider"></div>
@@ -823,19 +901,19 @@ function listar_comprobantes() {
                 }
             }
         ],
-        "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json" },
-        "dom": 'Bfrtip',
-        "buttons": [
-            { extend: "excelHtml5", text: '<i class="fas fa-file-excel"></i> Excel', className: "btn btn-success" },
-            { extend: "pdfHtml5", text: '<i class="fas fa-file-pdf"></i> PDF', className: "btn btn-danger" },
-            { extend: "print", text: '<i class="fas fa-print"></i> Imprimir', className: "btn btn-info" }
-        ]
+        "language": { 
+            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json",
+            "buttons": {
+                "excel": "Excel",
+                "pdf": "PDF",
+                "print": "Imprimir"
+            }
+        }
     });
 }
 
-
 // ============================================================
-// LISTAR CON FILTROS (CORREGIDO)
+// LISTAR CON FILTROS Y EXPORTACIÓN
 // ============================================================
 function listar_comprobantes_filtro() {
     let estado = $("#select_estado_filtro").val();
@@ -852,6 +930,106 @@ function listar_comprobantes_filtro() {
         "pageLength": 10,
         "destroy": true,
         "processing": true,
+        "responsive": true,
+        "dom": '<"row"<"col-sm-6"l><"col-sm-6"f>><"row"<"col-sm-12 text-right"B>>rtip',
+        "buttons": [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success btn-sm',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                },
+                title: 'Comprobantes Electrónicos - Filtrado',
+                filename: 'Comprobantes_Filtrado_' + new Date().toISOString().slice(0,10)
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger btn-sm',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 10]
+                },
+                title: 'Comprobantes Electrónicos - Filtrado',
+                filename: 'Comprobantes_Filtrado_' + new Date().toISOString().slice(0,10),
+                orientation: 'landscape',
+                pageSize: 'A4',
+                customize: function(doc) {
+                    doc.styles.title = {
+                        color: '#0066cc',
+                        fontSize: '20',
+                        alignment: 'center',
+                        bold: true
+                    };
+                    doc.defaultStyle.fontSize = 7;
+                    doc.styles.tableHeader = {
+                        bold: true,
+                        fontSize: 8,
+                        color: 'white',
+                        fillColor: '#2c3e50',
+                        alignment: 'center'
+                    };
+                    
+                    // Agregar información de filtros
+                    let filterInfo = [];
+                    if (estado) filterInfo.push({ text: 'Estado: ' + estado, style: 'filterText' });
+                    if (fecha_desde) filterInfo.push({ text: 'Desde: ' + fecha_desde, style: 'filterText' });
+                    if (fecha_hasta) filterInfo.push({ text: 'Hasta: ' + fecha_hasta, style: 'filterText' });
+                    
+                    if (filterInfo.length > 0) {
+                        doc.content.splice(1, 0, {
+                            text: 'Filtros Aplicados:',
+                            style: 'filterTitle',
+                            margin: [0, 10, 0, 5]
+                        });
+                        doc.content.splice(2, 0, {
+                            columns: filterInfo,
+                            margin: [0, 0, 0, 15]
+                        });
+                        
+                        doc.styles.filterTitle = {
+                            fontSize: 11,
+                            bold: true,
+                            color: '#555'
+                        };
+                        doc.styles.filterText = {
+                            fontSize: 9,
+                            color: '#666'
+                        };
+                    }
+                    
+                    // Ancho de columnas
+                    doc.content[doc.content.length - 1].table.widths = ['5%', '10%', '12%', '10%', '18%', '12%', '13%', '8%', '7%', '5%'];
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info btn-sm',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 10]
+                },
+                title: 'Comprobantes Electrónicos - Filtrado',
+                messageTop: function() {
+                    let msg = '<h4 style="text-align:center; color:#0066cc;">Listado de Comprobantes Electrónicos</h4>';
+                    msg += '<p style="text-align:center;"><strong>Filtros aplicados:</strong><br>';
+                    if (estado) msg += 'Estado: ' + estado + ' | ';
+                    if (fecha_desde) msg += 'Desde: ' + fecha_desde + ' | ';
+                    if (fecha_hasta) msg += 'Hasta: ' + fecha_hasta;
+                    msg += '</p>';
+                    return msg;
+                },
+                customize: function(win) {
+                    $(win.document.body).css('font-size', '9pt');
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', '9pt');
+                }
+            }
+        ],
         "ajax": {
             "url": "../controller/comprobante/controller_comprobante.php",
             "type": "POST",
@@ -895,10 +1073,10 @@ function listar_comprobantes_filtro() {
             { 
                 "data": "estado_sunat",
                 "render": function(data) {
-                    if (data == "PENDIENTE") return '<span class="badge badge-pendiente"><i class="fas fa-clock"></i> PENDIENTE</span>';
-                    if (data == "ENVIADO" || data == "ACEPTADO") return '<span class="badge badge-enviado"><i class="fas fa-check-circle"></i> ACEPTADO</span>';
+                    if (data == "PENDIENTE") return '<span class="badge badge-warning"><i class="fas fa-clock"></i> PENDIENTE</span>';
+                    if (data == "ENVIADO" || data == "ACEPTADO") return '<span class="badge badge-success"><i class="fas fa-check-circle"></i> ACEPTADO</span>';
                     if (data == "RECHAZADO") return '<span class="badge badge-danger"><i class="fas fa-times-circle"></i> RECHAZADO</span>';
-                    if (data == "ANULADO") return '<span class="badge badge-anulado"><i class="fas fa-ban"></i> ANULADO</span>';
+                    if (data == "ANULADO") return '<span class="badge badge-secondary"><i class="fas fa-ban"></i> ANULADO</span>';
                     return data;
                 }
             },
@@ -909,13 +1087,14 @@ function listar_comprobantes_filtro() {
             { "data": "usuario_nombre" },
             { 
                 "data": null,
+                "orderable": false,
                 "render": function(data) {
                     let estado = data.estado_sunat;
                     let estado_doc = data.estado_documento;
                     let botones = `
                         <div class="btn-group" role="group">
                             <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" data-boundary="window">
-                                <i class="fas fa-bars"></i> Opciones
+                                <i class="fas fa-bars"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" style="z-index:1050;">
                                 <a class="dropdown-item" href="javascript:void(0)" onclick="verDetalle(${data.id_comprobante})">
@@ -949,8 +1128,6 @@ function listar_comprobantes_filtro() {
                                 </a>`;
                     }
 
-
-
                     if ((estado == "PENDIENTE" || estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
                         botones += `
                                 <div class="dropdown-divider"></div>
@@ -966,7 +1143,14 @@ function listar_comprobantes_filtro() {
                 }
             }
         ],
-        "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json" }
+        "language": { 
+            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json",
+            "buttons": {
+                "excel": "Excel",
+                "pdf": "PDF",
+                "print": "Imprimir"
+            }
+        }
     });
 }
 
@@ -974,7 +1158,7 @@ function listar_comprobantes_filtro() {
 // VER DETALLE DEL COMPROBANTE
 // ============================================================
 // ============================================================
-// VER DETALLE DEL COMPROBANTE (COMPLETO Y FUNCIONAL)
+// VER DETALLE DEL COMPROBANTE (Versión profesional con tipo de pago)
 // ============================================================
 function verDetalle(id) {
     $.ajax({
@@ -985,89 +1169,100 @@ function verDetalle(id) {
             id_comprobante: id
         },
         dataType: "json"
-    }).done(function(data) {
+    }).done(function (data) {
         if (data) {
             let html = `
-                <div class="container-fluid">
+                <div class="container-fluid px-3 py-2">
+
                     <!-- ENCABEZADO -->
-                    <div class="card shadow-sm mb-3 border-0">
-                        <div class="card-body bg-light rounded p-3">
-                            <div class="row">
-                                <div class="col-md-6 mb-2">
-                                    <h6 class="text-primary mb-0"><i class="fas fa-file-invoice"></i> Tipo:</h6>
-                                    <span class="fw-bold">${data.tipo_comprobante == "01" ? "FACTURA" : "BOLETA"}</span>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <h6 class="text-primary mb-0"><i class="fas fa-hashtag"></i> N° Comprobante:</h6>
-                                    <span class="fw-bold text-dark">${data.numero_comprobante}</span>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <h6 class="text-primary mb-0"><i class="far fa-calendar-alt"></i> Fecha Emisión:</h6>
-                                    <span>${data.fecha_emision}</span>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <h6 class="text-primary mb-0"><i class="fas fa-coins"></i> Moneda:</h6>
-                                    <span>${data.moneda || "Soles"}</span>
-                                </div>
+                    <div class="card shadow-sm border-0 mb-3">
+                        <div class="card-body p-3 bg-light">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="text-primary fw-bold mb-0">
+                                    <i class="fas fa-file-invoice"></i> ${data.tipo_comprobante == "01" ? "FACTURA" : "BOLETA"}
+                                </h5>
+                                <span class="badge bg-secondary fs-6">${data.numero_comprobante}</span>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col-md-4"><i class="far fa-calendar-alt text-muted"></i> <b>Fecha:</b> ${data.fecha_emision}</div>
+                                <div class="col-md-4"><i class="fas fa-coins text-muted"></i> <b>Moneda:</b> ${data.moneda || "Soles"}</div>
+                                <div class="col-md-4"><i class="fas fa-credit-card text-muted"></i> <b>Tipo de Pago:</b> ${data.tipo_pago_actual || "No especificado"}</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- DATOS DEL CLIENTE -->
-                    <div class="card shadow-sm mb-3 border-0">
+                    <div class="card shadow-sm border-0 mb-3">
                         <div class="card-header bg-primary text-white py-2">
-                            <i class="fas fa-user"></i> <b>Datos del Cliente</b>
+                            <i class="fas fa-user-circle"></i> <b>Datos del Cliente</b>
                         </div>
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-md-6 mb-2">
-                                    <strong>Razón Social:</strong><br> ${data.razon_social}
+                                    <strong>Razón Social:</strong><br>
+                                    ${data.razon_social}
                                 </div>
                                 <div class="col-md-6 mb-2">
-                                    <strong>N° Documento:</strong><br> ${data.numero_documento}
+                                    <strong>N° Documento:</strong><br>
+                                    ${data.numero_documento}
                                 </div>
                                 <div class="col-md-12 mb-2">
-                                    <strong>Dirección:</strong><br> ${(data.direccion || "-")}
+                                    <strong>Dirección:</strong><br>
+                                    ${data.direccion || "-"}
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- RESUMEN DE MONTOS -->
-                    <div class="card shadow-sm mb-3 border-0">
+                    <div class="card shadow-sm border-0 mb-3">
                         <div class="card-header bg-success text-white py-2">
                             <i class="fas fa-cash-register"></i> <b>Resumen del Comprobante</b>
                         </div>
                         <div class="card-body p-3">
                             <div class="row text-center">
-                                <div class="col-md-4 mb-2">
+                                <div class="col-md-3 mb-2">
                                     <h6 class="text-muted mb-1">Base Gravada</h6>
                                     <span class="fw-bold">S/ ${parseFloat(data.total_gravada).toFixed(2)}</span>
                                 </div>
-                                <div class="col-md-4 mb-2">
+                                <div class="col-md-3 mb-2">
                                     <h6 class="text-muted mb-1">IGV</h6>
                                     <span class="fw-bold">S/ ${parseFloat(data.total_igv).toFixed(2)}</span>
                                 </div>
-                                <div class="col-md-4 mb-2">
+                                <div class="col-md-3 mb-2">
+                                    <h6 class="text-muted mb-1">Descuento</h6>
+                                    <span class="fw-bold">S/ ${(parseFloat(data.total_descuento) || 0).toFixed(2)}</span>
+                                </div>
+                                <div class="col-md-3 mb-2">
                                     <h6 class="text-muted mb-1">Total</h6>
-                                    <span class="fw-bold text-success" style="font-size:18px;">S/ ${parseFloat(data.total).toFixed(2)}</span>
+                                    <span class="fw-bold text-success fs-5">S/ ${parseFloat(data.total).toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- ESTADO SUNAT -->
-                    <div class="card shadow-sm mb-3 border-0">
+                    <div class="card shadow-sm border-0 mb-3">
                         <div class="card-header bg-info text-white py-2">
                             <i class="fas fa-paper-plane"></i> <b>Estado SUNAT</b>
                         </div>
                         <div class="card-body p-3">
                             <div class="row">
-                                <div class="col-md-6 mb-2">
-                                    <strong>Estado:</strong> ${data.estado_sunat}
+                                <div class="col-md-4 mb-2">
+                                    <strong>Estado:</strong>
+                                    <span class="badge ${data.estado_sunat === 'ACEPTADO' ? 'bg-success' : 'bg-danger'}">
+                                        ${data.estado_sunat}
+                                    </span>
                                 </div>
-                                ${data.fecha_envio_sunat ? `<div class="col-md-6 mb-2"><strong>Fecha Envío:</strong> ${data.fecha_envio_sunat}</div>` : ""}
-                                ${data.descripcion_respuesta_sunat ? `<div class="col-md-12"><strong>Respuesta SUNAT:</strong><br><small>${data.descripcion_respuesta_sunat}</small></div>` : ""}
+                                ${data.fecha_envio_sunat ? `
+                                    <div class="col-md-4 mb-2">
+                                        <strong>Fecha Envío:</strong> ${data.fecha_envio_sunat}
+                                    </div>` : ""}
+                                ${data.descripcion_respuesta_sunat ? `
+                                    <div class="col-md-12 mt-2">
+                                        <strong>Respuesta SUNAT:</strong><br>
+                                        <small class="text-muted">${data.descripcion_respuesta_sunat}</small>
+                                    </div>` : ""}
                             </div>
                         </div>
                     </div>
@@ -1081,8 +1276,8 @@ function verDetalle(id) {
                             <i class="fas fa-list"></i> <b>Detalle de Ítems</b>
                         </div>
                         <div class="card-body p-3 table-responsive">
-                            <table class="table table-bordered table-hover table-sm align-middle mb-0">
-                                <thead class="thead-light text-center">
+                            <table class="table table-hover table-bordered table-sm align-middle mb-0">
+                                <thead class="table-light text-center">
                                     <tr>
                                         <th>#</th>
                                         <th>Descripción</th>
@@ -1098,29 +1293,30 @@ function verDetalle(id) {
                             <td class="text-center">${i + 1}</td>
                             <td>${item.descripcion}</td>
                             <td class="text-center">${item.cantidad}</td>
-                            <td class="text-right">S/ ${parseFloat(item.precio_unitario).toFixed(2)}</td>
-                            <td class="text-right fw-bold">S/ ${parseFloat(item.subtotal).toFixed(2)}</td>
+                            <td class="text-end">S/ ${parseFloat(item.precio_unitario).toFixed(2)}</td>
+                            <td class="text-end fw-bold">S/ ${parseFloat(item.subtotal).toFixed(2)}</td>
                         </tr>`;
                 });
                 html += `
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }
 
-            html += `</div>`; // cierre container
+            html += `</div>`;
 
             $("#contenido_detalle").html(html);
             $("#modal_detalle").modal("show");
+
         } else {
             Swal.fire("Advertencia", "No se encontró información del comprobante.", "warning");
         }
-    }).fail(function() {
+    }).fail(function () {
         Swal.fire("Error", "No se pudo obtener el detalle del comprobante.", "error");
     });
 }
+
 
 
 // ============================================================
@@ -1295,3 +1491,41 @@ function descargarPDF(id) {
     }, 1000);
 }
 
+async function buscarPorDocumento() {
+  const tipo = document.getElementById("select_tipo_documento_cliente").value.trim();
+  const dni = document.getElementById("txt_numero_documento").value.trim();
+
+  // ✅ Validación correcta
+  if (dni === "") {
+    Swal.fire("Advertencia", "Debe ingresar un número de documento válido.", "warning");
+    return;
+  }
+
+  // ✅ Asignar valor correcto
+  const numero_documento = dni;
+
+  try {
+    const resp = await $.ajax({
+      url: "../controller/encomiendas/controlador_buscar_persona_por_documento_compro.php",
+      type: "POST",
+      data: { numero_documento },
+      dataType: "json",
+    });
+
+    if (resp.data && resp.data.length > 0) {
+      const d = resp.data[0];
+
+      // ✅ Rellenar campos
+      $("#txt_razon_social").val(d.razon_social);
+      $("#txt_direccion").val(d.direccion);
+      $("#txt_telefono").val(d.telefono);
+      $("#txt_departamento").val(d.departamento);
+      $("#txt_provincia").val(d.provincia);
+    } else {
+      Swal.fire("No encontrado", "No se encontró ninguna persona o empresa con ese documento.", "info");
+    }
+  } catch (error) {
+    console.error("❌ Error en AJAX:", error);
+    Swal.fire("Error", "No se pudo hacer la búsqueda.", "error");
+  }
+}

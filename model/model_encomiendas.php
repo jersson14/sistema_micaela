@@ -297,7 +297,29 @@
             }
         }
 
-        
+        public function Buscar_persona_por_documento_compro($numero_documento) {
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_BUSCAR_PERSONA_POR_DOCUMENTO_COMPRO(?)";
+            $arreglo = array();
+
+            try {
+                $query  = $c->prepare($sql);
+                $query->bindParam(1, $numero_documento);
+                $query->execute();
+
+                $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($resultado as $resp) {
+                    $arreglo["data"][] = $resp;
+                }
+
+                return $arreglo;
+            } catch (Exception $e) {
+                return ["error" => true, "message" => $e->getMessage()];
+            } finally {
+                $c = null; // Cerrar conexión
+            }
+        }
+
 
         public function Anular_pago($id,$idusu,$motivo_anulacion,$monto_anulado){
             $c = conexionBD::conexionPDO();

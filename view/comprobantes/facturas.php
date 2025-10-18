@@ -96,8 +96,9 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="txt_numero_documento" maxlength="11" onkeypress="return soloNumeros(event)">
                                     <div class="input-group-append">
+                                        <button onclick="buscarPorDocumento()" class="btn btn-success" id="prueba_buscar_emi"><i class="fa fa-search"></i><b> Buscar</b></button>
                                         <button class="btn btn-primary" onclick="buscarCliente()" id="btn_buscar_cliente">
-                                            <i class="fas fa-search"></i> Buscar
+                                            <i class="fas fa-search"></i><b> RENIEC / SUNAT</b>
                                         </button>
                                     </div>
                                 </div>
@@ -114,8 +115,8 @@
                             </div>
 
                             <div class="col-md-2 form-group">
-                                <label for="">Telefono:</label>
-                                <input type="text" class="form-control" id="txt_telefono" placeholder="Dirección del cliente">
+                                <label for="">Teléfono:</label>
+                                <input type="text" class="form-control" id="txt_telefono" placeholder="Teléfono del cliente">
                             </div>
 
                             <div class="col-md-2 form-group">
