@@ -467,9 +467,13 @@ function listar_notas_debito() {
                 "data": null,
                 "render": data => "<b>" + data.serie + "-" + data.correlativo + "</b>"
             },
-            { 
+            {
                 "data": "fecha_emision",
-                "render": data => data ? new Date(data).toLocaleDateString("es-PE") : "-"
+                "render": function(data) {
+                    if (!data) return "-";
+                    const partes = data.split("-");
+                    return `${partes[2]}/${partes[1]}/${partes[0]}`; // formato dd/mm/yyyy
+                }
             },
             { 
                 "data": null,
@@ -597,9 +601,13 @@ function listar_notas_debito_filtro() {
                 "data": null,
                 "render": data => "<b>" + data.serie + "-" + data.correlativo + "</b>"
             },
-            { 
+            {
                 "data": "fecha_emision",
-                "render": data => data ? new Date(data).toLocaleDateString("es-PE") : "-"
+                "render": function(data) {
+                    if (!data) return "-";
+                    const partes = data.split("-");
+                    return `${partes[2]}/${partes[1]}/${partes[0]}`; // formato dd/mm/yyyy
+                }
             },
             { 
                 "data": null,

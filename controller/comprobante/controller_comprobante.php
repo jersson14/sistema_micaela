@@ -21,17 +21,25 @@ if ($accion == 'OBTENER_CORRELATIVO') {
 // 2. REGISTRAR COMPROBANTE
 // ============================================================
 elseif ($accion == 'REGISTRAR_COMPROBANTE') {
-        header('Content-Type: application/json; charset=utf-8'); // ✅ Para que JS reciba JSON real
+    header('Content-Type: application/json; charset=utf-8');
+
+    // 🕐 Forzar zona horaria local (Perú)
+    date_default_timezone_set('America/Lima');
 
     // DATOS DEL COMPROBANTE
     $tipo_comprobante = $_POST['tipo_comprobante'];
     $serie = strtoupper($_POST['serie']);
     $correlativo = $_POST['correlativo'];
-    $fecha_emision = $_POST['fecha_emision'];
-    $hora_emision = date('H:i:s', strtotime($fecha_emision));
-    $fecha_emision = date('Y-m-d', strtotime($fecha_emision));
+
+    // ✅ Fecha de emisión: si no se envía, usar la fecha actual del servidor
+    $fecha_emision = !empty($_POST['fecha_emision'])
+        ? date('Y-m-d', strtotime($_POST['fecha_emision']))
+        : date('Y-m-d');
+
+    // ✅ Hora de emisión actual (en la misma zona horaria)
+    $hora_emision = date('H:i:s');
+
     $moneda = $_POST['moneda'];
-    
     // DATOS DEL CLIENTE
     $tipo_documento = $_POST['tipo_documento_cliente'];
     $numero_documento = $_POST['numero_documento'];

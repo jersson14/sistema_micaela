@@ -1113,3 +1113,44 @@ OUTPUT:
    Hash: rNL4u6TeQKZFjIaV5927L8dCn6E=
 
 
+=========================
+FECHA: 2025-10-19 18:11:06
+ID COMPROBANTE: 43
+OUTPUT:
+📄 Procesando comprobante 03: B001-14
+📄 XML generado: xml/B001-14.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-14, ha sido aceptada
+   Código: 0
+   Hash: CABGmKg4N0F0OoLR8QJByl0LfLs=
+
+
+=========================
+FECHA: 2025-10-19 18:18:37
+ID COMPROBANTE: 44
+OUTPUT:
+📄 Procesando comprobante 07: BN01-4
+📌 Documento de referencia: 03 (B001-13)
+📄 XML generado: xml/BN01-4.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Credito numero BN01-4, ha sido aceptada
+   Código: 0
+   Hash: VfhxbM2G7KVa0zqugFiCFeM3tlE=
+
+
+=========================
+FECHA: 2025-10-19 18:19:05
+ID COMPROBANTE: 45
+OUTPUT:
+📄 Procesando comprobante 08: BD01-3
+📌 Documento de referencia: 03 (B001-14)
+📄 XML generado: xml/BD01-3.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Debito numero BD01-3, ha sido aceptada
+   Código: 0
+   Hash: 0trIowTP4cCPFCEs1mmK5UztxbY=
+
+

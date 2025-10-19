@@ -166,11 +166,11 @@ class Modelo_Comprobantes extends conexionBD
     // ========================================
     // LISTAR COMPROBANTES
     // ========================================
-    public function Listar_Comprobantes($estado = '', $fecha_desde = '', $fecha_hasta = '')
-    {
-        $c = conexionBD::conexionPDO();
+public function Listar_Comprobantes($estado = '', $fecha_desde = '', $fecha_hasta = '')
+{
+    $c = conexionBD::conexionPDO();
 
-        $sql = "SELECT 
+    $sql = "SELECT 
                 c.id_comprobante,
                 c.tipo_comprobante,
                 c.serie,
@@ -205,37 +205,44 @@ class Modelo_Comprobantes extends conexionBD
             LEFT JOIN usuario u ON c.id_usuario = u.id_usuario
             WHERE 1=1";
 
-        $params = [];
+    $params = [];
 
-        // 🔹 Filtros dinámicos
-        if (!empty($estado)) {
-            $sql .= " AND c.estado_sunat = ?";
-            $params[] = $estado;
-        }
-
-        if (!empty($fecha_desde) && !empty($fecha_hasta)) {
-            $sql .= " AND c.fecha_emision BETWEEN ? AND ?";
-            $params[] = $fecha_desde;
-            $params[] = $fecha_hasta;
-        }
-
-        // 🔹 Ordenar por el último registro según fecha_emision
-        $sql .= " ORDER BY c.fecha_emision ASC, c.id_comprobante ASC";
-
-        $query = $c->prepare($sql);
-
-        foreach ($params as $key => $value) {
-            $query->bindValue($key + 1, $value);
-        }
-
-        $query->execute();
-        $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        // 🔹 Cerrar conexión correctamente
-        conexionBD::cerrar_conexion();
-
-        return $resultado;
+    // 🔹 Filtro por estado
+    if (!empty($estado)) {
+        $sql .= " AND c.estado_sunat = ?";
+        $params[] = $estado;
     }
+
+    // 🔹 Filtros de fecha (más robustos)
+    if (!empty($fecha_desde) && !empty($fecha_hasta)) {
+        $sql .= " AND DATE(c.fecha_emision) BETWEEN ? AND ?";
+        $params[] = $fecha_desde;
+        $params[] = $fecha_hasta;
+    } elseif (!empty($fecha_desde)) {
+        $sql .= " AND DATE(c.fecha_emision) >= ?";
+        $params[] = $fecha_desde;
+    } elseif (!empty($fecha_hasta)) {
+        $sql .= " AND DATE(c.fecha_emision) <= ?";
+        $params[] = $fecha_hasta;
+    }
+
+    // 🔹 Mostrar los más recientes primero
+    $sql .= " ORDER BY c.fecha_emision DESC, c.id_comprobante DESC";
+
+    $query = $c->prepare($sql);
+
+    foreach ($params as $key => $value) {
+        $query->bindValue($key + 1, $value);
+    }
+
+    $query->execute();
+    $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    conexionBD::cerrar_conexion();
+
+    return $resultado;
+}
+
 
     // ========================================
     // OBTENER COMPROBANTE POR ID
@@ -785,7 +792,7 @@ WHERE c.id_comprobante =?";
                 $params[] = $fecha_hasta;
             }
 
-            $sql .= " ORDER BY c.fecha_emision asc, c.id_comprobante DESC";
+        $sql .= " ORDER BY c.fecha_emision DESC, c.id_comprobante DESC";
 
             $query = $c->prepare($sql);
             $query->execute($params);
@@ -1008,7 +1015,7 @@ WHERE c.id_comprobante =?";
                 $params[] = $fecha_hasta;
             }
 
-            $sql .= " ORDER BY c.fecha_emision ASC, c.id_comprobante DESC";
+        $sql .= " ORDER BY DATE(c.fecha_emision) DESC, c.id_comprobante DESC";
 
             $query = $c->prepare($sql);
             $query->execute($params);

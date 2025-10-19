@@ -42,7 +42,7 @@
                             <div class="col-md-3 form-group">
                                 <label>Estado SUNAT:</label>
                                 <select class="form-control" id="select_estado_filtro">
-                                    <option value="">TODOS</option>
+                                    <option value=""  selected>Seleccione</option>
                                     <option value="PENDIENTE">PENDIENTE</option>
                                     <option value="ENVIADO">ENVIADO</option>
                                     <option value="ACEPTADO">ACEPTADO</option>
