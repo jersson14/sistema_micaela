@@ -139,46 +139,46 @@ scratch. This page gets rid of all links and provides the needed markup only.
                with font-awesome or any other icon font library -->
             <?php if ($_SESSION['S_ROL'] == "1") { ?>
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','servicios/view_servicios.php')" class="nav-link">
+                <a href="#servicios" data-modulo="servicios" class="nav-link">
                   <i class="nav-icon fas fa-concierge-bell"></i>
                   <p style="color:white">Servicios</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','rutas/view_rutas.php')" class="nav-link">
+                <a href="#rutas" data-modulo="rutas" class="nav-link">
                   <i class="nav-icon fas fa-map-marked-alt"></i>
                   <p style="color:white">Rutas</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','choferes/view_choferes.php')" class="nav-link">
+                <a href="#choferes" data-modulo="choferes" class="nav-link">
                   <i class="nav-icon fas fa-id-badge"></i>
                   <p style="color:white">Conductores</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','clientes/view_clientes.php')" class="nav-link">
+                <a href="#clientes" data-modulo="clientes" class="nav-link">
                   <i class="nav-icon fas fa-user-friends"></i>
                   <p style="color:white">Gestión de clientes</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas.php')" class="nav-link">
+                <a href="#reservas" data-modulo="reservas" class="nav-link">
                   <i class="nav-icon fas fa-calendar-check"></i>
                   <p style="color:white">Reservas</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="nav-link">
+                <a href="#encomiendas" data-modulo="encomiendas" class="nav-link">
                   <i class="nav-icon fas fa-box"></i>
                   <p style="color:white">Encomiendas</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="nav-link">
+                <a href="#salidas" data-modulo="salidas" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>
                   <p style="color:white">Salidas diarias</p>
                 </a>
@@ -194,31 +194,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/facturas.php')" class="nav-link">
+                    <a href="#facturas" data-modulo="facturas" class="nav-link">
                       <i class="nav-icon fas fa-file-invoice"></i>
                       <p style="color:white">Comprobantes</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/comprobantes_lista.php')" class="nav-link">
+                    <a href="#comprobantes-lista" data-modulo="comprobantes-lista" class="nav-link">
                       <i class="nav-icon fas fa-search-dollar"></i>
                       <p style="color:white">Consultas de comprobantes</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/envios_sunat.php')" class="nav-link">
+                    <a href="#sunat" data-modulo="sunat" class="nav-link">
                       <i class="nav-icon fas fa-paper-plane"></i>
                       <p style="color:white">Envíos a SUNAT</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_credito.php')" class="nav-link">
+                    <a href="#notas-credito" data-modulo="notas-credito" class="nav-link">
                       <i class="nav-icon fas fa-file-alt"></i>
                       <p style="color:white">Notas de crédito</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_debito.php')" class="nav-link">
+                    <a href="#notas-debito" data-modulo="notas-debito" class="nav-link">
                       <i class="nav-icon fas fa-file-signature"></i>
                       <p style="color:white">Notas de débito</p>
                     </a>
@@ -235,19 +235,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','indicadores/view_indicadores.php')" class="nav-link">
+                    <a href="#indicadores" data-modulo="indicadores" class="nav-link">
                       <i class="nav-icon fas fa-chart-line"></i>
                       <p style="color:white">Indicadores</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','ingresos/view_ingresos.php')" class="nav-link">
+                    <a href="#ingresos" data-modulo="ingresos" class="nav-link">
                       <i class="nav-icon fas fa-arrow-down"></i>
                       <p style="color:white">Ingresos</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','gastos/view_gastos.php')" class="nav-link">
+                    <a href="#gastos" data-modulo="gastos" class="nav-link">
                       <i class="nav-icon fas fa-arrow-up"></i>
                       <p style="color:white">Gastos</p>
                     </a>
@@ -255,7 +255,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="nav-link">
+                <a href="#"  class="nav-link">
                   <i class="nav-icon fas fa-map-marked-alt"></i>
                   <p style="color:white">GPS - Vehículos</p>
                 </a>
@@ -263,10 +263,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="header text-center" style="color:#FFFFFF; background-color:#023D77; border-radius: 10px;">
                 <b>REPORTES</b>
               </li>
-
-
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','facturas/view_facturas_archivadas.php')" class="nav-link">
+                <a href="#archivadas" data-modulo="archivadas" class="nav-link">
                   <i class="nav-icon fas fa-file-archive"></i>
                   <p style="color:white">Facturas Archivadas</p>
                 </a>
@@ -274,42 +272,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_ingresos_gastos.php')" class="nav-link">
+                <a href="#reporte-ingresos-gastos" data-modulo="reporte-ingresos-gastos" class="nav-link">
                   <i class="nav-icon fas fa-balance-scale"></i>
                   <p style="color:white">Ingresos vs Gastos</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_servicios.php')" class="nav-link">
+                <a href="#reporte-servicios" data-modulo="reporte-servicios" class="nav-link">
                   <i class="nav-icon fas fa-concierge-bell"></i>
                   <p style="color:white">Servicios Prestados</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_salidas_diarias.php')" class="nav-link">
+                <a href="#reporte-salidas" data-modulo="reporte-salidas" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>
                   <p style="color:white">Salidas Diarias</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_clientes.php')" class="nav-link">
+                <a href="#reporte-clientes" data-modulo="reporte-clientes" class="nav-link">
                   <i class="nav-icon fas fa-users"></i>
                   <p style="color:white">Reporte de Clientes</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_choferes.php')" class="nav-link">
+                <a href="#reporte-choferes" data-modulo="reporte-choferes" class="nav-link">
                   <i class="nav-icon fas fa-id-badge"></i>
                   <p style="color:white">Reporte de Choferes</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_comprobantes_sunat.php')" class="nav-link">
+                <a href="#reporte-sunat" data-modulo="reporte-sunat" class="nav-link">
                   <i class="nav-icon fas fa-cloud-upload-alt"></i>
                   <p style="color:white">Estado de Envío SUNAT</p>
                 </a>
@@ -330,13 +328,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a onclick="cargar_contenido('contenido_principal','usuario/view_usuario.php')" class="nav-link">
+                    <a href="#usuarios" data-modulo="usuarios" class="nav-link">
                       <i class="fas fa-user"></i>
                       <p style="color:white">Usuarios</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a onclick="cargar_contenido('contenido_principal','roles/view_roles.php')" class="nav-link">
+                    <a href="#roles" data-modulo="roles" class="nav-link">
                       <i class="fas fa-user-shield"></i>
                       <p style="color:white">Roles</p>
                     </a>
@@ -344,7 +342,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </ul>
               </li>
               <li class="nav-item">
-                <a onclick="cargar_contenido('contenido_principal','tipo_pago/view_tipo_pago.php')" class="nav-link">
+                <a href="#tipo-pago" data-modulo="tipo-pago" class="nav-link">
                   <i class="nav-icon fas fa-credit-card"></i>
                   <p style="color:white">Tipos de pago</p>
                 </a>
@@ -352,7 +350,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               <!-- Sucursales -->
               <li class="nav-item">
-                <a onclick="cargar_contenido('contenido_principal','sucursales/view_sucursales.php')" class="nav-link">
+                <a href="#sucursales" data-modulo="sucursales" class="nav-link">
                   <i class="nav-icon fas fa-store-alt"></i>
                   <p style="color:white">Sucursales</p>
                 </a>
@@ -360,7 +358,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               <!-- Configuración General -->
               <li class="nav-item">
-                <a onclick="cargar_contenido('contenido_principal','configuracion/view_config.php')" class="nav-link">
+                <a href="#configuracion" data-modulo="configuracion" class="nav-link">
                   <i class="nav-icon fas fa-cogs"></i>
                   <p style="color:white">Configuración General</p>
                 </a>
@@ -381,19 +379,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <?php if ($_SESSION['S_ROL'] == "2") { ?>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','choferes/view_choferes_asis.php')" class="nav-link">
+                <a href="#conductores-asis" data-modulo="conductores-asis" class="nav-link">
                   <i class="nav-icon fas fa-id-badge"></i>
                   <p style="color:white">Conductores</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','clientes/view_clientes_asis.php')" class="nav-link">
+                <a href="#clientes-asis" data-modulo="clientes-asis" class="nav-link">
                   <i class="nav-icon fas fa-user-friends"></i>
                   <p style="color:white">Gestión de clientes</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php')" class="nav-link">
+                <a href="#reservas-asis" data-modulo="reservas-asis" class="nav-link">
                   <i class="nav-icon fas fa-calendar-check"></i>
                   <p style="color:white">Reservas</p>
                 </a>
@@ -409,13 +407,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php')" class="nav-link">
+                <a href="#encomiendas-asis" data-modulo="encomiendas-asis" class="nav-link">
                       <i class="nav-icon fas fa-inbox"></i>
                       <p style="color:white">Recibir encomienda</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_env.php')" class="nav-link">
+                <a href="#encomiendas-asis_envio" data-modulo="encomiendas-asis_envio" class="nav-link">
                       <i class="nav-icon fas fa-shipping-fast"></i>
                       <p style="color:white">Enviar encomienda</p>
                     </a>
@@ -424,12 +422,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php')" class="nav-link">
+                <a href="#salidas-asis" data-modulo="salidas-asis" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>
                   <p style="color:white">Salidas diarias</p>
                 </a>
               </li>
-               <li class="nav-item">
+              <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-file-invoice-dollar"></i>
                   <p style="color:white">
@@ -439,31 +437,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/facturas.php')" class="nav-link">
+                    <a href="#facturas" data-modulo="facturas" class="nav-link">
                       <i class="nav-icon fas fa-file-invoice"></i>
                       <p style="color:white">Comprobantes</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/comprobantes_lista.php')" class="nav-link">
+                    <a href="#comprobantes-lista" data-modulo="comprobantes-lista" class="nav-link">
                       <i class="nav-icon fas fa-search-dollar"></i>
                       <p style="color:white">Consultas de comprobantes</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/envios_sunat.php')" class="nav-link">
+                    <a href="#sunat" data-modulo="sunat" class="nav-link">
                       <i class="nav-icon fas fa-paper-plane"></i>
                       <p style="color:white">Envíos a SUNAT</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_credito.php')" class="nav-link">
+                    <a href="#notas-credito" data-modulo="notas-credito" class="nav-link">
                       <i class="nav-icon fas fa-file-alt"></i>
                       <p style="color:white">Notas de crédito</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_debito.php')" class="nav-link">
+                    <a href="#notas-debito" data-modulo="notas-debito" class="nav-link">
                       <i class="nav-icon fas fa-file-signature"></i>
                       <p style="color:white">Notas de débito</p>
                     </a>
@@ -471,7 +469,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="nav-link">
+                <a href="#"  class="nav-link">
                   <i class="nav-icon fas fa-map-marked-alt"></i>
                   <p style="color:white">GPS - Vehículos</p>
                 </a>
@@ -480,48 +478,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="header text-center" style="color:#FFFFFF; background-color:#023D77; border-radius: 10px;">
                 <b>REPORTES</b>
               </li>
-
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','facturas/view_facturas.php')" class="nav-link">
-                  <i class="nav-icon fas fa-file-invoice-dollar"></i>
-                  <p style="color:white">Gestión de Facturas</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','facturas/view_facturas_archivadas.php')" class="nav-link">
+                <a href="#archivadas" data-modulo="archivadas" class="nav-link">
                   <i class="nav-icon fas fa-file-archive"></i>
                   <p style="color:white">Facturas Archivadas</p>
                 </a>
               </li>
 
+
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_servicios.php')" class="nav-link">
+                <a href="#reporte-servicios" data-modulo="reporte-servicios" class="nav-link">
                   <i class="nav-icon fas fa-concierge-bell"></i>
                   <p style="color:white">Servicios Prestados</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_salidas_diarias.php')" class="nav-link">
+                <a href="#reporte-salidas" data-modulo="reporte-salidas" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>
                   <p style="color:white">Salidas Diarias</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_clientes.php')" class="nav-link">
+                <a href="#reporte-clientes" data-modulo="reporte-clientes" class="nav-link">
                   <i class="nav-icon fas fa-users"></i>
                   <p style="color:white">Reporte de Clientes</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','reportes/reporte_choferes.php')" class="nav-link">
+                <a href="#reporte-choferes" data-modulo="reporte-choferes" class="nav-link">
                   <i class="nav-icon fas fa-id-badge"></i>
                   <p style="color:white">Reporte de Choferes</p>
                 </a>
               </li>
+
 
 
 
@@ -545,7 +537,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
               <li class="nav-item">
-                <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_con.php')" class="nav-link">
+                <a href="#salidas-con" data-modulo="salidas-con" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>
                   <p style="color:white">Salidas diarias</p>
                 </a>
@@ -754,7 +746,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-concierge-bell"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','servicios/view_servicios.php')" class="small-box-footer">
+                      <a href="#servicios" data-modulo="servicios" class="small-box-footer">
                         <b>Ver Servicios</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -769,7 +761,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-id-card"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','choferes/view_choferes.php')" class="small-box-footer">
+                      <a href="#choferes" data-modulo="choferes" class="small-box-footer">
                         <b>Ver Choferes</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -784,7 +776,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-users"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','clientes/view_clientes.php')" class="small-box-footer">
+                      <a href="#clientes" data-modulo="clientes" class="small-box-footer">
                         <b>Ver Clientes</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -799,7 +791,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-file-alt"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_comprobantes.php')" class="small-box-footer">
+                      <a href="#comprobantes-lista" data-modulo="comprobantes-lista" class="small-box-footer">
                         <b>Ver Comprobantes</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -824,7 +816,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
+                      <a href="#encomiendas" data-modulo="encomiendas" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -839,7 +831,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
+                      <a href="#encomiendas" data-modulo="encomiendas" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -854,7 +846,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
+                      <a href="#encomiendas" data-modulo="encomiendas" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -869,7 +861,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomiendas.php')" class="small-box-footer">
+                      <a href="#encomiendas" data-modulo="encomiendas" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -894,7 +886,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
+                      <a href="#salidas" data-modulo="salidas" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -909,7 +901,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
+                      <a href="#salidas" data-modulo="salidas" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -924,7 +916,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
+                      <a href="#salidas" data-modulo="salidas" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -939,7 +931,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria.php')" class="small-box-footer">
+                      <a href="#salidas" data-modulo="salidas" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -963,7 +955,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-calendar-check"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas.php.php.php')" class="small-box-footer">
+                      <a href="#reservas" data-modulo="reservas" class="small-box-footer">
                         <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -978,7 +970,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-calendar-check"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas.php.php.php')" class="small-box-footer">
+                      <a href="#reservas" data-modulo="reservas" class="small-box-footer">
                         <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -993,7 +985,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-calendar-check"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas.php.php.php')" class="small-box-footer">
+                      <a href="#reservas" data-modulo="reservas" class="small-box-footer">
                         <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1008,7 +1000,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-calendar-check"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas.php.php.php')" class="small-box-footer">
+                      <a href="#reservas" data-modulo="reservas" class="small-box-footer">
                         <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1032,7 +1024,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-arrow-down"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','ingresos/view_ingresos.php')" class="small-box-footer">
+                      <a href="#ingresos" data-modulo="ingresos" class="small-box-footer">
                         <b>Ver Ingresos</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1047,7 +1039,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-arrow-up"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','gastos/view_gastos.php')" class="small-box-footer">
+                      <a href="#gastos" data-modulo="gastos" class="small-box-footer">
                         <b>Ver Gastos</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1062,7 +1054,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-arrow-down"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','ingresos/view_ingresos.php')" class="small-box-footer">
+                      <a href="#ingresos" data-modulo="ingresos" class="small-box-footer">
                         <b>Ver Ingresos</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1077,7 +1069,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-arrow-up"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','gastos/view_gastos.php')" class="small-box-footer">
+                      <a href="#gastos" data-modulo="gastos" class="small-box-footer">
                         <b>Ver Gastos</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1102,7 +1094,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-file-invoice-dollar"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','facturas/view_facturas.php')" class="small-box-footer">
+                      <a href="#comprobantes-lista" data-modulo="comprobantes-lista" class="small-box-footer">
                         <b>Ver Facturas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1117,7 +1109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-receipt"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','boletas/view_boletas.php')" class="small-box-footer">
+                      <a href="#comprobantes-lista" data-modulo="comprobantes-lista" class="small-box-footer">
                         <b>Ver Boletas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1132,7 +1124,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-file-invoice"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','notas_credito/view_notas_credito.php')" class="small-box-footer">
+                      <a href="#notas-credito" data-modulo="notas-credito" class="small-box-footer">
                         <b>Ver N. Crédito</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1147,7 +1139,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-file-contract"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','notas_debito/view_notas_debito.php')" class="small-box-footer">
+                      <a href="#notas-debito" data-modulo="notas-debito" class="small-box-footer">
                         <b>Ver N. Débito</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1177,96 +1169,97 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </script>
         <!-- Script para actualizar fecha y hora -->
 
-<div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card card-primary">
-          <div class="card-header">
-            <h5 class="m-0" style="font-family:cooper;text-align:center">
-              <i class="fas fa-bullhorn"></i><b> VENCIMIENTO DE LICENCIAS</b>
-            </h5>
-          </div>
-          <div class="table-responsive" style="text-align:center">
-            <div class="card-body" style="overflow: hidden; border-radius: 20px;">
-              <table id="tabla_choferes_vencidos" class="table table-striped table-bordered" style="width:100%; border-radius: 20px; overflow: hidden;">
-                <thead style="background-color:#023D77;color:white;">
-                  <tr>
-                    <th style="text-align:center">Nro.</th>
-                    <th style="text-align:center">Tipo Doc y N°</th>
-                    <th style="text-align:center">Conductor</th>
-                    <th style="text-align:center">Vehículo</th>
-                    <th style="text-align:center">Licencia</th>
-                    <th style="text-align:center">Categoría</th>
-                    <th style="text-align:center">Fecha de vencimiento</th>
-                    <th style="text-align:center">Acción</th>
-                    <th style="text-align:center">Estado</th>
-                  </tr>
-                </thead>
-              </table>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h5 class="m-0" style="font-family:cooper;text-align:center">
+                      <i class="fas fa-bullhorn"></i><b> VENCIMIENTO DE LICENCIAS</b>
+                    </h5>
+                  </div>
+                  <div class="table-responsive" style="text-align:center">
+                    <div class="card-body" style="overflow: hidden; border-radius: 20px;">
+                      <table id="tabla_choferes_vencidos" class="table table-striped table-bordered" style="width:100%; border-radius: 20px; overflow: hidden;">
+                        <thead style="background-color:#023D77;color:white;">
+                          <tr>
+                            <th style="text-align:center">Nro.</th>
+                            <th style="text-align:center">Tipo Doc y N°</th>
+                            <th style="text-align:center">Conductor</th>
+                            <th style="text-align:center">Vehículo</th>
+                            <th style="text-align:center">Licencia</th>
+                            <th style="text-align:center">Categoría</th>
+                            <th style="text-align:center">Fecha de vencimiento</th>
+                            <th style="text-align:center">Acción</th>
+                            <th style="text-align:center">Estado</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Modal Mejorado de Alertas de Vencimiento -->
-<div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="modalAlertaLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden;">
-      <!-- El contenido se genera dinámicamente desde JavaScript -->
-    </div>
-  </div>
-</div>
+        <!-- Modal Mejorado de Alertas de Vencimiento -->
+        <div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="modalAlertaLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden;">
+              <!-- El contenido se genera dinámicamente desde JavaScript -->
+            </div>
+          </div>
+        </div>
 
-<style>
-/* Estilos adicionales para el modal */
-#modal_ver .modal-dialog {
-  max-width: 700px;
-}
+        <style>
+          /* Estilos adicionales para el modal */
+          #modal_ver .modal-dialog {
+            max-width: 700px;
+          }
 
-#modal_ver .modal-content {
-  animation: modalSlideIn 0.3s ease-out;
-}
+          #modal_ver .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+          }
 
-@keyframes modalSlideIn {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+          @keyframes modalSlideIn {
+            from {
+              transform: translateY(-50px);
+              opacity: 0;
+            }
 
-/* Hover effect para las filas de la tabla */
-#tabla_choferes_vencidos tbody tr {
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
+            to {
+              transform: translateY(0);
+              opacity: 1;
+            }
+          }
 
-#tabla_choferes_vencidos tbody tr:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
+          /* Hover effect para las filas de la tabla */
+          #tabla_choferes_vencidos tbody tr {
+            transition: all 0.3s ease;
+            cursor: pointer;
+          }
 
-/* Estilos para el botón Ver */
-.mostrar {
-  transition: all 0.3s ease;
-  border: none;
-  font-weight: bold;
-}
+          #tabla_choferes_vencidos tbody tr:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+          }
 
-.mostrar:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-</style>
+          /* Estilos para el botón Ver */
+          .mostrar {
+            transition: all 0.3s ease;
+            border: none;
+            font-weight: bold;
+          }
 
-      <?php } ?> 
+          .mostrar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          }
+        </style>
+
+      <?php } ?>
       <?php if ($_SESSION['S_ROL'] == "2") { ?>
 
         <div class="content-header">
@@ -1433,7 +1426,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php.php')" class="small-box-footer">
+                      <a href="#encomiendas-asis" data-modulo="encomiendas-asis" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1448,7 +1441,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php.php')" class="small-box-footer">
+                      <a href="#encomiendas-asis" data-modulo="encomiendas-asis" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1463,7 +1456,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php.php')" class="small-box-footer">
+                      <a href="#encomiendas-asis" data-modulo="encomiendas-asis" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1478,7 +1471,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-box"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','encomiendas/view_encomienda_asis.php.php')" class="small-box-footer">
+                      <a href="#encomiendas-asis" data-modulo="encomiendas-asis" class="small-box-footer">
                         <b>Ver encomiendas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1503,7 +1496,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php.php')" class="small-box-footer">
+                      <a href="#salidas-asis" data-modulo="salidas-asis" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1518,7 +1511,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php.php')" class="small-box-footer">
+                      <a href="#salidas-asis" data-modulo="salidas-asis" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1533,7 +1526,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php.php')" class="small-box-footer">
+                      <a href="#salidas-asis" data-modulo="salidas-asis" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1548,7 +1541,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-route"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_asis.php.php')" class="small-box-footer">
+                      <a href="#salidas-asis" data-modulo="salidas-asis" class="small-box-footer">
                         <b>Ver salidas diarias</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1573,7 +1566,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-calendar-check"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php.php')" class="small-box-footer">
+                      <a href="#reservas-asis" data-modulo="reservas-asis" class="small-box-footer">
                         <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1588,7 +1581,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-calendar-check"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php.php')" class="small-box-footer">
+                      <a href="#reservas-asis" data-modulo="reservas-asis" class="small-box-footer">
                         <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1603,7 +1596,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-calendar-check"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php.php')" class="small-box-footer">
+                      <a href="#reservas-asis" data-modulo="reservas-asis" class="small-box-footer">
                         <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1618,7 +1611,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <div class="icon">
                         <i class="fas fa-calendar-check"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','reservas/view_reservas_asi.php.php')" class="small-box-footer">
+                      <a href="#reservas-asis" data-modulo="reservas-asis" class="small-box-footer">
                         <b>Ver reservas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1637,13 +1630,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-lg-3 col-6">
                     <div class="small-box bg-success">
                       <div class="inner">
-                        <b>Facturas Emitidas</b>
-                        <h3 id="total_facturas_emitidas"><sup style="font-size: 20px"></sup>0</h3>
+                        <b>Facturas Emitidas por Sucursal</b>
+                        <h3 id="total_facturas_emitidas_sucu"><sup style="font-size: 20px"></sup>0</h3>
                       </div>
                       <div class="icon">
                         <i class="fas fa-file-invoice-dollar"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','facturas/view_facturas.php')" class="small-box-footer">
+                      <a href="#comprobantes-lista" data-modulo="comprobantes-lista" class="small-box-footer">
                         <b>Ver Facturas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1652,13 +1645,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-lg-3 col-6">
                     <div class="small-box bg-warning">
                       <div class="inner">
-                        <b>Boletas Emitidas</b>
-                        <h3 id="total_boletas_emitidas"><sup style="font-size: 20px"></sup>0</h3>
+                        <b>Boletas Emitidas por Sucursal</b>
+                        <h3 id="total_boletas_emitidas_sucu"><sup style="font-size: 20px"></sup>0</h3>
                       </div>
                       <div class="icon">
                         <i class="fas fa-receipt"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','boletas/view_boletas.php')" class="small-box-footer">
+                      <a href="#comprobantes-lista" data-modulo="comprobantes-lista" class="small-box-footer">
                         <b>Ver Boletas</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1667,13 +1660,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-lg-3 col-6">
                     <div class="small-box bg-info">
                       <div class="inner">
-                        <b>Notas de Crédito</b>
-                        <h3 id="total_notas_credito"><sup style="font-size: 20px"></sup>0</h3>
+                        <b>Notas de Crédito por Sucursal</b>
+                        <h3 id="total_notas_credito_sucu"><sup style="font-size: 20px"></sup>0</h3>
                       </div>
                       <div class="icon">
                         <i class="fas fa-file-invoice"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','notas_credito/view_notas_credito.php')" class="small-box-footer">
+                      <a href="#notas-credito" data-modulo="notas-credito" class="small-box-footer">
                         <b>Ver N. Crédito</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1682,13 +1675,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-lg-3 col-6">
                     <div class="small-box bg-secondary">
                       <div class="inner">
-                        <b>Notas de Débito</b>
-                        <h3 id="total_notas_debito"><sup style="font-size: 20px"></sup>0</h3>
+                        <b>Notas de Débito por Sucursal</b>
+                        <h3 id="total_notas_debito_sucu"><sup style="font-size: 20px"></sup>0</h3>
                       </div>
                       <div class="icon">
                         <i class="fas fa-file-contract"></i>
                       </div>
-                      <a href="#" onclick="cargar_contenido('contenido_principal','notas_debito/view_notas_debito.php')" class="small-box-footer">
+                      <a href="#notas-debito" data-modulo="notas-debito" class="small-box-footer">
                         <b>Ver N. Débito</b>&nbsp;<i class="fas fa-arrow-circle-right"></i>
                       </a>
                     </div>
@@ -1699,7 +1692,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
           </div>
         </div>
-         
+
         <script>
           function actualizarFechaHora() {
             const ahora = new Date();
@@ -1718,94 +1711,95 @@ scratch. This page gets rid of all links and provides the needed markup only.
           actualizarFechaHora(); // Ejecutar inmediatamente
         </script>
         <!-- Script para actualizar fecha y hora -->
-   <div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card card-primary">
-          <div class="card-header">
-            <h5 class="m-0" style="font-family:cooper;text-align:center">
-              <i class="fas fa-bullhorn"></i><b> VENCIMIENTO DE LICENCIAS</b>
-            </h5>
-          </div>
-          <div class="table-responsive" style="text-align:center">
-            <div class="card-body" style="overflow: hidden; border-radius: 20px;">
-              <table id="tabla_choferes_vencidos" class="table table-striped table-bordered" style="width:100%; border-radius: 20px; overflow: hidden;">
-                <thead style="background-color:#023D77;color:white;">
-                  <tr>
-                    <th style="text-align:center">Nro.</th>
-                    <th style="text-align:center">Tipo Doc y N°</th>
-                    <th style="text-align:center">Conductor</th>
-                    <th style="text-align:center">Vehículo</th>
-                    <th style="text-align:center">Licencia</th>
-                    <th style="text-align:center">Categoría</th>
-                    <th style="text-align:center">Fecha de vencimiento</th>
-                    <th style="text-align:center">Acción</th>
-                    <th style="text-align:center">Estado</th>
-                  </tr>
-                </thead>
-              </table>
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h5 class="m-0" style="font-family:cooper;text-align:center">
+                      <i class="fas fa-bullhorn"></i><b> VENCIMIENTO DE LICENCIAS</b>
+                    </h5>
+                  </div>
+                  <div class="table-responsive" style="text-align:center">
+                    <div class="card-body" style="overflow: hidden; border-radius: 20px;">
+                      <table id="tabla_choferes_vencidos" class="table table-striped table-bordered" style="width:100%; border-radius: 20px; overflow: hidden;">
+                        <thead style="background-color:#023D77;color:white;">
+                          <tr>
+                            <th style="text-align:center">Nro.</th>
+                            <th style="text-align:center">Tipo Doc y N°</th>
+                            <th style="text-align:center">Conductor</th>
+                            <th style="text-align:center">Vehículo</th>
+                            <th style="text-align:center">Licencia</th>
+                            <th style="text-align:center">Categoría</th>
+                            <th style="text-align:center">Fecha de vencimiento</th>
+                            <th style="text-align:center">Acción</th>
+                            <th style="text-align:center">Estado</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Modal Mejorado de Alertas de Vencimiento -->
-<div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="modalAlertaLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden;">
-      <!-- El contenido se genera dinámicamente desde JavaScript -->
-    </div>
-  </div>
-</div>
+        <!-- Modal Mejorado de Alertas de Vencimiento -->
+        <div class="modal fade" id="modal_ver" tabindex="-1" role="dialog" aria-labelledby="modalAlertaLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden;">
+              <!-- El contenido se genera dinámicamente desde JavaScript -->
+            </div>
+          </div>
+        </div>
 
-<style>
-/* Estilos adicionales para el modal */
-#modal_ver .modal-dialog {
-  max-width: 700px;
-}
+        <style>
+          /* Estilos adicionales para el modal */
+          #modal_ver .modal-dialog {
+            max-width: 700px;
+          }
 
-#modal_ver .modal-content {
-  animation: modalSlideIn 0.3s ease-out;
-}
+          #modal_ver .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+          }
 
-@keyframes modalSlideIn {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+          @keyframes modalSlideIn {
+            from {
+              transform: translateY(-50px);
+              opacity: 0;
+            }
 
-/* Hover effect para las filas de la tabla */
-#tabla_choferes_vencidos tbody tr {
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
+            to {
+              transform: translateY(0);
+              opacity: 1;
+            }
+          }
 
-#tabla_choferes_vencidos tbody tr:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
+          /* Hover effect para las filas de la tabla */
+          #tabla_choferes_vencidos tbody tr {
+            transition: all 0.3s ease;
+            cursor: pointer;
+          }
 
-/* Estilos para el botón Ver */
-.mostrar {
-  transition: all 0.3s ease;
-  border: none;
-  font-weight: bold;
-}
+          #tabla_choferes_vencidos tbody tr:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+          }
 
-.mostrar:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-</style>
+          /* Estilos para el botón Ver */
+          .mostrar {
+            transition: all 0.3s ease;
+            border: none;
+            font-weight: bold;
+          }
+
+          .mostrar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          }
+        </style>
 
       <?php
       }
@@ -1876,9 +1870,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="col-md-4">
                   <div class="d-flex align-items-center justify-content-center">
                     <div class="text-center">
-                      <a onclick="cargar_contenido('contenido_principal','salidas_diaria/view_salida_diaria_con.php')" class="btn btn-lg text-white shadow-lg" style="background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 50px; padding: 15px 35px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; backdrop-filter: blur(10px); text-decoration: none; font-size: 0.95rem;">
+                      <a href="#salidas-con" data-modulo="salidas-con" class="btn btn-lg text-white shadow-lg" style="background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5); border-radius: 50px; padding: 15px 35px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; backdrop-filter: blur(10px); text-decoration: none; font-size: 0.95rem;">
                         <i class="fas fa-bus" style="font-size: 1.5rem; margin-bottom: 8px; display: block;"></i>
                         Registrar<br>Salida Diaria
+
                       </a>
                     </div>
                   </div>
@@ -2070,52 +2065,55 @@ scratch. This page gets rid of all links and provides the needed markup only.
           actualizarFechaHora(); // Ejecutar inmediatamente
         </script>
 
-<style>
-  /* Animación de entrada del modal */
-  .modal.fade .modal-dialog {
-    transition: transform 0.4s ease-out;
-    transform: translateY(-100px);
-  }
-  
-  .modal.show .modal-dialog {
-    transform: translateY(0);
-  }
-  
-  /* Efectos hover en las filas de información */
-  .info-row:hover {
-    background-color: #f8f9fa !important;
-    transition: background-color 0.3s ease;
-    cursor: default;
-  }
-  
-  /* Animación del botón */
-  .btn-alerta {
-    transition: all 0.3s ease;
-  }
-  
-  .btn-alerta:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3) !important;
-  }
-  
-  .btn-alerta:active {
-    transform: scale(0.98);
-  }
-  
-  /* Efecto de pulso en el icono principal */
-  @keyframes pulse {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-  }
-  
-  .icon-pulse {
-    animation: pulse 2s infinite;
-  }
-</style>
+        <style>
+          /* Animación de entrada del modal */
+          .modal.fade .modal-dialog {
+            transition: transform 0.4s ease-out;
+            transform: translateY(-100px);
+          }
+
+          .modal.show .modal-dialog {
+            transform: translateY(0);
+          }
+
+          /* Efectos hover en las filas de información */
+          .info-row:hover {
+            background-color: #f8f9fa !important;
+            transition: background-color 0.3s ease;
+            cursor: default;
+          }
+
+          /* Animación del botón */
+          .btn-alerta {
+            transition: all 0.3s ease;
+          }
+
+          .btn-alerta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3) !important;
+          }
+
+          .btn-alerta:active {
+            transform: scale(0.98);
+          }
+
+          /* Efecto de pulso en el icono principal */
+          @keyframes pulse {
+
+            0%,
+            100% {
+              transform: scale(1);
+            }
+
+            50% {
+              transform: scale(1.1);
+            }
+          }
+
+          .icon-pulse {
+            animation: pulse 2s infinite;
+          }
+        </style>
 
       <?php } ?>
     </div>
@@ -2235,6 +2233,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="../js/console_usuario.js?rev=<?php echo time(); ?>"></script>
   <script src="../js/console_choferes.js?php echo time(); ?>"></script>
 
+  <!-- AQUÍ VA EL NUEVO SCRIPT -->
+<script src="../js/navegacion_hash.js?rev=<?php echo time(); ?>"></script>
 </body>
 
 </html>
@@ -2244,20 +2244,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
     Total_choferes();
     Total_clientes();
     // Total_comprobantes();
+    Total_comprobantes();
+    Total_facturas();
+    Total_boletas();
+    Total_Notas_Credito();
+    Total_Notas_Debito();
+    // encomiendas
     Total_encomiendas_dia();
     Total_encomiendas_semanales();
     Total_encomiendas_mes();
     Total_encomiendas();
+    // salidas
     Total_salidas_dia();
     Total_salidas_semana();
     Total_salidas_mes();
     Total_salidas();
-
+    // reservas
     Total_reservas_dia();
     Total_reservas_semana();
     Total_reservas_mes();
     Total_reservas();
-
+    // ingresos y gastos
     Total_ingresos_hoy();
     Total_gastos_hoy();
     Total_ingresos_mes_actual();
@@ -2278,6 +2285,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     Total_reservas_mes_asis();
     Total_reservas_asis();
     listar_choferes_vencidos();
+    //asistentes comprobantes
+    Total_facturas_sucu();
+    Total_boletas_sucu();
+    Total_nota_credito_sucu();
+    Total_nota_debito_sucu();
   });
 </script>
 

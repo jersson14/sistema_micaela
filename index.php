@@ -1,20 +1,21 @@
 <?php
 session_start();
-if(isset($_SESSION['S_ID'])){
+if (isset($_SESSION['S_ID'])) {
     header('Location: view/index.php');
 }
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tours Micaela - Portal de Acceso</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-      <link rel="icon" href="img/logito.png" type="image/jpg">
+    <link rel="icon" href="img/logito.png" type="image/jpg">
 
-<style>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -36,16 +37,23 @@ if(isset($_SESSION['S_ID'])){
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 48%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 52%, transparent 100%),
+            background:
+                linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 48%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.1) 52%, transparent 100%),
                 radial-gradient(ellipse at center, rgba(2, 61, 119, 0.3) 0%, transparent 70%);
             z-index: -1;
             animation: roadMove 3s ease-in-out infinite;
         }
 
         @keyframes roadMove {
-            0%, 100% { transform: translateX(-2px); }
-            50% { transform: translateX(2px); }
+
+            0%,
+            100% {
+                transform: translateX(-2px);
+            }
+
+            50% {
+                transform: translateX(2px);
+            }
         }
 
         /* Fondo con patrón sutil de autos */
@@ -55,15 +63,20 @@ if(isset($_SESSION['S_ID'])){
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
+            background-image:
                 url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M8 8h4v4H8V8zm8 0h4v4h-4V8zm8 0h4v4h-4V8zM8 16h4v4H8v-4zm8 0h4v4h-4v-4zm8 0h4v4h-4v-4zM8 24h4v4H8v-4zm8 0h4v4h-4v-4zm8 0h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E");
             z-index: -2;
             animation: patternMove 20s linear infinite;
         }
 
         @keyframes patternMove {
-            0% { transform: translateX(0) translateY(0); }
-            100% { transform: translateX(40px) translateY(40px); }
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+
+            100% {
+                transform: translateX(40px) translateY(40px);
+            }
         }
 
         /* Montañas de fondo */
@@ -73,7 +86,7 @@ if(isset($_SESSION['S_ID'])){
             left: 0;
             width: 100%;
             height: 40%;
-            background: 
+            background:
                 linear-gradient(45deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
             clip-path: polygon(0 100%, 15% 60%, 25% 80%, 40% 40%, 55% 70%, 70% 30%, 85% 60%, 100% 45%, 100% 100%);
             opacity: 0.6;
@@ -126,17 +139,20 @@ if(isset($_SESSION['S_ID'])){
         }
 
         @keyframes moveCar {
-            0% { 
+            0% {
                 transform: translateX(-100px) scale(0.8);
                 opacity: 0;
             }
-            10% { 
+
+            10% {
                 opacity: 1;
             }
-            90% { 
+
+            90% {
                 opacity: 1;
             }
-            100% { 
+
+            100% {
                 transform: translateX(calc(100vw + 100px)) scale(1.2);
                 opacity: 0;
             }
@@ -194,7 +210,7 @@ if(isset($_SESSION['S_ID'])){
             padding: 3rem;
             width: 100%;
             max-width: 450px;
-            box-shadow: 
+            box-shadow:
                 0 25px 50px rgba(0, 0, 0, 0.3),
                 0 0 0 1px rgba(255, 255, 255, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -208,6 +224,7 @@ if(isset($_SESSION['S_ID'])){
                 transform: translateY(100px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -229,7 +246,7 @@ if(isset($_SESSION['S_ID'])){
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
-            box-shadow: 
+            box-shadow:
                 0 20px 40px rgba(2, 61, 119, 0.4),
                 0 8px 20px rgba(0, 0, 0, 0.15),
                 inset 0 2px 4px rgba(255, 255, 255, 0.1);
@@ -257,8 +274,15 @@ if(isset($_SESSION['S_ID'])){
         }
 
         @keyframes gradientMove {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         /* Imagen rectangular del logo MEJORADA */
@@ -273,7 +297,7 @@ if(isset($_SESSION['S_ID'])){
             /* Agregamos un fondo blanco para mejor contraste */
             background: rgba(255, 255, 255, 0.95);
             border: 3px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 
+            box-shadow:
                 0 8px 25px rgba(0, 0, 0, 0.3),
                 inset 0 2px 4px rgba(255, 255, 255, 0.2);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -287,7 +311,7 @@ if(isset($_SESSION['S_ID'])){
         .logo-container:hover .logo-image {
             transform: scale(1.03) translateY(-2px);
             border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 
+            box-shadow:
                 0 15px 35px rgba(0, 0, 0, 0.4),
                 inset 0 3px 6px rgba(255, 255, 255, 0.3),
                 0 0 30px rgba(116, 185, 255, 0.3);
@@ -342,14 +366,42 @@ if(isset($_SESSION['S_ID'])){
             animation: particleFloat 3s ease-in-out infinite;
         }
 
-        .particle:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-        .particle:nth-child(2) { top: 20%; right: 15%; animation-delay: 0.5s; }
-        .particle:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 1s; }
-        .particle:nth-child(4) { bottom: 15%; right: 10%; animation-delay: 1.5s; }
+        .particle:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 0.5s;
+        }
+
+        .particle:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(4) {
+            bottom: 15%;
+            right: 10%;
+            animation-delay: 1.5s;
+        }
 
         @keyframes particleFloat {
-            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
-            50% { transform: translateY(-15px) scale(1.2); opacity: 1; }
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: translateY(-15px) scale(1.2);
+                opacity: 1;
+            }
         }
 
         /* Estados de error de imagen */
@@ -362,16 +414,19 @@ if(isset($_SESSION['S_ID'])){
         }
 
         @keyframes logoFloat {
-            0%, 100% { 
-                transform: translateY(0px) scale(1); 
-                box-shadow: 
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1);
+                box-shadow:
                     0 20px 40px rgba(2, 61, 119, 0.4),
                     0 8px 20px rgba(0, 0, 0, 0.15),
                     inset 0 2px 4px rgba(255, 255, 255, 0.1);
             }
-            50% { 
-                transform: translateY(-8px) scale(1.02); 
-                box-shadow: 
+
+            50% {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow:
                     0 25px 50px rgba(2, 61, 119, 0.5),
                     0 12px 25px rgba(0, 0, 0, 0.2),
                     inset 0 3px 6px rgba(255, 255, 255, 0.15);
@@ -419,13 +474,13 @@ if(isset($_SESSION['S_ID'])){
         .input-field:focus {
             border-color: #023D77;
             background: white;
-            box-shadow: 
+            box-shadow:
                 0 0 0 4px rgba(2, 61, 119, 0.1),
                 0 10px 25px rgba(2, 61, 119, 0.15);
             transform: translateY(-3px);
         }
 
-        .input-field:focus + .input-icon {
+        .input-field:focus+.input-icon {
             color: #023D77;
             transform: translateY(-50%) scale(1.1);
         }
@@ -505,7 +560,7 @@ if(isset($_SESSION['S_ID'])){
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 
+            box-shadow:
                 0 10px 30px rgba(2, 61, 119, 0.4),
                 0 5px 15px rgba(0, 0, 0, 0.2),
                 inset 0 2px 4px rgba(255, 255, 255, 0.2);
@@ -514,15 +569,18 @@ if(isset($_SESSION['S_ID'])){
 
         /* Animación de pulso del botón */
         @keyframes buttonPulse {
-            0%, 100% {
-                box-shadow: 
+
+            0%,
+            100% {
+                box-shadow:
                     0 10px 30px rgba(2, 61, 119, 0.4),
                     0 5px 15px rgba(0, 0, 0, 0.2),
                     inset 0 2px 4px rgba(255, 255, 255, 0.2),
                     0 0 0 0 rgba(116, 185, 255, 0.7);
             }
+
             50% {
-                box-shadow: 
+                box-shadow:
                     0 15px 40px rgba(2, 61, 119, 0.6),
                     0 8px 20px rgba(0, 0, 0, 0.3),
                     inset 0 3px 6px rgba(255, 255, 255, 0.3),
@@ -532,18 +590,21 @@ if(isset($_SESSION['S_ID'])){
 
         /* Animación del gradiente del botón */
         .login-button {
-            animation: 
+            animation:
                 buttonPulse 2s ease-in-out infinite,
                 gradientShift 3s ease-in-out infinite;
         }
 
         @keyframes gradientShift {
-            0%, 100% { 
-                background-position: 0% 50%; 
+
+            0%,
+            100% {
+                background-position: 0% 50%;
                 transform: scale(1);
             }
-            50% { 
-                background-position: 100% 50%; 
+
+            50% {
+                background-position: 100% 50%;
                 transform: scale(1.02);
             }
         }
@@ -551,7 +612,7 @@ if(isset($_SESSION['S_ID'])){
         /* Efecto hover del botón */
         .login-button:hover {
             transform: translateY(-5px) scale(1.05);
-            box-shadow: 
+            box-shadow:
                 0 20px 50px rgba(2, 61, 119, 0.6),
                 0 10px 25px rgba(0, 0, 0, 0.3),
                 inset 0 3px 6px rgba(255, 255, 255, 0.3),
@@ -571,12 +632,12 @@ if(isset($_SESSION['S_ID'])){
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255, 255, 255, 0.4), 
-                rgba(255, 255, 255, 0.6), 
-                rgba(255, 255, 255, 0.4), 
-                transparent);
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.4),
+                    rgba(255, 255, 255, 0.6),
+                    rgba(255, 255, 255, 0.4),
+                    transparent);
             transition: left 0.6s ease;
             border-radius: 20px;
         }
@@ -622,8 +683,15 @@ if(isset($_SESSION['S_ID'])){
         }
 
         @keyframes iconBounce {
-            0%, 100% { transform: translateX(0px); }
-            50% { transform: translateX(3px); }
+
+            0%,
+            100% {
+                transform: translateX(0px);
+            }
+
+            50% {
+                transform: translateX(3px);
+            }
         }
 
         .login-button:hover #loginIcon {
@@ -643,7 +711,9 @@ if(isset($_SESSION['S_ID'])){
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Estados del botón al hacer clic */
@@ -655,7 +725,7 @@ if(isset($_SESSION['S_ID'])){
 
         .login-button.loading:hover {
             transform: none;
-            box-shadow: 
+            box-shadow:
                 0 10px 30px rgba(2, 61, 119, 0.4),
                 0 5px 15px rgba(0, 0, 0, 0.2);
         }
@@ -696,8 +766,17 @@ if(isset($_SESSION['S_ID'])){
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
         }
 
         /* RESPONSIVE DESIGN - SOLO AJUSTES VISUALES */
@@ -972,6 +1051,7 @@ if(isset($_SESSION['S_ID'])){
         }
     </style>
 </head>
+
 <body>
     <!-- Header Superior -->
     <div class="header">
@@ -1012,7 +1092,7 @@ if(isset($_SESSION['S_ID'])){
                         <div class="particle"></div>
                         <div class="particle"></div>
                     </div>
-                    
+
                     <img src="img/logito.png" alt="Tours Micaela - Transporte" class="logo-image" id="logoImage">
                     <i class="fas fa-route backup-icon"></i>
                 </div>
@@ -1063,7 +1143,7 @@ if(isset($_SESSION['S_ID'])){
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/console_usuario.js?rev=<?php echo time();?>"></script>
+    <script src="js/console_usuario.js?rev=<?php echo time(); ?>"></script>
 
     <script>
         // Crear estrellas de fondo
@@ -1101,10 +1181,10 @@ if(isset($_SESSION['S_ID'])){
 
         // Recordar usuario
         const rmcheck = document.getElementById('remember'),
-              usuarioInput = document.getElementById('txt_usuario'),
-              passInput = document.getElementById('txt_contra');
+            usuarioInput = document.getElementById('txt_usuario'),
+            passInput = document.getElementById('txt_contra');
 
-        if(localStorage.checkbox && localStorage.checkbox !== "") {
+        if (localStorage.checkbox && localStorage.checkbox !== "") {
             rmcheck.checked = true;
             usuarioInput.value = localStorage.usuario;
             passInput.value = localStorage.pass;
@@ -1133,7 +1213,7 @@ if(isset($_SESSION['S_ID'])){
             input.addEventListener('focus', function() {
                 this.parentElement.style.transform = 'scale(1.02)';
             });
-            
+
             input.addEventListener('blur', function() {
                 this.parentElement.style.transform = 'scale(1)';
             });
@@ -1143,10 +1223,11 @@ if(isset($_SESSION['S_ID'])){
         document.addEventListener('mousemove', function(e) {
             const mouseX = e.clientX / window.innerWidth;
             const mouseY = e.clientY / window.innerHeight;
-            
+
             document.querySelector('.mountains').style.transform = `translateX(${mouseX * 10}px)`;
             document.querySelector('.login-card').style.transform = `translateX(${mouseX * 5}px) translateY(${mouseY * 5}px)`;
         });
     </script>
 </body>
+
 </html>

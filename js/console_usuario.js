@@ -1348,3 +1348,210 @@ function Total_reservas_asis() {
     }
   });
 }
+
+//COMPROBANTES
+function Total_comprobantes() {
+  let ori = document.getElementById("txt_sucursal").value;
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_comprobantes.php",
+    type: "POST",
+    data: {
+      ori: ori,
+    },
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_comprobantes").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+
+function Total_facturas() {
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_facturas.php",
+    type: "POST",
+
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_facturas_emitidas").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_boletas() {
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_boletas.php",
+    type: "POST",
+
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_boletas_emitidas").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_Notas_Credito() {
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_notas_credito.php",
+    type: "POST",
+
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_notas_credito").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_Notas_Debito() {
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_notas_debito.php",
+    type: "POST",
+
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_notas_debito").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+// COMPROBANTES POR SUCURSAL
+function Total_facturas_sucu() {
+  let ori = document.getElementById("txt_sucursal").value;
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_factura_sucu.php",
+    type: "POST",
+    data: {
+      ori: ori,
+    },
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_facturas_emitidas_sucu").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_boletas_sucu() {
+  let ori = document.getElementById("txt_sucursal").value;
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_boletas_sucu.php",
+    type: "POST",
+    data: {
+      ori: ori,
+    },
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_boletas_emitidas_sucu").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_nota_credito_sucu() {
+  let ori = document.getElementById("txt_sucursal").value;
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_notacredito_sucu.php",
+    type: "POST",
+    data: {
+      ori: ori,
+    },
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_notas_credito_sucu").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_nota_debito_sucu() {
+  let ori = document.getElementById("txt_sucursal").value;
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_notadebito_sucu.php",
+    type: "POST",
+    data: {
+      ori: ori,
+    },
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_notas_debito_sucu").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
