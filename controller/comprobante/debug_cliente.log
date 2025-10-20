@@ -1438,3 +1438,33 @@ Array
     [estado_sunat] => PENDIENTE
     [id_usuario] => 1
 )
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000015
+    [fecha_emision] => 2025-10-20
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 31044054
+    [razon_social] => WILFREDO CARRION UMERES
+    [direccion] => AV. 28 DE ABRIL 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 7
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-20T10:48
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
