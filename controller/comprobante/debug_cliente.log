@@ -1468,3 +1468,573 @@ Array
     [estado_sunat] => PENDIENTE
     [id_usuario] => 1
 )
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000016
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. CUSCO N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T16:10
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000017
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72658541
+    [razon_social] => CARLOS EDUARDO CAÑA ASCENCIO
+    [direccion] => JR CUSCO N° 332
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T16:22
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000018
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72454145
+    [razon_social] => HUGO DAVID QUINDE MENDOZA
+    [direccion] => AV. DIAZ BARCENAS N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T16:26
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000019
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 71214147
+    [razon_social] => JAHIR MARIO NINA CONDE
+    [direccion] => JR. LIMA N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T16:31
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000020
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. CUSCO N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T16:33
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000021
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72150455
+    [razon_social] => LESLIE ALEXANDRA VILCA PERALTA
+    [direccion] => JR. CUSCO N° 2323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T16:42
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000022
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72124511
+    [razon_social] => ERIKA YUVITA LEIVA LEIVA
+    [direccion] => AV. CHILE N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 6
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T16:44
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000023
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. CUSCO N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T16:54
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000024
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72658855
+    [razon_social] => MAZZIEL STEFFANY DE LOS MILAGROS CESPEDES MAURIOLA
+    [direccion] => AV. ABANCAY N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T16:56
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000025
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. CUSCO N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 7
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T17:00
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000026
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72451112
+    [razon_social] => EMA JANETH DAGA NAJERA
+    [direccion] => AV. DIAZ BARCENAS N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 8
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T17:05
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000027
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72131212
+    [razon_social] => VICTOR RAUL RAICO ALVARADO
+    [direccion] => JR LIMA N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T17:11
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000028
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. CUSCO N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 8
+    [id_origen] => 2
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T17:13
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000029
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646852
+    [razon_social] => DENILSON ALDAIR PINGO RODRIGUEZ
+    [direccion] => AV. ABANCAY N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 9
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T17:16
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000030
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 71254521
+    [razon_social] => VALERIA BUTTGENBACH OCHOA
+    [direccion] => JR. CUSCO N° 778
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 7
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T17:19
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000031
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72645145
+    [razon_social] => FABRISCIO RAUL CAMARA CALDAS
+    [direccion] => AV. CANADA N° 334
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T17:21
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000032
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 31004522
+    [razon_social] => GLICERIO HURTADO AYALA
+    [direccion] => JR. LIMA N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 4
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2025-10-28T17:24
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000033
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72614512
+    [razon_social] => KASSANDRA MARIELENA FONSECA SANCHEZ
+    [direccion] => JR. CUSCO N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T17:45
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000034
+    [fecha_emision] => 2025-10-28
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 76254145
+    [razon_social] => LUIS ANIBAL VILLAR SEGURA
+    [direccion] => AV. AREQUIPA N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 7
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-28T17:49
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)

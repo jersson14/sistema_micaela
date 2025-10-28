@@ -201,7 +201,59 @@
         </div>
     </div>
 </div>
-
+<!-- MODAL ANULAR BOLETA (COMUNICAR A SUNAT) -->
+<div class="modal fade" id="modal_anular_boleta" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#dc3545;">
+                <h5 class="modal-title" style="color:white">
+                    <i class="fas fa-file-invoice"></i> <b>ANULAR BOLETA Y COMUNICAR A SUNAT</b>
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txt_id_comprobante_anular_boleta">
+                <input type="hidden" id="txt_serie_anular_boleta">
+                <input type="hidden" id="txt_correlativo_anular_boleta">
+                
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Importante:</strong><br>
+                    Se anulará la boleta <span id="span_numero_anular_boleta" class="font-weight-bold"></span><br>
+                    <small>Esta acción generará una Comunicación de Baja que será enviada a SUNAT.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Motivo de Anulación <b style="color:red">(*)</b>:</label>
+                    <select class="form-control" id="select_motivo_anulacion_boleta">
+                        <option value="">Seleccione un motivo</option>
+                        <option value="01">Error en el RUC</option>
+                        <option value="02">Error en la descripción</option>
+                        <option value="03">Error en el monto</option>
+                        <option value="04">Otro (especifique abajo)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Observaciones adicionales <b style="color:red">(*)</b>:</label>
+                    <textarea class="form-control" id="txt_motivo_anulacion_boleta" rows="3" 
+                              placeholder="Describa brevemente el motivo de la anulación" 
+                              style="resize:none"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-danger" onclick="confirmarAnulacionBoleta()">
+                    <i class="fas fa-ban"></i> Anular y Comunicar a SUNAT
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 $(document).ready(function() {
     listar_comprobantes();

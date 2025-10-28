@@ -527,4 +527,102 @@ elseif ($accion == 'OBTENER_CORRELATIVO_ND') {
         'correlativo' => $correlativo
     ]);
 }
+
+// ============================================================
+// ANULAR BOLETA Y COMUNICAR A SUNAT
+// ============================================================
+elseif ($accion == 'ANULAR_BOLETA_SUNAT') {
+    header('Content-Type: application/json; charset=utf-8');
+    
+    // ❌ YA NO NECESITAS $c = conexionBD::conexionPDO();
+    
+    $id_comprobante = $_POST['id_comprobante'];
+    $motivo = strtoupper($_POST['motivo']);
+    $usuario = $_POST['usuario'];
+    
+    // 1️⃣ Verificar si la boleta puede ser anulada (USA MODELO)
+    $verificacion = $MC->Verificar_Boleta_Anulable($id_comprobante);
+    
+    if (!$verificacion['anulable']) {
+        echo json_encode(['status' => 'error', 'message' => $verificacion['motivo']]);
+        exit;
+    }
+    
+    // 2️⃣ Obtener datos del comprobante (USA MODELO)
+    $comp = $MC->Obtener_Datos_Basicos_Comprobante($id_comprobante);
+    
+    if (!$comp) {
+        echo json_encode(['status' => 'error', 'message' => 'Comprobante no encontrado']);
+        exit;
+    }
+    
+    // 3️⃣ Actualizar observaciones (USA MODELO)
+    $MC->Actualizar_Observaciones_Comprobante($id_comprobante, $motivo);
+    
+    // 4️⃣ Obtener correlativo (USA MODELO)
+    $correlativo_baja = $MC->Obtener_Correlativo_Comunicacion_Baja($comp['fecha_emision']);
+    
+    // 5️⃣ Registrar comunicación (USA MODELO)
+    $id_comunicacion = $MC->Registrar_Comunicacion_Baja($id_comprobante, $correlativo_baja, null);
+    
+    // 6️⃣ Comunicar a SUNAT
+    $ruta_script = __DIR__ . '/../../greenter/comunicacion_baja.php';
+    $comando = "php \"$ruta_script\" $id_comprobante \"$correlativo_baja\" 2>&1";
+    $output = shell_exec($comando);
+    
+    // 7️⃣ Registrar log
+    $log_file = __DIR__ . '/../../greenter/anulacion_log.txt';
+    file_put_contents($log_file, "=========================\n", FILE_APPEND);
+    file_put_contents($log_file, "FECHA: " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+    file_put_contents($log_file, "ID COMPROBANTE: $id_comprobante\n", FILE_APPEND);
+    file_put_contents($log_file, "CORRELATIVO BAJA: $correlativo_baja\n", FILE_APPEND);
+    file_put_contents($log_file, "COMANDO: $comando\n", FILE_APPEND);
+    file_put_contents($log_file, "OUTPUT:\n$output\n\n", FILE_APPEND);
+    
+    $output_lower = strtolower($output);
+    
+    // 8️⃣ Extraer ticket
+    preg_match('/ticket[:\s]+([A-Za-z0-9\-]+)/i', $output, $matches);
+    $ticket = isset($matches[1]) ? $matches[1] : null;
+    
+    // 9️⃣ Analizar resultado
+    if (strpos($output_lower, 'aceptada') !== false || strpos($output_lower, '✅') !== false) {
+        
+        // ✅ SUNAT ACEPTÓ → Anular localmente (USA MODELO)
+        $resultado = $MC->Anular_Boleta_SUNAT($id_comprobante, $motivo, $usuario);
+        $MC->Actualizar_Estado_Comunicacion_Baja($id_comunicacion, 'ACEPTADO', 'Comunicación de baja aceptada');
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => '✅ Boleta anulada y comunicada a SUNAT correctamente',
+            'ticket' => $ticket,
+            'correlativo_baja' => $correlativo_baja,
+            'comprobante' => $comp['serie'] . '-' . $comp['correlativo']
+        ]);
+        
+    } elseif (strpos($output_lower, '❌') !== false || strpos($output_lower, 'error') !== false) {
+        
+        // ❌ SUNAT RECHAZÓ (USA MODELO)
+        $MC->Actualizar_Estado_Comunicacion_Baja($id_comunicacion, 'RECHAZADO', $output);
+        
+        echo json_encode([
+            'status' => 'error',
+            'message' => '❌ SUNAT rechazó la comunicación de baja. La boleta permanece ACTIVA.',
+            'output' => nl2br($output)
+        ]);
+        
+    } else {
+        
+        echo json_encode([
+            'status' => 'warning',
+            'message' => '⚠️ Respuesta inesperada de SUNAT. Verifique manualmente.',
+            'output' => nl2br($output)
+        ]);
+    }
+    
+    exit;
+}
+
+
 ?>
+

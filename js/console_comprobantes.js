@@ -939,70 +939,73 @@ function listar_comprobantes() {
       },
       { data: "usuario_nombre" },
       {
-        data: null,
-        orderable: false,
-        render: function (data) {
-          let estado = data.estado_sunat;
-          let estado_doc = data.estado_documento;
-          let botones = `
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" data-boundary="window">
-                                <i class="fas fa-bars"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" style="z-index:1050;">
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="verDetalle(${data.id_comprobante})">
-                                    <i class="fas fa-eye text-info"></i> Ver Detalle
-                                </a>`;
+    data: null,
+    orderable: false,
+    render: function (data) {
+        let estado = data.estado_sunat;
+        let estado_doc = data.estado_documento;
+        let tipo = data.tipo_comprobante;
+        
+        let botones = `
+            <div class="btn-group" role="group">
+                <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" data-boundary="window">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" style="z-index:1050;">
+                    <a class="dropdown-item" href="javascript:void(0)" onclick="verDetalle(${data.id_comprobante})">
+                        <i class="fas fa-eye text-info"></i> Ver Detalle
+                    </a>`;
 
-          if (estado == "PENDIENTE" && estado_doc == "ACTIVO") {
+        if (estado == "PENDIENTE" && estado_doc == "ACTIVO") {
             botones += `
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="abrirModalEnviar(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
-                                    <i class="fas fa-paper-plane text-success"></i> Enviar a SUNAT
-                                </a>`;
-          }
+                <a class="dropdown-item" href="javascript:void(0)" onclick="abrirModalEnviar(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
+                    <i class="fas fa-paper-plane text-success"></i> Enviar a SUNAT
+                </a>`;
+        }
 
-          if (
-            (estado == "ENVIADO" || estado == "ACEPTADO") &&
-            estado_doc == "ACTIVO"
-          ) {
+        if ((estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
             botones += `
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarXML('${data.serie}', '${data.correlativo}')">
-                                    <i class="fas fa-file-code text-primary"></i> Descargar XML
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarCDR('${data.serie}', '${data.correlativo}')">
-                                    <i class="fas fa-file-archive text-secondary"></i> Descargar CDR
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="imprimirTicket(${data.id_comprobante})">
-                                    <i class="fas fa-print text-dark"></i> Imprimir Ticket
-                                </a>`;
-          }
+                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarXML('${data.serie}', '${data.correlativo}')">
+                    <i class="fas fa-file-code text-primary"></i> Descargar XML
+                </a>
+                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarCDR('${data.serie}', '${data.correlativo}')">
+                    <i class="fas fa-file-archive text-secondary"></i> Descargar CDR
+                </a>
+                <a class="dropdown-item" href="javascript:void(0)" onclick="imprimirTicket(${data.id_comprobante})">
+                    <i class="fas fa-print text-dark"></i> Imprimir Ticket
+                </a>`;
+        }
 
-          if (estado_doc == "ACTIVO") {
+        if (estado_doc == "ACTIVO") {
             botones += `
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarPDF(${data.id_comprobante})">
-                                    <i class="fas fa-file-pdf text-danger"></i> Descargar PDF
-                                </a>`;
-          }
+                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarPDF(${data.id_comprobante})">
+                    <i class="fas fa-file-pdf text-danger"></i> Descargar PDF
+                </a>`;
+        }
 
-          if (
-            (estado == "PENDIENTE" ||
-              estado == "ENVIADO" ||
-              estado == "ACEPTADO") &&
-            estado_doc == "ACTIVO"
-          ) {
+        // ✅ BOTÓN ANULAR BOLETA (solo para tipo 03 - BOLETA)
+        if (tipo == "03" && (estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
             botones += `
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="abrirModalAnular(${data.id_comprobante})">
-                                    <i class="fas fa-ban"></i> Anular Comprobante
-                                </a>`;
-          }
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="abrirModalAnularBoleta(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
+                    <i class="fas fa-file-invoice"></i> Anular Boleta (Comunicar SUNAT)
+                </a>`;
+        }
 
-          botones += `
-                            </div>
-                        </div>`;
-          return botones;
-        },
-      },
+        // ANULAR LOCAL (para cualquier comprobante pendiente)
+        if ((estado == "PENDIENTE" || estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
+            botones += `
+                <a class="dropdown-item text-warning" href="javascript:void(0)" onclick="abrirModalAnular(${data.id_comprobante})">
+                    <i class="fas fa-ban"></i> Anular Comprobante (Local)
+                </a>`;
+        }
+
+        botones += `
+                </div>
+            </div>`;
+        return botones;
+    },
+},
     ],
     language: {
       url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json",
@@ -1233,71 +1236,74 @@ function listar_comprobantes_filtro() {
           data ? '<small class="text-muted">' + data + "</small>" : "-",
       },
       { data: "usuario_nombre" },
-      {
-        data: null,
-        orderable: false,
-        render: function (data) {
-          let estado = data.estado_sunat;
-          let estado_doc = data.estado_documento;
-          let botones = `
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" data-boundary="window">
-                                <i class="fas fa-bars"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" style="z-index:1050;">
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="verDetalle(${data.id_comprobante})">
-                                    <i class="fas fa-eye text-info"></i> Ver Detalle
-                                </a>`;
+    {
+    data: null,
+    orderable: false,
+    render: function (data) {
+        let estado = data.estado_sunat;
+        let estado_doc = data.estado_documento;
+        let tipo = data.tipo_comprobante;
+        
+        let botones = `
+            <div class="btn-group" role="group">
+                <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" data-boundary="window">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" style="z-index:1050;">
+                    <a class="dropdown-item" href="javascript:void(0)" onclick="verDetalle(${data.id_comprobante})">
+                        <i class="fas fa-eye text-info"></i> Ver Detalle
+                    </a>`;
 
-          if (estado == "PENDIENTE" && estado_doc == "ACTIVO") {
+        if (estado == "PENDIENTE" && estado_doc == "ACTIVO") {
             botones += `
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="abrirModalEnviar(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
-                                    <i class="fas fa-paper-plane text-success"></i> Enviar a SUNAT
-                                </a>`;
-          }
+                <a class="dropdown-item" href="javascript:void(0)" onclick="abrirModalEnviar(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
+                    <i class="fas fa-paper-plane text-success"></i> Enviar a SUNAT
+                </a>`;
+        }
 
-          if (
-            (estado == "ENVIADO" || estado == "ACEPTADO") &&
-            estado_doc == "ACTIVO"
-          ) {
+        if ((estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
             botones += `
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarXML('${data.serie}', '${data.correlativo}')">
-                                    <i class="fas fa-file-code text-primary"></i> Descargar XML
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarCDR('${data.serie}', '${data.correlativo}')">
-                                    <i class="fas fa-file-archive text-secondary"></i> Descargar CDR
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="imprimirTicket(${data.id_comprobante})">
-                                    <i class="fas fa-print text-dark"></i> Imprimir Ticket
-                                </a>`;
-          }
+                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarXML('${data.serie}', '${data.correlativo}')">
+                    <i class="fas fa-file-code text-primary"></i> Descargar XML
+                </a>
+                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarCDR('${data.serie}', '${data.correlativo}')">
+                    <i class="fas fa-file-archive text-secondary"></i> Descargar CDR
+                </a>
+                <a class="dropdown-item" href="javascript:void(0)" onclick="imprimirTicket(${data.id_comprobante})">
+                    <i class="fas fa-print text-dark"></i> Imprimir Ticket
+                </a>`;
+        }
 
-          if (estado_doc == "ACTIVO") {
+        if (estado_doc == "ACTIVO") {
             botones += `
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarPDF(${data.id_comprobante})">
-                                    <i class="fas fa-file-pdf text-danger"></i> Descargar PDF
-                                </a>`;
-          }
+                <a class="dropdown-item" href="javascript:void(0)" onclick="descargarPDF(${data.id_comprobante})">
+                    <i class="fas fa-file-pdf text-danger"></i> Descargar PDF
+                </a>`;
+        }
 
-          if (
-            (estado == "PENDIENTE" ||
-              estado == "ENVIADO" ||
-              estado == "ACEPTADO") &&
-            estado_doc == "ACTIVO"
-          ) {
+        // ✅ BOTÓN ANULAR BOLETA (solo para tipo 03 - BOLETA)
+        if (tipo == "03" && (estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
             botones += `
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="abrirModalAnular(${data.id_comprobante})">
-                                    <i class="fas fa-ban"></i> Anular Comprobante
-                                </a>`;
-          }
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="abrirModalAnularBoleta(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
+                    <i class="fas fa-file-invoice"></i> Anular Boleta (Comunicar SUNAT)
+                </a>`;
+        }
 
-          botones += `
-                            </div>
-                        </div>`;
-          return botones;
-        },
-      },
+        // ANULAR LOCAL (para cualquier comprobante pendiente)
+        if ((estado == "PENDIENTE" || estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
+            botones += `
+                <a class="dropdown-item text-warning" href="javascript:void(0)" onclick="abrirModalAnular(${data.id_comprobante})">
+                    <i class="fas fa-ban"></i> Anular Comprobante (Local)
+                </a>`;
+        }
+
+        botones += `
+                </div>
+            </div>`;
+        return botones;
+    },
+},
     ],
     language: {
       url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json",
@@ -1745,4 +1751,80 @@ async function buscarPorDocumento() {
     console.error("❌ Error en AJAX:", error);
     Swal.fire("Error", "No se pudo hacer la búsqueda.", "error");
   }
+}
+
+// ============================================================
+// ABRIR MODAL ANULAR BOLETA (COMUNICAR A SUNAT)
+// ============================================================
+function abrirModalAnularBoleta(id, serie, correlativo) {
+    $("#txt_id_comprobante_anular_boleta").val(id);
+    $("#txt_serie_anular_boleta").val(serie);
+    $("#txt_correlativo_anular_boleta").val(correlativo);
+    $("#span_numero_anular_boleta").text(serie + "-" + correlativo);
+    $("#txt_motivo_anulacion_boleta").val("");
+    $("#modal_anular_boleta").modal("show");
+}
+
+// ============================================================
+// CONFIRMAR ANULACIÓN DE BOLETA Y COMUNICAR A SUNAT
+// ============================================================
+function confirmarAnulacionBoleta() {
+    let id = $("#txt_id_comprobante_anular_boleta").val();
+    let motivo = $("#txt_motivo_anulacion_boleta").val().trim();
+    let serie = $("#txt_serie_anular_boleta").val();
+    let correlativo = $("#txt_correlativo_anular_boleta").val();
+    let usuario = $("#txtprincipalid").val();
+
+    if (!motivo) {
+        return Swal.fire("Advertencia", "Debe ingresar el motivo de anulación", "warning");
+    }
+
+    $("#modal_anular_boleta").modal("hide");
+
+    Swal.fire({
+        title: "Anulando boleta...",
+        html: `Procesando anulación de <b>${serie}-${correlativo}</b><br>Se comunicará a SUNAT`,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        willOpen: () => {
+            Swal.showLoading();
+        },
+    });
+
+    $.ajax({
+        url: "../controller/comprobante/controller_comprobante.php",
+        type: "POST",
+        data: {
+            accion: "ANULAR_BOLETA_SUNAT",
+            id_comprobante: id,
+            motivo: motivo,
+            usuario: usuario,
+        },
+        dataType: "json",
+    })
+    .done(function (resp) {
+        Swal.close();
+
+        if (resp.status == "success") {
+            Swal.fire({
+                icon: "success",
+                title: "Boleta anulada correctamente",
+                html: `<b>${serie}-${correlativo}</b> fue anulada y comunicada a SUNAT`,
+                showConfirmButton: true,
+            }).then(() => {
+                tbl_comprobantes.ajax.reload();
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error al anular boleta",
+                html: resp.message + "<br><small>" + (resp.output || "") + "</small>",
+                showConfirmButton: true,
+            });
+        }
+    })
+    .fail(function () {
+        Swal.close();
+        Swal.fire("Error", "Error al comunicarse con el servidor", "error");
+    });
 }

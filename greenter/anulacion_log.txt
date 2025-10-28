@@ -1,0 +1,332 @@
+=========================
+FECHA: 2025-10-28 22:54:54
+ID COMPROBANTE: 55
+CORRELATIVO BAJA: RA-20251028-008
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 55 "RA-20251028-008" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-23
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de resumen: 2025-10-28
+📝 Motivo de baja: ERROR EN EL MONTO
+💰 Total: S/ 35.40
+📄 XML generado: xml/RA-20251028-008.xml
+📤 Enviando resumen de reversiones a SUNAT...
+
+❌ ERROR AL ENVIAR RESUMEN DE REVERSIONES
+   Código: 2671
+   Mensaje: La fecha de generación de la comunicación/resumen debe ser mayor o igual a la fecha de generación/emisión de los documentos - Detalle: xxx.xxx.xxx value='ticket: 1761688651394 error: Error : 2671 (nodo: "SummaryDocuments/cbc:IssueDate" valor: "2025-10-27")'
+
+
+=========================
+FECHA: 2025-10-28 22:57:23
+ID COMPROBANTE: 56
+CORRELATIVO BAJA: RA-20251028-009
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 56 "RA-20251028-009" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-24
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de resumen: 2025-10-28
+📝 Motivo de baja: ANULACIÓN DE COMPROBANTE ELECTRÓNICO
+💰 Total: S/ 59.00
+📄 XML generado: xml/RA-20251028-009.xml
+📤 Enviando resumen de reversiones a SUNAT...
+
+❌ ERROR AL ENVIAR RESUMEN DE REVERSIONES
+   Código: 2671
+   Mensaje: La fecha de generación de la comunicación/resumen debe ser mayor o igual a la fecha de generación/emisión de los documentos - Detalle: xxx.xxx.xxx value='ticket: 1761688800390 error: Error : 2671 (nodo: "SummaryDocuments/cbc:IssueDate" valor: "2025-10-27")'
+
+
+=========================
+FECHA: 2025-10-28 23:01:07
+ID COMPROBANTE: 57
+CORRELATIVO BAJA: RA-20251028-010
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 57 "RA-20251028-010" 2>&1
+OUTPUT:
+PHP Fatal error:  Uncaught Error: Call to undefined method Greenter\Model\Summary\SummaryDetail::setFecEmision() in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php:71
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 71
+
+Fatal error: Uncaught Error: Call to undefined method Greenter\Model\Summary\SummaryDetail::setFecEmision() in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php:71
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 71
+
+
+=========================
+FECHA: 2025-10-28 23:03:21
+ID COMPROBANTE: 57
+CORRELATIVO BAJA: RA-20251028-011
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 57 "RA-20251028-011" 2>&1
+OUTPUT:
+❌ ERROR AL ENVIAR RESUMEN DE REVERSIONES
+   Código: 2016
+   Mensaje: El dato ingresado  en el tipo de documento de identidad del receptor no cumple con el estandar o no esta permitido. - Detalle: xxx.xxx.xxx value='ticket: 1761689158502 error: Error en la linea: 1. : 2016: Valor no se encuentra en el catalogo: 06 (nodo: "cac:AccountingCustomerParty/cbc:AdditionalAccountID" valor: "")'
+
+
+=========================
+FECHA: 2025-10-28 23:04:16
+ID COMPROBANTE: 57
+CORRELATIVO BAJA: RA-20251028-012
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 57 "RA-20251028-012" 2>&1
+OUTPUT:
+PHP Fatal error:  Uncaught Error: Call to undefined method Greenter\Model\Summary\SummaryDetail::setClientIdentityType() in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php:67
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 67
+
+Fatal error: Uncaught Error: Call to undefined method Greenter\Model\Summary\SummaryDetail::setClientIdentityType() in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php:67
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 67
+
+
+=========================
+FECHA: 2025-10-28 23:04:39
+ID COMPROBANTE: 57
+CORRELATIVO BAJA: RA-20251028-013
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 57 "RA-20251028-013" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-25
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de resumen: 2025-10-28
+PHP Fatal error:  Uncaught Error: Call to undefined method Greenter\Model\Summary\SummaryDetail::setMtoImpVenta() in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php:151
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 151
+
+Fatal error: Uncaught Error: Call to undefined method Greenter\Model\Summary\SummaryDetail::setMtoImpVenta() in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php:151
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 151
+
+
+=========================
+FECHA: 2025-10-28 23:06:02
+ID COMPROBANTE: 58
+CORRELATIVO BAJA: RA-20251028-014
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 58 "RA-20251028-014" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-26
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de resumen: 2025-10-28
+PHP Fatal error:  Uncaught TypeError: Greenter\Model\Summary\SummaryDetail::setDocReferencia(): Argument #1 ($docReferencia) must be of type ?Greenter\Model\Sale\Document, string given, called in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 148 and defined in C:\xampp\htdocs\sistema_micaela\vendor\greenter\greenter\packages\core\src\Core\Model\Summary\SummaryDetail.php:215
+Stack trace:
+#0 C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php(148): Greenter\Model\Summary\SummaryDetail->setDocReferencia('ERROR EN EL MON...')
+#1 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\vendor\greenter\greenter\packages\core\src\Core\Model\Summary\SummaryDetail.php on line 215
+
+Fatal error: Uncaught TypeError: Greenter\Model\Summary\SummaryDetail::setDocReferencia(): Argument #1 ($docReferencia) must be of type ?Greenter\Model\Sale\Document, string given, called in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 148 and defined in C:\xampp\htdocs\sistema_micaela\vendor\greenter\greenter\packages\core\src\Core\Model\Summary\SummaryDetail.php:215
+Stack trace:
+#0 C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php(148): Greenter\Model\Summary\SummaryDetail->setDocReferencia('ERROR EN EL MON...')
+#1 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\vendor\greenter\greenter\packages\core\src\Core\Model\Summary\SummaryDetail.php on line 215
+
+
+=========================
+FECHA: 2025-10-28 23:12:15
+ID COMPROBANTE: 59
+CORRELATIVO BAJA: RA-20251028-015
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 59 "RA-20251028-015" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-27
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de resumen: 2025-10-28
+PHP Fatal error:  Uncaught Error: Call to undefined method Greenter\Model\Summary\SummaryDetail::setMotivo() in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php:148
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 148
+
+Fatal error: Uncaught Error: Call to undefined method Greenter\Model\Summary\SummaryDetail::setMotivo() in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php:148
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 148
+
+
+=========================
+FECHA: 2025-10-28 23:14:24
+ID COMPROBANTE: 60
+CORRELATIVO BAJA: RA-20251028-016
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 60 "RA-20251028-016" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-28
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de comunicación: 2025-10-28
+📝 Motivo de baja: MONTO INCORRECTO
+💰 Total del comprobante: S/ 59.00
+📄 XML generado: xml/RA-20251028-016.xml
+📤 Enviando comunicación de baja a SUNAT...
+
+❌ ERROR AL ENVIAR COMUNICACIÓN DE BAJA
+   Código: 2308
+   Mensaje: DocumentTypeCode - El valor del tipo de documento es invalido - Detalle: xxx.xxx.xxx value='ticket: 1761689821291 error: Error en la linea:1. : 2308 (nodo: "sac:VoidedDocumentsLine/cbc:DocumentTypeCode" valor: "03")'
+
+
+=========================
+FECHA: 2025-10-28 23:16:49
+ID COMPROBANTE: 61
+CORRELATIVO BAJA: RA-20251028-017
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 61 "RA-20251028-017" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-29
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de emisión: 2025-10-28
+📝 Motivo de baja: ERROR DE MONTO
+💰 Total del comprobante: S/ 59.00
+📋 Tipo de documento: Resumen de Reversiones (RC)
+📄 XML generado: xml/RA-20251028-017.xml
+📤 Enviando documento a SUNAT...
+
+❌ ERROR AL ENVIAR DOCUMENTO DE BAJA
+   Código: 2671
+   Mensaje: La fecha de generación de la comunicación/resumen debe ser mayor o igual a la fecha de generación/emisión de los documentos - Detalle: xxx.xxx.xxx value='ticket: 1761689966865 error: Error : 2671 (nodo: "SummaryDocuments/cbc:IssueDate" valor: "2025-10-27")'
+
+
+=========================
+FECHA: 2025-10-28 23:20:06
+ID COMPROBANTE: 62
+CORRELATIVO BAJA: RA-20251028-018
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 62 "RA-20251028-018" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-30
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de emisión del comprobante: 2025-10-28
+📝 Motivo de baja: ERROR EN LA DESCRIPCION
+💰 Total del comprobante: S/ 35.40
+📋 Tipo de documento: Resumen de Reversiones (RC)
+📄 XML generado: xml/RA-20251028-018.xml
+📤 Enviando documento a SUNAT...
+
+❌ ERROR AL ENVIAR DOCUMENTO DE BAJA
+   Código: 2671
+   Mensaje: La fecha de generación de la comunicación/resumen debe ser mayor o igual a la fecha de generación/emisión de los documentos - Detalle: xxx.xxx.xxx value='ticket: 1761690163424 error: Error : 2671 (nodo: "SummaryDocuments/cbc:IssueDate" valor: "2025-10-27")'
+
+
+=========================
+FECHA: 2025-10-28 23:22:34
+ID COMPROBANTE: 63
+CORRELATIVO BAJA: RA-20251028-019
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 63 "RA-20251028-019" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-31
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+⚠️  Anulación el mismo día de emisión - usando fecha actual para ambos campos
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de emisión del comprobante: 2025-10-28
+📝 Motivo de baja: ERROR EN EL MONTO
+💰 Total del comprobante: S/ 35.40
+📋 Tipo de documento: Resumen de Reversiones (RC)
+📄 XML generado: xml/RA-20251028-019.xml
+📤 Enviando documento a SUNAT...
+PHP Fatal error:  Uncaught Error: Call to undefined method Greenter\Model\Response\SummaryResult::getCdrZip() in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php:234
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 234
+
+Fatal error: Uncaught Error: Call to undefined method Greenter\Model\Response\SummaryResult::getCdrZip() in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php:234
+Stack trace:
+#0 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\greenter\comunicacion_baja.php on line 234
+
+
+=========================
+FECHA: 2025-10-28 23:24:54
+ID COMPROBANTE: 64
+CORRELATIVO BAJA: RA-20251028-020
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 64 "RA-20251028-020" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-32
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+⚠️  Anulación el mismo día de emisión - usando fecha actual para ambos campos
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de emisión del comprobante: 2025-10-28
+📝 Motivo de baja: ERROR EN EL MONTO
+💰 Total del comprobante: S/ 59.00
+📋 Tipo de documento: Resumen de Reversiones (RC)
+📄 XML generado: xml/RA-20251028-020.xml
+📤 Enviando documento a SUNAT...
+✅ Ticket recibido: 1761690451372
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+   Ticket: 1761690451372
+   Correlativo: RA-20251028-020
+   Comprobante: B001-32
+   Tipo: Resumen de Reversiones (RC)
+
+⚠️  IMPORTANTE: Debes consultar el ticket después para confirmar la anulación.
+   El proceso puede tardar unos minutos en SUNAT.
+
+📌 SIGUIENTE PASO:
+   php consultar_ticket.php 1761690451372 64
+
+
+=========================
+FECHA: 2025-10-28 23:46:53
+ID COMPROBANTE: 65
+CORRELATIVO BAJA: RA-20251028-021
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 65 "RA-20251028-021" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-33
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+⚠️  Anulación el mismo día de emisión - usando fecha actual para ambos campos
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de emisión del comprobante: 2025-10-28
+📝 Motivo de baja: ERROR DE MONTO
+💰 Total del comprobante: S/ 59.00
+📋 Tipo de documento: Resumen de Reversiones (RC)
+📄 XML generado: xml/RA-20251028-021.xml
+📤 Enviando documento a SUNAT...
+✅ Ticket recibido: 1761691770328
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+   Ticket: 1761691770328
+   Correlativo: RA-20251028-021
+   Comprobante: B001-33
+   Tipo: Resumen de Reversiones (RC)
+
+⚠️  IMPORTANTE: Debes consultar el ticket después para confirmar la anulación.
+   El proceso puede tardar unos minutos en SUNAT.
+
+📌 SIGUIENTE PASO:
+   php consultar_ticket.php 1761691770328 65
+
+
+=========================
+FECHA: 2025-10-28 23:50:57
+ID COMPROBANTE: 66
+CORRELATIVO BAJA: RA-20251028-022
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 66 "RA-20251028-022" 2>&1
+OUTPUT:
+📄 Procesando anulación de BOLETA: B001-34
+✅ Validación de plazo: 0 días (permitido: máximo 7)
+⚠️  Anulación el mismo día de emisión - usando fecha actual para ambos campos
+📅 Fecha de generación: 2025-10-28
+📅 Fecha de emisión del comprobante: 2025-10-28
+📝 Motivo de baja: ERROR EN LA DESCRIPCION
+💰 Total del comprobante: S/ 59.00
+📋 Tipo de documento: Resumen de Reversiones (RC)
+📄 XML generado: xml/RA-20251028-022.xml
+📤 Enviando documento a SUNAT...
+✅ Ticket recibido: 1761692014432
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+   Ticket: 1761692014432
+   Correlativo: RA-20251028-022
+   Comprobante: B001-34
+   Tipo: Resumen de Reversiones (RC)
+
+⚠️  IMPORTANTE: Debes consultar el ticket después para confirmar la anulación.
+   El proceso puede tardar unos minutos en SUNAT.
+
+📌 SIGUIENTE PASO:
+   php consultar_ticket.php 1761692014432 66
+
+
