@@ -232,3 +232,184 @@ OUTPUT:
    Hash: mO2p3WZBsJATtWFsQ5ual+wmRlg=
 
 
+=========================
+FECHA: 2025-10-29 21:20:04
+ID COMPROBANTE: 67
+OUTPUT:
+📄 Procesando comprobante 03: B001-35
+📄 XML generado: xml/B001-35.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-35, ha sido aceptada
+   Código: 0
+   Hash: 8Uv5cjD69IorocmcmV5S0WT8e1w=
+
+
+=========================
+FECHA: 2025-10-29 21:26:21
+ID COMPROBANTE: 68
+OUTPUT:
+📄 Procesando comprobante 03: B001-36
+📄 XML generado: xml/B001-36.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-36, ha sido aceptada
+   Código: 0
+   Hash: jOl9H/cuLmfvCKuIDdzKuAJkPiU=
+
+
+=========================
+FECHA: 2025-10-29 21:39:04
+ID COMPROBANTE: 69
+OUTPUT:
+📄 Procesando comprobante 03: B001-37
+📄 XML generado: xml/B001-37.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-37, ha sido aceptada
+   Código: 0
+   Hash: 9LapEJWHNXd0xeSsP6Cju8wEWKk=
+
+
+=========================
+FECHA: 2025-10-29 21:42:55
+ID COMPROBANTE: 70
+OUTPUT:
+📄 Procesando comprobante 03: B001-38
+📄 XML generado: xml/B001-38.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-38, ha sido aceptada
+   Código: 0
+   Hash: kje2fSWM4t6wa/vAi0xd5zxl+50=
+
+
+=========================
+FECHA: 2025-10-29 21:44:11
+ID COMPROBANTE: 71
+OUTPUT:
+📄 Procesando comprobante 03: B001-39
+📄 XML generado: xml/B001-39.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-39, ha sido aceptada
+   Código: 0
+   Hash: noW3hfFsbfnQkI+YY91k5lhgN1o=
+
+
+=========================
+FECHA: 2025-10-29 21:46:56
+ID COMPROBANTE: 72
+OUTPUT:
+📄 Procesando comprobante 03: B001-40
+📄 XML generado: xml/B001-40.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-40, ha sido aceptada
+   Código: 0
+   Hash: VdPkX5VUu8zYOhYkX7OpSXvRGrY=
+
+
+=========================
+FECHA: 2025-10-29 21:48:35
+ID COMPROBANTE: 73
+OUTPUT:
+📄 Procesando comprobante 03: B001-41
+📄 XML generado: xml/B001-41.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-41, ha sido aceptada
+   Código: 0
+   Hash: wqGe7D1rfWT8uLPRE6I8MSTvpBg=
+
+
+=========================
+FECHA: 2025-10-29 21:53:40
+ID COMPROBANTE: 74
+OUTPUT:
+📄 Procesando comprobante 03: B001-42
+📄 XML generado: xml/B001-42.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-42, ha sido aceptada
+   Código: 0
+   Hash: JCjnsJKRJudJnZUXD8okP0ALq9U=
+
+
+=========================
+FECHA: 2025-10-29 21:55:13
+ID COMPROBANTE: 75
+OUTPUT:
+📄 Procesando comprobante 03: B001-43
+📄 XML generado: xml/B001-43.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 2017
+Mensaje: El numero de documento de identidad del receptor debe ser  RUC - Detalle: xxx.xxx.xxx value='ticket: 1761771471088 error: INFO: 2017 (nodo: "cac:PartyIdentification/cbc:ID" valor: "72589637")'
+
+
+=========================
+FECHA: 2025-10-29 21:56:20
+ID COMPROBANTE: 76
+OUTPUT:
+📄 Procesando comprobante 03: B001-44
+📄 XML generado: xml/B001-44.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-44, ha sido aceptada
+   Código: 0
+   Hash: Zy/+Z0E5qPvHtg2OKTXEZaHuR2s=
+
+
+=========================
+FECHA: 2025-10-29 21:58:18
+ID COMPROBANTE: 77
+OUTPUT:
+📄 Procesando comprobante 03: B001-45
+📄 XML generado: xml/B001-45.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-45, ha sido aceptada
+   Código: 0
+   Hash: i/hHqT6Qv0Vca+gRkeaW8pGJMTg=
+
+
+=========================
+FECHA: 2025-10-29 22:08:23
+ID COMPROBANTE: 78
+OUTPUT:
+📄 Procesando comprobante 03: B001-46
+📄 XML generado: xml/B001-46.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-46, ha sido aceptada
+   Código: 0
+   Hash: dIhnsBIGujdZxngeCMwAvJnjsRw=
+
+
+=========================
+FECHA: 2025-10-29 22:10:00
+ID COMPROBANTE: 79
+OUTPUT:
+📄 Procesando comprobante 03: B001-47
+📄 XML generado: xml/B001-47.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-47, ha sido aceptada
+   Código: 0
+   Hash: S5UmIEGHnavAnOayAuAJrRUf/Aw=
+
+
+=========================
+FECHA: 2025-10-29 22:59:05
+ID COMPROBANTE: 80
+OUTPUT:
+📄 Procesando comprobante 03: B001-48
+📄 XML generado: xml/B001-48.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-48, ha sido aceptada
+   Código: 0
+   Hash: yGX+lzmCmet+rq7OI1CQWEXH5uE=
+
+

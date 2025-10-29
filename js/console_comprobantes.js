@@ -126,9 +126,9 @@ function Traerprecio(id) {
       try {
         var data = JSON.parse(resp);
         if (data.length > 0) {
-          let monto = data[0].monto || data[0][1];
-          $("#txt_base_gravada").val(monto);
-          calcularTotales(); // 👈 Se calcula automáticamente al traer el precio
+          let total = data[0].monto || data[0][1];
+          $("#txt_total").val(total); // 👈 Ahora va al TOTAL
+          calcularDesdeTotal(); // 👈 Nueva función que calcula al revés
         } else {
           $("#txt_base_gravada").val("");
           $("#txt_igv").val("");
@@ -146,22 +146,37 @@ function Traerprecio(id) {
     });
 }
 
-// 4️⃣ Función para calcular IGV y total considerando la cantidad
-function calcularTotales() {
-  var baseGravada =
-    parseFloat(document.getElementById("txt_base_gravada").value) || 0;
+// 🔄 Función para calcular BASE GRAVADA desde el TOTAL
+function calcularDesdeTotal() {
+  var total = parseFloat(document.getElementById("txt_total").value) || 0;
   var cantidad = parseFloat(document.getElementById("txt_cantidad").value) || 0;
 
-  // Subtotal = precio unitario * cantidad
+  if (cantidad === 0) cantidad = 1; // Evitar división por cero
+
+  // Total con IGV = Base Gravada × cantidad × 1.18
+  // Entonces: Base Gravada = Total / (cantidad × 1.18)
+  var baseGravada = total / (cantidad * 1.18);
+  
+  // IGV = Total - (Base Gravada × cantidad)
   var subtotal = baseGravada * cantidad;
-
-  // Cálculo del IGV (18%)
-  var igv = subtotal * 0.18;
-
-  // Total general
-  var total = subtotal + igv;
+  var igv = total - subtotal;
 
   // Mostrar valores con 2 decimales
+  document.getElementById("txt_base_gravada").value = baseGravada.toFixed(2);
+  document.getElementById("txt_igv").value = igv.toFixed(2);
+}
+
+// ✅ También necesitas esta para cuando cambien cantidad o total manualmente
+function calcularTotales() {
+  // Esta función ya no se usa desde Traerprecio, 
+  // pero la puedes mantener si quieres calcular hacia adelante en otros casos
+  var baseGravada = parseFloat(document.getElementById("txt_base_gravada").value) || 0;
+  var cantidad = parseFloat(document.getElementById("txt_cantidad").value) || 0;
+
+  var subtotal = baseGravada * cantidad;
+  var igv = subtotal * 0.18;
+  var total = subtotal + igv;
+
   document.getElementById("txt_igv").value = igv.toFixed(2);
   document.getElementById("txt_total").value = total.toFixed(2);
 }
@@ -322,15 +337,23 @@ function guardarComprobante(estadoSunat) {
   let tipo_comprobante = $("#select_tipo_comprobante").val();
   let serie = $("#txt_serie").val();
   let correlativo = $("#txt_correlativo").val();
-  let fecha_emision = $("#txt_fecha_emision").val() || ""; // se envía vacío si no selecciona
+  let fecha_emision = $("#txt_fecha_emision").val() || "";
   let moneda = $("#select_moneda").val();
   let tipo_documento_cliente = $("#select_tipo_documento_cliente").val();
   let numero_documento = $("#txt_numero_documento").val();
   let razon_social = $("#txt_razon_social").val();
   let direccion = $("#txt_direccion").val();
+  
+  // 📱 CAPTURA DEL TELÉFONO - TRIPLE VERIFICACIÓN
+  let celular = $("#txt_telefono").val() || "";
+  if (celular === undefined || celular === null) {
+    celular = document.getElementById('txt_telefono')?.value || "";
+  }
+  celular = String(celular).trim();
+  
   let departamento = $("#txt_departamento").val();
   let provincia = $("#txt_provincia").val();
-  let distrito = $("#txt_distrito").val();
+  let distrito = $("#txt_distrito").val() || "ABANCAY";
   let id_servicio = $("#select_servicio").val();
   let cantidad = $("#txt_cantidad").val() || 1;
   let id_conductor = $("#select_conductor").val();
@@ -342,52 +365,35 @@ function guardarComprobante(estadoSunat) {
   let total = $("#txt_total").val();
   let forma_pago = $("#select_forma_pago").val();
   let id_tipo_pago = $("#select_tipo_pago").val();
-  let observaciones = $("#txt_observaciones").val();
+  let observaciones = $("#txt_observaciones").val() || "";
   let id_usuario = $("#txtprincipalid").val();
+
+  // 🔍 DEBUG CRÍTICO
+  console.log("═══════════════════════════════════════");
+  console.log("🔍 DEBUG TELÉFONO:");
+  console.log("Campo existe:", $("#txt_telefono").length);
+  console.log("Valor jQuery:", $("#txt_telefono").val());
+  console.log("Valor JS nativo:", document.getElementById('txt_telefono')?.value);
+  console.log("Valor final (celular):", celular);
+  console.log("Tipo:", typeof celular);
+  console.log("Length:", celular.length);
+  console.log("═══════════════════════════════════════");
 
   // 2️⃣ VALIDACIONES BÁSICAS
   if (!tipo_comprobante)
-    return Swal.fire(
-      "Advertencia",
-      "Seleccione un tipo de comprobante",
-      "warning"
-    );
+    return Swal.fire("Advertencia", "Seleccione un tipo de comprobante", "warning");
   if (!serie)
-    return Swal.fire(
-      "Advertencia",
-      "Ingrese la serie del comprobante",
-      "warning"
-    );
+    return Swal.fire("Advertencia", "Ingrese la serie del comprobante", "warning");
   if (!correlativo)
-    return Swal.fire(
-      "Advertencia",
-      "Ingrese el número correlativo del comprobante",
-      "warning"
-    );
+    return Swal.fire("Advertencia", "Ingrese el número correlativo del comprobante", "warning");
   if (!fecha_emision)
-    return Swal.fire(
-      "Advertencia",
-      "Seleccione la fecha de emisión",
-      "warning"
-    );
+    return Swal.fire("Advertencia", "Seleccione la fecha de emisión", "warning");
   if (!tipo_documento_cliente)
-    return Swal.fire(
-      "Advertencia",
-      "Seleccione el tipo de documento del cliente",
-      "warning"
-    );
+    return Swal.fire("Advertencia", "Seleccione el tipo de documento del cliente", "warning");
   if (!numero_documento)
-    return Swal.fire(
-      "Advertencia",
-      "Ingrese el número de documento del cliente",
-      "warning"
-    );
+    return Swal.fire("Advertencia", "Ingrese el número de documento del cliente", "warning");
   if (!razon_social)
-    return Swal.fire(
-      "Advertencia",
-      "Ingrese la razón social o nombre del cliente",
-      "warning"
-    );
+    return Swal.fire("Advertencia", "Ingrese la razón social o nombre del cliente", "warning");
   if (!id_servicio || id_servicio === "0")
     return Swal.fire("Advertencia", "Seleccione un servicio", "warning");
   if (!id_conductor || id_conductor === "0")
@@ -401,53 +407,52 @@ function guardarComprobante(estadoSunat) {
   if (!forma_pago)
     return Swal.fire("Advertencia", "Seleccione la forma de pago", "warning");
   if (!id_tipo_pago || id_tipo_pago === "0")
-    return Swal.fire(
-      "Advertencia",
-      "Seleccione un tipo de pago válido",
-      "warning"
-    );
+    return Swal.fire("Advertencia", "Seleccione un tipo de pago válido", "warning");
   if (!base_gravada || base_gravada <= 0)
-    return Swal.fire(
-      "Advertencia",
-      "Ingrese una base gravada válida",
-      "warning"
-    );
+    return Swal.fire("Advertencia", "Ingrese una base gravada válida", "warning");
   if (!igv || igv < 0)
     return Swal.fire("Advertencia", "Ingrese un IGV válido", "warning");
   if (!total || total <= 0)
     return Swal.fire("Advertencia", "El total no puede ser 0", "warning");
 
-  // 3️⃣ CONSTRUIR OBJETO formData
+  // 3️⃣ CONSTRUIR OBJETO formData - SINTAXIS EXPLÍCITA
   let formData = {
     accion: "REGISTRAR_COMPROBANTE",
-    tipo_comprobante,
-    serie,
-    correlativo,
-    fecha_emision,
-    moneda,
-    tipo_documento_cliente,
-    numero_documento,
-    razon_social,
-    direccion,
-    departamento,
-    provincia,
-    distrito,
+    tipo_comprobante: tipo_comprobante,
+    serie: serie,
+    correlativo: correlativo,
+    fecha_emision: fecha_emision,
+    moneda: moneda,
+    tipo_documento_cliente: tipo_documento_cliente,
+    numero_documento: numero_documento,
+    razon_social: razon_social,
+    direccion: direccion,
+    celular: celular,  // 👈 CRÍTICO: DEBE ESTAR AQUÍ
+    departamento: departamento,
+    provincia: provincia,
+    distrito: distrito,
     ubigeo: "030101",
-    id_servicio,
-    cantidad,
-    id_conductor,
-    id_origen,
-    id_destino,
-    fecha_viaje,
-    base_gravada,
-    igv,
-    total,
-    forma_pago,
-    id_tipo_pago,
-    observaciones,
+    id_servicio: id_servicio,
+    cantidad: cantidad,
+    id_conductor: id_conductor,
+    id_origen: id_origen,
+    id_destino: id_destino,
+    fecha_viaje: fecha_viaje,
+    base_gravada: base_gravada,
+    igv: igv,
+    total: total,
+    forma_pago: forma_pago,
+    id_tipo_pago: id_tipo_pago,
+    observaciones: observaciones,
     estado_sunat: estadoSunat,
-    id_usuario,
+    id_usuario: id_usuario
   };
+
+  // 🔍 DEBUG FORMDATA
+  console.log("📦 FormData completo:", formData);
+  console.log("📱 Celular en formData:", formData.celular);
+  console.log("📱 ¿Tiene propiedad 'celular'?:", 'celular' in formData);
+  console.log("📱 Todas las claves:", Object.keys(formData));
 
   // 4️⃣ CONFIRMACIÓN VISUAL
   Swal.fire({
@@ -459,6 +464,14 @@ function guardarComprobante(estadoSunat) {
     cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
+      
+      // 🔍 DEBUG FINAL ANTES DE ENVIAR
+      console.log("═══════════════════════════════════════");
+      console.log("📤 ENVIANDO AL SERVIDOR:");
+      console.log("Celular:", formData.celular);
+      console.log("FormData JSON:", JSON.stringify(formData, null, 2));
+      console.log("═══════════════════════════════════════");
+      
       // 5️⃣ ENVÍO AJAX
       $.ajax({
         url: "../controller/comprobante/controller_comprobante.php",
@@ -466,44 +479,68 @@ function guardarComprobante(estadoSunat) {
         data: formData,
         dataType: "json",
         success: function (response) {
-          console.log("Respuesta del servidor:", response);
+          console.log("✅ Respuesta del servidor:", response);
 
           if (typeof response === "string") {
             try {
               response = JSON.parse(response);
             } catch (e) {
-              console.error("No es JSON válido:", response);
-              return Swal.fire(
-                "Error",
-                "Respuesta inválida del servidor",
-                "error"
-              );
+              console.error("❌ No es JSON válido:", response);
+              return Swal.fire("Error", "Respuesta inválida del servidor", "error");
             }
           }
 
-          // ✅ Solo mostrar éxito (sin imprimir)
           if (response.status === "success") {
             Swal.fire({
               title: "✅ Comprobante guardado correctamente",
               text: "El comprobante se ha registrado localmente. Puede enviarlo a SUNAT más adelante.",
               icon: "success",
               confirmButtonText: "Aceptar",
+            }).then(() => {
+              location.reload();
             });
           } else {
-            Swal.fire(
-              "Error",
-              response.message || "No se pudo registrar el comprobante",
-              "error"
-            );
+            Swal.fire("Error", response.message || "No se pudo registrar el comprobante", "error");
           }
         },
         error: function (xhr, status, error) {
-          console.error("Error AJAX:", xhr.responseText);
+          console.error("❌ Error AJAX:", xhr.responseText);
           Swal.fire("Error", "No se pudo registrar el comprobante", "error");
         },
       });
     }
   });
+}
+
+
+function debugFormulario() {
+  console.log("═══════════════════════════════════════");
+  console.log("🔍 TODOS LOS INPUTS DEL FORMULARIO:");
+  console.log("═══════════════════════════════════════");
+  
+  $('input, select, textarea').each(function(index) {
+    let elemento = $(this);
+    let info = {
+      index: index,
+      tipo: elemento.prop('tagName'),
+      id: elemento.attr('id') || 'SIN ID',
+      name: elemento.attr('name') || 'SIN NAME',
+      value: elemento.val(),
+      placeholder: elemento.attr('placeholder') || ''
+    };
+    
+    // Resaltar campos relacionados con teléfono
+    if (info.id.toLowerCase().includes('tel') || 
+        info.id.toLowerCase().includes('cel') || 
+        info.name.toLowerCase().includes('tel') || 
+        info.name.toLowerCase().includes('cel')) {
+      console.log("📱 CAMPO TELÉFONO ENCONTRADO:", info);
+    } else {
+      console.log(info);
+    }
+  });
+  
+  console.log("═══════════════════════════════════════");
 }
 
 function limpiarFormulario() {

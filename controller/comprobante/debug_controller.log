@@ -1,0 +1,192 @@
+[2025-10-29 15:58:17] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000045
+    [fecha_emision] => 2025-10-29
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 71234565
+    [razon_social] => DEYBI TORRES BECERRA
+    [direccion] => AV. LA TORRE N° 2332
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-29T15:57
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-10-29 15:58:17] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 71234565
+  - Razon: DEYBI TORRES BECERRA
+  - Telefono: "" (length: 0)
+[2025-10-29 15:58:17] RESULTADO REGISTRO CLIENTE: ID=45
+[2025-10-29 16:08:22] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000046
+    [fecha_emision] => 2025-10-29
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 73652144
+    [razon_social] => ANA PATRICIA TEJADA LEON
+    [direccion] => AV. PERU N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-29T16:08
+    [base_gravada] => 50.00
+    [igv] => 9.00
+    [total] => 59.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-10-29 16:08:22] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 73652144
+  - Razon: ANA PATRICIA TEJADA LEON
+  - Telefono: "" (length: 0)
+[2025-10-29 16:08:22] RESULTADO REGISTRO CLIENTE: ID=46
+[2025-10-29 16:10:00] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000047
+    [fecha_emision] => 2025-10-29
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72645854
+    [razon_social] => KEVIN OMAR LLOSA VALDIVIA
+    [direccion] => av. perui n° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-29T16:09
+    [base_gravada] => 30.00
+    [igv] => 5.40
+    [total] => 35.40
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-10-29 16:10:00] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 72645854
+  - Razon: KEVIN OMAR LLOSA VALDIVIA
+  - Telefono: "" (length: 0)
+[2025-10-29 16:10:00] RESULTADO REGISTRO CLIENTE: ID=47
+[2025-10-29 16:59:05] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000048
+    [fecha_emision] => 2025-10-29
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72885522
+    [razon_social] => RENAN SEBASTIAN TUBILLA CASANOVA
+    [direccion] => AV. DIAZ BARCENAS N° 233
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-10-29T16:58
+    [base_gravada] => 42.37
+    [igv] => 7.63
+    [total] => 50.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-10-29 16:59:05] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 72885522
+  - Razon: RENAN SEBASTIAN TUBILLA CASANOVA
+  - Telefono: "" (length: 0)
+[2025-10-29 16:59:05] RESULTADO REGISTRO CLIENTE: ID=48

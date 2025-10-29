@@ -8,55 +8,122 @@ class Modelo_Comprobantes extends conexionBD
     // ========================================
     // REGISTRAR O ACTUALIZAR CLIENTE
     // ========================================
-    public function Registrar_Cliente_SUNAT(
-        $tipo_documento,
-        $numero_documento,
-        $razon_social,
-        $direccion,
-        $telefono,
-        $departamento,
-        $provincia,
-        $distrito,
-        $ubigeo
-    ) {
-        $c = conexionBD::conexionPDO();
-        $id_cliente = 0;
+public function Registrar_Cliente_SUNAT(
+    $tipo_documento,
+    $numero_documento,
+    $razon_social,
+    $direccion,
+    $telefono,
+    $departamento,
+    $provincia,
+    $distrito,
+    $ubigeo
+) {
+    $c = conexionBD::conexionPDO();
+    $id_cliente = 0;
 
-        try {
-            // 1️⃣ Preparamos el procedimiento
-            $sql = "CALL SP_REGISTRAR_CLIENTE_SUNAT(?, ?, ?, ?, ?, ?, ?, ?, ?, @p_id_cliente)";
-            $query = $c->prepare($sql);
-            $query->bindParam(1, $tipo_documento);
-            $query->bindParam(2, $numero_documento);
-            $query->bindParam(3, $razon_social);
-            $query->bindParam(4, $direccion);
-            $query->bindParam(5, $telefono);
-            $query->bindParam(6, $departamento);
-            $query->bindParam(7, $provincia);
-            $query->bindParam(8, $distrito);
-            $query->bindParam(9, $ubigeo);
+    try {
+        // 🔍 DEBUG 1: Ver datos de entrada
+        $debug_entrada = [
+            'tipo_documento' => $tipo_documento,
+            'numero_documento' => $numero_documento,
+            'razon_social' => $razon_social,
+            'direccion' => $direccion,
+            'telefono' => $telefono,
+            'telefono_type' => gettype($telefono),
+            'telefono_length' => strlen($telefono ?? ''),
+            'telefono_empty' => empty($telefono) ? 'SI' : 'NO',
+            'departamento' => $departamento,
+            'provincia' => $provincia,
+            'distrito' => $distrito,
+            'ubigeo' => $ubigeo
+        ];
+        file_put_contents('debug_modelo_cliente.log', 
+            '[' . date('Y-m-d H:i:s') . '] ENTRADA MODELO:' . PHP_EOL .
+            print_r($debug_entrada, true) . PHP_EOL,
+            FILE_APPEND
+        );
 
-            // 2️⃣ Ejecutamos
-            $query->execute();
-            $query->closeCursor(); // ⚠️ NECESARIO para liberar el resultado del CALL
-
-            // 3️⃣ Consultamos el parámetro OUT
-            $stmt = $c->query("SELECT @p_id_cliente AS id_cliente");
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($result && isset($result['id_cliente']) && $result['id_cliente'] > 0) {
-                $id_cliente = (int)$result['id_cliente'];
-            }
-        } catch (Exception $e) {
-            file_put_contents('error_clientes.log', '[' . date('Y-m-d H:i:s') . '] ' . $e->getMessage() . PHP_EOL, FILE_APPEND);
-            $id_cliente = 0;
+        // 🔍 DEBUG 2: Ver cliente actual ANTES del procedimiento
+        $check = $c->prepare("SELECT id_cliente, telefono FROM cliente_sunat WHERE numero_documento = ?");
+        $check->execute([$numero_documento]);
+        $cliente_antes = $check->fetch(PDO::FETCH_ASSOC);
+        
+        if ($cliente_antes) {
+            file_put_contents('debug_modelo_cliente.log', 
+                '[' . date('Y-m-d H:i:s') . '] CLIENTE EXISTE ANTES: ' . print_r($cliente_antes, true) . PHP_EOL,
+                FILE_APPEND
+            );
         }
 
-        conexionBD::cerrar_conexion();
-        return $id_cliente;
+        // Preparar procedimiento
+        $sql = "CALL SP_REGISTRAR_CLIENTE_SUNAT(?, ?, ?, ?, ?, ?, ?, ?, ?, @p_id_cliente)";
+        $query = $c->prepare($sql);
+        
+        // 🔍 DEBUG 3: Valores exactos que se envían
+        file_put_contents('debug_modelo_cliente.log', 
+            '[' . date('Y-m-d H:i:s') . '] VALORES BIND:' . PHP_EOL .
+            '  1: ' . var_export($tipo_documento, true) . PHP_EOL .
+            '  2: ' . var_export($numero_documento, true) . PHP_EOL .
+            '  3: ' . var_export($razon_social, true) . PHP_EOL .
+            '  4: ' . var_export($direccion, true) . PHP_EOL .
+            '  5: ' . var_export($telefono, true) . ' <-- TELEFONO' . PHP_EOL .
+            '  6: ' . var_export($departamento, true) . PHP_EOL .
+            '  7: ' . var_export($provincia, true) . PHP_EOL .
+            '  8: ' . var_export($distrito, true) . PHP_EOL .
+            '  9: ' . var_export($ubigeo, true) . PHP_EOL,
+            FILE_APPEND
+        );
+        
+        $query->bindParam(1, $tipo_documento, PDO::PARAM_STR);
+        $query->bindParam(2, $numero_documento, PDO::PARAM_STR);
+        $query->bindParam(3, $razon_social, PDO::PARAM_STR);
+        $query->bindParam(4, $direccion, PDO::PARAM_STR);
+        $query->bindParam(5, $telefono, PDO::PARAM_STR);
+        $query->bindParam(6, $departamento, PDO::PARAM_STR);
+        $query->bindParam(7, $provincia, PDO::PARAM_STR);
+        $query->bindParam(8, $distrito, PDO::PARAM_STR);
+        $query->bindParam(9, $ubigeo, PDO::PARAM_STR);
+
+        $query->execute();
+        $query->closeCursor();
+
+        $stmt = $c->query("SELECT @p_id_cliente AS id_cliente");
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result && isset($result['id_cliente']) && $result['id_cliente'] > 0) {
+            $id_cliente = (int)$result['id_cliente'];
+            
+            // 🔍 DEBUG 4: Verificar cómo quedó guardado en la BD
+            $verify = $c->prepare("SELECT * FROM cliente_sunat WHERE id_cliente = ?");
+            $verify->execute([$id_cliente]);
+            $cliente_despues = $verify->fetch(PDO::FETCH_ASSOC);
+            
+            file_put_contents('debug_modelo_cliente.log', 
+                '[' . date('Y-m-d H:i:s') . '] CLIENTE GUARDADO EN BD:' . PHP_EOL .
+                print_r($cliente_despues, true) . PHP_EOL .
+                str_repeat('=', 80) . PHP_EOL,
+                FILE_APPEND
+            );
+        } else {
+            file_put_contents('debug_modelo_cliente.log', 
+                '[' . date('Y-m-d H:i:s') . '] ❌ NO SE OBTUVO ID' . PHP_EOL,
+                FILE_APPEND
+            );
+        }
+        
+    } catch (Exception $e) {
+        file_put_contents('error_clientes.log', 
+            '[' . date('Y-m-d H:i:s') . '] ERROR: ' . $e->getMessage() . PHP_EOL .
+            'TRACE: ' . $e->getTraceAsString() . PHP_EOL,
+            FILE_APPEND
+        );
+        $id_cliente = 0;
     }
 
-
+    conexionBD::cerrar_conexion();
+    return $id_cliente;
+}
 
     // ========================================
     // OBTENER CORRELATIVO

@@ -193,17 +193,17 @@
 
                             <div class="col-md-3 form-group">
                                 <label for="">Base Gravada (Sin IGV):</label>
-                                <input type="number" class="form-control" id="txt_base_gravada" step="0.01" placeholder="0.00">
+                                <input type="number" class="form-control" readonly id="txt_base_gravada" step="0.01" placeholder="0.00">
                             </div>
 
                             <div class="col-md-3 form-group">
                                 <label for="">IGV (18%):</label>
-                                <input type="number" class="form-control" id="txt_igv" step="0.01" readonly placeholder="0.00" style="background-color:#e9ecef;">
+                                <input type="number" class="form-control" readonly id="txt_igv" step="0.01" readonly placeholder="0.00" style="background-color:#e9ecef;">
                             </div>
 
                             <div class="col-md-3 form-group">
                                 <label for="" style="font-size:16px; font-weight:bold;">TOTAL A PAGAR:</label>
-                                <input type="number" class="form-control" id="txt_total" step="0.01" readonly style="font-size:20px; font-weight:bold; background-color:#fff3cd;" placeholder="0.00">
+                                <input type="number" class="form-control" id="txt_total" step="0.01"  style="font-size:20px; font-weight:bold; background-color:#fff3cd;" placeholder="0.00">
                             </div>
 
                             <div class="col-md-3 form-group">
@@ -331,4 +331,13 @@
         Cargar_Select_Rutas()
 
     }
+    // Cuando cambie la cantidad, recalcular desde el total
+$("#txt_cantidad").on("input", function() {
+  calcularDesdeTotal();
+});
+
+// O si quieres que funcione en ambas direcciones:
+$("#txt_total").on("input", function() {
+  calcularDesdeTotal();
+});
 </script>

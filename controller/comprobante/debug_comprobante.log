@@ -1,1 +1,0 @@
-[ERROR] SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '01-F001-6' for key 'unique_comprobante'

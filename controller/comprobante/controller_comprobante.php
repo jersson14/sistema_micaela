@@ -22,34 +22,48 @@ if ($accion == 'OBTENER_CORRELATIVO') {
 // ============================================================
 elseif ($accion == 'REGISTRAR_COMPROBANTE') {
     header('Content-Type: application/json; charset=utf-8');
-
-    // 🕐 Forzar zona horaria local (Perú)
     date_default_timezone_set('America/Lima');
 
     // DATOS DEL COMPROBANTE
     $tipo_comprobante = $_POST['tipo_comprobante'];
     $serie = strtoupper($_POST['serie']);
     $correlativo = $_POST['correlativo'];
-
-    // ✅ Fecha de emisión: si no se envía, usar la fecha actual del servidor
     $fecha_emision = !empty($_POST['fecha_emision'])
         ? date('Y-m-d', strtotime($_POST['fecha_emision']))
         : date('Y-m-d');
-
-    // ✅ Hora de emisión actual (en la misma zona horaria)
     $hora_emision = date('H:i:s');
-
     $moneda = $_POST['moneda'];
+    
     // DATOS DEL CLIENTE
     $tipo_documento = $_POST['tipo_documento_cliente'];
     $numero_documento = $_POST['numero_documento'];
     $razon_social = strtoupper($_POST['razon_social']);
     $direccion = strtoupper($_POST['direccion']);
-    $telefono = isset($_POST['telefono']) ? $_POST['telefono'] : '';
+    
+    // 🔍 DEBUG 1: Ver qué llega en $_POST['celular']
+    $telefono_raw = isset($_POST['celular']) ? $_POST['celular'] : null;
+    $telefono = isset($_POST['celular']) ? trim($_POST['celular']) : '';
+    
+    // 📝 LOG DETALLADO
+    $debug_info = [
+        'celular_existe' => isset($_POST['celular']) ? 'SI' : 'NO',
+        'celular_raw' => $telefono_raw,
+        'celular_length' => strlen($telefono_raw ?? ''),
+        'telefono_final' => $telefono,
+        'telefono_empty' => empty($telefono) ? 'SI' : 'NO',
+        'telefono_is_string' => is_string($telefono) ? 'SI' : 'NO'
+    ];
+    file_put_contents('debug_controller.log', 
+        '[' . date('Y-m-d H:i:s') . '] POST COMPLETO: ' . print_r($_POST, true) . PHP_EOL .
+        'DEBUG TELEFONO: ' . print_r($debug_info, true) . PHP_EOL .
+        str_repeat('=', 80) . PHP_EOL,
+        FILE_APPEND
+    );
+    
     $departamento = strtoupper($_POST['departamento']);
     $provincia = strtoupper($_POST['provincia']);
     $distrito = isset($_POST['distrito']) ? strtoupper($_POST['distrito']) : 'ABANCAY';
-    $ubigeo = '030101'; // Abancay por defecto
+    $ubigeo = '030101';
     
     // DATOS DEL SERVICIO
     $id_servicio = $_POST['id_servicio'];
@@ -71,32 +85,37 @@ elseif ($accion == 'REGISTRAR_COMPROBANTE') {
     $estado_sunat = isset($_POST['estado_sunat']) ? $_POST['estado_sunat'] : 'PENDIENTE';
     $id_usuario = isset($_POST['id_usuario']) ? intval($_POST['id_usuario']) : 0;
 
-    
     // VALIDACIONES
     if ($id_usuario <= 0) {
-    echo json_encode(array('status' => 'error', 'message' => 'No se ha identificado el usuario en la sesión.'));
-    exit;
+        echo json_encode(array('status' => 'error', 'message' => 'No se ha identificado el usuario en la sesión.'));
+        exit;
     }
     if (empty($tipo_comprobante) || empty($serie) || empty($fecha_emision)) {
         echo json_encode(array('status' => 'error', 'message' => 'Faltan datos del comprobante'));
         exit;
     }
-    
     if (empty($numero_documento) || empty($razon_social)) {
         echo json_encode(array('status' => 'error', 'message' => 'Faltan datos del cliente'));
         exit;
     }
-    
     if ($tipo_comprobante == '01' && $tipo_documento != '6') {
         echo json_encode(array('status' => 'error', 'message' => 'Las facturas solo se emiten con RUC'));
         exit;
     }
-    
     if ($base_gravada <= 0 || $total <= 0) {
         echo json_encode(array('status' => 'error', 'message' => 'Los montos deben ser mayores a 0'));
         exit;
     }
-    file_put_contents('debug_cliente.log', print_r($_POST, true), FILE_APPEND);
+
+    // 🔍 DEBUG 2: Antes de llamar la función
+    file_put_contents('debug_controller.log', 
+        '[' . date('Y-m-d H:i:s') . '] ANTES DE REGISTRAR CLIENTE' . PHP_EOL .
+        '  - Tipo Doc: ' . $tipo_documento . PHP_EOL .
+        '  - Num Doc: ' . $numero_documento . PHP_EOL .
+        '  - Razon: ' . $razon_social . PHP_EOL .
+        '  - Telefono: "' . $telefono . '" (length: ' . strlen($telefono) . ')' . PHP_EOL,
+        FILE_APPEND
+    );
 
     // PASO 1: Registrar o actualizar cliente
     $id_cliente = $MC->Registrar_Cliente_SUNAT(
@@ -109,6 +128,12 @@ elseif ($accion == 'REGISTRAR_COMPROBANTE') {
         $provincia,
         $distrito,
         $ubigeo
+    );
+    
+    // 🔍 DEBUG 3: Después de registrar
+    file_put_contents('debug_controller.log', 
+        '[' . date('Y-m-d H:i:s') . '] RESULTADO REGISTRO CLIENTE: ID=' . $id_cliente . PHP_EOL,
+        FILE_APPEND
     );
     
     if ($id_cliente == 0) {
