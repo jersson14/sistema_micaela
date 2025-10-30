@@ -993,8 +993,13 @@ function listar_comprobantes() {
                         <i class="fas fa-eye text-info"></i> Ver Detalle
                     </a>`;
 
+        // ✅ BOTÓN EDITAR (solo para PENDIENTE)
         if (estado == "PENDIENTE" && estado_doc == "ACTIVO") {
             botones += `
+                <a class="dropdown-item" href="javascript:void(0)" onclick="editarComprobante(${data.id_comprobante})">
+                    <i class="fas fa-edit text-warning"></i> Editar Comprobante
+                </a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="javascript:void(0)" onclick="abrirModalEnviar(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
                     <i class="fas fa-paper-plane text-success"></i> Enviar a SUNAT
                 </a>`;
@@ -1020,7 +1025,6 @@ function listar_comprobantes() {
                 </a>`;
         }
 
-        // ✅ BOTÓN ANULAR BOLETA (solo para tipo 03 - BOLETA)
         if (tipo == "03" && (estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
             botones += `
                 <div class="dropdown-divider"></div>
@@ -1029,7 +1033,6 @@ function listar_comprobantes() {
                 </a>`;
         }
 
-        // ANULAR LOCAL (para cualquier comprobante pendiente)
         if ((estado == "PENDIENTE" || estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
             botones += `
                 <a class="dropdown-item text-warning" href="javascript:void(0)" onclick="abrirModalAnular(${data.id_comprobante})">
@@ -1273,7 +1276,7 @@ function listar_comprobantes_filtro() {
           data ? '<small class="text-muted">' + data + "</small>" : "-",
       },
       { data: "usuario_nombre" },
-    {
+   {
     data: null,
     orderable: false,
     render: function (data) {
@@ -1291,8 +1294,13 @@ function listar_comprobantes_filtro() {
                         <i class="fas fa-eye text-info"></i> Ver Detalle
                     </a>`;
 
+        // ✅ BOTÓN EDITAR (solo para PENDIENTE)
         if (estado == "PENDIENTE" && estado_doc == "ACTIVO") {
             botones += `
+                <a class="dropdown-item" href="javascript:void(0)" onclick="editarComprobante(${data.id_comprobante})">
+                    <i class="fas fa-edit text-warning"></i> Editar Comprobante
+                </a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="javascript:void(0)" onclick="abrirModalEnviar(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
                     <i class="fas fa-paper-plane text-success"></i> Enviar a SUNAT
                 </a>`;
@@ -1318,7 +1326,6 @@ function listar_comprobantes_filtro() {
                 </a>`;
         }
 
-        // ✅ BOTÓN ANULAR BOLETA (solo para tipo 03 - BOLETA)
         if (tipo == "03" && (estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
             botones += `
                 <div class="dropdown-divider"></div>
@@ -1327,7 +1334,6 @@ function listar_comprobantes_filtro() {
                 </a>`;
         }
 
-        // ANULAR LOCAL (para cualquier comprobante pendiente)
         if ((estado == "PENDIENTE" || estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
             botones += `
                 <a class="dropdown-item text-warning" href="javascript:void(0)" onclick="abrirModalAnular(${data.id_comprobante})">
@@ -1863,5 +1869,465 @@ function confirmarAnulacionBoleta() {
     .fail(function () {
         Swal.close();
         Swal.fire("Error", "Error al comunicarse con el servidor", "error");
+    });
+}
+
+
+// ============================================================
+// EDITAR COMPROBANTE (SOLO PENDIENTES)
+// ============================================================
+function editarComprobante(id) {
+    Swal.fire({
+        title: "Cargando datos...",
+        text: "Espere un momento",
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        willOpen: () => {
+            Swal.showLoading();
+        },
+    });
+
+    // Obtener datos del comprobante
+    $.ajax({
+        url: "../controller/comprobante/controller_comprobante.php",
+        type: "POST",
+        data: {
+            accion: "OBTENER_COMPROBANTE_EDITAR",
+            id_comprobante: id,
+        },
+        dataType: "json",
+    })
+    .done(function (data) {
+        Swal.close();
+
+        if (data && data.id_comprobante) {
+            // Verificar que sea PENDIENTE
+            if (data.estado_sunat !== "PENDIENTE") {
+                return Swal.fire("Advertencia", "Solo se pueden editar comprobantes PENDIENTES", "warning");
+            }
+
+            // Guardar datos temporalmente
+            window.datosComprobanteEditar = data;
+
+            // Abrir modal (esto dispara el evento shown.bs.modal)
+            $("#modal_editar_comprobante").modal("show");
+        } else {
+            Swal.fire("Error", "No se pudo obtener los datos del comprobante", "error");
+        }
+    })
+    .fail(function () {
+        Swal.close();
+        Swal.fire("Error", "Error al consultar el comprobante", "error");
+    });
+}
+
+// ============================================================
+// EVENTO CUANDO SE ABRE EL MODAL
+// ============================================================
+$('#modal_editar_comprobante').on('shown.bs.modal', function () {
+    console.log("🔵 Modal abierto, iniciando carga de selects...");
+    
+    // 1️⃣ Cargar todos los selects
+    Promise.all([
+        Cargar_Select_Servicios_Edit(),
+        Cargar_Select_Conductores_Edit(),
+        Cargar_Select_Rutas_Edit(),
+        Cargar_Select_Tipopago_Edit()
+    ]).then(() => {
+        console.log("✅ Todos los selects cargados");
+        
+        // 2️⃣ Inicializar Select2 en los selects del modal
+        $('#edit_servicio').select2({
+            dropdownParent: $('#modal_editar_comprobante'),
+            width: '100%'
+        });
+        
+        $('#edit_conductor').select2({
+            dropdownParent: $('#modal_editar_comprobante'),
+            width: '100%'
+        });
+        
+        $('#edit_origen').select2({
+            dropdownParent: $('#modal_editar_comprobante'),
+            width: '100%'
+        });
+        
+        $('#edit_destino').select2({
+            dropdownParent: $('#modal_editar_comprobante'),
+            width: '100%'
+        });
+        
+        $('#edit_tipo_pago').select2({
+            dropdownParent: $('#modal_editar_comprobante'),
+            width: '100%'
+        });
+        
+        // 3️⃣ Esperar un poco para que Select2 se renderice
+        setTimeout(() => {
+            if (window.datosComprobanteEditar) {
+                console.log("📦 Datos a cargar:", window.datosComprobanteEditar);
+                llenarFormularioEditar(window.datosComprobanteEditar);
+                delete window.datosComprobanteEditar;
+            }
+        }, 300);
+    });
+});
+$('#modal_editar_comprobante').on('hidden.bs.modal', function () {
+    // Destruir Select2 para evitar duplicados
+    $('#edit_servicio').select2('destroy');
+    $('#edit_conductor').select2('destroy');
+    $('#edit_origen').select2('destroy');
+    $('#edit_destino').select2('destroy');
+    $('#edit_tipo_pago').select2('destroy');
+});
+
+// ============================================================
+// LLENAR FORMULARIO DE EDICIÓN
+// ============================================================
+function llenarFormularioEditar(data) {
+    console.log("🔍 Iniciando llenado de formulario con datos:", data);
+    
+    // Guardar ID del comprobante
+    $("#txt_id_comprobante_editar").val(data.id_comprobante);
+
+    // Llenar datos del comprobante
+    $("#edit_tipo_comprobante").val(data.tipo_comprobante);
+    $("#edit_serie").val(data.serie);
+    $("#edit_correlativo").val(data.correlativo);
+    $("#edit_fecha_emision").val(data.fecha_emision);
+    $("#edit_moneda").val(data.moneda);
+
+    // Datos del cliente
+    $("#edit_tipo_documento_cliente").val(data.tipo_documento_cliente);
+    $("#edit_numero_documento").val(data.numero_documento);
+    $("#edit_razon_social").val(data.razon_social);
+    $("#edit_direccion").val(data.direccion);
+    $("#edit_telefono").val(data.celular || "");
+    $("#edit_departamento").val(data.departamento);
+    $("#edit_provincia").val(data.provincia);
+    $("#edit_distrito").val(data.distrito);
+
+    // ✅ Datos del servicio (CON SELECT2)
+    if (data.id_servicio) {
+        $("#edit_servicio").val(data.id_servicio).trigger('change');
+    }
+    
+    if (data.idconductor) {
+        $("#edit_conductor").val(data.idconductor).trigger('change');
+    }
+    
+    if (data.id_origen) {
+        $("#edit_origen").val(data.id_origen).trigger('change');
+    }
+    
+    if (data.iddestino) {
+        $("#edit_destino").val(data.iddestino).trigger('change');
+    }
+    
+    if (data.id_tipo_pago) {
+        $("#edit_tipo_pago").val(data.id_tipo_pago).trigger('change');
+    }
+    
+    $("#edit_cantidad").val(data.cantidad);
+    $("#edit_fecha_viaje").val(data.fecha_viaje);
+
+    // Montos
+    $("#edit_base_gravada").val(parseFloat(data.total_gravada).toFixed(2));
+    $("#edit_igv").val(parseFloat(data.total_igv).toFixed(2));
+    $("#edit_total").val(parseFloat(data.total).toFixed(2));
+    
+    $("#edit_observaciones").val(data.observaciones || "");
+
+    // Verificación final
+    console.log("✅ Valores asignados:");
+    console.log("  Servicio seleccionado:", $("#edit_servicio").val());
+    console.log("  Conductor seleccionado:", $("#edit_conductor").val());
+    console.log("  Origen seleccionado:", $("#edit_origen").val());
+    console.log("  Destino seleccionado:", $("#edit_destino").val());
+    console.log("  Tipo Pago seleccionado:", $("#edit_tipo_pago").val());
+}
+
+// ============================================================
+// CARGAR SELECTS PARA EDICIÓN (con Promise)
+// ============================================================
+function Cargar_Select_Servicios_Edit() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "../controller/servicios/controlador_cargar_select_servicios.php",
+            type: "POST",
+        })
+        .done(function (resp) {
+            let data = JSON.parse(resp);
+            let cadena = "<option value=''>Seleccionar servicio</option>";
+            if (data.length > 0) {
+                for (let i = 0; i < data.length; i++) {
+                    cadena += "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
+                }
+            }
+            $("#edit_servicio").html(cadena);
+            resolve();
+        })
+        .fail(reject);
+    });
+}
+
+function Cargar_Select_Conductores_Edit() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "../controller/choferes/controlador_cargar_select_choferes.php",
+            type: "POST",
+        })
+        .done(function (resp) {
+            let data = JSON.parse(resp);
+            let cadena = "<option value=''>Seleccionar conductor</option>";
+            if (data.length > 0) {
+                for (let i = 0; i < data.length; i++) {
+                    cadena += "<option value='" + data[i][0] + "'>DNI: " + data[i][1] + " - " + data[i][2] + "</option>";
+                }
+            }
+            $("#edit_conductor").html(cadena);
+            resolve();
+        })
+        .fail(reject);
+    });
+}
+
+function Cargar_Select_Rutas_Edit() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "../controller/rutas/controlador_cargar_select_rutas.php",
+            type: "POST",
+        })
+        .done(function (resp) {
+            let data = JSON.parse(resp);
+            let cadena = "<option value=''>Seleccionar ruta</option>";
+            if (data.length > 0) {
+                for (let i = 0; i < data.length; i++) {
+                    cadena += "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
+                }
+            }
+            $("#edit_origen").html(cadena);
+            $("#edit_destino").html(cadena);
+            resolve();
+        })
+        .fail(reject);
+    });
+}
+
+function Cargar_Select_Tipopago_Edit() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "../controller/tipo_pago/controlador_cargar_select_tipo_pago.php",
+            type: "POST",
+        })
+        .done(function (resp) {
+            let data = JSON.parse(resp);
+            let cadena = "<option value=''>Seleccionar tipo pago</option>";
+            if (data.length > 0) {
+                for (let i = 0; i < data.length; i++) {
+                    cadena += `<option value="${data[i][0]}">${data[i][1]}</option>`;
+                }
+            }
+            $("#edit_tipo_pago").html(cadena);
+            resolve();
+        })
+        .fail(reject);
+    });
+}
+
+// ============================================================
+// ACTUALIZAR COMPROBANTE
+// ============================================================
+function actualizarComprobante() {
+    let id_comprobante = $("#txt_id_comprobante_editar").val();
+    let tipo_comprobante = $("#edit_tipo_comprobante").val();
+    let serie = $("#edit_serie").val();
+    let correlativo = $("#edit_correlativo").val();
+    let fecha_emision = $("#edit_fecha_emision").val();
+    let moneda = $("#edit_moneda").val();
+    let tipo_documento_cliente = $("#edit_tipo_documento_cliente").val();
+    let numero_documento = $("#edit_numero_documento").val();
+    let razon_social = $("#edit_razon_social").val();
+    let direccion = $("#edit_direccion").val();
+    let celular = $("#edit_telefono").val() || "";
+    let departamento = $("#edit_departamento").val();
+    let provincia = $("#edit_provincia").val();
+    let distrito = $("#edit_distrito").val();
+    let id_servicio = $("#edit_servicio").val();
+    let cantidad = $("#edit_cantidad").val();
+    let id_conductor = $("#edit_conductor").val();
+    let id_origen = $("#edit_origen").val();
+    let id_destino = $("#edit_destino").val();
+    let fecha_viaje = $("#edit_fecha_viaje").val();
+    let base_gravada = $("#edit_base_gravada").val();
+    let igv = $("#edit_igv").val();
+    let total = $("#edit_total").val();
+    let id_tipo_pago = $("#edit_tipo_pago").val();
+    let observaciones = $("#edit_observaciones").val() || "";
+    let id_usuario = $("#txtprincipalid").val();
+
+    // Validaciones
+    if (!tipo_comprobante || !serie || !correlativo || !fecha_emision) {
+        return Swal.fire("Advertencia", "Complete los datos del comprobante", "warning");
+    }
+    if (!tipo_documento_cliente || !numero_documento || !razon_social) {
+        return Swal.fire("Advertencia", "Complete los datos del cliente", "warning");
+    }
+    if (!id_servicio || !id_conductor || !id_origen || !id_destino || !fecha_viaje) {
+        return Swal.fire("Advertencia", "Complete los datos del servicio", "warning");
+    }
+    if (!base_gravada || !total || base_gravada <= 0 || total <= 0) {
+        return Swal.fire("Advertencia", "Los montos deben ser mayores a 0", "warning");
+    }
+
+    // Confirmar actualización
+    Swal.fire({
+        title: "¿Confirmar actualización?",
+        text: "Se actualizarán los datos del comprobante",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Sí, actualizar",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Actualizando...",
+                text: "Procesando cambios",
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+
+            $.ajax({
+                url: "../controller/comprobante/controller_comprobante.php",
+                type: "POST",
+                data: {
+                    accion: "ACTUALIZAR_COMPROBANTE",
+                    id_comprobante: id_comprobante,
+                    tipo_comprobante: tipo_comprobante,
+                    serie: serie,
+                    correlativo: correlativo,
+                    fecha_emision: fecha_emision,
+                    moneda: moneda,
+                    tipo_documento_cliente: tipo_documento_cliente,
+                    numero_documento: numero_documento,
+                    razon_social: razon_social,
+                    direccion: direccion,
+                    celular: celular,
+                    departamento: departamento,
+                    provincia: provincia,
+                    distrito: distrito,
+                    id_servicio: id_servicio,
+                    cantidad: cantidad,
+                    id_conductor: id_conductor,
+                    id_origen: id_origen,
+                    id_destino: id_destino,
+                    fecha_viaje: fecha_viaje,
+                    base_gravada: base_gravada,
+                    igv: igv,
+                    total: total,
+                    id_tipo_pago: id_tipo_pago,
+                    observaciones: observaciones,
+                    id_usuario: id_usuario,
+                },
+                dataType: "json",
+            })
+            .done(function (response) {
+                Swal.close();
+
+                if (response.status === "success") {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Comprobante actualizado",
+                        text: "Los cambios se guardaron correctamente",
+                        showConfirmButton: true,
+                    }).then(() => {
+                        $("#modal_editar_comprobante").modal("hide");
+                        tbl_comprobantes.ajax.reload();
+                    });
+                } else {
+                    Swal.fire("Error", response.message || "No se pudo actualizar", "error");
+                }
+            })
+            .fail(function (xhr) {
+                Swal.close();
+                console.error("Error AJAX:", xhr.responseText);
+                Swal.fire("Error", "Error al actualizar el comprobante", "error");
+            });
+        }
+    });
+}
+
+// Recalcular totales en modal de edición
+$(document).on("change", "#edit_servicio", function () {
+    let id = $(this).val();
+    if (id !== "") {
+        TraerprecioEditar(id);
+    }
+});
+
+// Recalcular totales en modal de edición
+$(document).on("change", "#edit_servicio", function () {
+    let id = $(this).val();
+    if (id !== "" && id !== null) {
+        TraerprecioEditar(id);
+    }
+});
+
+$(document).on("change", "#edit_cantidad", function () {
+    calcularDesdeTotalEditar();
+});
+
+// Recalcular cuando cambie el servicio (Select2)
+$(document).on("select2:select", "#edit_servicio", function (e) {
+    let id = e.params.data.id;
+    if (id !== "" && id !== null) {
+        TraerprecioEditar(id);
+    }
+});
+
+// Recalcular cuando cambie la cantidad o el total
+$(document).on("change input", "#edit_cantidad, #edit_total", function () {
+    calcularDesdeTotalEditar();
+});
+
+// ============================================================
+// FUNCIÓN PARA CALCULAR DESDE EL TOTAL (EDICIÓN)
+// ============================================================
+function calcularDesdeTotalEditar() {
+    var total = parseFloat($("#edit_total").val()) || 0;
+    var cantidad = parseFloat($("#edit_cantidad").val()) || 1;
+
+    if (cantidad === 0) cantidad = 1;
+
+    var baseGravada = total / (cantidad * 1.18);
+    var subtotal = baseGravada * cantidad;
+    var igv = total - subtotal;
+
+    $("#edit_base_gravada").val(baseGravada.toFixed(2));
+    $("#edit_igv").val(igv.toFixed(2));
+}
+
+// ============================================================
+// TRAER PRECIO DEL SERVICIO (EDICIÓN)
+// ============================================================
+function TraerprecioEditar(id) {
+    $.ajax({
+        url: "../controller/servicios/controlador_traermonto.php",
+        type: "POST",
+        data: { id: id },
+    }).done(function (resp) {
+        try {
+            var data = JSON.parse(resp);
+            if (data.length > 0) {
+                let total = data[0].monto || data[0][1];
+                $("#edit_total").val(total);
+                calcularDesdeTotalEditar();
+            }
+        } catch (error) {
+            console.error("Error al parsear JSON:", resp);
+        }
     });
 }

@@ -1,0 +1,16 @@
+[2025-10-30 17:17:52] Actualizar_Cliente_SUNAT llamado con:
+  Tipo Doc: 1
+  Num Doc: 72658985
+  Razón: STEPHANI NAYDU CHUMBES CHAMPA
+  Celular: 987555222
+[2025-10-30 17:17:52] Cliente existe: SI (ID: 49)
+[2025-10-30 17:17:52] ✅ Cliente actualizado correctamente
+[2025-10-30 17:23:34] Registrar_Cliente_SUNAT llamado
+[2025-10-30 17:23:34] ✅ Cliente registrado con ID: 50
+[2025-10-30 17:37:33] Actualizar_Cliente_SUNAT llamado con:
+  Tipo Doc: 1
+  Num Doc: 72458577
+  Razón: LIZBETH ALEJANDRA FLORES LOPEZ
+  Celular: 987444110
+[2025-10-30 17:37:33] Cliente existe: SI (ID: 50)
+[2025-10-30 17:37:33] ✅ Cliente actualizado correctamente

@@ -254,6 +254,279 @@
         </div>
     </div>
 </div>
+<!-- MODAL EDITAR COMPROBANTE -->
+<div class="modal fade" id="modal_editar_comprobante" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(90deg, #FFA500, #FF8C00);">
+                <h5 class="modal-title text-white">
+                    <i class="fas fa-edit"></i> <b>EDITAR COMPROBANTE PENDIENTE</b>
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txt_id_comprobante_editar">
+                
+                <div class="row">
+                    <!-- DATOS DEL COMPROBANTE -->
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <b>Datos del Comprobante</b>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Tipo Comprobante:</label>
+                                        <select class="form-control" id="edit_tipo_comprobante" disabled>
+                                            <option value="01">FACTURA</option>
+                                            <option value="03">BOLETA</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Serie:</label>
+                                        <input type="text" class="form-control" id="edit_serie" readonly>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Correlativo:</label>
+                                        <input type="text" class="form-control" id="edit_correlativo" readonly>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Fecha Emisión:</label>
+                                        <input type="date" class="form-control" id="edit_fecha_emision">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Moneda:</label>
+                                        <select class="form-control" id="edit_moneda">
+                                            <option value="PEN">Soles</option>
+                                            <option value="USD">Dólares</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DATOS DEL CLIENTE -->
+                    <div class="col-md-12 mt-3">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <b>Datos del Cliente</b>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label>Tipo Doc:</label>
+                                        <select class="form-control" id="edit_tipo_documento_cliente">
+                                            <option value="1">DNI</option>
+                                            <option value="6">RUC</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Nº Documento:</label>
+                                        <input type="text" class="form-control" id="edit_numero_documento">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Razón Social / Nombres:</label>
+                                        <input type="text" class="form-control" id="edit_razon_social">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Teléfono:</label>
+                                        <input type="text" class="form-control" id="edit_telefono">
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label>Dirección:</label>
+                                        <input type="text" class="form-control" id="edit_direccion">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Departamento:</label>
+                                        <input type="text" class="form-control" id="edit_departamento">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Provincia:</label>
+                                        <input type="text" class="form-control" id="edit_provincia">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Distrito:</label>
+                                        <input type="text" class="form-control" id="edit_distrito">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DATOS DEL SERVICIO -->
+                    <div class="col-md-12 mt-3">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <b>Datos del Servicio</b>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Servicio:</label>
+                                        <select class="form-control" id="edit_servicio"></select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Cantidad:</label>
+                                        <input type="number" class="form-control" id="edit_cantidad" value="1" min="1">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Conductor:</label>
+                                        <select class="form-control" id="edit_conductor"></select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Fecha Viaje:</label>
+                                        <input type="date" class="form-control" id="edit_fecha_viaje">
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label>Origen:</label>
+                                        <select class="form-control" id="edit_origen"></select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Destino:</label>
+                                        <select class="form-control" id="edit_destino"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MONTOS -->
+                    <div class="col-md-12 mt-3">
+                        <div class="card">
+                            <div class="card-header bg-warning text-dark">
+                                <b>Montos</b>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Base Gravada:</label>
+                                        <input type="number" class="form-control" id="edit_base_gravada" step="0.01" readonly>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>IGV (18%):</label>
+                                        <input type="number" class="form-control" id="edit_igv" step="0.01" readonly>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Total:</label>
+                                        <input type="number" class="form-control" id="edit_total" step="0.01" >
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Forma Pago:</label>
+                                        <select class="form-control" disabled id="edit_forma_pago">
+                                            <option value="CONTADO">CONTADO</option>
+                                            <option value="CREDITO">CRÉDITO</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Tipo de Pago:</label>
+                                        <select class="form-control" id="edit_tipo_pago"></select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-12">
+                                        <label>Observaciones:</label>
+                                        <textarea class="form-control" id="edit_observaciones" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-warning" onclick="actualizarComprobante()">
+                    <i class="fas fa-save"></i> Actualizar Comprobante
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Cargar selects al abrir modal
+$('#modal_editar_comprobante').on('shown.bs.modal', function () {
+    Cargar_Select_Servicios_Edit();
+    Cargar_Select_Conductores_Edit();
+    Cargar_Select_Rutas_Edit();
+    Cargar_Select_Tipopago_Edit();
+});
+
+function Cargar_Select_Servicios_Edit() {
+    $.ajax({
+        url: "../controller/servicios/controlador_cargar_select_servicios.php",
+        type: "POST",
+    }).done(function (resp) {
+        let data = JSON.parse(resp);
+        let cadena = "<option value=''>Seleccionar servicio</option>";
+        if (data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+                cadena += "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
+            }
+        }
+        $("#edit_servicio").html(cadena);
+    });
+}
+
+function Cargar_Select_Conductores_Edit() {
+    $.ajax({
+        url: "../controller/choferes/controlador_cargar_select_choferes.php",
+        type: "POST",
+    }).done(function (resp) {
+        let data = JSON.parse(resp);
+        let cadena = "<option value=''>Seleccionar conductor</option>";
+        if (data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+                cadena += "<option value='" + data[i][0] + "'>DNI: " + data[i][1] + " - " + data[i][2] + "</option>";
+            }
+        }
+        $("#edit_conductor").html(cadena);
+    });
+}
+
+function Cargar_Select_Rutas_Edit() {
+    $.ajax({
+        url: "../controller/rutas/controlador_cargar_select_rutas.php",
+        type: "POST",
+    }).done(function (resp) {
+        let data = JSON.parse(resp);
+        let cadena = "<option value=''>Seleccionar ruta</option>";
+        if (data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+                cadena += "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
+            }
+        }
+        $("#edit_origen").html(cadena);
+        $("#edit_destino").html(cadena);
+    });
+}
+
+function Cargar_Select_Tipopago_Edit() {
+    $.ajax({
+        url: "../controller/tipo_pago/controlador_cargar_select_tipo_pago.php",
+        type: "POST",
+    }).done(function (resp) {
+        let data = JSON.parse(resp);
+        let cadena = "<option value=''>Seleccionar tipo pago</option>";
+        if (data.length > 0) {
+            for (let i = 0; i < data.length; i++) {
+                cadena += `<option value="${data[i][0]}">${data[i][1]}</option>`;
+            }
+        }
+        $("#edit_tipo_pago").html(cadena);
+    });
+}
+</script>
 <script>
 $(document).ready(function() {
     listar_comprobantes();

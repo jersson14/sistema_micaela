@@ -647,7 +647,162 @@ elseif ($accion == 'ANULAR_BOLETA_SUNAT') {
     
     exit;
 }
+// ============================================================
+// OBTENER COMPROBANTE PARA EDITAR
+// ============================================================
+elseif ($accion == 'OBTENER_COMPROBANTE_EDITAR') {
+    header('Content-Type: application/json; charset=utf-8');
+    
+    // 🔍 DEBUG
+    file_put_contents('debug_editar.log', 
+        '[' . date('Y-m-d H:i:s') . '] POST recibido: ' . print_r($_POST, true) . PHP_EOL,
+        FILE_APPEND
+    );
+    
+    $id_comprobante = intval($_POST['id_comprobante']);
+    
+    // 🔍 DEBUG
+    file_put_contents('debug_editar.log', 
+        '[' . date('Y-m-d H:i:s') . '] ID Comprobante: ' . $id_comprobante . PHP_EOL,
+        FILE_APPEND
+    );
+    
+    $resultado = $MC->Obtener_Comprobante_Completo($id_comprobante);
+    
+    // 🔍 DEBUG
+    file_put_contents('debug_editar.log', 
+        '[' . date('Y-m-d H:i:s') . '] Resultado: ' . print_r($resultado, true) . PHP_EOL,
+        FILE_APPEND
+    );
+    
+    if ($resultado) {
+        // Verificar que sea PENDIENTE
+        if ($resultado['estado_sunat'] !== 'PENDIENTE') {
+            echo json_encode(array(
+                'status' => 'error',
+                'message' => 'Solo se pueden editar comprobantes con estado PENDIENTE'
+            ));
+            exit;
+        }
+        
+        echo json_encode($resultado);
+    } else {
+        echo json_encode(array('status' => 'error', 'message' => 'Comprobante no encontrado'));
+    }
+}
 
+// ============================================================
+// ACTUALIZAR COMPROBANTE
+// ============================================================
+elseif ($accion == 'ACTUALIZAR_COMPROBANTE') {
+    header('Content-Type: application/json; charset=utf-8');
+    date_default_timezone_set('America/Lima');
+    
+    $id_comprobante = intval($_POST['id_comprobante']);
+    $tipo_comprobante = $_POST['tipo_comprobante'];
+    $serie = strtoupper($_POST['serie']);
+    $correlativo = $_POST['correlativo'];
+    $fecha_emision = date('Y-m-d', strtotime($_POST['fecha_emision']));
+    $moneda = $_POST['moneda'];
+    
+    // Datos del cliente
+    $tipo_documento = $_POST['tipo_documento_cliente'];
+    $numero_documento = $_POST['numero_documento'];
+    $razon_social = strtoupper($_POST['razon_social']);
+    $direccion = strtoupper($_POST['direccion']);
+    $celular = trim($_POST['celular']);
+    $departamento = strtoupper($_POST['departamento']);
+    $provincia = strtoupper($_POST['provincia']);
+    $distrito = strtoupper($_POST['distrito']);
+    $ubigeo = '030101';
+    
+    // Datos del servicio
+    $id_servicio = $_POST['id_servicio'];
+    $cantidad = floatval($_POST['cantidad']);
+    $id_conductor = $_POST['id_conductor'];
+    $id_origen = $_POST['id_origen'];
+    $id_destino = $_POST['id_destino'];
+    $fecha_viaje = $_POST['fecha_viaje'];
+    $observaciones = strtoupper($_POST['observaciones']);
+    
+    // Montos
+    $base_gravada = floatval($_POST['base_gravada']);
+    $igv = floatval($_POST['igv']);
+    $total = floatval($_POST['total']);
+    $id_tipo_pago = $_POST['id_tipo_pago'];
+    $id_usuario = intval($_POST['id_usuario']);
+    
+    // Validaciones
+    if ($id_usuario <= 0) {
+        echo json_encode(array('status' => 'error', 'message' => 'Usuario no identificado'));
+        exit;
+    }
+    
+    if (empty($tipo_comprobante) || empty($serie) || empty($correlativo)) {
+        echo json_encode(array('status' => 'error', 'message' => 'Faltan datos del comprobante'));
+        exit;
+    }
+    
+    if (empty($numero_documento) || empty($razon_social)) {
+        echo json_encode(array('status' => 'error', 'message' => 'Faltan datos del cliente'));
+        exit;
+    }
+    
+    if ($base_gravada <= 0 || $total <= 0) {
+        echo json_encode(array('status' => 'error', 'message' => 'Los montos deben ser mayores a 0'));
+        exit;
+    }
+    
+    // PASO 1: Actualizar o registrar cliente
+    $id_cliente = $MC->Actualizar_Cliente_SUNAT(
+        $tipo_documento,
+        $numero_documento,
+        $razon_social,
+        $direccion,
+        $celular,
+        $departamento,
+        $provincia,
+        $distrito,
+        $ubigeo
+    );
+    
+    if ($id_cliente == 0) {
+        echo json_encode(array('status' => 'error', 'message' => 'Error al actualizar cliente'));
+        exit;
+    }
+    
+    // PASO 2: Actualizar comprobante
+    $resultado = $MC->Actualizar_Comprobante(
+        $id_comprobante,
+        $tipo_comprobante,
+        $serie,
+        $correlativo,
+        $fecha_emision,
+        $moneda,
+        $id_cliente,
+        $base_gravada,
+        $igv,
+        $total,
+        $id_tipo_pago,
+        $id_usuario,
+        $id_servicio,
+        $cantidad,
+        $fecha_viaje,
+        $id_conductor,
+        $id_origen,
+        $id_destino,
+        $observaciones
+    );
+    
+    if ($resultado) {
+        echo json_encode(array(
+            'status' => 'success',
+            'message' => 'Comprobante actualizado correctamente'
+        ));
+    } else {
+        echo json_encode(array('status' => 'error', 'message' => 'Error al actualizar comprobante'));
+    }
+}
 
 ?>
 

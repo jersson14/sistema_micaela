@@ -1,133 +1,312 @@
+# 🚌 Sistema Web de Salidas Diarias y Facturación Electrónica - Tours Micaela
 
-# 🎫 Sistema de Venta de Pasajes con Facturación Electrónica
-
-Bienvenido al repositorio del **Sistema de Venta de Pasajes** desarrollado con tecnologías web modernas y cumpliendo con los estándares de facturación electrónica en Perú mediante la API de **NubeFACT**.
+Sistema integral de gestión para empresas de transporte interprovincial desarrollado con PHP y MySQL, con integración completa de facturación electrónica SUNAT mediante **Greenter**.
 
 ---
 
 ## 📌 Características Principales
 
-✅ Venta de pasajes con control de rutas, horarios y tarifas  
-✅ Registro y gestión de clientes  
-✅ Emisión de **boletas y facturas electrónicas** con NubeFACT  
-✅ Reportes PDF con **mPDF**  
-✅ Interfaz moderna con **AdminLTE 3.0**  
-✅ Panel administrativo responsivo  
-✅ Arquitectura limpia bajo patrón **MVC**  
-✅ Base de datos relacional en **MySQL**
+### 🎫 Gestión de Transporte
+✅ Control de salidas diarias con rutas, horarios y conductores  
+✅ Gestión de reservas y venta de pasajes  
+✅ Sistema de encomiendas con seguimiento de estados  
+✅ Registro de choferes con control de vencimientos  
+✅ Administración de rutas, servicios y tarifas  
+✅ Control de asistencia de pasajeros  
+
+### 💼 Facturación Electrónica SUNAT
+✅ Emisión de **Facturas (01)** y **Boletas (03)** electrónicas  
+✅ Generación de **Notas de Crédito (07)** y **Notas de Débito (08)**  
+✅ Integración con **Greenter** (biblioteca PHP para SUNAT)  
+✅ Generación automática de XML firmado digitalmente  
+✅ Envío directo a SUNAT con respuesta CDR  
+✅ Almacenamiento de hash, XML y CDR  
+✅ Consulta de RUC/DNI en tiempo real  
+
+### 📊 Gestión Financiera
+✅ Control de ingresos y gastos por sucursal  
+✅ Reportes de diferencias y cierres de caja  
+✅ Múltiples tipos de pago (efectivo, tarjeta, transferencia)  
+✅ Dashboard con indicadores en tiempo real  
+
+### 👥 Administración
+✅ Sistema de usuarios con roles y permisos  
+✅ Gestión de sucursales y empresas  
+✅ Reportes PDF con mPDF  
+✅ Interfaz responsive con AdminLTE 3.0  
 
 ---
 
 ## 🛠 Tecnologías Utilizadas
 
-| Tipo                    | Herramienta/Framework    |
+| Categoría               | Tecnología                |
 |-------------------------|---------------------------|
-| Lenguaje Backend        | PHP                       |
-| Lenguaje Frontend       | HTML5, CSS3, JavaScript   |
-| Framework CSS           | Bootstrap                 |
+| Lenguaje Backend        | PHP 7.4+                  |
+| Base de Datos           | MySQL (puerto 3307)       |
+| Facturación Electrónica | Greenter 5.0+             |
+| Generación PDF          | mPDF                      |
+| Frontend                | HTML5, CSS3, JavaScript   |
+| Framework CSS           | Bootstrap 4/5             |
 | Plantilla Admin         | AdminLTE 3.0              |
-| Reportes PDF            | mPDF                      |
-| Facturación Electrónica | NubeFACT API              |
-| Arquitectura            | MVC                       |
-| Servidor Web            | Apache                    |
-| Base de Datos           | MySQL                     |
+| Arquitectura            | MVC (Model-View-Controller)|
+| Gestión Dependencias    | Composer                  |
 
 ---
 
-## 📂 Estructura del Proyecto (MVC)
+## 📂 Estructura del Proyecto
 
 ```
-/app
-  /controllers
-  /models
-  /views
-/public
-  /css
-  /js
-  /img
-/config
-/vendor (mPDF)
-/facturacion (integración con NubeFACT)
-index.php
-.htaccess
+sistema-tours-micaela/
+├── controller/              # Controladores por módulo
+│   ├── choferes/
+│   ├── clientes/
+│   ├── comprobante/        # Lógica de facturación
+│   ├── encomiendas/
+│   ├── gastos/
+│   ├── ingresos/
+│   ├── reservas/
+│   ├── salidas_diarias/
+│   ├── usuario/
+│   └── ...
+├── model/                   # Modelos de datos
+│   ├── model_conexion.php
+│   ├── model_comprobante.php
+│   ├── model_encomiendas.php
+│   └── ...
+├── view/                    # Vistas (interfaz de usuario)
+│   ├── comprobantes/
+│   ├── encomiendas/
+│   ├── MPDF/               # Generación de PDFs
+│   └── ...
+├── greenter/               # Integración SUNAT
+│   ├── config/             # Configuración Greenter
+│   ├── xml/                # XMLs generados
+│   ├── cdr/                # Respuestas CDR de SUNAT
+│   ├── pdf/                # PDFs de comprobantes
+│   ├── certificados/       # Certificado digital
+│   ├── factura_bd.php      # Script de envío a SUNAT
+│   └── comunicacion_baja.php
+├── vendor/                 # Dependencias Composer
+├── js/                     # Scripts JavaScript
+├── img/                    # Recursos gráficos
+├── Fotos/                  # Fotos de usuarios/choferes
+├── composer.json           # Dependencias del proyecto
+├── index.php               # Login principal
+└── README.md
 ```
 
 ---
 
 ## 🔧 Requisitos del Sistema
 
-- PHP 8.1 o superior
-- Apache 2.4+
-- MySQL 10.4.32+
-- Composer (para instalar mPDF)
-- Conexión a internet para API de NubeFACT
-- Navegador moderno (Chrome, Firefox, Edge)
+- **PHP**: 7.4 o superior
+- **MySQL**: 5.7+ o MariaDB 10.4+
+- **Apache**: 2.4+ con mod_rewrite
+- **Composer**: Para gestión de dependencias
+- **Extensiones PHP requeridas**:
+  - PDO y PDO_MySQL
+  - OpenSSL
+  - SOAP
+  - XML
+  - DOM
+  - ZipArchive
+- **Certificado Digital**: Para firma electrónica (formato .pem)
+- **Conexión a Internet**: Para envío a SUNAT
 
 ---
 
-## 🚀 Instalación
+## �  Instalación
 
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/tu_usuario/sistema-venta-pasajes.git
-   ```
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/tu_usuario/sistema-tours-micaela.git
+cd sistema-tours-micaela
+```
 
-2. Crea una base de datos en MySQL:
-   - Nombre sugerido: `pasajes_db`
-   - Importa el archivo `pasajes_db.sql` desde phpMyAdmin
+### 2. Instalar dependencias con Composer
+```bash
+composer install
+```
 
-3. Configura la conexión a la base de datos:
-   - Edita el archivo `/config/database.php` con tus credenciales.
+Esto instalará automáticamente:
+- greenter/core
+- greenter/greenter
+- greenter/lite
+- mPDF (si está configurado)
 
-4. Instala dependencias (mPDF):
-   ```bash
-   composer require mpdf/mpdf
-   ```
+### 3. Configurar la base de datos
 
-5. Configura NubeFACT:
-   - Edita `/facturacion/nubefact_config.php` y coloca tu **token** y **URL de envío** proporcionados por NubeFACT.
+Importa el archivo SQL en MySQL:
+```bash
+mysql -u root -p micaela < micaela.sql
+```
 
-6. Ejecuta el proyecto en tu navegador:
-   ```
-   http://localhost/sistema-venta-pasajes/public/
-   ```
+O desde phpMyAdmin:
+- Crea una base de datos llamada `micaela`
+- Importa el archivo `micaela.sql`
+
+### 4. Configurar conexión a la base de datos
+
+Edita `model/model_conexion.php`:
+```php
+$host = "localhost";
+$usuario = "root";
+$contrasena = "tu_contraseña";
+$bdName = "micaela";
+$puerto = 3307; // Ajusta según tu configuración
+```
+
+### 5. Configurar Greenter para SUNAT
+
+Edita `greenter/config/config_greenter.php`:
+```php
+// Certificado digital (.pem)
+define('CERT_PATH', __DIR__ . '/../certificados/certificado.pem');
+
+// RUC de la empresa
+define('RUC_EMPRESA', '20XXXXXXXXX');
+
+// Modo: 'beta' para pruebas, 'produccion' para real
+define('MODO_SUNAT', 'beta');
+```
+
+Coloca tu certificado digital en `greenter/certificados/certificado.pem`
+
+### 6. Configurar permisos de carpetas
+```bash
+chmod -R 755 greenter/xml
+chmod -R 755 greenter/cdr
+chmod -R 755 greenter/pdf
+chmod -R 755 Fotos
+```
+
+### 7. Acceder al sistema
+
+Abre en tu navegador:
+```
+http://localhost/sistema-tours-micaela/
+```
+
+**Credenciales por defecto** (verificar en la BD):
+- Usuario: `admin`
+- Contraseña: `admin123`
 
 ---
 
-## 🧾 Integración con NubeFACT
+## 🧾 Facturación Electrónica con Greenter
 
-El sistema está integrado con la **API RESTful de NubeFACT**, permitiendo emitir comprobantes electrónicos válidos ante la SUNAT.
+### Flujo de emisión de comprobantes
 
-- Boletas y facturas se generan y envían automáticamente tras una venta.
-- El sistema recibe y guarda los archivos **PDF**, **XML**, y el **hash CDR**.
-- Compatible con boletas electrónicas, facturas electrónicas y notas de crédito.
+1. **Registro del cliente**: Se valida y registra en `cliente_sunat` con datos completos (RUC/DNI, dirección, ubigeo)
 
----
+2. **Generación del comprobante**: Se crea en la tabla `comprobantes` con estado `PENDIENTE`
 
-## 📊 Reportes PDF con mPDF
+3. **Creación del XML**: El script `greenter/factura_bd.php` genera el XML firmado digitalmente
 
-Se generan documentos y reportes en PDF usando la biblioteca **mPDF**:
+4. **Envío a SUNAT**: Se envía mediante SOAP y se recibe la respuesta CDR
 
-- Comprobantes detallados
-- Reporte de ventas por fecha
-- Historial por cliente, ruta o usuario
-- Copias de boletas/facturas emitidas
+5. **Actualización de estado**: Se guarda el hash, código de respuesta y estado (`ACEPTADO` o `RECHAZADO`)
 
----
+### Tipos de comprobantes soportados
 
-## 🖥 Panel Administrativo (AdminLTE 3.0)
+| Código | Tipo                  | Serie Ejemplo |
+|--------|-----------------------|---------------|
+| 01     | Factura               | F001          |
+| 03     | Boleta de Venta       | B001          |
+| 07     | Nota de Crédito       | FN01 / BN01   |
+| 08     | Nota de Débito        | FD01 / BD01   |
 
-Diseñado con **AdminLTE 3.0**, incluye:
-
-- Dashboard con resumen de ventas
-- Gestión de rutas, destinos y horarios
-- Registro y edición de usuarios
-- Vista de ventas y estado de comprobantes
-- Estilo responsive y moderno
+### Ejecutar envío manual a SUNAT
+```bash
+php greenter/factura_bd.php [ID_COMPROBANTE]
+```
 
 ---
 
+## 📊 Módulos del Sistema
 
+### 🚌 Salidas Diarias
+- Programación de viajes con ruta, conductor y vehículo
+- Registro de pasajeros y encomiendas por viaje
+- Control de estados: Programado, En Ruta, Finalizado
+- Asistencia de pasajeros
+
+### 📦 Encomiendas
+- Registro de remitente y destinatario
+- Seguimiento por código único
+- Estados: Enviado, En Tránsito, Recibido
+- Control de pagos
+
+### 💰 Ingresos y Gastos
+- Registro por sucursal y usuario
+- Categorización por indicadores
+- Reportes de diferencias de caja
+- Cierre diario
+
+### 👤 Usuarios y Roles
+- Sistema de permisos por rol
+- Registro de actividad
+- Gestión de sucursales asignadas
+
+---
+
+## 📱 Capturas de Pantalla
+
+_(Puedes agregar imágenes del sistema aquí)_
+
+---
+
+## 🔐 Seguridad
+
+- Sesiones PHP con validación de usuario
+- Contraseñas hasheadas (recomendado usar `password_hash()`)
+- Validación de permisos por rol
+- Protección contra SQL Injection mediante PDO
+- Certificado digital para firma electrónica
+
+---
+
+## 🐛 Solución de Problemas
+
+### Error: "No se puede conectar a la base de datos"
+- Verifica que MySQL esté corriendo en el puerto 3307
+- Confirma usuario y contraseña en `model_conexion.php`
+
+### Error: "Class 'Greenter\...' not found"
+- Ejecuta `composer install` en la raíz del proyecto
+- Verifica que exista la carpeta `vendor/`
+
+### Error al enviar a SUNAT: "Certificado inválido"
+- Verifica que el archivo .pem esté en `greenter/certificados/`
+- Confirma que el certificado no haya expirado
+- Asegúrate de que el RUC coincida con el del certificado
+
+### Comprobante queda en estado PENDIENTE
+- Revisa los logs en `greenter/envio_log.txt`
+- Ejecuta manualmente: `php greenter/factura_bd.php [ID]`
+- Verifica conexión a internet
+
+---
+
+## 📝 Notas Importantes
+
+- El sistema usa el puerto **3307** para MySQL (no el estándar 3306)
+- La zona horaria está configurada para **America/Lima** (UTC-5)
+- Los archivos SQL incluyen datos de ejemplo
+- Se recomienda usar el modo **beta** de SUNAT para pruebas antes de producción
+
+---
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Por favor:
+1. Haz un fork del proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit tus cambios (`git commit -m 'Agregar nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
+
+---
 
 ## 👨‍💻 Autor
 
@@ -146,7 +325,14 @@ Puedes usarlo, modificarlo y distribuirlo libremente para fines académicos o co
 
 ## 🙌 Agradecimientos
 
-- [AdminLTE](https://adminlte.io)
-- [mPDF](https://mpdf.github.io)
-- [NubeFACT](https://nubefact.com)
+- [Greenter](https://github.com/thegreenter/greenter) - Biblioteca PHP para facturación electrónica SUNAT
+- [AdminLTE](https://adminlte.io) - Plantilla de administración
+- [mPDF](https://mpdf.github.io) - Generación de PDFs
+- [Composer](https://getcomposer.org) - Gestor de dependencias PHP
 - Comunidad PHP & Open Source
+
+---
+
+## 📞 Soporte
+
+Para reportar bugs o solicitar nuevas funcionalidades, abre un issue en GitHub o contacta al autor.

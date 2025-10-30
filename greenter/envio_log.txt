@@ -413,3 +413,16 @@ OUTPUT:
    Hash: yGX+lzmCmet+rq7OI1CQWEXH5uE=
 
 
+=========================
+FECHA: 2025-10-30 23:21:34
+ID COMPROBANTE: 81
+OUTPUT:
+📄 Procesando comprobante 03: B001-49
+📄 XML generado: xml/B001-49.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-49, ha sido aceptada
+   Código: 0
+   Hash: RqlROe91hPYLq4iprhiTK9nOfdc=
+
+
