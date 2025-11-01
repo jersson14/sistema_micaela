@@ -1,0 +1,132 @@
+[2025-11-01 16:04:37] Buscando comprobante ID: 93
+[2025-11-01 16:04:37] Resultado: Array
+(
+    [id_comprobante] => 93
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-01
+    [serie] => B001
+    [correlativo] => 61
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:05:56] Buscando comprobante ID: 94
+[2025-11-01 16:05:56] Resultado: Array
+(
+    [id_comprobante] => 94
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-01
+    [serie] => F001
+    [correlativo] => 9
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:07:04] Buscando comprobante ID: 95
+[2025-11-01 16:07:04] Resultado: Array
+(
+    [id_comprobante] => 95
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-01
+    [serie] => F001
+    [correlativo] => 10
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:28:31] Buscando comprobante ID: 96
+[2025-11-01 16:28:31] Resultado: Array
+(
+    [id_comprobante] => 96
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-01
+    [serie] => F001
+    [correlativo] => 11
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:29:20] Buscando comprobante ID: 92
+[2025-11-01 16:29:20] Resultado: Array
+(
+    [id_comprobante] => 92
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-01
+    [serie] => B001
+    [correlativo] => 60
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:29:34] Buscando comprobante ID: 91
+[2025-11-01 16:29:34] Resultado: Array
+(
+    [id_comprobante] => 91
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-01
+    [serie] => B001
+    [correlativo] => 59
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:31:09] Buscando comprobante ID: 97
+[2025-11-01 16:31:09] Resultado: Array
+(
+    [id_comprobante] => 97
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-01
+    [serie] => F001
+    [correlativo] => 12
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:32:07] Buscando comprobante ID: 98
+[2025-11-01 16:32:07] Resultado: Array
+(
+    [id_comprobante] => 98
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-01
+    [serie] => F001
+    [correlativo] => 13
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:39:46] Buscando comprobante ID: 99
+[2025-11-01 16:39:46] Resultado: Array
+(
+    [id_comprobante] => 99
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-01
+    [serie] => B001
+    [correlativo] => 62
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:41:55] Buscando comprobante ID: 84
+[2025-11-01 16:41:55] Resultado: Array
+(
+    [id_comprobante] => 84
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-01
+    [serie] => B001
+    [correlativo] => 52
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:43:51] Buscando comprobante ID: 100
+[2025-11-01 16:43:51] Resultado: Array
+(
+    [id_comprobante] => 100
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-01
+    [serie] => FN01
+    [correlativo] => 3
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-01 16:49:32] Buscando comprobante ID: 101
+[2025-11-01 16:49:32] Resultado: Array
+(
+    [id_comprobante] => 101
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-01
+    [serie] => F001
+    [correlativo] => 14
+    [estado_sunat] => PENDIENTE
+)
+

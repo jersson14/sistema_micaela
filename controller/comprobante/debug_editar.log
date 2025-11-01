@@ -476,3 +476,87 @@
     [fecha_viaje] => 2025-10-30
 )
 
+[2025-11-01 15:44:02] POST recibido: Array
+(
+    [accion] => OBTENER_COMPROBANTE_EDITAR
+    [id_comprobante] => 88
+)
+
+[2025-11-01 15:44:02] ID Comprobante: 88
+[2025-11-01 15:44:02] Resultado: Array
+(
+    [id_comprobante] => 88
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 56
+    [fecha_emision] => 2025-11-01
+    [moneda] => PEN
+    [subtotal] => 25.42
+    [total_gravada] => 25.42
+    [total_igv] => 4.58
+    [total] => 30.00
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [id_servicio] => 3
+    [id_origen] => 2
+    [iddestino] => 1
+    [idconductor] => 8
+    [id_cliente] => 57
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 71245652
+    [razon_social] => PATRICIA ALEJANDRA BARRETO POVES
+    [direccion] => AV. TARAPACA N° 213
+    [celular] => 987444111
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [distrito] => ABANCAY
+    [cantidad] => 1.0000
+    [precio_unitario] => 30.000000
+    [descripcion_servicio] => ENCOMIENDAS (CUSCO - ABANCAY)
+    [fecha_viaje] => 2025-11-01
+)
+
+[2025-11-01 16:28:55] POST recibido: Array
+(
+    [accion] => OBTENER_COMPROBANTE_EDITAR
+    [id_comprobante] => 92
+)
+
+[2025-11-01 16:28:55] ID Comprobante: 92
+[2025-11-01 16:28:55] Resultado: Array
+(
+    [id_comprobante] => 92
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 60
+    [fecha_emision] => 2025-11-01
+    [moneda] => PEN
+    [subtotal] => 25.42
+    [total_gravada] => 25.42
+    [total_igv] => 4.58
+    [total] => 30.00
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [id_servicio] => 3
+    [id_origen] => 2
+    [iddestino] => 1
+    [idconductor] => 7
+    [id_cliente] => 59
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 71256632
+    [razon_social] => ROSA ARACELI JORGE QUISPE
+    [direccion] => JR. GUATEMALA N° 233
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [distrito] => ABANCAY
+    [cantidad] => 1.0000
+    [precio_unitario] => 30.000000
+    [descripcion_servicio] => ENCOMIENDAS (CUSCO - ABANCAY)
+    [fecha_viaje] => 2025-11-01
+)
+

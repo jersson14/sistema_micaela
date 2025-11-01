@@ -179,71 +179,158 @@ elseif ($accion == 'REGISTRAR_COMPROBANTE') {
     }
 }
 
+
 // ============================================================
-// 3. ENVIAR A SUNAT
+// 3. ENVIAR A SUNAT (CORREGIDO)
+// ============================================================
+// ============================================================
+// 3. ENVIAR A SUNAT (CORREGIDO - LÍNEA ~195 del controller)
 // ============================================================
 elseif ($accion == 'ENVIAR_SUNAT') {
-    $id_comprobante = $_POST['id_comprobante'];
+    header('Content-Type: application/json; charset=utf-8');
+    
+    // 🔍 Verificar que llegue el ID
+    if (!isset($_POST['id_comprobante']) || empty($_POST['id_comprobante'])) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'No se recibió el ID del comprobante'
+        ]);
+        exit;
+    }
+    
+    $id_comprobante = intval($_POST['id_comprobante']);
+    
+    // 🔍 DEBUG
+    file_put_contents('debug_envio_sunat.log', 
+        '[' . date('Y-m-d H:i:s') . '] Intentando enviar comprobante ID: ' . $id_comprobante . PHP_EOL,
+        FILE_APPEND
+    );
+    
+    // 1️⃣ Obtener datos del comprobante
+    $comprobante = $MC->Obtener_Datos_Basicos_Comprobante($id_comprobante);
+    
+    // 🔍 DEBUG
+    file_put_contents('debug_envio_sunat.log', 
+        '[' . date('Y-m-d H:i:s') . '] Datos obtenidos: ' . print_r($comprobante, true) . PHP_EOL,
+        FILE_APPEND
+    );
+    
+    if (!$comprobante || !is_array($comprobante)) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Comprobante no encontrado. Verifique que el ID ' . $id_comprobante . ' exista en la base de datos.'
+        ]);
+        exit;
+    }
+    
+    // Verificar campos esenciales
+    if (empty($comprobante['serie']) || empty($comprobante['correlativo'])) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'El comprobante no tiene serie o correlativo'
+        ]);
+        exit;
+    }
+    
+    // 🔧 DETERMINAR NOMBRE DEL TIPO DE COMPROBANTE
+    $tipo_nombre = 'Comprobante'; // Valor por defecto
+    
+    if (isset($comprobante['tipo_comprobante']) && !empty($comprobante['tipo_comprobante'])) {
+        switch ($comprobante['tipo_comprobante']) {
+            case '01':
+                $tipo_nombre = 'Factura';
+                break;
+            case '03':
+                $tipo_nombre = 'Boleta';
+                break;
+            case '07':
+                $tipo_nombre = 'Nota de Crédito';
+                break;
+            case '08':
+                $tipo_nombre = 'Nota de Débito';
+                break;
+        }
+    }
+    
+    // 2️⃣ Generar nombres de archivos
+    $numero_completo = $comprobante['serie'] . '-' . str_pad($comprobante['correlativo'], 8, '0', STR_PAD_LEFT);
+    $nombre_cdr = 'R-' . $numero_completo . '.zip';
+    
+    // 3️⃣ Ejecutar script de Greenter
     $ruta_script = __DIR__ . '/../../greenter/factura_bd.php';
     $comando = "php \"$ruta_script\" $id_comprobante 2>&1";
     $output = shell_exec($comando);
 
-    // ======================================================
-    // 1️⃣ Registrar log del resultado
-    // ======================================================
+    // 4️⃣ Registrar log
     $log_file = __DIR__ . '/../../greenter/envio_log.txt';
     file_put_contents($log_file, "=========================\n", FILE_APPEND);
     file_put_contents($log_file, "FECHA: " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
     file_put_contents($log_file, "ID COMPROBANTE: $id_comprobante\n", FILE_APPEND);
+    file_put_contents($log_file, "TIPO: $tipo_nombre ($comprobante[tipo_comprobante])\n", FILE_APPEND);
+    file_put_contents($log_file, "NUMERO: $numero_completo\n", FILE_APPEND);
+    file_put_contents($log_file, "NOMBRE CDR: $nombre_cdr\n", FILE_APPEND);
     file_put_contents($log_file, "OUTPUT:\n$output\n\n", FILE_APPEND);
 
-    // ======================================================
-    // 2️⃣ Analizar respuesta de Greenter
-    // ======================================================
-    $output_lower = strtolower($output); // para comparación más confiable
+    // 5️⃣ Analizar respuesta
+    $output_lower = strtolower($output);
 
     if (strpos($output_lower, 'aceptado') !== false || strpos($output_lower, '¡éxito!') !== false) {
-        // Aceptado por SUNAT
-        $MC->Actualizar_Estado_SUNAT($id_comprobante, 'ACEPTADO');
+        // 6️⃣ Generar hash del CDR si existe
+        $ruta_cdr_info = $MC->Obtener_Ruta_CDR($comprobante['serie'], $comprobante['correlativo'], $comprobante['fecha_emision']);
+        $hash_cdr = null;
+        
+        if (file_exists($ruta_cdr_info['ruta_completa'])) {
+            $hash_cdr = hash_file('sha256', $ruta_cdr_info['ruta_completa']);
+        }
+        
+        // 7️⃣ Actualizar estado con mensaje correcto
+        $mensaje_aceptacion = "La {$tipo_nombre} numero {$numero_completo}, ha sido aceptada";
+        
+        $MC->Actualizar_Estado_SUNAT(
+            $id_comprobante, 
+            'ACEPTADO',
+            '0',
+            $mensaje_aceptacion,
+            $nombre_cdr,
+            $hash_cdr
+        );
 
         echo json_encode([
             'status'  => 'success',
-            'message' => '✅ Comprobante ACEPTADO por SUNAT',
-            'output'  => nl2br($output)
+            'message' => "✅ {$tipo_nombre} ACEPTADA por SUNAT",
+            'output'  => nl2br($output),
+            'nombre_cdr' => $nombre_cdr,
+            'hash_cdr' => $hash_cdr
         ]);
     } 
     elseif (strpos($output_lower, 'enviado') !== false) {
-        // En algunos casos SUNAT devuelve "ENVIADO"
         $MC->Actualizar_Estado_SUNAT($id_comprobante, 'ENVIADO');
 
         echo json_encode([
             'status'  => 'info',
-            'message' => '📤 Comprobante ENVIADO a SUNAT (pendiente de validación)',
+            'message' => "📤 {$tipo_nombre} ENVIADA a SUNAT",
             'output'  => nl2br($output)
         ]);
     } 
     elseif (strpos($output_lower, 'rechazado') !== false || strpos($output_lower, 'error') !== false) {
-        // Rechazado por SUNAT
-        $MC->Actualizar_Estado_SUNAT($id_comprobante, 'RECHAZADO');
+        $MC->Actualizar_Estado_SUNAT($id_comprobante, 'RECHAZADO', null, $output);
 
         echo json_encode([
             'status'  => 'error',
-            'message' => '❌ Comprobante RECHAZADO por SUNAT',
+            'message' => "❌ {$tipo_nombre} RECHAZADA por SUNAT",
             'output'  => nl2br($output)
         ]);
     } 
     else {
-        // Caso desconocido o sin coincidencias
-        $MC->Actualizar_Estado_SUNAT($id_comprobante, 'ERROR');
+        $MC->Actualizar_Estado_SUNAT($id_comprobante, 'ERROR', null, $output);
 
         echo json_encode([
             'status'  => 'error',
-            'message' => '⚠️ No se pudo determinar el estado del comprobante (revisa el log)',
+            'message' => '⚠️ No se pudo determinar el estado',
             'output'  => nl2br($output)
         ]);
     }
 }
-
 // ============================================================
 // 4. LISTAR COMPROBANTES
 // ============================================================

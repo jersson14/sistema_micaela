@@ -426,3 +426,306 @@ OUTPUT:
    Hash: RqlROe91hPYLq4iprhiTK9nOfdc=
 
 
+=========================
+FECHA: 2025-11-01 14:08:21
+ID COMPROBANTE: 85
+NOMBRE CDR: R-B001-00000053.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-53
+📄 XML generado: xml/B001-53.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-53, ha sido aceptada
+   Código: 0
+   Hash: qROgplZpCI0JODCvnl5wyWpvTe0=
+
+
+=========================
+FECHA: 2025-11-01 14:09:11
+ID COMPROBANTE: 83
+NOMBRE CDR: R-B001-00000051.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-51
+📄 XML generado: xml/B001-51.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-51, ha sido aceptada
+   Código: 0
+   Hash: 6WIQ0VZBEwogcOsymkwr3titIew=
+
+
+=========================
+FECHA: 2025-11-01 15:30:14
+ID COMPROBANTE: 86
+NOMBRE CDR: R-B001-00000054.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-54
+📄 XML generado: xml/B001-54.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-54, ha sido aceptada
+   Código: 0
+   Hash: 4NBVk0odb1JW3tsu1XaBe1JqIbo=
+
+
+=========================
+FECHA: 2025-11-01 15:36:08
+ID COMPROBANTE: 87
+NOMBRE CDR: R-B001-00000055.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-55
+📄 XML generado: xml/B001-55.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-55, ha sido aceptada
+   Código: 0
+   Hash: srMeP2D1jdyWIEiw8HW7N86FSbM=
+
+
+=========================
+FECHA: 2025-11-01 15:39:47
+ID COMPROBANTE: 82
+NOMBRE CDR: R-B001-00000050.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-50
+📄 XML generado: xml/B001-50.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-50, ha sido aceptada
+   Código: 0
+   Hash: bOmuMKSKCohCKiY/FCJrmelSLko=
+
+
+=========================
+FECHA: 2025-11-01 15:44:29
+ID COMPROBANTE: 88
+NOMBRE CDR: R-B001-00000056.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-56
+📄 XML generado: xml/B001-56.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-56, ha sido aceptada
+   Código: 0
+   Hash: BVdvQNxUV3eSTC6S2czCXYESiWw=
+
+
+=========================
+FECHA: 2025-11-01 15:48:56
+ID COMPROBANTE: 89
+NOMBRE CDR: R-B001-00000057.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-57
+📄 XML generado: xml/B001-57.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-57, ha sido aceptada
+   Código: 0
+   Hash: bnQH1K9UkST5HzNPwT+fbSXpAKs=
+
+
+=========================
+FECHA: 2025-11-01 15:59:17
+ID COMPROBANTE: 90
+TIPO: Comprobante
+NOMBRE CDR: R-B001-00000058.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-58
+📄 XML generado: xml/B001-58.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-58, ha sido aceptada
+   Código: 0
+   Hash: SVMonoMxHWDePZwxjUXzLuDz1uA=
+
+
+=========================
+FECHA: 2025-11-01 16:04:38
+ID COMPROBANTE: 93
+TIPO: Boleta (03)
+NUMERO: B001-00000061
+NOMBRE CDR: R-B001-00000061.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-61
+📄 XML generado: xml/B001-61.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-61, ha sido aceptada
+   Código: 0
+   Hash: 3C+MCVZvubD6P57M1RlIm23ZMXA=
+
+
+=========================
+FECHA: 2025-11-01 16:05:56
+ID COMPROBANTE: 94
+TIPO: Factura (01)
+NUMERO: F001-00000009
+NOMBRE CDR: R-F001-00000009.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-9
+📄 XML generado: xml/F001-9.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 3103
+Mensaje: El producto del factor y monto base de la afectación del IGV/IVAP no corresponde al monto de afectacion de linea. - Detalle: xxx.xxx.xxx value='ticket: 1762009716841 error: Error en la linea: 1 Tributo: 1000, MontoTributoCalculado: 4.5756000000000006, MontoTributo: 9.15, BaseImponible: 25.42, Tasa: 18: 3103 (nodo: "cac:TaxSubtotal/cbc:TaxAmount" valor: "9.15")'
+
+
+=========================
+FECHA: 2025-11-01 16:07:04
+ID COMPROBANTE: 95
+TIPO: Factura (01)
+NUMERO: F001-00000010
+NOMBRE CDR: R-F001-00000010.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-10
+📄 XML generado: xml/F001-10.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-10, ha sido aceptada
+   Código: 0
+   Hash: tzOkAFsFdkdRbq5Rj7xCnXo96/c=
+
+
+=========================
+FECHA: 2025-11-01 16:28:31
+ID COMPROBANTE: 96
+TIPO: Factura (01)
+NUMERO: F001-00000011
+NOMBRE CDR: R-F001-00000011.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-11
+📄 XML generado: xml/F001-11.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-11, ha sido aceptada
+   Código: 0
+   Hash: QhboBkdePWlALX0g4ultOHx89fA=
+
+
+=========================
+FECHA: 2025-11-01 16:29:21
+ID COMPROBANTE: 92
+TIPO: Boleta (03)
+NUMERO: B001-00000060
+NOMBRE CDR: R-B001-00000060.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-60
+📄 XML generado: xml/B001-60.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 2017
+Mensaje: El numero de documento de identidad del receptor debe ser  RUC - Detalle: xxx.xxx.xxx value='ticket: 1762011121507 error: INFO: 2017 (nodo: "cac:PartyIdentification/cbc:ID" valor: "71256632")'
+
+
+=========================
+FECHA: 2025-11-01 16:29:35
+ID COMPROBANTE: 91
+TIPO: Boleta (03)
+NUMERO: B001-00000059
+NOMBRE CDR: R-B001-00000059.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-59
+📄 XML generado: xml/B001-59.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 2017
+Mensaje: El numero de documento de identidad del receptor debe ser  RUC - Detalle: xxx.xxx.xxx value='ticket: 1762011135390 error: INFO: 2017 (nodo: "cac:PartyIdentification/cbc:ID" valor: "71256632")'
+
+
+=========================
+FECHA: 2025-11-01 16:31:10
+ID COMPROBANTE: 97
+TIPO: Factura (01)
+NUMERO: F001-00000012
+NOMBRE CDR: R-F001-00000012.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-12
+📄 XML generado: xml/F001-12.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-12, ha sido aceptada
+   Código: 0
+   Hash: 94QOaacfYrsoQIvJGIrRQ5x+gio=
+
+
+=========================
+FECHA: 2025-11-01 16:32:07
+ID COMPROBANTE: 98
+TIPO: Factura (01)
+NUMERO: F001-00000013
+NOMBRE CDR: R-F001-00000013.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-13
+📄 XML generado: xml/F001-13.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-13, ha sido aceptada
+   Código: 0
+   Hash: VA2w2RHOmAwqN3hHQYM9R9IZYFQ=
+
+
+=========================
+FECHA: 2025-11-01 16:39:46
+ID COMPROBANTE: 99
+TIPO: Boleta (03)
+NUMERO: B001-00000062
+NOMBRE CDR: R-B001-00000062.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-62
+📄 XML generado: xml/B001-62.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-62, ha sido aceptada
+   Código: 0
+   Hash: WPcKdyEQBtMpJYgu87vI2Yp50yI=
+
+
+=========================
+FECHA: 2025-11-01 16:41:56
+ID COMPROBANTE: 84
+TIPO: Boleta (03)
+NUMERO: B001-00000052
+NOMBRE CDR: R-B001-00000052.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-52
+📄 XML generado: xml/B001-52.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-52, ha sido aceptada
+   Código: 0
+   Hash: WQ6VfLunx+asESqLW+izdvUyn+s=
+
+
+=========================
+FECHA: 2025-11-01 16:43:52
+ID COMPROBANTE: 100
+TIPO: Nota de Crédito (07)
+NUMERO: FN01-00000003
+NOMBRE CDR: R-FN01-00000003.zip
+OUTPUT:
+📄 Procesando comprobante 07: FN01-3
+📌 Documento de referencia: 01 (F001-12)
+📄 XML generado: xml/FN01-3.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Credito numero FN01-3, ha sido aceptada
+   Código: 0
+   Hash: swcB7QFSkHXjTmEQZV0Kz3vF1WM=
+
+
+=========================
+FECHA: 2025-11-01 16:49:33
+ID COMPROBANTE: 101
+TIPO: Factura (01)
+NUMERO: F001-00000014
+NOMBRE CDR: R-F001-00000014.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-14
+📄 XML generado: xml/F001-14.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-14, ha sido aceptada
+   Código: 0
+   Hash: FNmTlFFJm+mEDnbUu85rU8v64gI=
+
+

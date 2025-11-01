@@ -14,3 +14,88 @@
   Celular: 987444110
 [2025-10-30 17:37:33] Cliente existe: SI (ID: 50)
 [2025-10-30 17:37:33] ✅ Cliente actualizado correctamente
+[2025-11-01 07:52:36] Registrar_Cliente_SUNAT llamado
+[2025-11-01 07:52:36] ❌ EXCEPTION en Registrar_Cliente_SUNAT: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '6-20177395227' for key 'unique_documento'
+[2025-11-01 07:52:41] Registrar_Cliente_SUNAT llamado
+[2025-11-01 07:52:41] ❌ EXCEPTION en Registrar_Cliente_SUNAT: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '6-20177395227' for key 'unique_documento'
+[2025-11-01 07:53:03] Registrar_Cliente_SUNAT llamado
+[2025-11-01 07:53:03] ❌ EXCEPTION en Registrar_Cliente_SUNAT: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '6-20177395227' for key 'unique_documento'
+[2025-11-01 07:56:29] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20177395227
+[2025-11-01 07:56:29] Cliente ya existe (ID: 11), actualizando...
+[2025-11-01 07:56:29] ✅ Cliente actualizado
+[2025-11-01 08:00:01] Registrar_Cliente_SUNAT llamado
+  Num Doc: 72414522
+[2025-11-01 08:00:01] Cliente no existe, insertando nuevo...
+[2025-11-01 08:00:01] ✅ Cliente registrado con ID: 54
+[2025-11-01 08:08:20] Registrar_Cliente_SUNAT llamado
+  Num Doc: 72415255
+[2025-11-01 08:08:20] Cliente no existe, insertando nuevo...
+[2025-11-01 08:08:20] ✅ Cliente registrado con ID: 55
+[2025-11-01 09:30:13] Registrar_Cliente_SUNAT llamado
+  Num Doc: 72646121
+[2025-11-01 09:30:13] Cliente ya existe (ID: 4), actualizando...
+[2025-11-01 09:30:13] ✅ Cliente actualizado
+[2025-11-01 09:36:07] Registrar_Cliente_SUNAT llamado
+  Num Doc: 72410012
+[2025-11-01 09:36:07] Cliente no existe, insertando nuevo...
+[2025-11-01 09:36:07] ✅ Cliente registrado con ID: 56
+[2025-11-01 09:43:37] Registrar_Cliente_SUNAT llamado
+  Num Doc: 71245652
+[2025-11-01 09:43:37] Cliente no existe, insertando nuevo...
+[2025-11-01 09:43:37] ✅ Cliente registrado con ID: 57
+[2025-11-01 09:48:56] Registrar_Cliente_SUNAT llamado
+  Num Doc: 71245212
+[2025-11-01 09:48:56] Cliente no existe, insertando nuevo...
+[2025-11-01 09:48:56] ✅ Cliente registrado con ID: 58
+[2025-11-01 09:59:17] Registrar_Cliente_SUNAT llamado
+  Num Doc: 72646121
+[2025-11-01 09:59:17] Cliente ya existe (ID: 4), actualizando...
+[2025-11-01 09:59:17] ✅ Cliente actualizado
+[2025-11-01 10:01:40] Registrar_Cliente_SUNAT llamado
+  Num Doc: 71256632
+[2025-11-01 10:01:40] Cliente no existe, insertando nuevo...
+[2025-11-01 10:01:40] ✅ Cliente registrado con ID: 59
+[2025-11-01 10:02:11] Registrar_Cliente_SUNAT llamado
+  Num Doc: 71256632
+[2025-11-01 10:02:11] Cliente ya existe (ID: 59), actualizando...
+[2025-11-01 10:02:11] ✅ Cliente actualizado
+[2025-11-01 10:04:37] Registrar_Cliente_SUNAT llamado
+  Num Doc: 71245847
+[2025-11-01 10:04:37] Cliente no existe, insertando nuevo...
+[2025-11-01 10:04:37] ✅ Cliente registrado con ID: 60
+[2025-11-01 10:05:56] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-11-01 10:05:56] Cliente ya existe (ID: 3), actualizando...
+[2025-11-01 10:05:56] ✅ Cliente actualizado
+[2025-11-01 10:07:04] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-11-01 10:07:04] Cliente ya existe (ID: 3), actualizando...
+[2025-11-01 10:07:04] ✅ Cliente actualizado
+[2025-11-01 10:28:31] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-11-01 10:28:31] Cliente ya existe (ID: 2), actualizando...
+[2025-11-01 10:28:31] ✅ Cliente actualizado
+[2025-11-01 10:29:15] Actualizar_Cliente_SUNAT llamado con:
+  Tipo Doc: 6
+  Num Doc: 71256632
+  Razón: ROSA ARACELI JORGE QUISPE
+  Celular: 
+[2025-11-01 10:29:15] Cliente existe: SI (ID: 59)
+[2025-11-01 10:29:15] ✅ Cliente actualizado correctamente
+[2025-11-01 10:31:09] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-11-01 10:31:09] Cliente ya existe (ID: 2), actualizando...
+[2025-11-01 10:31:09] ✅ Cliente actualizado
+[2025-11-01 10:31:56] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20185851975
+[2025-11-01 10:31:56] Cliente no existe, insertando nuevo...
+[2025-11-01 10:31:56] ✅ Cliente registrado con ID: 61
+[2025-11-01 10:39:37] Registrar_Cliente_SUNAT llamado
+  Num Doc: 72414411
+[2025-11-01 10:39:37] Cliente no existe, insertando nuevo...
+[2025-11-01 10:39:37] ✅ Cliente registrado con ID: 62
+[2025-11-01 10:49:32] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20185851975
+[2025-11-01 10:49:32] Cliente ya existe (ID: 61), actualizando...
+[2025-11-01 10:49:32] ✅ Cliente actualizado

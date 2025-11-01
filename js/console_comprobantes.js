@@ -148,38 +148,55 @@ function Traerprecio(id) {
 
 // 🔄 Función para calcular BASE GRAVADA desde el TOTAL
 function calcularDesdeTotal() {
-  var total = parseFloat(document.getElementById("txt_total").value) || 0;
+  // Obtener el precio UNITARIO con IGV
+  var precioUnitarioConIGV = parseFloat(document.getElementById("txt_total").value) || 0;
   var cantidad = parseFloat(document.getElementById("txt_cantidad").value) || 0;
 
-  if (cantidad === 0) cantidad = 1; // Evitar división por cero
-
-  // Total con IGV = Base Gravada × cantidad × 1.18
-  // Entonces: Base Gravada = Total / (cantidad × 1.18)
-  var baseGravada = total / (cantidad * 1.18);
+  // Validar cantidad mínima
+  if (cantidad === 0) cantidad = 1;
   
-  // IGV = Total - (Base Gravada × cantidad)
-  var subtotal = baseGravada * cantidad;
-  var igv = total - subtotal;
+  // ✅ PASO 1: Calcular base gravada UNITARIA (sin IGV)
+  // Precio unitario con IGV = Base Gravada Unitaria × 1.18
+  // Base Gravada Unitaria = Precio unitario con IGV / 1.18
+  var baseGravadaUnitaria = precioUnitarioConIGV / 1.18;
+  
+  // ✅ PASO 2: Multiplicar por la cantidad
+  var baseGravadaTotal = baseGravadaUnitaria * cantidad;
+  
+  // ✅ PASO 3: Calcular IGV (18% de la base gravada total)
+  var igvTotal = baseGravadaTotal * 0.18;
+  
+  // ✅ PASO 4: Calcular total general
+  var totalGeneral = baseGravadaTotal + igvTotal;
+  // O también: var totalGeneral = precioUnitarioConIGV * cantidad;
 
-  // Mostrar valores con 2 decimales
-  document.getElementById("txt_base_gravada").value = baseGravada.toFixed(2);
-  document.getElementById("txt_igv").value = igv.toFixed(2);
+  // Actualizar campos con 2 decimales
+  document.getElementById("txt_base_gravada").value = baseGravadaTotal.toFixed(2);
+  document.getElementById("txt_igv").value = igvTotal.toFixed(2);
+  document.getElementById("txt_total").value = totalGeneral.toFixed(2);
 }
 
-// ✅ También necesitas esta para cuando cambien cantidad o total manualmente
-function calcularTotales() {
-  // Esta función ya no se usa desde Traerprecio, 
-  // pero la puedes mantener si quieres calcular hacia adelante en otros casos
-  var baseGravada = parseFloat(document.getElementById("txt_base_gravada").value) || 0;
-  var cantidad = parseFloat(document.getElementById("txt_cantidad").value) || 0;
+// ============================================================
+// EVENTOS - Conectar con los campos del formulario
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // Cuando cambia el precio unitario
+  var inputTotal = document.getElementById("txt_total");
+  if (inputTotal) {
+    inputTotal.addEventListener("input", calcularDesdeTotal);
+    inputTotal.addEventListener("blur", calcularDesdeTotal);
+  }
+  
+  // Cuando cambia la cantidad
+  var inputCantidad = document.getElementById("txt_cantidad");
+  if (inputCantidad) {
+    inputCantidad.addEventListener("input", calcularDesdeTotal);
+    inputCantidad.addEventListener("blur", calcularDesdeTotal);
+    inputCantidad.addEventListener("change", calcularDesdeTotal);
+  }
+});
 
-  var subtotal = baseGravada * cantidad;
-  var igv = subtotal * 0.18;
-  var total = subtotal + igv;
-
-  document.getElementById("txt_igv").value = igv.toFixed(2);
-  document.getElementById("txt_total").value = total.toFixed(2);
-}
 
 // LIMPIAR TOTALES
 function limpiarTotales() {
@@ -328,7 +345,6 @@ function buscarCliente() {
   }
 }
 
-// GUARDAR COMPROBANTE
 // ======================================================
 // GUARDAR COMPROBANTE - CORREGIDO Y COMPLETO
 // ======================================================
@@ -414,6 +430,15 @@ function guardarComprobante(estadoSunat) {
     return Swal.fire("Advertencia", "Ingrese un IGV válido", "warning");
   if (!total || total <= 0)
     return Swal.fire("Advertencia", "El total no puede ser 0", "warning");
+
+  if (id_origen === id_destino) {
+  return Swal.fire({
+    icon: "warning",
+    title: "Origen y Destino iguales",
+    text: "La ruta de ORIGEN y DESTINO no pueden ser iguales. Por favor seleccione rutas diferentes.",
+    confirmButtonText: "Entendido"
+  });
+}
 
   // 3️⃣ CONSTRUIR OBJETO formData - SINTAXIS EXPLÍCITA
   let formData = {
@@ -628,6 +653,14 @@ function guardarComprobanteYEnviar() {
       "warning"
     );
   }
+  if (id_origen === id_destino) {
+  return Swal.fire({
+    icon: "warning",
+    title: "Origen y Destino iguales",
+    text: "La ruta de ORIGEN y DESTINO no pueden ser iguales. Por favor seleccione rutas diferentes.",
+    confirmButtonText: "Entendido"
+  });
+}
 
   // Construir objeto de envío
   let formData = {
@@ -1708,17 +1741,18 @@ function confirmarAnulacion() {
 // DESCARGAR XML
 // ============================================================
 function descargarXML(serie, correlativo) {
-  let url = "../greenter/xml/" + serie + "-" + correlativo + ".xml";
-  window.open(url, "_blank");
+    let url = "../greenter/xml/" + serie + "-" + correlativo + ".xml";
+    window.open(url, "_blank");
 }
 
 // ============================================================
 // DESCARGAR CDR
 // ============================================================
 function descargarCDR(serie, correlativo) {
-  let url = "../greenter/cdr/R-" + serie + "-" + correlativo + ".zip";
-  window.open(url, "_blank");
+    let url = "../greenter/cdr/R-" + serie + "-" + correlativo + ".zip";
+    window.open(url, "_blank");
 }
+
 
 // ============================================================
 // IMPRIMIR TICKET
@@ -2293,22 +2327,32 @@ $(document).on("change input", "#edit_cantidad, #edit_total", function () {
     calcularDesdeTotalEditar();
 });
 
-// ============================================================
-// FUNCIÓN PARA CALCULAR DESDE EL TOTAL (EDICIÓN)
-// ============================================================
 function calcularDesdeTotalEditar() {
-    var total = parseFloat($("#edit_total").val()) || 0;
-    var cantidad = parseFloat($("#edit_cantidad").val()) || 1;
+    // Obtener el precio UNITARIO con IGV
+    var precioUnitarioConIGV = parseFloat($("#edit_total").val()) || 0;
+    var cantidad = parseFloat($("#edit_cantidad").val()) || 0;
 
+    // Validar cantidad mínima
     if (cantidad === 0) cantidad = 1;
+    
+    // ✅ PASO 1: Calcular base gravada UNITARIA (sin IGV)
+    var baseGravadaUnitaria = precioUnitarioConIGV / 1.18;
+    
+    // ✅ PASO 2: Multiplicar por la cantidad
+    var baseGravadaTotal = baseGravadaUnitaria * cantidad;
+    
+    // ✅ PASO 3: Calcular IGV (18% de la base gravada total)
+    var igvTotal = baseGravadaTotal * 0.18;
+    
+    // ✅ PASO 4: Calcular total general
+    var totalGeneral = precioUnitarioConIGV * cantidad;
 
-    var baseGravada = total / (cantidad * 1.18);
-    var subtotal = baseGravada * cantidad;
-    var igv = total - subtotal;
-
-    $("#edit_base_gravada").val(baseGravada.toFixed(2));
-    $("#edit_igv").val(igv.toFixed(2));
+    // Actualizar campos con 2 decimales
+    $("#edit_base_gravada").val(baseGravadaTotal.toFixed(2));
+    $("#edit_igv").val(igvTotal.toFixed(2));
+    $("#edit_total").val(totalGeneral.toFixed(2));
 }
+
 
 // ============================================================
 // TRAER PRECIO DEL SERVICIO (EDICIÓN)

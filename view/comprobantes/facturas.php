@@ -156,7 +156,7 @@
                             </div>
                             <div class="col-md-3 form-group">
                                 <label for="">Fecha y Hora de Viaje <b style="color:red">(*)</b>:</label>
-                                <input type="datetime-local" class="form-control" id="txt_fecha_viaje" readonly>
+                                <input type="datetime-local" class="form-control" id="txt_fecha_viaje" >
                             </div>
 
                             <div class="col-md-4 form-group">

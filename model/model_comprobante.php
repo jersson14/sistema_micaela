@@ -8,6 +8,9 @@ class Modelo_Comprobantes extends conexionBD
     // ========================================
     // REGISTRAR O ACTUALIZAR CLIENTE
     // ========================================
+// ========================================
+// REGISTRAR O ACTUALIZAR CLIENTE
+// ========================================
 public function Registrar_Cliente_SUNAT(
     $tipo_documento,
     $numero_documento,
@@ -23,11 +26,72 @@ public function Registrar_Cliente_SUNAT(
     
     try {
         file_put_contents('debug_modelo.log', 
-            '[' . date('Y-m-d H:i:s') . '] Registrar_Cliente_SUNAT llamado' . PHP_EOL,
+            '[' . date('Y-m-d H:i:s') . '] Registrar_Cliente_SUNAT llamado' . PHP_EOL .
+            '  Num Doc: ' . $numero_documento . PHP_EOL,
             FILE_APPEND
         );
         
-        // ⚠️ La columna es "telefono" NO "celular"
+        // ✅ PRIMERO VERIFICAR SI YA EXISTE
+        $sql_check = "SELECT id_cliente FROM cliente_sunat WHERE numero_documento = ? LIMIT 1";
+        $query_check = $c->prepare($sql_check);
+        $query_check->execute([$numero_documento]);
+        $existe = $query_check->fetch(PDO::FETCH_ASSOC);
+        
+        if ($existe) {
+            // ✅ YA EXISTE → Actualizar
+            file_put_contents('debug_modelo.log', 
+                '[' . date('Y-m-d H:i:s') . '] Cliente ya existe (ID: ' . $existe['id_cliente'] . '), actualizando...' . PHP_EOL,
+                FILE_APPEND
+            );
+            
+            $sql_update = "UPDATE cliente_sunat SET
+                    tipo_documento = ?,
+                    razon_social = ?,
+                    direccion = ?,
+                    telefono = ?,
+                    departamento = ?,
+                    provincia = ?,
+                    distrito = ?,
+                    ubigeo = ?,
+                    updated_at = NOW()
+                WHERE numero_documento = ?";
+            
+            $query_update = $c->prepare($sql_update);
+            $resultado_update = $query_update->execute([
+                $tipo_documento,
+                $razon_social,
+                $direccion,
+                $celular,
+                $departamento,
+                $provincia,
+                $distrito,
+                $ubigeo,
+                $numero_documento
+            ]);
+            
+            if (!$resultado_update) {
+                $errorInfo = $query_update->errorInfo();
+                file_put_contents('debug_modelo.log', 
+                    '[' . date('Y-m-d H:i:s') . '] ❌ ERROR UPDATE: ' . print_r($errorInfo, true) . PHP_EOL,
+                    FILE_APPEND
+                );
+                return 0;
+            }
+            
+            file_put_contents('debug_modelo.log', 
+                '[' . date('Y-m-d H:i:s') . '] ✅ Cliente actualizado' . PHP_EOL,
+                FILE_APPEND
+            );
+            
+            return $existe['id_cliente'];
+        }
+        
+        // ✅ NO EXISTE → Insertar nuevo
+        file_put_contents('debug_modelo.log', 
+            '[' . date('Y-m-d H:i:s') . '] Cliente no existe, insertando nuevo...' . PHP_EOL,
+            FILE_APPEND
+        );
+        
         $sql = "INSERT INTO cliente_sunat (
                     tipo_documento,
                     numero_documento,
@@ -49,7 +113,7 @@ public function Registrar_Cliente_SUNAT(
             $numero_documento,
             $razon_social,
             $direccion,
-            $celular,  // Se guarda en la columna "telefono"
+            $celular,
             $departamento,
             $provincia,
             $distrito,
@@ -59,7 +123,7 @@ public function Registrar_Cliente_SUNAT(
         if (!$resultado) {
             $errorInfo = $query->errorInfo();
             file_put_contents('debug_modelo.log', 
-                '[' . date('Y-m-d H:i:s') . '] ❌ ERROR INSERT cliente: ' . print_r($errorInfo, true) . PHP_EOL,
+                '[' . date('Y-m-d H:i:s') . '] ❌ ERROR INSERT: ' . print_r($errorInfo, true) . PHP_EOL,
                 FILE_APPEND
             );
             return 0;
@@ -76,7 +140,7 @@ public function Registrar_Cliente_SUNAT(
         
     } catch (Exception $e) {
         file_put_contents('debug_modelo.log', 
-            '[' . date('Y-m-d H:i:s') . '] ❌ EXCEPTION en Registrar_Cliente_SUNAT: ' . $e->getMessage() . PHP_EOL,
+            '[' . date('Y-m-d H:i:s') . '] ❌ EXCEPTION: ' . $e->getMessage() . PHP_EOL,
             FILE_APPEND
         );
         error_log("Error en Registrar_Cliente_SUNAT: " . $e->getMessage());
@@ -355,16 +419,110 @@ WHERE c.id_comprobante =?";
     // ========================================
     // ACTUALIZAR ESTADO SUNAT
     // ========================================
-    public function Actualizar_Estado_SUNAT($id_comprobante, $estado)
-    {
-        $c = conexionBD::conexionPDO();
-        $sql = "UPDATE comprobantes SET estado_sunat = ? WHERE id_comprobante = ?";
+// ========================================
+// ACTUALIZAR NOMBRE ARCHIVO CDR DESPUÉS DE ENVIAR A SUNAT
+// ========================================
+public function Actualizar_Archivo_CDR($id_comprobante, $nombre_archivo_cdr, $hash_cdr = null) {
+    $c = conexionBD::conexionPDO();
+    
+    try {
+        $sql = "UPDATE comprobantes SET
+                nombre_archivo_cdr = ?,
+                hash_cdr = ?,
+                updated_at = NOW()
+            WHERE id_comprobante = ?";
+        
         $query = $c->prepare($sql);
-        $query->bindParam(1, $estado);
-        $query->bindParam(2, $id_comprobante);
-        $query->execute();
+        $query->execute([
+            $nombre_archivo_cdr,
+            $hash_cdr,
+            $id_comprobante
+        ]);
+        
+        return true;
+        
+    } catch (Exception $e) {
+        error_log("Error en Actualizar_Archivo_CDR: " . $e->getMessage());
+        return false;
+    } finally {
         conexionBD::cerrar_conexion();
     }
+}
+
+// ========================================
+// ACTUALIZAR ESTADO SUNAT (MODIFICADO PARA INCLUIR CDR)
+// ========================================
+public function Actualizar_Estado_SUNAT($id_comprobante, $estado, $codigo_respuesta = null, $descripcion_respuesta = null, $nombre_cdr = null, $hash_cdr = null) {
+    $c = conexionBD::conexionPDO();
+    
+    try {
+        $sql = "UPDATE comprobantes SET
+                estado_sunat = ?,
+                codigo_respuesta_sunat = ?,
+                descripcion_respuesta_sunat = ?,
+                fecha_envio_sunat = NOW(),
+                nombre_archivo_cdr = ?,
+                hash_cdr = ?,
+                updated_at = NOW()
+            WHERE id_comprobante = ?";
+        
+        $query = $c->prepare($sql);
+        $query->execute([
+            $estado,
+            $codigo_respuesta,
+            $descripcion_respuesta,
+            $nombre_cdr,
+            $hash_cdr,
+            $id_comprobante
+        ]);
+        
+        return true;
+        
+    } catch (Exception $e) {
+        error_log("Error en Actualizar_Estado_SUNAT: " . $e->getMessage());
+        return false;
+    } finally {
+        conexionBD::cerrar_conexion();
+    }
+}
+
+// ========================================
+// OBTENER RUTA COMPLETA DE XML
+// ========================================
+public function Obtener_Ruta_XML($serie, $correlativo, $fecha_emision) {
+    $anio = date('Y', strtotime($fecha_emision));
+    $mes = date('m', strtotime($fecha_emision));
+    
+    $nombre_archivo = $serie . '-' . str_pad($correlativo, 8, '0', STR_PAD_LEFT) . '.xml';
+    $ruta_relativa = 'xml/' . $anio . '/' . $mes . '/';
+    $ruta_completa = __DIR__ . '/../../greenter/' . $ruta_relativa . $nombre_archivo;
+    
+    return [
+        'nombre' => $nombre_archivo,
+        'ruta_relativa' => $ruta_relativa,
+        'ruta_completa' => $ruta_completa,
+        'ruta_carpeta' => __DIR__ . '/../../greenter/' . $ruta_relativa
+    ];
+}
+
+// ========================================
+// OBTENER RUTA COMPLETA DE CDR
+// ========================================
+public function Obtener_Ruta_CDR($serie, $correlativo, $fecha_emision) {
+    $anio = date('Y', strtotime($fecha_emision));
+    $mes = date('m', strtotime($fecha_emision));
+    
+    $nombre_archivo = 'R-' . $serie . '-' . str_pad($correlativo, 8, '0', STR_PAD_LEFT) . '.zip';
+    $ruta_relativa = 'cdr/' . $anio . '/' . $mes . '/';
+    $ruta_completa = __DIR__ . '/../../greenter/' . $ruta_relativa . $nombre_archivo;
+    
+    return [
+        'nombre' => $nombre_archivo,
+        'ruta_relativa' => $ruta_relativa,
+        'ruta_completa' => $ruta_completa,
+        'ruta_carpeta' => __DIR__ . '/../../greenter/' . $ruta_relativa
+    ];
+}
 
 
     // ========================================
@@ -1293,30 +1451,70 @@ public function Verificar_Boleta_Anulable($id_comprobante)
         conexionBD::cerrar_conexion();
     }
 }
+
 // ============================================================
 // OBTENER DATOS BÁSICOS DEL COMPROBANTE
 // ============================================================
+// ============================================================
+// VERIFICAR Y CORREGIR EN model_comprobante.php
+// Busca la función Obtener_Datos_Basicos_Comprobante
+// ============================================================
+
+// ❌ SI LA FUNCIÓN ACTUAL SE VE ASÍ (INCORRECTA):
+
+
+// ✅ REEMPLÁZALA CON ESTA VERSIÓN COMPLETA:
 public function Obtener_Datos_Basicos_Comprobante($id_comprobante)
 {
     $c = conexionBD::conexionPDO();
     
     try {
-        $sql = "SELECT fecha_emision, serie, correlativo 
+        // 🔍 DEBUG: Ver qué ID estamos buscando
+        file_put_contents('debug_obtener_datos.log', 
+            '[' . date('Y-m-d H:i:s') . '] Buscando comprobante ID: ' . $id_comprobante . PHP_EOL,
+            FILE_APPEND
+        );
+        
+        $sql = "SELECT 
+                    id_comprobante,
+                    tipo_comprobante,
+                    fecha_emision, 
+                    serie, 
+                    correlativo,
+                    estado_sunat
                 FROM comprobantes 
                 WHERE id_comprobante = ?";
         
         $query = $c->prepare($sql);
-        $query->execute([$id_comprobante]);
+        $query->bindParam(1, $id_comprobante, PDO::PARAM_INT);
+        $query->execute();
         
-        return $query->fetch(PDO::FETCH_ASSOC);
+        $resultado = $query->fetch(PDO::FETCH_ASSOC);
+        
+        // 🔍 DEBUG: Ver qué encontramos
+        file_put_contents('debug_obtener_datos.log', 
+            '[' . date('Y-m-d H:i:s') . '] Resultado: ' . print_r($resultado, true) . PHP_EOL,
+            FILE_APPEND
+        );
+        
+        // ✅ Si no hay resultado, devolver array vacío en lugar de false
+        if (!$resultado) {
+            return null;
+        }
+        
+        return $resultado;
         
     } catch (Exception $e) {
+        file_put_contents('debug_obtener_datos.log', 
+            '[' . date('Y-m-d H:i:s') . '] ERROR: ' . $e->getMessage() . PHP_EOL,
+            FILE_APPEND
+        );
+        error_log("Error en Obtener_Datos_Basicos_Comprobante: " . $e->getMessage());
         return null;
     } finally {
         conexionBD::cerrar_conexion();
     }
 }
-
 // ============================================================
 // ACTUALIZAR OBSERVACIONES DEL COMPROBANTE
 // ============================================================
