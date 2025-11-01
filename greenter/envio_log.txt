@@ -729,3 +729,19 @@ OUTPUT:
    Hash: FNmTlFFJm+mEDnbUu85rU8v64gI=
 
 
+=========================
+FECHA: 2025-11-01 17:03:50
+ID COMPROBANTE: 102
+TIPO: Boleta (03)
+NUMERO: B001-00000063
+NOMBRE CDR: R-B001-00000063.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-63
+📄 XML generado: xml/B001-63.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-63, ha sido aceptada
+   Código: 0
+   Hash: deoiOPJF62gdLvqLii+xnmYOE/U=
+
+

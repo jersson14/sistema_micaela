@@ -1062,3 +1062,51 @@ DEBUG TELEFONO: Array
   - Razon: UNIVERSIDAD ANDINA NESTOR CACERES VELASQ UEZ
   - Telefono: "" (length: 0)
 [2025-11-01 10:49:32] RESULTADO REGISTRO CLIENTE: ID=61
+[2025-11-01 11:03:49] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000063
+    [fecha_emision] => 2025-11-01
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72658985
+    [razon_social] => STEPHANI NAYDU CHUMBES CHAMPA
+    [direccion] => JR. PUNO N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 2
+    [id_conductor] => 4
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-01T11:03
+    [base_gravada] => 50.85
+    [igv] => 9.15
+    [total] => 60.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-01 11:03:49] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 72658985
+  - Razon: STEPHANI NAYDU CHUMBES CHAMPA
+  - Telefono: "" (length: 0)
+[2025-11-01 11:03:49] RESULTADO REGISTRO CLIENTE: ID=49

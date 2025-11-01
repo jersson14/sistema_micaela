@@ -130,3 +130,14 @@
     [estado_sunat] => PENDIENTE
 )
 
+[2025-11-01 17:03:49] Intentando enviar comprobante ID: 102
+[2025-11-01 17:03:49] Datos obtenidos: Array
+(
+    [id_comprobante] => 102
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-01
+    [serie] => B001
+    [correlativo] => 63
+    [estado_sunat] => PENDIENTE
+)
+

@@ -36,6 +36,14 @@
                             <div class="col-12">
                                 <h5 style="background-color:#023D77; color:white; padding:10px; border-radius:5px;">
                                     <i class="fas fa-file-alt"></i> DATOS DEL COMPROBANTE
+                                    
+                                    <!-- Checkbox para habilitar edición -->
+                                    <div class="float-right custom-control custom-switch" style="margin-top: -3px;">
+                                        <input type="checkbox" class="custom-control-input" id="check_editar_serie" onchange="habilitarEdicionSerie()">
+                                        <label class="custom-control-label" for="check_editar_serie" style="cursor: pointer;">
+                                            <i class="fas fa-edit"></i> Editar Serie/Correlativo
+                                        </label>
+                                    </div>
                                 </h5>
                             </div>
 
@@ -49,12 +57,18 @@
                             </div>
 
                             <div class="col-md-2 form-group">
-                                <label for="">Serie <b style="color:red">(*)</b>:</label>
+                                <label for="">
+                                    Serie <b style="color:red">(*)</b>:
+                                    <i class="fas fa-lock text-muted" id="icon_serie" style="font-size: 12px;"></i>
+                                </label>
                                 <input type="text" class="form-control" id="txt_serie" readonly>
                             </div>
 
                             <div class="col-md-2 form-group">
-                                <label for="">Correlativo:</label>
+                                <label for="">
+                                    Correlativo:
+                                    <i class="fas fa-lock text-muted" id="icon_correlativo" style="font-size: 12px;"></i>
+                                </label>
                                 <input type="text" class="form-control" id="txt_correlativo" readonly placeholder="Automático">
                             </div>
 
@@ -71,6 +85,7 @@
                                 </select>
                             </div>
                         </div>
+
 
                         <!-- DATOS DEL CLIENTE -->
                         <div class="row" style="border: 2px solid #28a745; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
@@ -340,4 +355,67 @@ $("#txt_cantidad").on("input", function() {
 $("#txt_total").on("input", function() {
   calcularDesdeTotal();
 });
+</script>
+<script>
+function habilitarEdicionSerie() {
+    var checkbox = document.getElementById('check_editar_serie');
+    var serie = document.getElementById('txt_serie');
+    var correlativo = document.getElementById('txt_correlativo');
+    var iconSerie = document.getElementById('icon_serie');
+    var iconCorrelativo = document.getElementById('icon_correlativo');
+    
+    if (checkbox.checked) {
+        // Habilitar edición
+        serie.removeAttribute('readonly');
+        correlativo.removeAttribute('readonly');
+        serie.style.backgroundColor = '#fff3cd'; // Color amarillo suave
+        correlativo.style.backgroundColor = '#fff3cd';
+        serie.style.borderColor = '#ffc107';
+        correlativo.style.borderColor = '#ffc107';
+        
+        // Cambiar iconos a desbloquear
+        iconSerie.classList.remove('fa-lock');
+        iconSerie.classList.add('fa-lock-open');
+        iconSerie.classList.remove('text-muted');
+        iconSerie.classList.add('text-warning');
+        
+        iconCorrelativo.classList.remove('fa-lock');
+        iconCorrelativo.classList.add('fa-lock-open');
+        iconCorrelativo.classList.remove('text-muted');
+        iconCorrelativo.classList.add('text-warning');
+        
+        // Alerta informativa
+        Swal.fire({
+            icon: 'info',
+            title: 'Edición Habilitada',
+            text: 'Ahora puedes modificar la serie y el correlativo manualmente.',
+            timer: 2000,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end'
+        });
+    } else {
+        // Deshabilitar edición
+        serie.setAttribute('readonly', 'readonly');
+        correlativo.setAttribute('readonly', 'readonly');
+        serie.style.backgroundColor = '';
+        correlativo.style.backgroundColor = '';
+        serie.style.borderColor = '';
+        correlativo.style.borderColor = '';
+        
+        // Cambiar iconos a bloqueado
+        iconSerie.classList.remove('fa-lock-open');
+        iconSerie.classList.add('fa-lock');
+        iconSerie.classList.remove('text-warning');
+        iconSerie.classList.add('text-muted');
+        
+        iconCorrelativo.classList.remove('fa-lock-open');
+        iconCorrelativo.classList.add('fa-lock');
+        iconCorrelativo.classList.remove('text-warning');
+        iconCorrelativo.classList.add('text-muted');
+        
+        // Restaurar valores automáticos
+        cambiarTipoComprobante();
+    }
+}
 </script>
