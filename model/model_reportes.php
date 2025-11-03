@@ -180,39 +180,48 @@ class Modelo_Reportes extends conexionBD
         }
     }
     
-    // ============================================================
-    // 4. REPORTE SALIDAS DIARIAS
-    // ============================================================
-    public function Reporte_Salidas_Diarias($fecha_desde, $fecha_hasta, $estado = '')
-    {
-        $c = conexionBD::conexionPDO();
-        
+  // ============================================================
+// 4. REPORTE SALIDAS DIARIAS - CORREGIDO SEGÚN ESTRUCTURA REAL
+// ============================================================
+public function Reporte_Salidas_Diarias($fecha_desde, $fecha_hasta, $id_chofer = '')
+{
+    $c = conexionBD::conexionPDO();
+    
+    try {
         $sql = "SELECT 
-                    sd.id_salidas_diarias,
+                    sd.id_salidas_diarias AS id_salida,
                     sd.salida_nro,
-                    sd.fecha_hora,
-                    sd.monto,
+                    DATE(sd.fecha_hora) AS fecha_salida,
+                    TIME(sd.fecha_hora) AS hora_salida,
+                    sd.id_conductor AS id_chofer,
+                    CONCAT(ch.nombres_apellidos) AS chofer_nombre,
+                    COALESCE(ch.placa_vehiculo, 'SIN PLACA') AS placa_vehiculo,
+                    COALESCE(ch.marca_vehiculo, '-') AS marca_vehiculo,
+                    COALESCE(ro.nombre, '-') AS origen,
+                    COALESCE(rd.nombre, '-') AS destino,
+                    'SERVICIO GENERAL' AS servicio_nombre,
+                    'CLIENTE GENERAL' AS cliente_nombre,
+                    '-' AS cliente_documento,
+                    COALESCE(sd.monto, 0) AS monto,
+                    NULL AS numero_comprobante,
                     sd.estado,
-                    sd.total_pasajeros,
-                    sd.total_encomiendas,
+                    COALESCE(sd.total_pasajeros, 0) AS total_pasajeros,
+                    COALESCE(sd.total_encomiendas, 0) AS total_encomiendas,
                     sd.observacion,
-                    CONCAT(ch.nombres_apellidos) AS conductor,
-                    ch.placa_vehiculo,
-                    ro.nombre AS origen,
-                    rd.nombre AS destino,
-                    CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS usuario_registro
+                    sd.doc_nrocorrelativo
                 FROM salidas_diarias sd
-                INNER JOIN chofer ch ON sd.id_conductor = ch.id_chofer
+                INNER JOIN choferes ch ON sd.id_conductor = ch.id_chofer
                 LEFT JOIN rutas ro ON sd.id_origen = ro.idrutas
                 LEFT JOIN rutas rd ON sd.id_destino = rd.idrutas
-                LEFT JOIN usuario u ON sd.id_usuario = u.id_usuario
-                WHERE DATE(sd.fecha_hora) BETWEEN ? AND ?";
+                WHERE DATE(sd.fecha_hora) BETWEEN ? AND ?
+                AND sd.estado != 'ELIMINADO'";
         
         $params = [$fecha_desde, $fecha_hasta];
         
-        if (!empty($estado)) {
-            $sql .= " AND sd.estado = ?";
-            $params[] = $estado;
+        // Filtro opcional por chofer
+        if (!empty($id_chofer)) {
+            $sql .= " AND sd.id_conductor = ?";
+            $params[] = $id_chofer;
         }
         
         $sql .= " ORDER BY sd.fecha_hora DESC";
@@ -222,8 +231,105 @@ class Modelo_Reportes extends conexionBD
         
         $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
         
-        conexionBD::cerrar_conexion();
+        error_log("Reporte_Salidas_Diarias: " . count($resultado) . " registros encontrados");
+        
         return $resultado;
+        
+    } catch (Exception $e) {
+        error_log("Error en Reporte_Salidas_Diarias: " . $e->getMessage());
+        return [];
+    } finally {
+        conexionBD::cerrar_conexion();
+    }
+}
+
+// ============================================================
+// OBTENER DETALLE DE UNA SALIDA ESPECÍFICA - CORREGIDO
+// ============================================================
+public function Obtener_Salida($id_salida)
+{
+    $c = conexionBD::conexionPDO();
+    
+    try {
+        $sql = "SELECT 
+                    sd.id_salidas_diarias AS id_salida,
+                    sd.salida_nro,
+                    DATE(sd.fecha_hora) AS fecha_salida,
+                    TIME(sd.fecha_hora) AS hora_salida,
+                    sd.monto,
+                    sd.estado,
+                    COALESCE(sd.total_pasajeros, 0) AS total_pasajeros,
+                    COALESCE(sd.total_encomiendas, 0) AS total_encomiendas,
+                    sd.observacion,
+                    sd.doc_nrocorrelativo,
+                    sd.id_conductor AS id_chofer,
+                    CONCAT(ch.nombres_apellidos) AS chofer_nombre,
+                    COALESCE(ch.placa_vehiculo, 'SIN PLACA') AS placa_vehiculo,
+                    COALESCE(ch.marca_vehiculo, '-') AS marca_vehiculo,
+                    COALESCE(ch.nro_licencia, '-') AS nro_licencia,
+                    'CLIENTE GENERAL' AS cliente_nombre,
+                    '-' AS cliente_documento,
+                    '-' AS cliente_telefono,
+                    COALESCE(ro.nombre, '-') AS origen,
+                    COALESCE(rd.nombre, '-') AS destino,
+                    'SERVICIO GENERAL' AS servicio_nombre,
+                    0 AS servicio_costo,
+                    NULL AS numero_comprobante,
+                    '' AS tipo_comprobante,
+                    '-' AS distancia,
+                    CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS usuario_registro
+                FROM salidas_diarias sd
+                INNER JOIN choferes ch ON sd.id_conductor = ch.id_chofer
+                LEFT JOIN rutas ro ON sd.id_origen = ro.idrutas
+                LEFT JOIN rutas rd ON sd.id_destino = rd.idrutas
+                LEFT JOIN usuario u ON sd.id_usuario = u.id_usuario
+                WHERE sd.id_salidas_diarias = ?
+                LIMIT 1";
+        
+        $query = $c->prepare($sql);
+        $query->execute([$id_salida]);
+        
+        $resultado = $query->fetch(PDO::FETCH_ASSOC);
+        
+        return $resultado;
+        
+    } catch (Exception $e) {
+        error_log("Error en Obtener_Salida: " . $e->getMessage());
+        return null;
+    } finally {
+        conexionBD::cerrar_conexion();
+    }
+}
+    
+    // ============================================================
+    // LISTAR CHOFERES PARA COMBO
+    // ============================================================
+    public function Listar_Choferes_Combo()
+    {
+        $c = conexionBD::conexionPDO();
+        
+        try {
+            $sql = "SELECT 
+                        id_chofer,
+                        nombres_apellidos AS nombre_completo,
+                        placa_vehiculo
+                    FROM choferes
+                    WHERE estado = 'ACTIVO'
+                    ORDER BY nombres_apellidos";
+            
+            $query = $c->prepare($sql);
+            $query->execute();
+            
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            
+            return $resultado;
+            
+        } catch (Exception $e) {
+            error_log("Error en Listar_Choferes_Combo: " . $e->getMessage());
+            return [];
+        } finally {
+            conexionBD::cerrar_conexion();
+        }
     }
     
     // ============================================================
@@ -655,5 +761,4 @@ class Modelo_Reportes extends conexionBD
         conexionBD::cerrar_conexion();
         return $resultado;
     }
-}
-?>
+   } 

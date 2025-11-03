@@ -269,7 +269,7 @@ $(document).ready(function() {
 
 function cargarChoferes() {
     $.ajax({
-        url: "../controller/chofer/controller_chofer.php",
+        url: "../controller/reportes/controller_reportes.php",
         type: "POST",
         data: { accion: 'LISTAR_CHOFERES_COMBO' },
         dataType: "json",
@@ -279,6 +279,9 @@ function cargarChoferes() {
                 html += `<option value="${chofer.id_chofer}">${chofer.nombre_completo}</option>`;
             });
             $('#filtro_chofer').html(html);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al cargar choferes:', error);
         }
     });
 }
@@ -666,5 +669,131 @@ function exportarPDFSalidas() {
     font-size: 2rem;
     font-weight: bold;
     margin: 0;
+}
+</style>
+
+<!-- Agregar este CSS al final del archivo reporte_salidas.php, antes del </style> de cierre -->
+
+<style>
+/* ===================================
+   ESTILOS PARA SELECT2 BOOTSTRAP4
+   =================================== */
+
+/* Borde del contenedor select2 */
+.select2-container--bootstrap4 .select2-selection {
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+    min-height: 38px !important;
+    background-color: #fff !important;
+}
+
+/* Hover del select2 */
+.select2-container--bootstrap4 .select2-selection:hover {
+    border-color: #80bdff !important;
+}
+
+/* Focus del select2 */
+.select2-container--bootstrap4.select2-container--focus .select2-selection,
+.select2-container--bootstrap4.select2-container--open .select2-selection {
+    border-color: #80bdff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+    outline: 0 !important;
+}
+
+/* Flecha del select2 */
+.select2-container--bootstrap4 .select2-selection__arrow {
+    height: 36px !important;
+}
+
+.select2-container--bootstrap4 .select2-selection__arrow b {
+    border-color: #495057 transparent transparent transparent !important;
+    border-style: solid !important;
+    border-width: 5px 4px 0 4px !important;
+    height: 0 !important;
+    left: 50% !important;
+    margin-left: -4px !important;
+    margin-top: -2px !important;
+    position: absolute !important;
+    top: 50% !important;
+    width: 0 !important;
+}
+
+/* Placeholder del select2 */
+.select2-container--bootstrap4 .select2-selection__placeholder {
+    color: #6c757d !important;
+}
+
+/* Texto seleccionado */
+.select2-container--bootstrap4 .select2-selection__rendered {
+    color: #495057 !important;
+    line-height: 36px !important;
+    padding-left: 12px !important;
+}
+
+/* Dropdown del select2 */
+.select2-container--bootstrap4 .select2-dropdown {
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+    background-color: #fff !important;
+}
+
+/* Opciones del dropdown */
+.select2-container--bootstrap4 .select2-results__option {
+    padding: 6px 12px !important;
+    color: #212529 !important;
+}
+
+/* Hover en opciones */
+.select2-container--bootstrap4 .select2-results__option--highlighted {
+    background-color: #007bff !important;
+    color: #fff !important;
+}
+
+/* Búsqueda dentro del select2 */
+.select2-container--bootstrap4 .select2-search--dropdown .select2-search__field {
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+    padding: 0.375rem 0.75rem !important;
+}
+
+/* Small boxes styles (ya existentes) */
+.small-box {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.small-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.small-box .inner {
+    padding: 15px;
+}
+
+.small-box .icon {
+    font-size: 70px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    opacity: 0.3;
+}
+
+.small-box h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Asegurar que todos los form-control tengan el mismo estilo */
+.form-control {
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+}
+
+.form-control:focus {
+    border-color: #80bdff !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
 }
 </style>

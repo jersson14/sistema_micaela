@@ -107,13 +107,88 @@ elseif ($accion == 'REPORTE_SERVICIOS_PRESTADOS') {
 // 4. REPORTE SALIDAS DIARIAS
 // ============================================================
 elseif ($accion == 'REPORTE_SALIDAS_DIARIAS') {
-    $fecha_desde = $_POST['fecha_desde'];
-    $fecha_hasta = $_POST['fecha_hasta'];
-    $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
+    header('Content-Type: application/json; charset=utf-8');
     
-    $resultado = $MR->Reporte_Salidas_Diarias($fecha_desde, $fecha_hasta, $estado);
+    try {
+        $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : '';
+        $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : '';
+        $id_chofer = isset($_POST['id_chofer']) ? $_POST['id_chofer'] : '';
+        
+        if (empty($fecha_desde) || empty($fecha_hasta)) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Debe seleccionar rango de fechas',
+                'data' => []
+            ]);
+            exit;
+        }
+        
+        $resultado = $MR->Reporte_Salidas_Diarias($fecha_desde, $fecha_hasta, $id_chofer);
+        
+        // Asegurar que siempre sea un array
+        if (!is_array($resultado)) {
+            $resultado = [];
+        }
+        
+        echo json_encode([
+            'status' => 'success',
+            'data' => $resultado
+        ], JSON_UNESCAPED_UNICODE);
+        
+    } catch (Exception $e) {
+        error_log("Error en REPORTE_SALIDAS_DIARIAS: " . $e->getMessage());
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Error al generar el reporte: ' . $e->getMessage(),
+            'data' => []
+        ]);
+    }
+}
+
+// ============================================================
+// 4B. OBTENER DETALLE DE UNA SALIDA (PARA MODAL)
+// ============================================================
+// En controller_reportes.php, línea donde está OBTENER_SALIDA
+elseif ($accion == 'OBTENER_SALIDA') {
+    header('Content-Type: application/json; charset=utf-8');
     
-    echo json_encode(array('data' => $resultado));
+    try {
+        $id_salida = isset($_POST['id_salida']) ? intval($_POST['id_salida']) : 0;
+        
+        if ($id_salida <= 0) {
+            echo json_encode(['error' => 'ID de salida inválido']);
+            exit;
+        }
+        
+        // 🔴 ASEGÚRATE QUE ESTA LÍNEA APUNTE AL MÉTODO CORRECTO
+        $resultado = $MR->Obtener_Salida($id_salida);
+        
+        if ($resultado) {
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(['error' => 'No se encontró la salida']);
+        }
+        
+    } catch (Exception $e) {
+        error_log("Error en OBTENER_SALIDA: " . $e->getMessage());
+        echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
+    }
+}
+
+// ============================================================
+// 4C. LISTAR CHOFERES PARA COMBO (CONSOLIDADO AQUÍ)
+// ============================================================
+elseif ($accion == 'LISTAR_CHOFERES_COMBO') {
+    header('Content-Type: application/json; charset=utf-8');
+    
+    try {
+        $resultado = $MR->Listar_Choferes_Combo();
+        echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+        
+    } catch (Exception $e) {
+        error_log("Error en LISTAR_CHOFERES_COMBO: " . $e->getMessage());
+        echo json_encode([]);
+    }
 }
 
 // ============================================================
@@ -240,7 +315,7 @@ elseif ($accion == 'TOP_SERVICIOS') {
     echo json_encode(array('data' => $resultado));
 }
 
-// ============================================================
+// ===========================================================OBTENER_SALIDA=
 // 12. EXPORTAR REPORTE A EXCEL (Preparación de datos)
 // ============================================================
 elseif ($accion == 'PREPARAR_EXPORTACION_EXCEL') {
@@ -261,7 +336,9 @@ elseif ($accion == 'PREPARAR_EXPORTACION_EXCEL') {
         case 'clientes':
             $datos = $MR->Reporte_Clientes('todos', $fecha_desde, $fecha_hasta);
             break;
-        // Agregar más casos según necesites
+        case 'salidas':
+            $datos = $MR->Reporte_Salidas_Diarias($fecha_desde, $fecha_hasta);
+            break;
     }
     
     echo json_encode([
