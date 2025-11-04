@@ -560,4 +560,21 @@ function NuevoComprobante() {
         background-color: #dc3545;
         color: #fff;
     }
+    /* SOLUCIÓN MÍNIMA PARA DROPDOWNS */
+.dataTables_wrapper {
+  overflow: visible !important;
+}
+
+.dataTables_scrollBody {
+  overflow: visible !important;
+}
+
+.table-responsive {
+  overflow: visible !important;
+}
+
+.dropdown-menu {
+  position: absolute !important;
+  z-index: 9999 !important;
+}
 </style>

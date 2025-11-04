@@ -1110,3 +1110,51 @@ DEBUG TELEFONO: Array
   - Razon: STEPHANI NAYDU CHUMBES CHAMPA
   - Telefono: "" (length: 0)
 [2025-11-01 11:03:49] RESULTADO REGISTRO CLIENTE: ID=49
+[2025-11-04 16:20:40] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000064
+    [fecha_emision] => 2025-11-04
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. NICOLAS DE PIEROLA N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2025-11-04T16:20
+    [base_gravada] => 42.37
+    [igv] => 7.63
+    [total] => 50.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-04 16:20:40] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 72646121
+  - Razon: JERSSON JORGE CORILLA MIRANDA
+  - Telefono: "" (length: 0)
+[2025-11-04 16:20:40] RESULTADO REGISTRO CLIENTE: ID=4

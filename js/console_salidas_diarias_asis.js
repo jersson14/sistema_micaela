@@ -3493,3 +3493,77 @@ function agregarPasajeroDesdeReserva() {
 
  
 }
+function agregarPasajeroEditar() {
+  var tipodocumento = $("#select_tipo_documento_emisor_editar").val();
+  var documento = $("#txt_dni_emisor_editar").val();
+  var documento2 = $("#txt_dni_emisor2_editar").val();
+  var nombres = $("#txt_nombre_pasajero_editar").val();
+  var edad = $("#txt_edad_editar").val();
+  var celular = $("#txt_cel_pasajero_editar").val();
+
+  let documentoFinal = "";
+  if (tipodocumento === "DNI") {
+    if (!documento) {
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo DNI es obligatorio",
+        "warning"
+      );
+    }
+    documentoFinal = documento;
+  } else {
+    if (!documento2) {
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo de documento es obligatorio",
+        "warning"
+      );
+    }
+    documentoFinal = documento2;
+  }
+
+  if (
+    !documentoFinal ||
+    documentoFinal.trim() === "" ||
+    !nombres ||
+    nombres.trim() === ""
+  ) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "Complete los campos obligatorios",
+      "warning"
+    );
+  }
+
+  if (verificarDocumentEditar(documentoFinal)) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "El pasajero ya fue agregado a la tabla",
+      "warning"
+    );
+  }
+
+  var filasExistentes = document.querySelectorAll(
+    "#tabla_pasajeros_editar tbody tr"
+  ).length;
+  var fila = "<tr>";
+  fila += "<td>" + (filasExistentes + 1) + "</td>";
+  fila += "<td>" + tipodocumento + "</td>";
+  fila += "<td>" + documentoFinal + "</td>";
+  fila += "<td>" + nombres + "</td>";
+  fila += "<td>" + (edad || "N/A") + "</td>";
+  fila += "<td>" + (celular || "N/A") + "</td>";
+  fila +=
+    "<td><button class='btn btn-danger' onclick='removePasajeroEditar(this)'><i class='fas fa-trash'></i></button></td>";
+  fila += "</tr>";
+
+  $("#tabla_pasajeros_editar tbody").append(fila);
+  actualizarTotalPasajeros_Editar();
+
+  // Limpiar campos
+  $("#txt_dni_emisor_editar").val("");
+  $("#txt_nombre_pasajero_editar").val("");
+  $("#txt_edad_editar").val("");
+  $("#txt_cel_pasajero_editar").val("");
+}
+

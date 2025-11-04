@@ -975,4 +975,15 @@
         z-index: 1050 !important;
         /* más alto que la tabla */
     }
+            /* Agrega a tu CSS */
+    .dataTables_wrapper,
+    .dataTables_scrollBody,
+    .table-responsive {
+    overflow: visible !important;
+    }
+
+    .dropdown-menu {
+    position: fixed !important;
+    z-index: 10000 !important;
+}
 </styLe>

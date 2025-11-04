@@ -2930,3 +2930,22 @@ function LimpiarCamposEncomiendaEditar() {
   document.getElementById("txt_a_domicilio_editar").value = "0.00";
 
 }
+
+// Agrega al final de tu archivo JS
+$(document).on('show.bs.dropdown', '#tabla_encomiendas .dropdown', function () {
+  let $dropdown = $(this).find('.dropdown-menu');
+  let $button = $(this).find('.dropdown-toggle');
+  let buttonPos = $button.offset();
+  
+  $dropdown.css({
+    'position': 'fixed',
+    'top': buttonPos.top + $button.outerHeight() + 5,
+    'left': buttonPos.left - $dropdown.outerWidth() + $button.outerWidth(),
+    'margin': 0
+  });
+});
+
+// Cerrar dropdown al hacer scroll
+$('.dataTables_scrollBody, .table-responsive').on('scroll', function() {
+  $('#tabla_encomiendas .dropdown-menu.show').removeClass('show');
+});
