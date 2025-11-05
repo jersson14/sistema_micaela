@@ -221,6 +221,33 @@ elseif ($accion == 'REPORTE_CLIENTES') {
         ]);
     }
 }
+// ============================================================
+// OBTENER DETALLE DE UN CLIENTE ESPECÍFICO
+// ============================================================
+elseif ($accion == 'OBTENER_DETALLE_CLIENTE') {
+    header('Content-Type: application/json; charset=utf-8');
+    
+    try {
+        $id_cliente = isset($_POST['id_cliente']) ? intval($_POST['id_cliente']) : 0;
+        
+        if ($id_cliente <= 0) {
+            echo json_encode(['error' => 'ID de cliente inválido']);
+            exit;
+        }
+        
+        $resultado = $MR->Obtener_Detalle_Cliente($id_cliente);
+        
+        if ($resultado) {
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(['error' => 'No se encontró el cliente']);
+        }
+        
+    } catch (Exception $e) {
+        error_log("Error en OBTENER_DETALLE_CLIENTE: " . $e->getMessage());
+        echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
+    }
+}
 
 // ============================================================
 // 6. REPORTE DE CHOFERES

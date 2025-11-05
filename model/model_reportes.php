@@ -842,4 +842,73 @@ public function Obtener_Detalle_Chofer($id_chofer)
         conexionBD::cerrar_conexion();
     }
 }
+// OBTENER DETALLE COMPLETO DE UN CLIENTE
+// ============================================================
+public function Obtener_Detalle_Cliente($id_cliente)
+{
+    $c = conexionBD::conexionPDO();
+    
+    try {
+        // Información básica del cliente
+        $sql = "SELECT 
+                    cl.id_cliente,
+                    cl.tipo_documento,
+                    cl.nro_documento,
+                    cl.nombre_completo,
+                    COALESCE(cl.celular, '') AS celular,
+                    COALESCE(cl.email, '') AS email,
+                    COALESCE(cl.procedencia, '') AS procedencia,
+                    COALESCE(cl.total_viajes, 0) AS total_viajes,
+                    cl.ultimo_viaje,
+                    COUNT(DISTINCT c.id_comprobante) AS comprobantes_emitidos,
+                    COALESCE(SUM(c.total), 0) AS total_gastado
+                FROM clientes cl
+                LEFT JOIN cliente_sunat cs ON cl.nro_documento = cs.numero_documento
+                LEFT JOIN comprobantes c ON cs.id_cliente = c.id_cliente
+                    AND c.estado_documento = 'ACTIVO'
+                    AND c.estado_sunat IN ('ACEPTADO', 'ENVIADO')
+                WHERE cl.id_cliente = ?
+                GROUP BY cl.id_cliente, cl.tipo_documento, cl.nro_documento, 
+                         cl.nombre_completo, cl.celular, cl.email, cl.procedencia, 
+                         cl.total_viajes, cl.ultimo_viaje
+                LIMIT 1";
+        
+        $query = $c->prepare($sql);
+        $query->execute([$id_cliente]);
+        
+        $resultado = $query->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$resultado) {
+            return null;
+        }
+        
+        // Obtener historial de comprobantes (últimos 10)
+        $sql_historial = "SELECT 
+                            c.fecha_emision,
+                            c.tipo_comprobante,
+                            CONCAT(c.serie, '-', LPAD(c.correlativo, 8, '0')) AS numero_comprobante,
+                            c.total
+                        FROM comprobantes c
+                        INNER JOIN cliente_sunat cs ON c.id_cliente = cs.id_cliente
+                        INNER JOIN clientes cl ON cs.numero_documento = cl.nro_documento
+                        WHERE cl.id_cliente = ?
+                        AND c.estado_documento = 'ACTIVO'
+                        AND c.estado_sunat IN ('ACEPTADO', 'ENVIADO')
+                        ORDER BY c.fecha_emision DESC
+                        LIMIT 10";
+        
+        $query_historial = $c->prepare($sql_historial);
+        $query_historial->execute([$id_cliente]);
+        
+        $resultado['historial_comprobantes'] = $query_historial->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $resultado;
+        
+    } catch (Exception $e) {
+        error_log("Error en Obtener_Detalle_Cliente: " . $e->getMessage());
+        return null;
+    } finally {
+        conexionBD::cerrar_conexion();
+    }
+}
    } 
