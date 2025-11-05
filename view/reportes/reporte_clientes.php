@@ -473,30 +473,59 @@ function mostrarGraficaDistribucionClientes(frecuentes, nuevos, inactivos, total
     });
 }
 
+// 🔧 FUNCIÓN CORREGIDA: Actualizar Top Clientes (Ranking correcto)
 function actualizarTopClientes(data) {
-    // Ordenar por total gastado
-    let top10 = data.sort((a, b) => parseFloat(b.total_gastado) - parseFloat(a.total_gastado)).slice(0, 10);
+    // 🔥 CORRECCIÓN: Ordenar ANTES del slice
+    // Crear una copia del array para no modificar el original
+    let dataCopia = [...data];
+    
+    // Ordenar por total_gastado de mayor a menor
+    dataCopia.sort((a, b) => parseFloat(b.total_gastado || 0) - parseFloat(a.total_gastado || 0));
+    
+    // Ahora sí, tomar los primeros 10
+    let top10 = dataCopia.slice(0, 10);
+    
+    console.log("🏆 Top 10 Clientes (ordenado):", top10);
     
     let html = '';
-    top10.forEach((cliente, index) => {
-        let medalla = '';
-        if (index === 0) medalla = '🥇';
-        else if (index === 1) medalla = '🥈';
-        else if (index === 2) medalla = '🥉';
-        
-        html += `
+    
+    if (top10.length === 0) {
+        html = `
             <tr>
-                <td class="text-center">${medalla} ${index + 1}</td>
-                <td>${cliente.nombre_completo}</td>
-                <td class="text-center"><span class="badge badge-primary">${cliente.total_viajes || 0}</span></td>
-                <td class="text-right"><b class="text-success">S/ ${parseFloat(cliente.total_gastado || 0).toFixed(2)}</b></td>
+                <td colspan="4" class="text-center text-muted">
+                    <i class="fas fa-info-circle"></i> No hay datos para mostrar
+                </td>
             </tr>
         `;
-    });
+    } else {
+        top10.forEach((cliente, index) => {
+            let medalla = '';
+            if (index === 0) medalla = '🥇';
+            else if (index === 1) medalla = '🥈';
+            else if (index === 2) medalla = '🥉';
+            
+            // Validar que los datos existan
+            let nombreCompleto = cliente.nombre_completo || 'Sin nombre';
+            let totalViajes = parseInt(cliente.total_viajes || 0);
+            let totalGastado = parseFloat(cliente.total_gastado || 0);
+            
+            html += `
+                <tr>
+                    <td class="text-center"><b>${medalla} ${index + 1}</b></td>
+                    <td>${nombreCompleto}</td>
+                    <td class="text-center">
+                        <span class="badge badge-primary">${totalViajes}</span>
+                    </td>
+                    <td class="text-right">
+                        <b class="text-success">S/ ${totalGastado.toFixed(2)}</b>
+                    </td>
+                </tr>
+            `;
+        });
+    }
     
     $('#tbody_top_clientes').html(html);
 }
-
 function verDetalleCliente(id) {
     Swal.fire('Info', 'Función en desarrollo', 'info');
 }

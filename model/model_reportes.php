@@ -58,90 +58,99 @@ class Modelo_Reportes extends conexionBD
         return $resultado;
     }
     
-    // ============================================================
-    // 2. REPORTE INGRESOS VS GASTOS
-    // ============================================================
-    public function Reporte_Ingresos_Gastos($fecha_desde, $fecha_hasta)
-    {
-        $c = conexionBD::conexionPDO();
+   // ============================================================
+// 2. REPORTE INGRESOS VS GASTOS - CORREGIDO
+// ============================================================
+public function Reporte_Ingresos_Gastos($fecha_desde, $fecha_hasta)
+{
+    $c = conexionBD::conexionPDO();
+    
+    try {
+        // Total de ingresos (comprobantes aceptados)
+        $sql_ingresos = "SELECT IFNULL(SUM(total), 0) AS total_ingresos
+                        FROM comprobantes
+                        WHERE estado_documento = 'ACTIVO'
+                        AND estado_sunat IN ('ACEPTADO', 'ENVIADO')
+                        AND tipo_comprobante IN ('01', '03')
+                        AND DATE(fecha_emision) BETWEEN ? AND ?";
         
-        try {
-            // Total de ingresos (comprobantes aceptados)
-            $sql_ingresos = "SELECT IFNULL(SUM(total), 0) AS total_ingresos
+        $query_ingresos = $c->prepare($sql_ingresos);
+        $query_ingresos->execute([$fecha_desde, $fecha_hasta]);
+        $ingresos = $query_ingresos->fetch(PDO::FETCH_ASSOC);
+        
+        // Total de gastos
+        $sql_gastos = "SELECT IFNULL(SUM(monto), 0) AS total_gastos
+                      FROM gastos
+                      WHERE estado = 'VALIDO'
+                      AND DATE(created_at) BETWEEN ? AND ?";
+        
+        $query_gastos = $c->prepare($sql_gastos);
+        $query_gastos->execute([$fecha_desde, $fecha_hasta]);
+        $gastos = $query_gastos->fetch(PDO::FETCH_ASSOC);
+        
+        // Calcular balance
+        $total_ingresos = floatval($ingresos['total_ingresos']);
+        $total_gastos = floatval($gastos['total_gastos']);
+        $balance = $total_ingresos - $total_gastos;
+        
+        // Log para debugging
+        error_log("Ingresos: $total_ingresos, Gastos: $total_gastos, Balance: $balance");
+        
+        // Detalle por día - CORREGIDO
+        $sql_detalle = "SELECT 
+                            fecha,
+                            SUM(CASE WHEN tipo = 'INGRESO' THEN monto ELSE 0 END) AS ingreso_dia,
+                            SUM(CASE WHEN tipo = 'GASTO' THEN monto ELSE 0 END) AS gasto_dia
+                        FROM (
+                            SELECT DATE(fecha_emision) AS fecha, total AS monto, 'INGRESO' AS tipo
                             FROM comprobantes
                             WHERE estado_documento = 'ACTIVO'
                             AND estado_sunat IN ('ACEPTADO', 'ENVIADO')
                             AND tipo_comprobante IN ('01', '03')
-                            AND DATE(fecha_emision) BETWEEN ? AND ?";
-            
-            $query_ingresos = $c->prepare($sql_ingresos);
-            $query_ingresos->execute([$fecha_desde, $fecha_hasta]);
-            $ingresos = $query_ingresos->fetch(PDO::FETCH_ASSOC);
-            
-            // Total de gastos
-            $sql_gastos = "SELECT IFNULL(SUM(monto), 0) AS total_gastos
-                          FROM gastos
-                          WHERE estado = 'VALIDO'
-                          AND DATE(created_at) BETWEEN ? AND ?";
-            
-            $query_gastos = $c->prepare($sql_gastos);
-            $query_gastos->execute([$fecha_desde, $fecha_hasta]);
-            $gastos = $query_gastos->fetch(PDO::FETCH_ASSOC);
-            
-            // Calcular balance
-            $total_ingresos = floatval($ingresos['total_ingresos']);
-            $total_gastos = floatval($gastos['total_gastos']);
-            $balance = $total_ingresos - $total_gastos;
-            
-            // Detalle por día (CORREGIDO)
-            $sql_detalle = "SELECT 
-                                DATE(fecha) AS fecha,
-                                SUM(CASE WHEN tipo = 'INGRESO' THEN monto ELSE 0 END) AS ingreso_dia,
-                                SUM(CASE WHEN tipo = 'GASTO' THEN monto ELSE 0 END) AS gasto_dia
-                            FROM (
-                                SELECT DATE(fecha_emision) AS fecha, total AS monto, 'INGRESO' AS tipo
-                                FROM comprobantes
-                                WHERE estado_documento = 'ACTIVO'
-                                AND estado_sunat IN ('ACEPTADO', 'ENVIADO')
-                                AND tipo_comprobante IN ('01', '03')
-                                AND DATE(fecha_emision) BETWEEN ? AND ?
-                                
-                                UNION ALL
-                                
-                                SELECT DATE(created_at) AS fecha, monto, 'GASTO' AS tipo
-                                FROM gastos
-                                WHERE estado = 'VALIDO'
-                                AND DATE(created_at) BETWEEN ? AND ?
-                            ) AS movimientos
-                            GROUP BY DATE(fecha)
-                            ORDER BY fecha DESC";
-            
-            $query_detalle = $c->prepare($sql_detalle);
-            $query_detalle->execute([$fecha_desde, $fecha_hasta, $fecha_desde, $fecha_hasta]);
-            $detalle_diario = $query_detalle->fetchAll(PDO::FETCH_ASSOC);
-            
-            // Log para debugging
-            error_log("Reporte Ingresos vs Gastos - Detalle diario: " . count($detalle_diario) . " registros");
-            
-            return [
-                'total_ingresos' => $total_ingresos,
-                'total_gastos' => $total_gastos,
-                'balance' => $balance,
-                'detalle_diario' => $detalle_diario
-            ];
-            
-        } catch (Exception $e) {
-            error_log("Error en Reporte_Ingresos_Gastos: " . $e->getMessage());
-            return [
-                'total_ingresos' => 0,
-                'total_gastos' => 0,
-                'balance' => 0,
-                'detalle_diario' => []
-            ];
-        } finally {
-            conexionBD::cerrar_conexion();
-        }
+                            AND DATE(fecha_emision) BETWEEN ? AND ?
+                            
+                            UNION ALL
+                            
+                            SELECT DATE(created_at) AS fecha, monto, 'GASTO' AS tipo
+                            FROM gastos
+                            WHERE estado = 'VALIDO'
+                            AND DATE(created_at) BETWEEN ? AND ?
+                        ) AS movimientos
+                        GROUP BY fecha
+                        ORDER BY fecha DESC";
+        
+        $query_detalle = $c->prepare($sql_detalle);
+        $query_detalle->execute([$fecha_desde, $fecha_hasta, $fecha_desde, $fecha_hasta]);
+        $detalle_diario = $query_detalle->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Log para debugging
+        error_log("Reporte Ingresos vs Gastos - Detalle diario: " . count($detalle_diario) . " registros");
+        error_log("Detalle diario JSON: " . json_encode($detalle_diario));
+        
+        $resultado = [
+            'total_ingresos' => $total_ingresos,
+            'total_gastos' => $total_gastos,
+            'balance' => $balance,
+            'detalle_diario' => $detalle_diario
+        ];
+        
+        error_log("Resultado final: " . json_encode($resultado));
+        
+        return $resultado;
+        
+    } catch (Exception $e) {
+        error_log("Error en Reporte_Ingresos_Gastos: " . $e->getMessage());
+        error_log("Stack trace: " . $e->getTraceAsString());
+        return [
+            'total_ingresos' => 0,
+            'total_gastos' => 0,
+            'balance' => 0,
+            'detalle_diario' => []
+        ];
+    } finally {
+        conexionBD::cerrar_conexion();
     }
+}
     
     // ============================================================
     // 3. REPORTE SERVICIOS PRESTADOS
@@ -432,118 +441,142 @@ public function Obtener_Salida($id_salida)
     }
     
     // ============================================================
-    // 6. REPORTE DE CHOFERES (USANDO TABLA 'choferes')
-    // ============================================================
-    public function Reporte_Choferes($estado = '', $fecha_desde = '', $fecha_hasta = '')
-    {
-        $c = conexionBD::conexionPDO();
+// 6. REPORTE DE CHOFERES (CORREGIDO - Total Facturado)
+// ============================================================
+public function Reporte_Choferes($estado = '', $fecha_desde = '', $fecha_hasta = '')
+{
+    $c = conexionBD::conexionPDO();
+    
+    try {
+        // 🔥 PRIMERO: Obtener datos base de choferes con salidas
+        $sql = "SELECT 
+                    ch.id_chofer,
+                    ch.tipo_documen,
+                    ch.nro_doc,
+                    ch.nombres_apellidos,
+                    COALESCE(ch.celular, '') AS celular,
+                    COALESCE(ch.marca_vehiculo, '') AS marca_vehiculo,
+                    COALESCE(ch.placa_vehiculo, '') AS placa_vehiculo,
+                    COALESCE(ch.nro_licencia, '') AS nro_licencia,
+                    ch.fecha_vencimiento_licencia,
+                    ch.estado,
+                    COUNT(DISTINCT sd.id_salidas_diarias) AS total_salidas
+                FROM choferes ch
+                LEFT JOIN salidas_diarias sd ON ch.id_chofer = sd.id_conductor";
         
-        try {
-            $sql = "SELECT 
-                        ch.id_chofer,
-                        ch.tipo_documen,
-                        ch.nro_doc,
-                        ch.nombres_apellidos,
-                        COALESCE(ch.celular, '') AS celular,
-                        COALESCE(ch.marca_vehiculo, '') AS marca_vehiculo,
-                        COALESCE(ch.placa_vehiculo, '') AS placa_vehiculo,
-                        COALESCE(ch.nro_licencia, '') AS nro_licencia,
-                        ch.fecha_vencimiento_licencia,
-                        ch.estado,
-                        COUNT(DISTINCT sd.id_salidas_diarias) AS total_salidas,
-                        COUNT(DISTINCT c.id_comprobante) AS total_comprobantes,
-                        COALESCE(SUM(c.total), 0) AS total_facturado
-                    FROM choferes ch
-                    LEFT JOIN salidas_diarias sd ON ch.id_chofer = sd.id_conductor";
-            
-            $where_parts = [];
-            $params = [];
-            
-            if (!empty($fecha_desde) && !empty($fecha_hasta)) {
-                $where_parts[] = "DATE(sd.fecha_hora) BETWEEN ? AND ?";
-                $params[] = $fecha_desde;
-                $params[] = $fecha_hasta;
-            }
-            
-            if (!empty($where_parts)) {
-                $sql .= " AND " . implode(' AND ', $where_parts);
-            }
-            
-            $sql .= " LEFT JOIN comprobantes c ON ch.id_chofer = c.idconductor
+        $where_parts = [];
+        $params = [];
+        
+        // Filtro por fechas en salidas
+        if (!empty($fecha_desde) && !empty($fecha_hasta)) {
+            $where_parts[] = "(sd.id_salidas_diarias IS NULL OR DATE(sd.fecha_hora) BETWEEN ? AND ?)";
+            $params[] = $fecha_desde;
+            $params[] = $fecha_hasta;
+        }
+        
+        if (!empty($where_parts)) {
+            $sql .= " AND " . implode(' AND ', $where_parts);
+        }
+        
+        // Filtro por estado del chofer
+        $where_conditions = [];
+        if (!empty($estado)) {
+            $where_conditions[] = "ch.estado = ?";
+            $params[] = $estado;
+        }
+        
+        if (!empty($where_conditions)) {
+            $sql .= " WHERE " . implode(' AND ', $where_conditions);
+        }
+        
+        $sql .= " GROUP BY ch.id_chofer, ch.tipo_documen, ch.nro_doc, ch.nombres_apellidos, 
+                  ch.celular, ch.marca_vehiculo, ch.placa_vehiculo, ch.nro_licencia, 
+                  ch.fecha_vencimiento_licencia, ch.estado";
+        
+        $query = $c->prepare($sql);
+        $query->execute($params);
+        
+        $choferes = $query->fetchAll(PDO::FETCH_ASSOC);
+        
+        // 🔥 SEGUNDO: Calcular comprobantes y total facturado por separado
+        foreach ($choferes as &$chofer) {
+            // Query para comprobantes del chofer
+            $sql_comp = "SELECT 
+                            COUNT(DISTINCT c.id_comprobante) AS total_comprobantes,
+                            COALESCE(SUM(c.total), 0) AS total_facturado
+                        FROM comprobantes c
+                        WHERE c.idconductor = ?
                         AND c.estado_documento = 'ACTIVO'
                         AND c.estado_sunat IN ('ACEPTADO', 'ENVIADO')";
             
+            $params_comp = [$chofer['id_chofer']];
+            
+            // Si hay filtro de fechas, aplicarlo también a comprobantes
             if (!empty($fecha_desde) && !empty($fecha_hasta)) {
-                $sql .= " AND DATE(c.fecha_emision) BETWEEN ? AND ?";
-                $params[] = $fecha_desde;
-                $params[] = $fecha_hasta;
+                $sql_comp .= " AND DATE(c.fecha_emision) BETWEEN ? AND ?";
+                $params_comp[] = $fecha_desde;
+                $params_comp[] = $fecha_hasta;
             }
             
-            $where_conditions = [];
+            $query_comp = $c->prepare($sql_comp);
+            $query_comp->execute($params_comp);
+            $resultado_comp = $query_comp->fetch(PDO::FETCH_ASSOC);
+            
+            // Agregar datos de comprobantes al chofer
+            $chofer['total_comprobantes'] = $resultado_comp['total_comprobantes'] ?? 0;
+            $chofer['total_facturado'] = $resultado_comp['total_facturado'] ?? 0;
+        }
+        
+        // 🔥 ORDENAR por total de salidas
+        usort($choferes, function($a, $b) {
+            return $b['total_salidas'] - $a['total_salidas'];
+        });
+        
+        return $choferes;
+        
+    } catch (Exception $e) {
+        error_log("Error en Reporte_Choferes: " . $e->getMessage());
+        
+        // Query de respaldo sin joins complejos
+        try {
+            $sql_simple = "SELECT 
+                            id_chofer,
+                            tipo_documen,
+                            nro_doc,
+                            nombres_apellidos,
+                            COALESCE(celular, '') AS celular,
+                            COALESCE(marca_vehiculo, '') AS marca_vehiculo,
+                            COALESCE(placa_vehiculo, '') AS placa_vehiculo,
+                            COALESCE(nro_licencia, '') AS nro_licencia,
+                            fecha_vencimiento_licencia,
+                            estado,
+                            0 AS total_salidas,
+                            0 AS total_comprobantes,
+                            0.00 AS total_facturado
+                        FROM choferes";
+            
             if (!empty($estado)) {
-                $where_conditions[] = "ch.estado = ?";
-                $params[] = $estado;
+                $sql_simple .= " WHERE estado = ?";
+                $params = [$estado];
+            } else {
+                $params = [];
             }
             
-            if (!empty($where_conditions)) {
-                $sql .= " WHERE " . implode(' AND ', $where_conditions);
-            }
+            $sql_simple .= " ORDER BY nombres_apellidos";
             
-            $sql .= " GROUP BY ch.id_chofer, ch.tipo_documen, ch.nro_doc, ch.nombres_apellidos, 
-                      ch.celular, ch.marca_vehiculo, ch.placa_vehiculo, ch.nro_licencia, 
-                      ch.fecha_vencimiento_licencia, ch.estado
-                      ORDER BY total_salidas DESC";
-            
-            $query = $c->prepare($sql);
+            $query = $c->prepare($sql_simple);
             $query->execute($params);
             
-            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $query->fetchAll(PDO::FETCH_ASSOC);
             
-            return $resultado;
-            
-        } catch (Exception $e) {
-            error_log("Error en Reporte_Choferes: " . $e->getMessage());
-            
-            // Query de respaldo sin joins
-            try {
-                $sql_simple = "SELECT 
-                                id_chofer,
-                                tipo_documen,
-                                nro_doc,
-                                nombres_apellidos,
-                                COALESCE(celular, '') AS celular,
-                                COALESCE(marca_vehiculo, '') AS marca_vehiculo,
-                                COALESCE(placa_vehiculo, '') AS placa_vehiculo,
-                                COALESCE(nro_licencia, '') AS nro_licencia,
-                                fecha_vencimiento_licencia,
-                                estado,
-                                0 AS total_salidas,
-                                0 AS total_comprobantes,
-                                0.00 AS total_facturado
-                            FROM choferes";
-                
-                if (!empty($estado)) {
-                    $sql_simple .= " WHERE estado = ?";
-                    $params = [$estado];
-                } else {
-                    $params = [];
-                }
-                
-                $sql_simple .= " ORDER BY nombres_apellidos";
-                
-                $query = $c->prepare($sql_simple);
-                $query->execute($params);
-                
-                return $query->fetchAll(PDO::FETCH_ASSOC);
-                
-            } catch (Exception $e2) {
-                error_log("Error en query simple de Reporte_Choferes: " . $e2->getMessage());
-                return [];
-            }
-        } finally {
-            conexionBD::cerrar_conexion();
+        } catch (Exception $e2) {
+            error_log("Error en query simple de Reporte_Choferes: " . $e2->getMessage());
+            return [];
         }
+    } finally {
+        conexionBD::cerrar_conexion();
     }
+}
     
     // ============================================================
     // 7. REPORTE ESTADO SUNAT
@@ -761,4 +794,52 @@ public function Obtener_Salida($id_salida)
         conexionBD::cerrar_conexion();
         return $resultado;
     }
+    // ============================================================
+// OBTENER DETALLE COMPLETO DE UN CHOFER
+// ============================================================
+public function Obtener_Detalle_Chofer($id_chofer)
+{
+    $c = conexionBD::conexionPDO();
+    
+    try {
+        $sql = "SELECT 
+                    ch.id_chofer,
+                    ch.tipo_documen,
+                    ch.nro_doc,
+                    ch.nombres_apellidos,
+                    COALESCE(ch.celular, '') AS celular,
+                    COALESCE(ch.marca_vehiculo, '') AS marca_vehiculo,
+                    COALESCE(ch.placa_vehiculo, '') AS placa_vehiculo,
+                    COALESCE(ch.nro_licencia, '') AS nro_licencia,
+                    ch.fecha_vencimiento_licencia,
+                    ch.estado,
+                    COUNT(DISTINCT sd.id_salidas_diarias) AS total_salidas,
+                    COUNT(DISTINCT c.id_comprobante) AS total_comprobantes,
+                    COALESCE(SUM(c.total), 0) AS total_facturado
+                FROM choferes ch
+                LEFT JOIN salidas_diarias sd ON ch.id_chofer = sd.id_conductor
+                    AND sd.estado != 'ELIMINADO'
+                LEFT JOIN comprobantes c ON ch.id_chofer = c.idconductor
+                    AND c.estado_documento = 'ACTIVO'
+                    AND c.estado_sunat IN ('ACEPTADO', 'ENVIADO')
+                WHERE ch.id_chofer = ?
+                GROUP BY ch.id_chofer, ch.tipo_documen, ch.nro_doc, ch.nombres_apellidos, 
+                         ch.celular, ch.marca_vehiculo, ch.placa_vehiculo, ch.nro_licencia, 
+                         ch.fecha_vencimiento_licencia, ch.estado
+                LIMIT 1";
+        
+        $query = $c->prepare($sql);
+        $query->execute([$id_chofer]);
+        
+        $resultado = $query->fetch(PDO::FETCH_ASSOC);
+        
+        return $resultado;
+        
+    } catch (Exception $e) {
+        error_log("Error en Obtener_Detalle_Chofer: " . $e->getMessage());
+        return null;
+    } finally {
+        conexionBD::cerrar_conexion();
+    }
+}
    } 

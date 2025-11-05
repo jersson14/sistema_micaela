@@ -346,5 +346,31 @@ elseif ($accion == 'PREPARAR_EXPORTACION_EXCEL') {
         'data' => $datos
     ]);
 }
-
+// ============================================================
+// OBTENER DETALLE DE UN CHOFER ESPECÍFICO
+// ============================================================
+elseif ($accion == 'OBTENER_DETALLE_CHOFER') {
+    header('Content-Type: application/json; charset=utf-8');
+    
+    try {
+        $id_chofer = isset($_POST['id_chofer']) ? intval($_POST['id_chofer']) : 0;
+        
+        if ($id_chofer <= 0) {
+            echo json_encode(['error' => 'ID de chofer inválido']);
+            exit;
+        }
+        
+        $resultado = $MR->Obtener_Detalle_Chofer($id_chofer);
+        
+        if ($resultado) {
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(['error' => 'No se encontró el chofer']);
+        }
+        
+    } catch (Exception $e) {
+        error_log("Error en OBTENER_DETALLE_CHOFER: " . $e->getMessage());
+        echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
+    }
+}
 ?>

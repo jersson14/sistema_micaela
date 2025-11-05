@@ -189,36 +189,281 @@ function verDetalleArchivado(id) {
 // ============================================================
 // REPORTE INGRESOS VS GASTOS
 // ============================================================
-var tbl_ingresos_gastos;
+var tbl_detalle_diario;
+var grafica_ingresos_gastos;
 
+// ============================================================
+// FUNCIÓN: LISTAR INGRESOS VS GASTOS
+// ============================================================
 function listar_ingresos_gastos() {
-    let fecha_desde = $('#filtro_ingreso_fecha_desde').val();
-    let fecha_hasta = $('#filtro_ingreso_fecha_hasta').val();
+    var fecha_desde = $('#filtro_ingreso_fecha_desde').val();
+    var fecha_hasta = $('#filtro_ingreso_fecha_hasta').val();
     
-    if (!fecha_desde || !fecha_hasta) {
-        return Swal.fire('Advertencia', 'Seleccione rango de fechas', 'warning');
+    // Validaciones
+    if (fecha_desde === '' || fecha_hasta === '') {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campos incompletos',
+            text: 'Por favor seleccione ambas fechas',
+            confirmButtonText: 'Entendido'
+        });
+        return;
     }
-
+    
+    if (fecha_desde > fecha_hasta) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Fechas incorrectas',
+            text: 'La fecha "Desde" no puede ser mayor que la fecha "Hasta"',
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+    
+    // Mostrar loading
+    Swal.fire({
+        title: 'Generando Reporte...',
+        text: 'Por favor espere',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+    
+    // Petición AJAX
     $.ajax({
-        url: "../controller/reportes/controller_reportes.php",
-        type: "POST",
+        url: '../controller/reportes/controller_reportes.php',
+        type: 'POST',
         data: {
             accion: 'REPORTE_INGRESOS_GASTOS',
             fecha_desde: fecha_desde,
             fecha_hasta: fecha_hasta
         },
-        dataType: "json",
+        dataType: 'json',
         success: function(response) {
-            if (response.status === 'success') {
-                mostrarGraficaIngresosGastos(response.data);
-                llenarTablaResumen(response.data);
+            console.log('Respuesta del servidor:', response);
+            
+            if (response.status === 'success' && response.data) {
+                var data = response.data;
+                
+                // 1. Actualizar cards de totales
+                $('#total_ingresos_display').text('S/ ' + parseFloat(data.total_ingresos || 0).toFixed(2));
+                $('#total_gastos_display').text('S/ ' + parseFloat(data.total_gastos || 0).toFixed(2));
+                
+                var balance = parseFloat(data.balance || 0);
+                $('#balance_display').text('S/ ' + balance.toFixed(2));
+                
+                // Cambiar color del balance según sea positivo o negativo
+                var balance_box = $('#balance_box');
+                if (balance >= 0) {
+                    balance_box.removeClass('bg-danger').addClass('bg-info');
+                    balance_box.css('background', 'linear-gradient(90deg, #17a2b8, #20c997)');
+                } else {
+                    balance_box.removeClass('bg-info').addClass('bg-danger');
+                    balance_box.css('background', 'linear-gradient(90deg, #dc3545, #c82333)');
+                }
+                
+                // 2. Actualizar tabla resumen
+                var html_resumen = `
+                    <table class="table table-bordered table-hover">
+                        <tbody>
+                            <tr class="bg-success text-white">
+                                <td><b>Total Ingresos</b></td>
+                                <td class="text-right"><b>S/ ${parseFloat(data.total_ingresos || 0).toFixed(2)}</b></td>
+                            </tr>
+                            <tr class="bg-danger text-white">
+                                <td><b>Total Gastos</b></td>
+                                <td class="text-right"><b>S/ ${parseFloat(data.total_gastos || 0).toFixed(2)}</b></td>
+                            </tr>
+                            <tr class="${balance >= 0 ? 'bg-info' : 'bg-warning'} text-white">
+                                <td><b>Balance</b></td>
+                                <td class="text-right"><b>S/ ${balance.toFixed(2)}</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+                $('#tabla_resumen_ingresos_gastos').html(html_resumen);
+                
+                // 3. Renderizar gráfica
+                renderizar_grafica_ingresos_gastos(data);
+                
+                // 4. Cargar tabla de detalle diario
+                cargar_tabla_detalle_diario(data.detalle_diario || []);
+                
+                Swal.close();
+                
             } else {
-                Swal.fire('Error', response.message, 'error');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response.message || 'No se pudo generar el reporte',
+                    confirmButtonText: 'Entendido'
+                });
             }
         },
-        error: function() {
-            Swal.fire('Error', 'No se pudo generar el reporte', 'error');
+        error: function(xhr, status, error) {
+            console.error('Error AJAX:', error);
+            console.error('Respuesta completa:', xhr.responseText);
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor. Por favor intente nuevamente.',
+                confirmButtonText: 'Entendido'
+            });
         }
+    });
+}
+// ============================================================
+// FUNCIÓN: RENDERIZAR GRÁFICA
+// ============================================================
+function renderizar_grafica_ingresos_gastos(data) {
+    var ctx = document.getElementById('grafica_ingresos_gastos').getContext('2d');
+    
+    // Destruir gráfica anterior si existe
+    if (grafica_ingresos_gastos) {
+        grafica_ingresos_gastos.destroy();
+    }
+    
+    grafica_ingresos_gastos = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Ingresos', 'Gastos', 'Balance'],
+            datasets: [{
+                label: 'Montos en Soles (S/)',
+                data: [
+                    parseFloat(data.total_ingresos || 0),
+                    parseFloat(data.total_gastos || 0),
+                    parseFloat(data.balance || 0)
+                ],
+                backgroundColor: [
+                    'rgba(40, 167, 69, 0.7)',   // Verde para ingresos
+                    'rgba(220, 53, 69, 0.7)',   // Rojo para gastos
+                    parseFloat(data.balance || 0) >= 0 ? 'rgba(23, 162, 184, 0.7)' : 'rgba(255, 193, 7, 0.7)'  // Azul o amarillo según balance
+                ],
+                borderColor: [
+                    'rgba(40, 167, 69, 1)',
+                    'rgba(220, 53, 69, 1)',
+                    parseFloat(data.balance || 0) >= 0 ? 'rgba(23, 162, 184, 1)' : 'rgba(255, 193, 7, 1)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return 'S/ ' + context.parsed.y.toFixed(2);
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'S/ ' + value.toFixed(2);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+// ============================================================
+// FUNCIÓN: CARGAR TABLA DETALLE DIARIO
+// ============================================================
+function cargar_tabla_detalle_diario(detalle_diario) {
+    // Destruir DataTable anterior si existe
+    if ($.fn.DataTable.isDataTable('#tabla_detalle_diario')) {
+        $('#tabla_detalle_diario').DataTable().destroy();
+    }
+    
+    // Limpiar tbody
+    $('#tabla_detalle_diario tbody').empty();
+    
+    // Verificar si hay datos
+    if (!detalle_diario || detalle_diario.length === 0) {
+        $('#tabla_detalle_diario tbody').html(`
+            <tr>
+                <td colspan="4" class="text-center">
+                    <i class="fas fa-info-circle"></i> No hay movimientos en el rango de fechas seleccionado
+                </td>
+            </tr>
+        `);
+        return;
+    }
+    
+    // Construir filas de la tabla
+    var html_rows = '';
+    detalle_diario.forEach(function(item) {
+        var ingreso = parseFloat(item.ingreso_dia || 0);
+        var gasto = parseFloat(item.gasto_dia || 0);
+        var balance_dia = ingreso - gasto;
+        
+        html_rows += `
+            <tr>
+                <td>${item.fecha}</td>
+                <td class="text-right text-success"><b>S/ ${ingreso.toFixed(2)}</b></td>
+                <td class="text-right text-danger"><b>S/ ${gasto.toFixed(2)}</b></td>
+                <td class="text-right ${balance_dia >= 0 ? 'text-info' : 'text-warning'}">
+                    <b>S/ ${balance_dia.toFixed(2)}</b>
+                </td>
+            </tr>
+        `;
+    });
+    
+    $('#tabla_detalle_diario tbody').html(html_rows);
+    
+    // Inicializar DataTable con botones de exportación
+    tbl_detalle_diario = $('#tabla_detalle_diario').DataTable({
+        "ordering": true,
+        "paging": true,
+        "searching": true,
+        "info": true,
+        "pageLength": 10,
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+        },
+        "dom": 'Bfrtip',
+        "buttons": [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                className: 'btn btn-success btn-sm',
+                title: 'Reporte Ingresos vs Gastos - Detalle Diario',
+                filename: 'Ingresos_Gastos_' + new Date().getTime(),
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                className: 'btn btn-danger btn-sm',
+                title: 'Reporte Ingresos vs Gastos',
+                filename: 'Ingresos_Gastos_' + new Date().getTime(),
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                className: 'btn btn-info btn-sm',
+                title: 'Reporte Ingresos vs Gastos',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }
+        ]
     });
 }
 

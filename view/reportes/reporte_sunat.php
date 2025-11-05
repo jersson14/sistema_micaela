@@ -589,6 +589,127 @@ function refrescarTabla() {
         timer: 1500
     });
 }
+// 🔥 FUNCIÓN CORREGIDA: Actualizar Cards SUNAT
+function actualizarCardsSunat(data) {
+    // Contar estados
+    let pendientes = data.filter(c => c.estado_sunat === 'PENDIENTE').length;
+    let aceptados = data.filter(c => c.estado_sunat === 'ACEPTADO' || c.estado_sunat === 'ENVIADO').length;
+    let rechazados = data.filter(c => c.estado_sunat === 'RECHAZADO').length;
+    
+    // Calcular tasa de éxito
+    let total = data.length;
+    let tasaExito = total > 0 ? ((aceptados / total) * 100).toFixed(1) : 0;
+    
+    $('#total_pendientes_sunat').text(pendientes);
+    $('#total_aceptados_sunat').text(aceptados);
+    $('#total_rechazados_sunat').text(rechazados);
+    $('#porcentaje_exito').text(tasaExito + '%');
+    
+    // ===================================
+    // 🔥 MONTO TOTAL ACEPTADO
+    // ===================================
+    let montoAceptado = data
+        .filter(c => c.estado_sunat === 'ACEPTADO' || c.estado_sunat === 'ENVIADO')
+        .reduce((sum, c) => sum + parseFloat(c.total || 0), 0);
+    
+    $('#monto_total_aceptado').text('S/ ' + montoAceptado.toFixed(2));
+    $('#total_comprobantes_enviados').text(data.length);
+    
+    // ===================================
+    // 🔥 ENVÍOS HOY (CORREGIDO)
+    // ===================================
+    let hoy = new Date();
+    let hoyStr = hoy.toISOString().split('T')[0]; // Formato: YYYY-MM-DD
+    
+    let enviosHoy = data.filter(c => {
+        if (!c.fecha_envio_sunat) return false;
+        
+        // Extraer solo la fecha (sin hora) de fecha_envio_sunat
+        let fechaEnvio = c.fecha_envio_sunat.split(' ')[0]; // Si viene como "2025-11-05 14:30:00"
+        
+        // Si no tiene espacio, intentar con el formato ISO
+        if (fechaEnvio.includes('T')) {
+            fechaEnvio = fechaEnvio.split('T')[0]; // Si viene como "2025-11-05T14:30:00"
+        }
+        
+        return fechaEnvio === hoyStr;
+    }).length;
+    
+    $('#envios_hoy').text(enviosHoy);
+    
+    // ===================================
+    // 🔥 TIEMPO PROMEDIO (NUEVO)
+    // ===================================
+    let comprobantesConTiempo = data.filter(c => 
+        c.fecha_envio_sunat && 
+        c.fecha_emision &&
+        (c.estado_sunat === 'ACEPTADO' || c.estado_sunat === 'ENVIADO')
+    );
+    
+    if (comprobantesConTiempo.length > 0) {
+        let tiemposTotales = 0;
+        
+        comprobantesConTiempo.forEach(c => {
+            try {
+                // Parsear fechas
+                let fechaEmision = new Date(c.fecha_emision);
+                let fechaEnvio = new Date(c.fecha_envio_sunat);
+                
+                // Calcular diferencia en milisegundos
+                let diferenciaMilisegundos = fechaEnvio - fechaEmision;
+                
+                // Convertir a minutos
+                let diferenciaMinutos = diferenciaMilisegundos / (1000 * 60);
+                
+                // Solo contar si es positivo (envío después de emisión)
+                if (diferenciaMinutos > 0) {
+                    tiemposTotales += diferenciaMinutos;
+                }
+            } catch (error) {
+                console.error('Error al calcular tiempo:', error);
+            }
+        });
+        
+        let tiempoPromedio = tiemposTotales / comprobantesConTiempo.length;
+        
+        // Formatear el tiempo promedio
+        let textoTiempo = '';
+        
+        if (tiempoPromedio < 60) {
+            // Menos de 1 hora - mostrar en minutos
+            textoTiempo = Math.round(tiempoPromedio) + ' min';
+        } else if (tiempoPromedio < 1440) {
+            // Menos de 1 día - mostrar en horas
+            let horas = Math.floor(tiempoPromedio / 60);
+            let minutos = Math.round(tiempoPromedio % 60);
+            textoTiempo = horas + 'h ' + minutos + 'm';
+        } else {
+            // Más de 1 día - mostrar en días
+            let dias = Math.floor(tiempoPromedio / 1440);
+            let horas = Math.floor((tiempoPromedio % 1440) / 60);
+            textoTiempo = dias + 'd ' + horas + 'h';
+        }
+        
+        $('#tiempo_promedio').text(textoTiempo);
+        
+    } else {
+        $('#tiempo_promedio').text('N/A');
+    }
+    
+    // ===================================
+    // 🔥 LOG PARA DEBUG (opcional)
+    // ===================================
+    console.log('📊 Estadísticas SUNAT:', {
+        total: total,
+        pendientes: pendientes,
+        aceptados: aceptados,
+        rechazados: rechazados,
+        tasaExito: tasaExito + '%',
+        montoAceptado: 'S/ ' + montoAceptado.toFixed(2),
+        enviosHoy: enviosHoy,
+        tiempoPromedio: $('#tiempo_promedio').text()
+    });
+}
 </script>
 
 <style>

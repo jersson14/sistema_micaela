@@ -309,7 +309,66 @@ function listar_salidas_diarias() {
         destroy: true,
         processing: true,
         responsive: true,
-        dom: '<"row"<"col-sm-6"l><"col-sm-6"f>>rtip',
+        // 🔥 AGREGAR BOTONES NATIVOS DE DATATABLES
+        dom: '<"row"<"col-sm-6"l><"col-sm-6"f>><"row"<"col-sm-12 text-right mb-2"B>>rtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success btn-sm',
+                title: 'Reporte Salidas Diarias',
+                filename: 'Salidas_Diarias_' + fecha_desde + '_' + fecha_hasta,
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] // Excluir columna de acciones
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger btn-sm',
+                title: 'Reporte Salidas Diarias',
+                filename: 'Salidas_Diarias_' + fecha_desde + '_' + fecha_hasta,
+                orientation: 'landscape',
+                pageSize: 'A4',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                },
+                customize: function(doc) {
+                    doc.content[1].table.widths = 
+                        Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+                    
+                    // Estilos del PDF
+                    doc.styles.title = {
+                        fontSize: 16,
+                        bold: true,
+                        alignment: 'center',
+                        margin: [0, 0, 0, 15]
+                    };
+                    
+                    doc.styles.tableHeader = {
+                        bold: true,
+                        fontSize: 9,
+                        color: 'white',
+                        fillColor: '#343a40',
+                        alignment: 'center'
+                    };
+                    
+                    doc.defaultStyle.fontSize = 8;
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                titleAttr: 'Imprimir',
+                className: 'btn btn-info btn-sm',
+                title: 'Reporte Salidas Diarias',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                }
+            }
+        ],
         ajax: {
             url: "../controller/reportes/controller_reportes.php",
             type: "POST",
@@ -320,13 +379,21 @@ function listar_salidas_diarias() {
                 id_chofer: id_chofer
             },
             dataSrc: function(json) {
+                console.log("📊 Respuesta del servidor (Salidas):", json);
+                
                 if (json.status === 'success') {
                     actualizarIndicadoresSalidas(json.data);
                     generarGraficasSalidas(json.data);
                     generarResumenChoferes(json.data);
                     return json.data;
+                } else if (json.status === 'error') {
+                    Swal.fire('Error', json.message || 'No se pudieron cargar las salidas', 'error');
                 }
                 return [];
+            },
+            error: function(xhr, error, thrown) {
+                console.error("❌ Error AJAX:", error);
+                Swal.fire('Error', 'No se pudo cargar el reporte de salidas', 'error');
             }
         },
         columns: [
@@ -352,7 +419,7 @@ function listar_salidas_diarias() {
             {
                 data: 'monto',
                 className: 'text-right',
-                render: (data) => '<b>S/ ' + parseFloat(data).toFixed(2) + '</b>'
+                render: (data) => '<b>S/ ' + parseFloat(data || 0).toFixed(2) + '</b>'
             },
             {
                 data: 'numero_comprobante',
@@ -388,7 +455,7 @@ function listar_salidas_diarias() {
         footerCallback: function(row, data, start, end, display) {
             let api = this.api();
             let total = api.column(9, { page: 'current' }).data().reduce(function(a, b) {
-                return parseFloat(a) + parseFloat(b);
+                return parseFloat(a || 0) + parseFloat(b || 0);
             }, 0);
             $('#footer_total').html('S/ ' + total.toFixed(2));
         },
@@ -552,92 +619,258 @@ function generarResumenChoferes(data) {
     $('#tbody_resumen_choferes').html(html);
 }
 
+// 🔥 FUNCIÓN CORREGIDA: Ver Detalle de Salida
 function verDetalleSalida(id) {
     $.ajax({
-        url: "../controller/salida/controller_salida.php",
+        url: "../controller/reportes/controller_reportes.php", // ✅ Usar controller_reportes
         type: "POST",
         data: {
             accion: "OBTENER_SALIDA",
             id_salida: id
         },
         dataType: "json",
+        beforeSend: function() {
+            Swal.fire({
+                title: 'Cargando...',
+                text: 'Obteniendo información de la salida',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        },
         success: function(data) {
-            if (data) {
+            Swal.close();
+            
+            if (data && !data.error) {
+                // Función auxiliar para formatear fecha
+                const formatearFecha = (fecha) => {
+                    if (!fecha) return '-';
+                    const partes = fecha.split('-');
+                    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+                };
+                
                 let html = `
                     <div class="row">
                         <div class="col-md-6">
-                            <h5><i class="fas fa-calendar"></i> Información General</h5>
-                            <table class="table table-sm">
-                                <tr><th>Fecha:</th><td>${data.fecha_salida}</td></tr>
-                                <tr><th>Hora:</th><td>${data.hora_salida}</td></tr>
-                                <tr><th>Estado:</th><td>${data.estado}</td></tr>
+                            <h5><i class="fas fa-calendar"></i> <b>Información General</b></h5>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <th width="40%">N° Salida:</th>
+                                    <td><b>${data.salida_nro || data.id_salida}</b></td>
+                                </tr>
+                                <tr>
+                                    <th>Fecha:</th>
+                                    <td>${formatearFecha(data.fecha_salida)}</td>
+                                </tr>
+                                <tr>
+                                    <th>Hora:</th>
+                                    <td>${data.hora_salida || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Estado:</th>
+                                    <td>
+                                        ${data.estado === 'COMPLETADO' ? 
+                                            '<span class="badge badge-success">COMPLETADO</span>' :
+                                            data.estado === 'EN CURSO' ?
+                                            '<span class="badge badge-warning">EN CURSO</span>' :
+                                            '<span class="badge badge-danger">CANCELADO</span>'}
+                                    </td>
+                                </tr>
                             </table>
                         </div>
+                        
                         <div class="col-md-6">
-                            <h5><i class="fas fa-user"></i> Personal y Vehículo</h5>
-                            <table class="table table-sm">
-                                <tr><th>Chofer:</th><td>${data.chofer_nombre}</td></tr>
-                                <tr><th>Placa:</th><td>${data.placa_vehiculo}</td></tr>
+                            <h5><i class="fas fa-user"></i> <b>Personal y Vehículo</b></h5>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <th width="40%">Chofer:</th>
+                                    <td>${data.chofer_nombre || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Marca:</th>
+                                    <td>${data.marca_vehiculo || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Placa:</th>
+                                    <td><b>${data.placa_vehiculo || 'SIN PLACA'}</b></td>
+                                </tr>
+                                <tr>
+                                    <th>Licencia:</th>
+                                    <td>${data.nro_licencia || '-'}</td>
+                                </tr>
                             </table>
                         </div>
                     </div>
+                    
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5><i class="fas fa-route"></i> <b>Ruta</b></h5>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <th width="20%">Origen:</th>
+                                    <td><i class="fas fa-map-marker-alt text-success"></i> ${data.origen || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Destino:</th>
+                                    <td><i class="fas fa-map-marker-alt text-danger"></i> ${data.destino || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Distancia:</th>
+                                    <td>${data.distancia || '-'}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-user-tie"></i> <b>Cliente</b></h5>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <th width="40%">Nombre:</th>
+                                    <td>${data.cliente_nombre || 'CLIENTE GENERAL'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Documento:</th>
+                                    <td>${data.cliente_documento || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Teléfono:</th>
+                                    <td>${data.cliente_telefono || '-'}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-money-bill"></i> <b>Facturación</b></h5>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <th width="40%">Servicio:</th>
+                                    <td>${data.servicio_nombre || 'SERVICIO GENERAL'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Monto:</th>
+                                    <td><b class="text-success">S/ ${parseFloat(data.monto || 0).toFixed(2)}</b></td>
+                                </tr>
+                                <tr>
+                                    <th>Comprobante:</th>
+                                    <td>
+                                        ${data.numero_comprobante ? 
+                                            `<span class="badge badge-info">${data.numero_comprobante}</span>` : 
+                                            '-'}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    ${data.observacion ? `
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <h5><i class="fas fa-route"></i> Ruta</h5>
-                            <table class="table table-sm">
-                                <tr><th>Origen:</th><td>${data.origen}</td></tr>
-                                <tr><th>Destino:</th><td>${data.destino}</td></tr>
-                                <tr><th>Distancia:</th><td>${data.distancia || '-'}</td></tr>
-                            </table>
+                            <h5><i class="fas fa-comment"></i> <b>Observaciones</b></h5>
+                            <div class="alert alert-info">
+                                ${data.observacion}
+                            </div>
                         </div>
                     </div>
+                    ` : ''}
+                    
                     <hr>
+                    
                     <div class="row">
-                        <div class="col-md-6">
-                            <h5><i class="fas fa-user-tie"></i> Cliente</h5>
-                            <table class="table table-sm">
-                                <tr><th>Nombre:</th><td>${data.cliente_nombre}</td></tr>
-                                <tr><th>Documento:</th><td>${data.cliente_documento}</td></tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <h5><i class="fas fa-money-bill"></i> Facturación</h5>
-                            <table class="table table-sm">
-                                <tr><th>Servicio:</th><td>${data.servicio_nombre}</td></tr>
-                                <tr><th>Monto:</th><td><b class="text-success">S/ ${parseFloat(data.monto).toFixed(2)}</b></td></tr>
-                                <tr><th>Comprobante:</th><td>${data.numero_comprobante || '-'}</td></tr>
-                            </table>
+                        <div class="col-md-12">
+                            <small class="text-muted">
+                                <i class="fas fa-user"></i> Registrado por: ${data.usuario_registro || 'Sistema'}
+                            </small>
                         </div>
                     </div>
                 `;
                 
                 $('#contenido_detalle_salida').html(html);
                 $('#modal_detalle_salida').modal('show');
+                
+            } else {
+                Swal.fire('Error', data.error || 'No se encontró información de la salida', 'error');
             }
+        },
+        error: function(xhr) {
+            Swal.close();
+            console.error('Error al obtener detalle:', xhr.responseText);
+            Swal.fire('Error', 'No se pudo obtener el detalle de la salida', 'error');
         }
     });
 }
 
+// 🔥 FUNCIONES DE EXPORTACIÓN CORREGIDAS
+
 function exportarExcelSalidas() {
-    if (tbl_salidas_diarias) {
-        // Crear botón temporal de exportación
-        let btn = $('<button>').appendTo('body').hide();
-        let dt = tbl_salidas_diarias;
-        
-        $.fn.dataTable.ext.buttons.excelHtml5.action.call(dt, null, dt, btn, {
-            title: 'Reporte Salidas Diarias',
-            filename: 'Salidas_' + new Date().toISOString().slice(0, 10)
+    if (!tbl_salidas_diarias) {
+        return Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'Primero debe generar el reporte antes de exportar',
+            confirmButtonText: 'Entendido'
         });
-        
-        btn.remove();
-    } else {
-        Swal.fire('Advertencia', 'Primero genere el reporte', 'warning');
     }
+    
+    // Trigger del botón Excel nativo de DataTables
+    tbl_salidas_diarias.button('.buttons-excel').trigger();
+    
+    // Notificación de éxito
+    Swal.fire({
+        icon: 'success',
+        title: 'Exportando...',
+        text: 'El archivo Excel se descargará en un momento',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000
+    });
 }
 
 function exportarPDFSalidas() {
-    Swal.fire('Información', 'Función en desarrollo', 'info');
+    if (!tbl_salidas_diarias) {
+        return Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'Primero debe generar el reporte antes de exportar',
+            confirmButtonText: 'Entendido'
+        });
+    }
+    
+    // Trigger del botón PDF nativo de DataTables
+    tbl_salidas_diarias.button('.buttons-pdf').trigger();
+    
+    // Notificación de éxito
+    Swal.fire({
+        icon: 'success',
+        title: 'Generando PDF...',
+        text: 'El archivo se descargará en un momento',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000
+    });
+}
+
+// 🔥 BONUS: Función para imprimir directamente
+function imprimirSalidas() {
+    if (!tbl_salidas_diarias) {
+        return Swal.fire({
+            icon: 'warning',
+            title: 'Atención',
+            text: 'Primero debe generar el reporte antes de imprimir'
+        });
+    }
+    
+    tbl_salidas_diarias.button('.buttons-print').trigger();
 }
 </script>
 

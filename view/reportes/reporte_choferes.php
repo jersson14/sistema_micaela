@@ -413,8 +413,159 @@ function mostrarTopChoferes(data) {
     $('#contenido_top_choferes').html(html);
 }
 
+// 🔧 FUNCIÓN CORREGIDA: Ver Detalle del Chofer
 function verDetalleChofer(id) {
-    Swal.fire('Info', 'Función en desarrollo', 'info');
+    $.ajax({
+        url: "../controller/reportes/controller_reportes.php",
+        type: "POST",
+        data: {
+            accion: "OBTENER_DETALLE_CHOFER",
+            id_chofer: id
+        },
+        dataType: "json",
+        beforeSend: function() {
+            Swal.fire({
+                title: 'Cargando...',
+                text: 'Obteniendo información del chofer',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        },
+        success: function(data) {
+            Swal.close();
+            
+            if (data && !data.error) {
+                // Calcular días hasta vencimiento de licencia
+                let alertaLicencia = '';
+                if (data.fecha_vencimiento_licencia) {
+                    let hoy = new Date();
+                    let vencimiento = new Date(data.fecha_vencimiento_licencia);
+                    let diasDiff = Math.floor((vencimiento - hoy) / (1000 * 60 * 60 * 24));
+                    
+                    if (diasDiff < 0) {
+                        alertaLicencia = `<div class="alert alert-danger mt-2">
+                            <i class="fas fa-exclamation-triangle"></i> 
+                            <b>¡LICENCIA VENCIDA!</b> Venció hace ${Math.abs(diasDiff)} días
+                        </div>`;
+                    } else if (diasDiff <= 30) {
+                        alertaLicencia = `<div class="alert alert-warning mt-2">
+                            <i class="fas fa-exclamation-circle"></i> 
+                            <b>¡Licencia por vencer!</b> Faltan ${diasDiff} días
+                        </div>`;
+                    }
+                }
+                
+                let html = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-user"></i> <b>Datos Personales</b></h5>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <th width="40%">Tipo Documento:</th>
+                                    <td>${data.tipo_documen || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>N° Documento:</th>
+                                    <td><b>${data.nro_doc || '-'}</b></td>
+                                </tr>
+                                <tr>
+                                    <th>Nombres:</th>
+                                    <td>${data.nombres_apellidos || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Celular:</th>
+                                    <td>${data.celular || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Estado:</th>
+                                    <td>
+                                        ${data.estado === 'ACTIVO' ? 
+                                            '<span class="badge badge-success">ACTIVO</span>' : 
+                                            '<span class="badge badge-danger">INACTIVO</span>'}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-car"></i> <b>Datos del Vehículo</b></h5>
+                            <table class="table table-sm table-bordered">
+                                <tr>
+                                    <th width="40%">Marca:</th>
+                                    <td>${data.marca_vehiculo || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Placa:</th>
+                                    <td><b>${data.placa_vehiculo || 'SIN PLACA'}</b></td>
+                                </tr>
+                                <tr>
+                                    <th>N° Licencia:</th>
+                                    <td>${data.nro_licencia || '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th>Venc. Licencia:</th>
+                                    <td>
+                                        ${data.fecha_vencimiento_licencia ? 
+                                            new Date(data.fecha_vencimiento_licencia).toLocaleDateString('es-PE') : 
+                                            '-'}
+                                    </td>
+                                </tr>
+                            </table>
+                            ${alertaLicencia}
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="info-box bg-primary">
+                                <span class="info-box-icon"><i class="fas fa-bus"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Salidas</span>
+                                    <span class="info-box-number">${data.total_salidas || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="info-box bg-success">
+                                <span class="info-box-icon"><i class="fas fa-file-invoice"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Comprobantes</span>
+                                    <span class="info-box-number">${data.total_comprobantes || 0}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="info-box bg-info">
+                                <span class="info-box-icon"><i class="fas fa-money-bill-wave"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Total Facturado</span>
+                                    <span class="info-box-number">S/ ${parseFloat(data.total_facturado || 0).toFixed(2)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                $('#contenido_detalle_chofer').html(html);
+                $('#modal_detalle_chofer').modal('show');
+                
+            } else {
+                Swal.fire('Error', data.error || 'No se encontró información del chofer', 'error');
+            }
+        },
+        error: function(xhr) {
+            Swal.close();
+            console.error('Error:', xhr.responseText);
+            Swal.fire('Error', 'No se pudo obtener el detalle del chofer', 'error');
+        }
+    });
 }
 
 function exportarExcelChoferes() {

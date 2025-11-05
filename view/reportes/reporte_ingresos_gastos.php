@@ -160,19 +160,10 @@
 </div>
 
 <script>
-$(document).ready(function() {
-    // Establecer fechas por defecto (mes actual)
-    var hoy = new Date();
-    var primerDiaMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
-    
-    $('#filtro_ingreso_fecha_desde').val(primerDiaMes.toISOString().split('T')[0]);
-    $('#filtro_ingreso_fecha_hasta').val(hoy.toISOString().split('T')[0]);
-    
-    // 🔥 NO inicializar DataTable aquí, se hará después de cargar datos
-});
-
+// ============================================================
+// FUNCIÓN: EXPORTAR A EXCEL (ALTERNATIVA)
+// ============================================================
 function exportarExcelIngresosGastos() {
-    // Verificar si DataTable está inicializado
     if ($.fn.DataTable.isDataTable('#tabla_detalle_diario')) {
         $('#tabla_detalle_diario').DataTable().button('.buttons-excel').trigger();
     } else {
@@ -184,6 +175,20 @@ function exportarExcelIngresosGastos() {
         });
     }
 }
+
+// ============================================================
+// INICIALIZACIÓN AL CARGAR LA PÁGINA
+// ============================================================
+$(document).ready(function() {
+    // Establecer fechas por defecto (mes actual)
+    var hoy = new Date();
+    var primerDiaMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+    
+    $('#filtro_ingreso_fecha_desde').val(primerDiaMes.toISOString().split('T')[0]);
+    $('#filtro_ingreso_fecha_hasta').val(hoy.toISOString().split('T')[0]);
+    
+    console.log('Módulo de reportes cargado correctamente');
+});
 </script>
 
 <style>

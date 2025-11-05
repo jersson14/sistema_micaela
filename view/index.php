@@ -18,6 +18,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css">
+
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="../plantilla/plugins//fontawesome-free/css/all.min.css">
   <!-- Theme style -->
@@ -2248,6 +2250,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
 <!-- Chart.js - NECESARIO para las gráficas -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+
   <!-- AQUÍ VA EL NUEVO SCRIPT -->
 <script src="../js/navegacion_hash.js?rev=<?php echo time(); ?>"></script>
 </body>
