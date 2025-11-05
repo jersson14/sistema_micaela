@@ -373,4 +373,5 @@ elseif ($accion == 'OBTENER_DETALLE_CHOFER') {
         echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
     }
 }
+
 ?>

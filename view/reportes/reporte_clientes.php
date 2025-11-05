@@ -526,11 +526,279 @@ function actualizarTopClientes(data) {
     
     $('#tbody_top_clientes').html(html);
 }
-function verDetalleCliente(id) {
-    Swal.fire('Info', 'Función en desarrollo', 'info');
+// ============================================================
+// FUNCIÓN: VER DETALLE COMPLETO DEL CLIENTE
+// ============================================================
+function verDetalleCliente(id_cliente) {
+    console.log('🔍 Obteniendo detalle del cliente ID:', id_cliente);
+    
+    // Mostrar modal con loading
+    $('#modal_detalle_cliente').modal('show');
+    $('#contenido_detalle_cliente').html(`
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+            <p class="mt-3">Cargando información del cliente...</p>
+        </div>
+    `);
+    
+    // Petición AJAX
+    $.ajax({
+        url: '../controller/reportes/controller_reportes.php',
+        type: 'POST',
+        data: {
+            accion: 'OBTENER_DETALLE_CLIENTE',
+            id_cliente: id_cliente
+        },
+        dataType: 'json',
+        success: function(response) {
+            console.log('✅ Respuesta del servidor:', response);
+            
+            if (response.error) {
+                $('#contenido_detalle_cliente').html(`
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i> ${response.error}
+                    </div>
+                `);
+                return;
+            }
+            
+            // Construir el HTML del detalle
+            let html = generarHTMLDetalleCliente(response);
+            $('#contenido_detalle_cliente').html(html);
+        },
+        error: function(xhr, status, error) {
+            console.error('❌ Error AJAX:', error);
+            console.error('Respuesta completa:', xhr.responseText);
+            
+            $('#contenido_detalle_cliente').html(`
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    <b>Error al cargar el detalle del cliente</b>
+                    <p>Por favor intente nuevamente.</p>
+                    <small class="text-muted">${error}</small>
+                </div>
+            `);
+        }
+    });
 }
 
+// ============================================================
+// FUNCIÓN: GENERAR HTML DEL DETALLE DEL CLIENTE
+// ============================================================
+function generarHTMLDetalleCliente(data) {
+    // Calcular días de inactividad
+    let diasInactividad = '-';
+    if (data.ultimo_viaje) {
+        let hoy = new Date();
+        let ultimoViaje = new Date(data.ultimo_viaje);
+        let diff = Math.floor((hoy - ultimoViaje) / (1000 * 60 * 60 * 24));
+        diasInactividad = diff + ' días';
+    }
+    
+    // Determinar categoría del cliente
+    let categoria = 'Cliente Ocasional';
+    let badgeCategoria = 'secondary';
+    if (parseInt(data.total_viajes) >= 10) {
+        categoria = 'Cliente VIP';
+        badgeCategoria = 'success';
+    } else if (parseInt(data.total_viajes) >= 5) {
+        categoria = 'Cliente Frecuente';
+        badgeCategoria = 'primary';
+    } else if (parseInt(data.total_viajes) <= 2) {
+        categoria = 'Cliente Nuevo';
+        badgeCategoria = 'info';
+    }
+    
+    let html = `
+        <div class="container-fluid">
+            
+            <!-- INFORMACIÓN PERSONAL -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h5 class="border-bottom pb-2">
+                        <i class="fas fa-user-circle text-info"></i> Información Personal
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-sm table-borderless">
+                        <tr>
+                            <td width="40%"><b>Tipo Documento:</b></td>
+                            <td>${data.tipo_documento || '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><b>N° Documento:</b></td>
+                            <td><span class="badge badge-dark">${data.nro_documento || '-'}</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>Nombre Completo:</b></td>
+                            <td><b class="text-primary">${data.nombre_completo || '-'}</b></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-sm table-borderless">
+                        <tr>
+                            <td width="40%"><b>Celular:</b></td>
+                            <td>
+                                ${data.celular ? 
+                                    `<a href="https://wa.me/51${data.celular}" target="_blank" class="btn btn-sm btn-success">
+                                        <i class="fab fa-whatsapp"></i> ${data.celular}
+                                    </a>` 
+                                    : '-'}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Email:</b></td>
+                            <td>${data.email ? `<a href="mailto:${data.email}">${data.email}</a>` : '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Procedencia:</b></td>
+                            <td>${data.procedencia || '-'}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- ESTADÍSTICAS DE VIAJES -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h5 class="border-bottom pb-2">
+                        <i class="fas fa-chart-line text-success"></i> Estadísticas de Viajes
+                    </h5>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="info-box bg-gradient-primary">
+                        <span class="info-box-icon"><i class="fas fa-road"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total Viajes</span>
+                            <span class="info-box-number">${data.total_viajes || 0}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="info-box bg-gradient-success">
+                        <span class="info-box-icon"><i class="fas fa-file-invoice"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Comprobantes</span>
+                            <span class="info-box-number">${data.comprobantes_emitidos || 0}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="info-box bg-gradient-warning">
+                        <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total Gastado</span>
+                            <span class="info-box-number">S/ ${parseFloat(data.total_gastado || 0).toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="info-box bg-gradient-info">
+                        <span class="info-box-icon"><i class="fas fa-calculator"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Promedio/Viaje</span>
+                            <span class="info-box-number">S/ ${
+                                data.total_viajes > 0 ? 
+                                (parseFloat(data.total_gastado || 0) / parseInt(data.total_viajes)).toFixed(2) : 
+                                '0.00'
+                            }</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- INFORMACIÓN ADICIONAL -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h6 class="m-0"><i class="fas fa-star"></i> Categoría del Cliente</h6>
+                        </div>
+                        <div class="card-body text-center">
+                            <h3><span class="badge badge-${badgeCategoria}">${categoria}</span></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-outline card-warning">
+                        <div class="card-header">
+                            <h6 class="m-0"><i class="fas fa-calendar-alt"></i> Última Actividad</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm table-borderless">
+                                <tr>
+                                    <td><b>Último Viaje:</b></td>
+                                    <td>${data.ultimo_viaje ? new Date(data.ultimo_viaje).toLocaleDateString('es-PE') : 'Sin registro'}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Días sin viajar:</b></td>
+                                    <td>
+                                        <span class="badge ${parseInt(diasInactividad) > 30 ? 'badge-danger' : 'badge-success'}">
+                                            ${diasInactividad}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- HISTORIAL DE COMPROBANTES (SI EXISTE) -->
+            ${data.historial_comprobantes && data.historial_comprobantes.length > 0 ? `
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h5 class="border-bottom pb-2">
+                            <i class="fas fa-history text-info"></i> Últimos Comprobantes
+                        </h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped">
+                                <thead class="bg-secondary">
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Tipo</th>
+                                        <th>Número</th>
+                                        <th class="text-right">Monto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${data.historial_comprobantes.map(comp => `
+                                        <tr>
+                                            <td>${new Date(comp.fecha_emision).toLocaleDateString('es-PE')}</td>
+                                            <td>${comp.tipo_comprobante === '01' ? 'Factura' : 'Boleta'}</td>
+                                            <td><code>${comp.numero_comprobante}</code></td>
+                                            <td class="text-right">S/ ${parseFloat(comp.total).toFixed(2)}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+            
+        </div>
+    `;
+    
+    return html;
+}
+
+// ============================================================
+// FUNCIÓN: EXPORTAR EXCEL CLIENTES
+// ============================================================
 function exportarExcelClientes() {
-    tbl_clientes.button('.buttons-excel').trigger();
+    if (tbl_clientes && $.fn.DataTable.isDataTable('#tabla_reporte_clientes')) {
+        tbl_clientes.button('.buttons-excel').trigger();
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Reporte no generado',
+            text: 'Primero haga clic en "Generar Reporte"',
+            confirmButtonText: 'Entendido'
+        });
+    }
 }
 </script>
