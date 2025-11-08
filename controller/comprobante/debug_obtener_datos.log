@@ -207,3 +207,14 @@
     [estado_sunat] => PENDIENTE
 )
 
+[2025-11-08 18:05:56] Buscando comprobante ID: 110
+[2025-11-08 18:05:56] Resultado: Array
+(
+    [id_comprobante] => 110
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-08
+    [serie] => B001
+    [correlativo] => 65
+    [estado_sunat] => PENDIENTE
+)
+

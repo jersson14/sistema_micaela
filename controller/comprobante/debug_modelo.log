@@ -131,3 +131,7 @@
   Num Doc: 20448261272
 [2025-11-08 10:43:44] Cliente ya existe (ID: 63), actualizando...
 [2025-11-08 10:43:44] ✅ Cliente actualizado
+[2025-11-08 12:05:56] Registrar_Cliente_SUNAT llamado
+  Num Doc: 72646121
+[2025-11-08 12:05:56] Cliente ya existe (ID: 4), actualizando...
+[2025-11-08 12:05:56] ✅ Cliente actualizado

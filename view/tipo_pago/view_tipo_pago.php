@@ -139,33 +139,4 @@
     $('#modal_registro').on('shown.bs.modal', function() {
       $('#txt_nombre_rol').trigger('focus')
     })
-    //TRAER FECHA ACTUAL
-    var n = new Date();
-    var y = n.getFullYear();
-    var m = n.getMonth() + 1; // Los meses empiezan desde 0, por eso se suma 1
-    var d = n.getDate();
-
-    // Si el día o el mes es menor a 10, se le agrega un '0' al inicio
-    if (d < 10) {
-      d = '0' + d;
-    }
-    if (m < 10) {
-      m = '0' + m;
-    }
-
-    // Establece el valor del campo de fecha con el formato YYYY-MM-DD
-    document.getElementById('txt_fecha_registro').value = y + "-" + m + "-" + d;
-
-
-    var input = document.getElementById('txt_tele1');
-    input.addEventListener('input', function() {
-      if (this.value.length > 9)
-        this.value = this.value.slice(0, 9);
-    })
-
-    var input = document.getElementById('txt_tele2');
-    input.addEventListener('input', function() {
-      if (this.value.length > 9)
-        this.value = this.value.slice(0, 9);
-    })
   </script>

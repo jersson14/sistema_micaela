@@ -2373,24 +2373,3 @@ scratch. This page gets rid of all links and provides the needed markup only.
     overflow: hidden;
   }
 </style>
-<script>
-  // Iniciar el cambio automático de imagen cada 5 segundos
-  var carousel = document.querySelector('#photoCarousel');
-  var nextBtn = document.querySelector('#nextBtn');
-  var prevBtn = document.querySelector('#prevBtn');
-
-  // Configurar el intervalo para cambiar automáticamente cada 5 segundos
-  setInterval(function() {
-    $(carousel).carousel('next');
-  }, 5000); // 5000 milisegundos = 5 segundos
-
-  // Botón "Siguiente"
-  nextBtn.addEventListener('click', function() {
-    $(carousel).carousel('next');
-  });
-
-  // Botón "Anterior"
-  prevBtn.addEventListener('click', function() {
-    $(carousel).carousel('prev');
-  });
-</script>
