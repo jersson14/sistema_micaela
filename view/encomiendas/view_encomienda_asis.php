@@ -78,7 +78,7 @@
                                                 <span class="badge bg-warning text-dark p-2 px-3" style="min-width: 140px;">
                                                     <i class="fas fa-clock me-1"></i> PENDIENTE
                                                 </span>
-                                                <span class="text-start small">
+                                                <span class="text-start">
                                                     <b> :La encomienda está registrada pero aún no ha salido de la agencia de origen.</b>
                                                 </span>
                                             </div>
@@ -88,7 +88,7 @@
                                                 <span class="badge bg-dark text-white p-2 px-3" style="min-width: 140px;">
                                                     <i class="fas fa-shipping-fast me-1"></i> EN TRÁNSITO
                                                 </span>
-                                                <span class="text-start small">
+                                                <span class="text-start">
                                                     <b> :La encomienda ya salió y está viajando en ruta hacia la agencia de destino.</b>
                                                 </span>
                                             </div>
@@ -98,7 +98,7 @@
                                                 <span class="badge bg-info text-white p-2 px-3" style="min-width: 140px;">
                                                     <i class="fas fa-building me-1"></i> EN AGENCIA
                                                 </span>
-                                                <span class="text-start small">
+                                                <span class="text-start">
                                                     <b> :La encomienda llegó a la agencia de destino y está lista para ser recogida.</b>
                                                 </span>
                                             </div>
@@ -108,7 +108,7 @@
                                                 <span class="badge bg-success p-2 px-3" style="min-width: 140px;">
                                                     <i class="fas fa-check-circle me-1"></i> ENTREGADO
                                                 </span>
-                                                <span class="text-start small">
+                                                <span class="text-start">
                                                     <b> :La encomienda fue entregada exitosamente al destinatario final.</b>
                                                 </span>
                                             </div>
@@ -118,7 +118,7 @@
                                                 <span class="badge bg-secondary text-white p-2 px-3" style="min-width: 140px;">
                                                     <i class="fas fa-exclamation-circle me-1"></i> OBSERVADO
                                                 </span>
-                                                <span class="text-start small">
+                                                <span class="text-start">
                                                     <b> :La encomienda presenta algún problema o incidencia que necesita ser revisada.</b>
                                                 </span>
                                             </div>
@@ -128,7 +128,7 @@
                                                 <span class="badge bg-danger p-2 px-3" style="min-width: 140px;">
                                                     <i class="fas fa-ban me-1"></i> ANULADO
                                                 </span>
-                                                <span class="text-start small">
+                                                <span class="text-start">
                                                     <b> :La encomienda fue cancelada y no será enviada ni procesada.</b>
                                                 </span>
                                             </div>
@@ -148,7 +148,7 @@
                                                 <span class="badge bg-success p-2 px-3" style="min-width: 120px;">
                                                     <i class="fas fa-check-double me-1"></i> PAGADO
                                                 </span>
-                                                <span class="text-start small">
+                                                <span class="text-start">
                                                     <b> : El pago de la encomienda ha sido completado en su totalidad, no hay saldo pendiente.</b>
                                                 </span>
                                             </div>
@@ -158,7 +158,7 @@
                                                 <span class="badge bg-danger p-2 px-3" style="min-width: 120px;">
                                                     <i class="fas fa-dollar-sign me-1"></i> POR PAGAR
                                                 </span>
-                                                <span class="text-start small">
+                                                <span class="text-start">
                                                     <b> : La encomienda tiene un monto pendiente que aún debe ser cancelado por el cliente.</b>
                                                 </span>
                                             </div>
