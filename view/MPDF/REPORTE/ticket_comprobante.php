@@ -10,9 +10,13 @@ use Mpdf\Mpdf;
 use Mpdf\QrCode\QrCode;
 use Mpdf\QrCode\Output;
 
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-if ($id <= 0) die("Error: ID inválido");
+// Validación mejorada de ID
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$id || $id <= 0) {
+    die("Error: ID inválido");
+}
 
+// Query con prepared statement para seguridad
 $query = "
 SELECT 
     c.id_comprobante, c.tipo_comprobante, c.serie, c.correlativo,
@@ -40,11 +44,22 @@ LEFT JOIN usuario u ON c.id_usuario = u.id_usuario
 LEFT JOIN sucursales su ON u.id_sucursal = su.id_sucursal
 LEFT JOIN empresa e ON su.id_empresa = e.id_empresa
 LEFT JOIN choferes ch ON c.idconductor = ch.id_chofer
-WHERE c.id_comprobante = '$id'";
+WHERE c.id_comprobante = ?";
 
-$result = $mysqli->query($query);
-if ($result->num_rows === 0) die("Comprobante no encontrado");
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    die("Comprobante no encontrado");
+}
 $row = $result->fetch_assoc();
+
+// Función helper para escapar HTML
+function e($string) {
+    return htmlspecialchars($string ?? '', ENT_QUOTES, 'UTF-8');
+}
 
 // FORMATEAR DATOS
 $meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
@@ -52,10 +67,12 @@ $fechaObj = new DateTime($row['fecha_emision']);
 $fechaFormato = $fechaObj->format('d').' '.$meses[(int)$fechaObj->format('m')-1].' '.$fechaObj->format('Y');
 $hora = !empty($row['hora_emision']) ? date('h:i A', strtotime($row['hora_emision'])) : '';
 
+// Formateo de montos
 $total = number_format($row['total'], 2);
 $total_gravada = number_format($row['total_gravada'], 2);
 $total_igv = number_format($row['total_igv'], 2);
 
+// Tipo de documento y comprobante
 $tipoDocCliente = ($row['cliente_tipo_doc'] == '6') ? 'RUC' : 'DNI';
 $tipoCompNombre = ($row['tipo_comprobante'] == '01') ? 'FACTURA' : 'BOLETA';
 
@@ -65,33 +82,46 @@ $qrCode = new QrCode($cadenaQR);
 $output = new Output\Png();
 $qrImage = 'data:image/png;base64,' . base64_encode($output->output($qrCode, 150));
 
+// Validación de logo
 $logoPath = (!empty($row['empresa_logo']) && file_exists(__DIR__."/../../../img/".$row['empresa_logo']))
-    ? "../../../img/".$row['empresa_logo'] : "../../../img/logito.png";
+    ? "../../../img/".$row['empresa_logo'] 
+    : "../../../img/logito.png";
 
-// ESTADO SUNAT
+// ESTADO SUNAT - Lógica mejorada
 $estadoSunat = strtoupper(trim($row['estado_sunat']));
-$mostrarQR = false;
-$claseMensaje = $iconoEstado = $mensajeEstado = $pieTicket = '';
+$estados = [
+    'PENDIENTE' => [
+        'clase' => 'pendiente',
+        'icono' => '⚠',
+        'mensaje' => 'BORRADOR - NO ENVIADO',
+        'mostrarQR' => false,
+        'pie' => '<div class="footer-draft">Sin validez tributaria</div>'
+    ],
+    'ACEPTADO' => [
+        'clase' => 'aceptado',
+        'icono' => '✓',
+        'mensaje' => 'ACEPTADO POR SUNAT',
+        'mostrarQR' => true,
+        'pie' => '<div class="footer-oficial">Representación impresa del CPE<br>Verificar en www.sunat.gob.pe</div>'
+    ],
+    'ENVIADO' => [
+        'clase' => 'aceptado',
+        'icono' => '✓',
+        'mensaje' => 'ACEPTADO POR SUNAT',
+        'mostrarQR' => true,
+        'pie' => '<div class="footer-oficial">Representación impresa del CPE<br>Verificar en www.sunat.gob.pe</div>'
+    ]
+];
 
-if ($estadoSunat === 'PENDIENTE') {
-    $claseMensaje = 'pendiente';
-    $iconoEstado = '⚠';
-    $mensajeEstado = 'BORRADOR - NO ENVIADO';
-    $pieTicket = '<div class="footer-draft">Sin validez tributaria</div>';
-} elseif ($estadoSunat === 'ACEPTADO' || $estadoSunat === 'ENVIADO') {
-    $mostrarQR = true;
-    $claseMensaje = 'aceptado';
-    $iconoEstado = '✓';
-    $mensajeEstado = 'ACEPTADO POR SUNAT';
-    $pieTicket = '<div class="footer-oficial">Representación impresa del CPE<br>Verificar en www.sunat.gob.pe</div>';
-} else {
-    $claseMensaje = 'rechazado';
-    $iconoEstado = '✖';
-    $mensajeEstado = 'RECHAZADO';
-    $pieTicket = '<div class="footer-draft">Sin validez tributaria</div>';
-}
+$estadoConfig = $estados[$estadoSunat] ?? [
+    'clase' => 'rechazado',
+    'icono' => '✖',
+    'mensaje' => 'RECHAZADO',
+    'mostrarQR' => false,
+    'pie' => '<div class="footer-draft">Sin validez tributaria</div>'
+];
 
-// HTML COMPACTO
+// HTML MEJORADO
 $html = '
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -109,7 +139,7 @@ body { font-family:"Courier New",monospace; font-size:7px; color:#000; line-heig
 .sec-tit { font-size:7px; font-weight:bold; background:#000; color:#fff; padding:1px 2px; margin-bottom:1px; }
 .lin { display:flex; justify-content:space-between; margin:1px 0; font-size:6px; }
 .lin-lab { font-weight:bold; width:35%; }
-.lin-val { width:65%; text-align:right; }
+.lin-val { width:65%; text-align:right; word-wrap:break-word; }
 .tots { margin:3px 0; padding:2px; background:#f5f5f5; border:1px solid #000; }
 .tot-lin { display:flex; justify-content:space-between; margin:1px 0; font-size:7px; }
 .tot-fin { border-top:1px solid #000; padding-top:1px; margin-top:1px; font-weight:bold; font-size:9px; }
@@ -123,75 +153,87 @@ body { font-family:"Courier New",monospace; font-size:7px; color:#000; line-heig
 .footer-oficial { text-align:center; font-size:5px; margin-top:3px; padding-top:2px; border-top:1px solid #000; line-height:1.2; }
 .footer-draft { text-align:center; font-size:6px; margin-top:2px; padding:2px; background:#ffe5e5; border:1px solid #f00; color:#f00; font-weight:bold; }
 .sep { border-top:1px dashed #000; margin:2px 0; }
+.obs { font-size:6px; padding:2px; margin:2px 0; background:#f9f9f9; border-left:2px solid #666; }
 </style>
 
 <div class="ticket">
 <div class="header">
-<div class="logo"><img src="'.$logoPath.'"></div>
-<div class="emp-nom">'.$row['empresa_nombre'].'</div>
-<div class="emp-info">RUC: '.$row['empresa_ruc'].'</div>
-<div class="emp-info">'.$row['empresa_direccion'].'</div>
-<div class="emp-info">Telf: '.$row['empresa_telefono'].'</div>
+<div class="logo"><img src="'.e($logoPath).'"></div>
+<div class="emp-nom">'.e($row['empresa_nombre']).'</div>
+<div class="emp-info">RUC: '.e($row['empresa_ruc']).'</div>
+<div class="emp-info">'.e($row['empresa_direccion']).'</div>
+<div class="emp-info">Telf: '.e($row['empresa_telefono']).'</div>
 </div>
 
 <div class="comp-box">
-<div class="comp-tipo">'.$tipoCompNombre.' ELECTRÓNICA</div>
-<div class="comp-num">'.$row['numero_comprobante'].'</div>
+<div class="comp-tipo">'.e($tipoCompNombre).' ELECTRÓNICA</div>
+<div class="comp-num">'.e($row['numero_comprobante']).'</div>
 </div>
 
-<div class="fecha">'.$fechaFormato.' | '.$hora.'</div>
+<div class="fecha">'.e($fechaFormato).' | '.e($hora).'</div>
 <div class="sep"></div>
 
 <div class="sec">
 <div class="sec-tit">CLIENTE</div>
-<div class="lin"><div class="lin-lab">'.$tipoDocCliente.':</div><div class="lin-val">'.$row['cliente_doc'].'</div></div>
-<div class="lin"><div class="lin-lab">NOMBRE:</div><div class="lin-val">'.$row['cliente_nombre'].'</div></div>
+<div class="lin"><div class="lin-lab">'.e($tipoDocCliente).':</div><div class="lin-val">'.e($row['cliente_doc']).'</div></div>
+<div class="lin"><div class="lin-lab">NOMBRE:</div><div class="lin-val">'.e($row['cliente_nombre']).'</div></div>
+'.((!empty($row['cliente_direccion'])) ? '<div class="lin"><div class="lin-lab">DIRECCIÓN:</div><div class="lin-val">'.e($row['cliente_direccion']).'</div></div>' : '').'
 </div>
 
 <div class="sec">
 <div class="sec-tit">VIAJE</div>
-<div class="lin"><div class="lin-lab">ORIGEN:</div><div class="lin-val">'.$row['origen'].'</div></div>
-<div class="lin"><div class="lin-lab">DESTINO:</div><div class="lin-val">'.$row['destino'].'</div></div>
-'.(!empty($row['servicio_nombre']) ? '<div class="lin"><div class="lin-lab">SERVICIO:</div><div class="lin-val">'.$row['servicio_nombre'].'</div></div>' : '').'
+<div class="lin"><div class="lin-lab">ORIGEN:</div><div class="lin-val">'.e($row['origen']).'</div></div>
+<div class="lin"><div class="lin-lab">DESTINO:</div><div class="lin-val">'.e($row['destino']).'</div></div>
+'.((!empty($row['servicio_nombre'])) ? '<div class="lin"><div class="lin-lab">SERVICIO:</div><div class="lin-val">'.e($row['servicio_nombre']).'</div></div>' : '').'
 </div>
 
-'.(!empty($row['chofer_nombre']) ? '
+'.((!empty($row['chofer_nombre'])) ? '
 <div class="sec">
 <div class="sec-tit">CONDUCTOR</div>
-<div class="lin"><div class="lin-lab">NOMBRE:</div><div class="lin-val">'.$row['chofer_nombre'].'</div></div>
-<div class="lin"><div class="lin-lab">VEHÍCULO:</div><div class="lin-val">'.$row['chofer_marca'].' - '.$row['chofer_placa'].'</div></div>
+<div class="lin"><div class="lin-lab">NOMBRE:</div><div class="lin-val">'.e($row['chofer_nombre']).'</div></div>
+<div class="lin"><div class="lin-lab">DNI:</div><div class="lin-val">'.e($row['chofer_doc']).'</div></div>
+<div class="lin"><div class="lin-lab">VEHÍCULO:</div><div class="lin-val">'.e($row['chofer_marca']).' - '.e($row['chofer_placa']).'</div></div>
 </div>' : '').'
 
 <div class="sep"></div>
 
 <div class="tots">
-<div class="tot-lin"><span>OP. GRAVADA:</span><span>S/ '.$total_gravada.'</span></div>
-<div class="tot-lin"><span>IGV (18%):</span><span>S/ '.$total_igv.'</span></div>
-<div class="tot-lin tot-fin"><span>TOTAL:</span><span>S/ '.$total.'</span></div>
+<div class="tot-lin"><span>OP. GRAVADA:</span><span>'.e($row['moneda']).' '.e($total_gravada).'</span></div>
+<div class="tot-lin"><span>IGV (18%):</span><span>'.e($row['moneda']).' '.e($total_igv).'</span></div>
+<div class="tot-lin tot-fin"><span>TOTAL:</span><span>'.e($row['moneda']).' '.e($total).'</span></div>
 </div>
 
-<div style="text-align:center; margin:2px 0; font-size:7px; font-weight:bold;">PAGO: '.$row['tipo_pago'].'</div>
+<div style="text-align:center; margin:2px 0; font-size:7px; font-weight:bold;">PAGO: '.e($row['tipo_pago']).'</div>
+
+'.((!empty($row['observaciones'])) ? '<div class="obs"><strong>Obs:</strong> '.e($row['observaciones']).'</div>' : '').'
+
 <div class="sep"></div>
 
-<div class="est '.$claseMensaje.'">'.$iconoEstado.' '.$mensajeEstado.'</div>
+<div class="est '.$estadoConfig['clase'].'">'.$estadoConfig['icono'].' '.$estadoConfig['mensaje'].'</div>
 
-'.($mostrarQR ? '<div class="qr"><img src="'.$qrImage.'"><div class="qr-txt">CONSULTA SUNAT</div></div>' : '').'
+'.($estadoConfig['mostrarQR'] ? '<div class="qr"><img src="'.$qrImage.'"><div class="qr-txt">CONSULTA SUNAT</div></div>' : '').'
 
-<div style="text-align:center; font-size:5px; margin:2px 0;">Atendido por: <b>'.$row['usuario_nombre'].'</b></div>
-'.$pieTicket.'
+<div style="text-align:center; font-size:5px; margin:2px 0;">Atendido por: <b>'.e($row['usuario_nombre']).'</b></div>
+'.$estadoConfig['pie'].'
 </div>';
 
-$mpdf = new Mpdf([
-    'mode' => 'utf-8',
-    'format' => [80, 200],
-    'margin_left' => 0,
-    'margin_right' => 0,
-    'margin_top' => 0,
-    'margin_bottom' => 0,
-    'default_font_size' => 7,
-    'default_font' => 'dejavusanscondensed'
-]);
+// Generar PDF
+try {
+    $mpdf = new Mpdf([
+        'mode' => 'utf-8',
+        'format' => [80, 200],
+        'margin_left' => 0,
+        'margin_right' => 0,
+        'margin_top' => 0,
+        'margin_bottom' => 0,
+        'default_font_size' => 7,
+        'default_font' => 'dejavusanscondensed'
+    ]);
 
-$mpdf->WriteHTML($html);
-$mpdf->Output('Ticket_'.$row['numero_comprobante'].'.pdf', 'I');
+    $mpdf->WriteHTML($html);
+    $mpdf->Output('Ticket_'.preg_replace('/[^A-Za-z0-9\-]/', '_', $row['numero_comprobante']).'.pdf', 'I');
+} catch (Exception $e) {
+    error_log("Error generando PDF: " . $e->getMessage());
+    die("Error al generar el ticket. Por favor, contacte al administrador.");
+}
 ?>

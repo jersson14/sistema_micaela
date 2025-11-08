@@ -761,3 +761,87 @@ OUTPUT:
    Hash: Bzrx8+UELUlIs5RO1E6APrg0C2g=
 
 
+=========================
+FECHA: 2025-11-08 16:37:11
+ID COMPROBANTE: 104
+TIPO: Factura (01)
+NUMERO: F001-00000015
+NOMBRE CDR: R-F001-00000015.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-15
+❌ Error de conexión a la base de datos: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+
+=========================
+FECHA: 2025-11-08 16:38:23
+ID COMPROBANTE: 106
+TIPO: Factura (01)
+NUMERO: F001-00000016
+NOMBRE CDR: R-F001-00000016.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-16
+❌ Error de conexión a la base de datos: SQLSTATE[HY000] [2002] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+
+=========================
+FECHA: 2025-11-08 16:40:00
+ID COMPROBANTE: 107
+TIPO: Factura (01)
+NUMERO: F001-00000017
+NOMBRE CDR: R-F001-00000017.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-17
+PHP Warning:  Undefined array key "estado" in C:\xampp\htdocs\sistema_micaela\greenter\config\config_greenter.php on line 32
+
+Warning: Undefined array key "estado" in C:\xampp\htdocs\sistema_micaela\greenter\config\config_greenter.php on line 32
+PHP Warning:  Undefined array key "usuario_sunat" in C:\xampp\htdocs\sistema_micaela\greenter\config\config_greenter.php on line 41
+
+Warning: Undefined array key "usuario_sunat" in C:\xampp\htdocs\sistema_micaela\greenter\config\config_greenter.php on line 41
+PHP Warning:  Undefined array key "clave_sunat" in C:\xampp\htdocs\sistema_micaela\greenter\config\config_greenter.php on line 42
+
+Warning: Undefined array key "clave_sunat" in C:\xampp\htdocs\sistema_micaela\greenter\config\config_greenter.php on line 42
+PHP Fatal error:  Uncaught TypeError: Greenter\See::setClaveSOL(): Argument #2 ($user) must be of type string, null given, called in C:\xampp\htdocs\sistema_micaela\greenter\config\config_greenter.php on line 39 and defined in C:\xampp\htdocs\sistema_micaela\vendor\greenter\greenter\packages\lite\src\Greenter\See.php:115
+Stack trace:
+#0 C:\xampp\htdocs\sistema_micaela\greenter\config\config_greenter.php(39): Greenter\See->setClaveSOL('20000000001', NULL, NULL)
+#1 C:\xampp\htdocs\sistema_micaela\greenter\factura_bd.php(127): getSee()
+#2 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\vendor\greenter\greenter\packages\lite\src\Greenter\See.php on line 115
+
+Fatal error: Uncaught TypeError: Greenter\See::setClaveSOL(): Argument #2 ($user) must be of type string, null given, called in C:\xampp\htdocs\sistema_micaela\greenter\config\config_greenter.php on line 39 and defined in C:\xampp\htdocs\sistema_micaela\vendor\greenter\greenter\packages\lite\src\Greenter\See.php:115
+Stack trace:
+#0 C:\xampp\htdocs\sistema_micaela\greenter\config\config_greenter.php(39): Greenter\See->setClaveSOL('20000000001', NULL, NULL)
+#1 C:\xampp\htdocs\sistema_micaela\greenter\factura_bd.php(127): getSee()
+#2 {main}
+  thrown in C:\xampp\htdocs\sistema_micaela\vendor\greenter\greenter\packages\lite\src\Greenter\See.php on line 115
+
+
+=========================
+FECHA: 2025-11-08 16:41:34
+ID COMPROBANTE: 108
+TIPO: Factura (01)
+NUMERO: F001-00000018
+NOMBRE CDR: R-F001-00000018.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-18
+📄 XML generado: xml/F001-18.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-18, ha sido aceptada
+   Código: 0
+   Hash: FiAgn+/FFwW2vQjO2QnqkCw7PXI=
+
+
+=========================
+FECHA: 2025-11-08 16:43:45
+ID COMPROBANTE: 109
+TIPO: Factura (01)
+NUMERO: F001-00000019
+NOMBRE CDR: R-F001-00000019.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-19
+📄 XML generado: xml/F001-19.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-19, ha sido aceptada
+   Código: 0
+   Hash: 3DqLemkhRFfvdeiLdb85sOuK7jw=
+
+

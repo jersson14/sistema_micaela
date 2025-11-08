@@ -63,6 +63,111 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-lg-10">
+                            <div class="row g-3">
+                                <!-- COLUMNA 1: ESTADOS DE ENCOMIENDA -->
+                                <div class="col-md-6">
+                                    <div class="alert border rounded p-3 shadow-sm h-100" style="background-color: #f8f9fa;">
+                                        <h5 class="mb-3 text-center" style="color:#0154A0; font-weight: bold;">
+                                            <i class="fas fa-box me-2"></i>Estados de Encomienda
+                                        </h5>
+                                        <div class="d-flex flex-column gap-2">
+                                            <!-- PENDIENTE -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-warning text-dark p-2 px-3" style="min-width: 140px;">
+                                                    <i class="fas fa-clock me-1"></i> PENDIENTE
+                                                </span>
+                                                <span class="text-start small">
+                                                    <b> :La encomienda está registrada pero aún no ha salido de la agencia de origen.</b>
+                                                </span>
+                                            </div>
+
+                                            <!-- EN TRANSITO -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-dark text-white p-2 px-3" style="min-width: 140px;">
+                                                    <i class="fas fa-shipping-fast me-1"></i> EN TRÁNSITO
+                                                </span>
+                                                <span class="text-start small">
+                                                    <b> :La encomienda ya salió y está viajando en ruta hacia la agencia de destino.</b>
+                                                </span>
+                                            </div>
+
+                                            <!-- EN AGENCIA -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-info text-white p-2 px-3" style="min-width: 140px;">
+                                                    <i class="fas fa-building me-1"></i> EN AGENCIA
+                                                </span>
+                                                <span class="text-start small">
+                                                    <b> :La encomienda llegó a la agencia de destino y está lista para ser recogida.</b>
+                                                </span>
+                                            </div>
+
+                                            <!-- ENTREGADO -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-success p-2 px-3" style="min-width: 140px;">
+                                                    <i class="fas fa-check-circle me-1"></i> ENTREGADO
+                                                </span>
+                                                <span class="text-start small">
+                                                    <b> :La encomienda fue entregada exitosamente al destinatario final.</b>
+                                                </span>
+                                            </div>
+
+                                            <!-- OBSERVADO -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-secondary text-white p-2 px-3" style="min-width: 140px;">
+                                                    <i class="fas fa-exclamation-circle me-1"></i> OBSERVADO
+                                                </span>
+                                                <span class="text-start small">
+                                                    <b> :La encomienda presenta algún problema o incidencia que necesita ser revisada.</b>
+                                                </span>
+                                            </div>
+
+                                            <!-- ANULADO -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-danger p-2 px-3" style="min-width: 140px;">
+                                                    <i class="fas fa-ban me-1"></i> ANULADO
+                                                </span>
+                                                <span class="text-start small">
+                                                    <b> :La encomienda fue cancelada y no será enviada ni procesada.</b>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- COLUMNA 2: ESTADOS DE PAGO -->
+                                <div class="col-md-6">
+                                    <div class="alert border rounded p-3 shadow-sm h-100" style="background-color: #f8f9fa;">
+                                        <h5 class="mb-3 text-center" style="color:#0154A0; font-weight: bold;">
+                                            <i class="fas fa-credit-card me-2"></i>Estados de Pago
+                                        </h5>
+                                        <div class="d-flex flex-column gap-2">
+                                            <!-- PAGADO -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-success p-2 px-3" style="min-width: 120px;">
+                                                    <i class="fas fa-check-double me-1"></i> PAGADO
+                                                </span>
+                                                <span class="text-start small">
+                                                    <b> : El pago de la encomienda ha sido completado en su totalidad, no hay saldo pendiente.</b>
+                                                </span>
+                                            </div>
+
+                                            <!-- POR PAGAR -->
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-danger p-2 px-3" style="min-width: 120px;">
+                                                    <i class="fas fa-dollar-sign me-1"></i> POR PAGAR
+                                                </span>
+                                                <span class="text-start small">
+                                                    <b> : La encomienda tiene un monto pendiente que aún debe ser cancelado por el cliente.</b>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive" style="text-align:center">
                         <div class="card-body">
                             <table id="tabla_encomiendas" class="table table-striped table-bordered" style="width:100%">
@@ -975,15 +1080,16 @@
         z-index: 1050 !important;
         /* más alto que la tabla */
     }
-            /* Agrega a tu CSS */
+
+    /* Agrega a tu CSS */
     .dataTables_wrapper,
     .dataTables_scrollBody,
     .table-responsive {
-    overflow: visible !important;
+        overflow: visible !important;
     }
 
     .dropdown-menu {
-    position: fixed !important;
-    z-index: 10000 !important;
-}
+        position: fixed !important;
+        z-index: 10000 !important;
+    }
 </styLe>

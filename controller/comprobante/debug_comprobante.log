@@ -1,1 +1,2 @@
 [ERROR] SQLSTATE[HY000]: General error: 1467 Failed to read auto-increment value from storage engine
+[ERROR] SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '01-F001-15' for key 'unique_comprobante'

@@ -84,10 +84,7 @@
                     <label for="">Nombre Comercial<b style="color:red">(*)</b>:</label>
                     <input type="text" class="form-control" id="txt_nombre_co" >
                   </div>
-                   <div class="col-6 form-group">
-                    <label for="">Tipo Documento<b style="color:red">(*)</b>:</label>
-                    <input type="text" class="form-control" id="txt_tipo_doc" >
-                  </div>
+
                   <div class="col-6 form-group">
                     <label for="">N° Documento<b style="color:red">(*)</b>:</label>
                     <input type="text" class="form-control" id="txt_nro_doc" >
@@ -100,11 +97,11 @@
                     <label for="">Código(opcional):</label>
                     <input type="text" class="form-control" id="txt_codigo">
                   </div>
-                  <div class="col-6 form-group">
+                  <div class="col-4 form-group">
                     <label for="">Teléfono / Celular<b style="color:red">(*)</b>:</label>
                     <input type="text" class="form-control" id="txt_telefono" maxlenght="9" onkeypress="return soloNumeros(event)">
                   </div>
-                  <div class="col-12 form-group">
+                  <div class="col-8 form-group">
                     <label for="">Dirección<b style="color:red">(*)</b>:</label>
                     <input type="text" class="form-control" id="txt_direccion">
                   </div>
@@ -132,16 +129,18 @@
                     <label for="">Código de País(opcional):</label>
                     <input type="text" class="form-control" id="txt_codigo_pais">
                   </div>
-                <div class="col-4 form-group">
+                  <div class="col-4 form-group">
                     <label for="">Usuario SOL(Solo factuación):</label>
                     <input type="text" class="form-control" id="txt_usuario_sol">
                   </div>
-                    <div class="col-4 form-group">
+                  <div class="col-4 form-group">
                     <label for="">Clave SOL(Solo factuación):</label>
                     <input type="password" class="form-control" id="txt_clave_sol">
                   </div>
-
-                </div>
+                    <div class="col-12 form-group">
+                    <label for="">Endpoint SUNAT(Solo factuación):</label>
+                    <input type="text" class="form-control" id="txt_endpoint_sunat">
+                  </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>

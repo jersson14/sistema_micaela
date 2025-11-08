@@ -1158,3 +1158,291 @@ DEBUG TELEFONO: Array
   - Razon: JERSSON JORGE CORILLA MIRANDA
   - Telefono: "" (length: 0)
 [2025-11-04 16:20:40] RESULTADO REGISTRO CLIENTE: ID=4
+[2025-11-08 10:37:06] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000015
+    [fecha_emision] => 2025-11-08
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20448261272
+    [razon_social] => UNIVERSIDAD NACIONAL DE JULIACA
+    [direccion] => AV. NUEVA ZELANDIA NRO 631 URB. LA CAPILLA 
+    [departamento] => PUNO
+    [provincia] => SAN ROMAN
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-08T10:36
+    [base_gravada] => 42.37
+    [igv] => 7.63
+    [total] => 50.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-08 10:37:06] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20448261272
+  - Razon: UNIVERSIDAD NACIONAL DE JULIACA
+  - Telefono: "" (length: 0)
+[2025-11-08 10:37:06] RESULTADO REGISTRO CLIENTE: ID=63
+[2025-11-08 10:37:19] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000015
+    [fecha_emision] => 2025-11-08
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20448261272
+    [razon_social] => UNIVERSIDAD NACIONAL DE JULIACA
+    [direccion] => AV. NUEVA ZELANDIA NRO 631 URB. LA CAPILLA 
+    [departamento] => PUNO
+    [provincia] => SAN ROMAN
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-08T10:36
+    [base_gravada] => 42.37
+    [igv] => 7.63
+    [total] => 50.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-08 10:37:19] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20448261272
+  - Razon: UNIVERSIDAD NACIONAL DE JULIACA
+  - Telefono: "" (length: 0)
+[2025-11-08 10:37:19] RESULTADO REGISTRO CLIENTE: ID=63
+[2025-11-08 10:38:19] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000016
+    [fecha_emision] => 2025-11-08
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20448261272
+    [razon_social] => UNIVERSIDAD NACIONAL DE JULIACA
+    [direccion] => AV. NUEVA ZELANDIA NRO 631 URB. LA CAPILLA 
+    [departamento] => PUNO
+    [provincia] => SAN ROMAN
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-08T10:38
+    [base_gravada] => 42.37
+    [igv] => 7.63
+    [total] => 50.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-08 10:38:19] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20448261272
+  - Razon: UNIVERSIDAD NACIONAL DE JULIACA
+  - Telefono: "" (length: 0)
+[2025-11-08 10:38:19] RESULTADO REGISTRO CLIENTE: ID=63
+[2025-11-08 10:40:00] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000017
+    [fecha_emision] => 2025-11-08
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20448261272
+    [razon_social] => UNIVERSIDAD NACIONAL DE JULIACA
+    [direccion] => AV. NUEVA ZELANDIA NRO 631 URB. LA CAPILLA 
+    [departamento] => PUNO
+    [provincia] => SAN ROMAN
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-08T10:39
+    [base_gravada] => 42.37
+    [igv] => 7.63
+    [total] => 50.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-08 10:40:00] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20448261272
+  - Razon: UNIVERSIDAD NACIONAL DE JULIACA
+  - Telefono: "" (length: 0)
+[2025-11-08 10:40:00] RESULTADO REGISTRO CLIENTE: ID=63
+[2025-11-08 10:41:34] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000018
+    [fecha_emision] => 2025-11-08
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20448261272
+    [razon_social] => UNIVERSIDAD NACIONAL DE JULIACA
+    [direccion] => AV. NUEVA ZELANDIA NRO 631 URB. LA CAPILLA 
+    [departamento] => PUNO
+    [provincia] => SAN ROMAN
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-08T10:41
+    [base_gravada] => 42.37
+    [igv] => 7.63
+    [total] => 50.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-08 10:41:34] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20448261272
+  - Razon: UNIVERSIDAD NACIONAL DE JULIACA
+  - Telefono: "" (length: 0)
+[2025-11-08 10:41:34] RESULTADO REGISTRO CLIENTE: ID=63
+[2025-11-08 10:43:44] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00000019
+    [fecha_emision] => 2025-11-08
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20448261272
+    [razon_social] => UNIVERSIDAD NACIONAL DE JULIACA
+    [direccion] => AV. NUEVA ZELANDIA NRO 631 URB. LA CAPILLA 
+    [departamento] => PUNO
+    [provincia] => SAN ROMAN
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 4
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-08T10:43
+    [base_gravada] => 25.42
+    [igv] => 4.58
+    [total] => 30.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-08 10:43:44] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20448261272
+  - Razon: UNIVERSIDAD NACIONAL DE JULIACA
+  - Telefono: "" (length: 0)
+[2025-11-08 10:43:44] RESULTADO REGISTRO CLIENTE: ID=63

@@ -2467,12 +2467,20 @@ $("#tabla_encomiendas").on("click", ".pagar", function () {
   document.getElementById("txt_destino_pago").value = data.nombre_destino;
   // DATOS DEL PAGO
   document.getElementById("select_estado_pago").value = data.estado_encomienda;
+  
+  // ✅ GUARDAR EL ESTADO INICIAL PARA COMPARAR DESPUÉS
+  document.getElementById("select_estado_pago").setAttribute("data-estado-inicial", data.estado_encomienda);
+  
   document.getElementById("txt_saldo_pendiente").value = data.por_pagar;
 });
 
 function Realizar_pago() {
   let id = document.getElementById("id_encomienda_pago").value;
   let nuevo_estado = document.getElementById("select_estado_pago").value;
+  
+  // ✅ OBTENER EL ESTADO INICIAL QUE SE GUARDÓ AL ABRIR EL MODAL
+  let estado_inicial = document.getElementById("select_estado_pago").getAttribute("data-estado-inicial");
+  
   let saldo_pendiente = document.getElementById("txt_saldo_pendiente").value;
   let monto_recibido = document.getElementById("txt_monto_recibido").value;
   let vuelto = document.getElementById("txt_vuelto").value;
@@ -2483,6 +2491,15 @@ function Realizar_pago() {
     return Swal.fire(
       "Mensaje de Advertencia",
       "Debe seleccionar un estado",
+      "warning"
+    );
+  }
+
+  // ✅ VALIDAR QUE EL NUEVO ESTADO SEA DIFERENTE AL INICIAL
+  if (nuevo_estado === estado_inicial) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "Debe seleccionar un estado diferente al actual",
       "warning"
     );
   }

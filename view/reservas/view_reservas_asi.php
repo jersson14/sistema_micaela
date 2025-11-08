@@ -62,7 +62,48 @@
                             </div>
                         </div>
                     </div>
-               
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-lg-10 text-center">
+                            <div class="alert border rounded p-3 shadow-sm" style="background-color: #f8f9fa;">
+                                <h5 class="mb-3" style="color:#0154A0; font-weight: bold;">
+                                    <i class="fas fa-list-alt me-2"></i>Leyenda de Estados
+                                </h5>
+                                <div class="d-flex flex-column gap-2 align-items-start">
+                                    
+                                    <!-- PENDIENTE -->
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="badge bg-warning text-dark p-2 px-3">
+                                            <i class="fas fa-clock me-1"></i> PENDIENTE
+                                        </span>
+                                        <span class="text-start">
+                                            <b>: Reserva registrada en espera de la fecha de viaje.</b>
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- ANULADO -->
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="badge bg-danger p-2 px-3">
+                                            <i class="fas fa-times-circle me-1"></i> ANULADO
+                                        </span>
+                                        <span class="text-start">
+                                            <b>: Reserva cancelada por el usuario o por el sistema.</b>
+                                        </span>
+                                    </div>
+
+                                    <!-- COMPLETADO -->
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="badge bg-success p-2 px-3">
+                                            <i class="fas fa-check-circle me-1"></i> COMPLETADO
+                                        </span>
+                                        <span class="text-start">
+                                            <b>: Viaje realizado exitosamente al destino confirmado.</b>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive" style="text-align:center">
                         <div class="card-body">
                             <table id="tabla_reservas" class="table table-striped table-bordered" style="width:100%">
