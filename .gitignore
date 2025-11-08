@@ -1,6 +1,107 @@
-# Ignorar archivos específicos
+# ========================================
+# ARCHIVOS SENSIBLES - NO SUBIR A GITHUB
+# ========================================
+
+# Backups de base de datos (contienen datos reales)
+*.sql
+backup/*.sql
+micaela*.sql
+
+# Certificados digitales (PRIVADOS)
+greenter/certificados/*.pem
+greenter/certificados/*.pfx
+greenter/certificados/*.p12
+greenter/config/*.pem
+*.pem
+*.pfx
+*.p12
+
+# Archivos de configuración con credenciales
 model/model_conexion.php
-micaela (1).sql
-micaela (2).sql
-micaela.sql
 view/MPDF/conexion.php
+.env
+.env.local
+
+# ========================================
+# ARCHIVOS GENERADOS POR EL SISTEMA
+# ========================================
+
+# Archivos XML, CDR y PDF generados
+greenter/xml/*.xml
+greenter/cdr/*.zip
+greenter/pdf/*.pdf
+greenter/*.txt
+greenter/*.log
+
+# Logs del sistema
+*.log
+controller/comprobante/*.log
+debug_*.log
+error_*.log
+
+# Fotos subidas por usuarios
+Fotos/*
+!Fotos/.gitkeep
+controller/usuario/fotos/*
+!controller/usuario/fotos/.gitkeep
+controller/choferes/fotos/*
+!controller/choferes/fotos/.gitkeep
+controller/empresa/FOTOS/*
+!controller/empresa/FOTOS/.gitkeep
+
+# ========================================
+# DEPENDENCIAS Y CACHE
+# ========================================
+
+# Composer
+vendor/
+composer.lock
+
+# Node modules (si usas npm)
+node_modules/
+package-lock.json
+
+# Cache de PHP
+*.cache
+
+# ========================================
+# ARCHIVOS DEL SISTEMA OPERATIVO
+# ========================================
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.directory
+
+# ========================================
+# IDEs Y EDITORES
+# ========================================
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# PhpStorm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ========================================
+# DOCKER (archivos temporales)
+# ========================================
+
+# No ignorar Dockerfile ni docker-compose.yml
+# Solo ignorar volúmenes locales si existen
+mysql_data/

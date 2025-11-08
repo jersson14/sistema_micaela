@@ -115,7 +115,40 @@ sistema-tours-micaela/
 
 ---
 
-## �  Instalación
+## 🚀 Instalación
+
+### Opción A: Instalación con Docker (Recomendado) 🐳
+
+La forma más rápida de desplegar el sistema en cualquier PC.
+
+**Requisitos:**
+- Docker Desktop instalado
+- Backup de la base de datos (.sql)
+
+**Pasos rápidos:**
+```bash
+# 1. Clonar o copiar el proyecto
+cd sistema-tours-micaela
+
+# 2. Copiar backup de BD
+cp /ruta/backup.sql backup/micaela.sql
+
+# 3. Copiar certificado digital
+cp /ruta/certificado.pem greenter/certificados/certificado.pem
+
+# 4. Levantar servicios
+docker-compose up -d
+
+# 5. Acceder
+# Aplicación: http://localhost:8080
+# phpMyAdmin: http://localhost:8081
+```
+
+📖 **Guía completa**: Ver [DOCKER_SETUP.md](DOCKER_SETUP.md)
+
+---
+
+### Opción B: Instalación Manual
 
 ### 1. Clonar el repositorio
 ```bash
@@ -288,12 +321,46 @@ _(Puedes agregar imágenes del sistema aquí)_
 
 ---
 
+## � Despliegpue con Docker
+
+El proyecto incluye configuración completa de Docker para facilitar la migración entre PCs.
+
+### Archivos Docker incluidos:
+- `Dockerfile` - Imagen de la aplicación PHP/Apache
+- `docker-compose.yml` - Orquestación de servicios
+- `.dockerignore` - Archivos excluidos de la imagen
+- `Makefile` - Comandos simplificados
+- `DOCKER_SETUP.md` - Guía completa de instalación
+
+### Comandos rápidos:
+```bash
+# Levantar servicios
+docker-compose up -d
+
+# Ver logs
+docker-compose logs -f
+
+# Hacer backup de BD
+docker exec tours_micaela_db mysqldump -uroot -proot_password_2024 micaela > backup/backup.sql
+
+# Detener servicios
+docker-compose down
+```
+
+### Puertos expuestos:
+- **8080**: Aplicación web
+- **8081**: phpMyAdmin
+- **3307**: MySQL
+
+---
+
 ## 📝 Notas Importantes
 
 - El sistema usa el puerto **3307** para MySQL (no el estándar 3306)
 - La zona horaria está configurada para **America/Lima** (UTC-5)
 - Los archivos SQL incluyen datos de ejemplo
 - Se recomienda usar el modo **beta** de SUNAT para pruebas antes de producción
+- **Con Docker**: La migración a otra PC es tan simple como copiar el proyecto y ejecutar `docker-compose up -d`
 
 ---
 

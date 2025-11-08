@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # Servicio de la aplicación PHP/Apache
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tours_micaela_app
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      # Montar directorios para persistencia de datos
+      - ./greenter/xml:/var/www/html/greenter/xml
+      - ./greenter/cdr:/var/www/html/greenter/cdr
+      - ./greenter/pdf:/var/www/html/greenter/pdf
+      - ./greenter/certificados:/var/www/html/greenter/certificados
+      - ./Fotos:/var/www/html/Fotos
+      - ./controller/usuario/fotos:/var/www/html/controller/usuario/fotos
+      - ./controller/choferes/fotos:/var/www/html/controller/choferes/fotos
+      - ./controller/empresa/FOTOS:/var/www/html/controller/empresa/FOTOS
+    environment:
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+      - TZ=America/Lima
+    networks:
+      - tours_network
+    depends_on:
+      - db
+
+  # Servicio de base de datos MySQL
+  db:
+    image: mysql:8.0
+    container_name: tours_micaela_db
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_2024
+      MYSQL_DATABASE: micaela
+      MYSQL_USER: micaela_user
+      MYSQL_PASSWORD: micaela_pass_2024
+      TZ: America/Lima
+    volumes:
+      # Volumen para persistencia de datos
+      - mysql_data:/var/lib/mysql
+      # Montar backup inicial (opcional)
+      - ./backup:/docker-entrypoint-initdb.d
+    networks:
+      - tours_network
+    command: --default-authentication-plugin=mysql_native_password
+
+  # phpMyAdmin (opcional, para gestión de BD)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: tours_micaela_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root_password_2024
+      UPLOAD_LIMIT: 50M
+    networks:
+      - tours_network
+    depends_on:
+      - db
+
+networks:
+  tours_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
