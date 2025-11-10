@@ -877,3 +877,82 @@ OUTPUT:
    Hash: NqqUwsaWvFN5wrQUI6vzv2VkCNk=
 
 
+=========================
+FECHA: 2025-11-10 21:53:32
+ID COMPROBANTE: 111
+TIPO: Boleta (03)
+NUMERO: B001-00000066
+NOMBRE CDR: R-B001-00000066.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-66
+📄 XML generado: xml/B001-66.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-66, ha sido aceptada
+   Código: 0
+   Hash: yEUS/WqdeA4xPZioSQL2eMPTi4w=
+
+
+=========================
+FECHA: 2025-11-10 21:55:18
+ID COMPROBANTE: 112
+TIPO: Factura (01)
+NUMERO: F001-00000020
+NOMBRE CDR: R-F001-00000020.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-20
+📄 XML generado: xml/F001-20.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-20, ha sido aceptada
+   Código: 0
+   Hash: jF2P1cuTtGG52xubJlYZlLTVJWE=
+
+
+=========================
+FECHA: 2025-11-10 21:56:42
+ID COMPROBANTE: 113
+TIPO: Nota de Crédito (07)
+NUMERO: FN01-00000004
+NOMBRE CDR: R-FN01-00000004.zip
+OUTPUT:
+📄 Procesando comprobante 07: FN01-4
+📌 Documento de referencia: 01 (F001-8)
+📄 XML generado: xml/FN01-4.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Credito numero FN01-4, ha sido aceptada
+   Código: 0
+   Hash: mYfkzUt8U+5iDu1n37lHGCQQRyw=
+
+
+=========================
+FECHA: 2025-11-10 22:30:48
+ID COMPROBANTE: 114
+TIPO: Factura (01)
+NUMERO: FPP1-00088889
+NOMBRE CDR: R-FPP1-00088889.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-88889
+📄 XML generado: xml/FPP1-88889.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 0110
+Mensaje: No se pudo obtener la informacion del tipo de usuario
+
+
+=========================
+FECHA: 2025-11-10 22:38:38
+ID COMPROBANTE: 115
+TIPO: Factura (01)
+NUMERO: F001-00088899
+NOMBRE CDR: R-F001-00088899.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-88899
+📄 XML generado: xml/F001-88899.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 0103
+Mensaje: El Usuario ingresado no existe
+
+

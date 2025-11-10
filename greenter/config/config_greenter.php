@@ -18,34 +18,29 @@ function getSee($pdo = null) {
         die("❌ No se encontró información de la empresa en la base de datos");
     }
 
-    // DEBUG: Descomentar para ver los campos disponibles
-    // echo "<pre>"; print_r($empresa); echo "</pre>"; die();
-
     $see = new See();
 
-    // Ruta del certificado fija
-    $certPath = __DIR__ . '/../../certificate.pem';
+    // ✅ Ruta correcta del certificado .pem
+    $certPath = __DIR__ . '/../certificados/certificado_produccion.pem';
     if (!file_exists($certPath)) {
         die("❌ No se encontró el certificado en: $certPath");
     }
 
     $see->setCertificate(file_get_contents($certPath));
 
-    // Configurar endpoint según ambiente (producción/beta)
-    $estado = $empresa['estado'] ?? 1;
-    
-    if ($estado == 1) { // 1 = Beta/Testing
+    // ✅ Configurar endpoint según el modo
+    $estado = $empresa['modo_prueba'] ?? 1;
+    if ($estado == 1) {
         $see->setService(SunatEndpoints::FE_BETA);
-    } else { // 0 = Producción
+    } else {
         $see->setService(SunatEndpoints::FE_PRODUCCION);
     }
 
-    // Configurar credenciales SOL desde la BD
-    $ruc = $empresa['ruc'];
-    $usuario = $empresa['usuario_sol'];  // Campo correcto de tu BD
-    $clave = $empresa['clave_sol'];      // Campo correcto de tu BD
+    // ✅ Configurar credenciales SOL desde la BD
+    $ruc     = $empresa['ruc'];
+    $usuario = $empresa['usuario_sol'];
+    $clave   = $empresa['clave_sol'];
 
-    // Validar que los campos existan
     if (empty($ruc) || empty($usuario) || empty($clave)) {
         die("❌ Faltan datos de configuración SOL en la base de datos");
     }
