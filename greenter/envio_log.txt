@@ -861,3 +861,19 @@ OUTPUT:
    Hash: mdy57t/MQVfhOFoevVZEC/IpwpE=
 
 
+=========================
+FECHA: 2025-11-08 23:30:52
+ID COMPROBANTE: 111
+TIPO: Boleta (03)
+NUMERO: B001-00000066
+NOMBRE CDR: R-B001-00000066.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-66
+📄 XML generado: xml/B001-66.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta numero B001-66, ha sido aceptada
+   Código: 0
+   Hash: NqqUwsaWvFN5wrQUI6vzv2VkCNk=
+
+

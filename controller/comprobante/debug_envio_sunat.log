@@ -218,3 +218,14 @@
     [estado_sunat] => PENDIENTE
 )
 
+[2025-11-08 23:30:52] Intentando enviar comprobante ID: 111
+[2025-11-08 23:30:52] Datos obtenidos: Array
+(
+    [id_comprobante] => 111
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-08
+    [serie] => B001
+    [correlativo] => 66
+    [estado_sunat] => PENDIENTE
+)
+

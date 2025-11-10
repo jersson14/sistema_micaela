@@ -1,5 +1,5 @@
 # Imagen base con PHP y Apache
-FROM php:7.4-apache
+FROM php:8.2-apache
 
 # Información del mantenedor
 LABEL maintainer="jersson14071996@gmail.com"

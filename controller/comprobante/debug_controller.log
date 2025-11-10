@@ -1494,3 +1494,53 @@ DEBUG TELEFONO: Array
   - Razon: JERSSON JORGE CORILLA MIRANDA
   - Telefono: "" (length: 0)
 [2025-11-08 12:05:56] RESULTADO REGISTRO CLIENTE: ID=4
+[2025-11-08 17:30:40] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000066
+    [fecha_emision] => 2025-11-08
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. NICOLAS DE PIEROLA N° 323
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [distrito] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-08T17:30
+    [base_gravada] => 42.37
+    [igv] => 7.63
+    [total] => 50.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-08 17:30:40] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 72646121
+  - Razon: JERSSON JORGE CORILLA MIRANDA
+  - Telefono: "" (length: 0)
+[2025-11-08 17:30:40] RESULTADO REGISTRO CLIENTE: ID=4
