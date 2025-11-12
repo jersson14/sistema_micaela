@@ -1,5 +1,6 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';  // ✅ ruta correcta
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/config/config_greenter.php'; // ✅ carga tu configuración Greenter
 
 use Greenter\Model\Client\Client;
 use Greenter\Model\Company\Company;
@@ -9,102 +10,118 @@ use Greenter\Model\Sale\Invoice;
 use Greenter\Model\Sale\SaleDetail;
 use Greenter\Model\Sale\Legend;
 
-// Configuración SUNAT
-$see = require __DIR__ . '/config/config_greenter.php';
+// =============================================
+// ✅ 1️⃣ Inicializar conexión con SUNAT
+// =============================================
+$see = getSee();
+echo "✅ Conexión inicializada correctamente.\n";
 
-// === CLIENTE ===
+// =============================================
+// ✅ 2️⃣ Cliente de prueba
+// =============================================
 $client = (new Client())
-    ->setTipoDoc('6')
-    ->setNumDoc('20000000001')
+    ->setTipoDoc('1') // DNI
+    ->setNumDoc('12345678')
     ->setRznSocial('CLIENTE DE PRUEBA');
 
-// === DIRECCIÓN EMISOR ===
+// =============================================
+// ✅ 3️⃣ Datos del emisor (tu empresa real)
+// =============================================
 $address = (new Address())
     ->setUbigueo('150101')
     ->setDepartamento('LIMA')
     ->setProvincia('LIMA')
     ->setDistrito('LIMA')
-    ->setUrbanizacion('-')
-    ->setDireccion('Av. Villa Nueva 221')
-    ->setCodLocal('0000');
+    ->setDireccion('JR. FICTICIO 123');
 
-// === EMPRESA EMISORA ===
 $company = (new Company())
-    ->setRuc('20123456789')
-    ->setRazonSocial('GREEN SAC')
-    ->setNombreComercial('GREEN')
+    ->setRuc('20603540647')
+    ->setRazonSocial('ETIOM S.A.')
+    ->setNombreComercial('ETIOM S.A.')
     ->setAddress($address);
 
-// === FACTURA ===
+// =============================================
+// ✅ 4️⃣ Crear factura simple de S/ 1.00
+// =============================================
 $invoice = (new Invoice())
     ->setUblVersion('2.1')
     ->setTipoOperacion('0101')
     ->setTipoDoc('01')
-    ->setSerie('F001')
-    ->setCorrelativo('1')
+    ->setSerie('FPP1')
+    ->setCorrelativo('98902') // ⚠️ cambia si ya lo usaste
     ->setFechaEmision(new DateTime('now', new DateTimeZone('America/Lima')))
     ->setFormaPago(new FormaPagoContado())
     ->setTipoMoneda('PEN')
     ->setCompany($company)
     ->setClient($client)
-    ->setMtoOperGravadas(100.00)
-    ->setMtoIGV(18.00)
-    ->setTotalImpuestos(18.00)
-    ->setValorVenta(100.00)
-    ->setSubTotal(118.00)
-    ->setMtoImpVenta(118.00);
+    ->setMtoOperGravadas(0.85)
+    ->setMtoIGV(0.15)
+    ->setTotalImpuestos(0.15)
+    ->setValorVenta(0.85)
+    ->setSubTotal(1.00)
+    ->setMtoImpVenta(1.00);
 
-// === DETALLE ===
+// =============================================
+// ✅ 5️⃣ Detalle del producto
+// =============================================
 $item = (new SaleDetail())
     ->setCodProducto('P001')
     ->setUnidad('NIU')
-    ->setCantidad(2)
-    ->setDescripcion('SERVICIO DE TRANSPORTE')
-    ->setMtoValorUnitario(50.00)
-    ->setMtoBaseIgv(100.00)
+    ->setCantidad(1)
+    ->setDescripcion('VENTA DE PRUEBA 1 SOL')
+    ->setMtoValorUnitario(0.85)
+    ->setMtoBaseIgv(0.85)
     ->setPorcentajeIgv(18.00)
-    ->setIgv(18.00)
+    ->setIgv(0.15)
     ->setTipAfeIgv('10')
-    ->setTotalImpuestos(18.00)
-    ->setMtoValorVenta(100.00)
-    ->setMtoPrecioUnitario(59.00);
+    ->setTotalImpuestos(0.15)
+    ->setMtoValorVenta(0.85)
+    ->setMtoPrecioUnitario(1.00);
 
-// === LEYENDA ===
+$invoice->setDetails([$item]);
+
+// =============================================
+// ✅ 6️⃣ Leyenda (total en letras)
+// =============================================
 $legend = (new Legend())
     ->setCode('1000')
-    ->setValue('SON CIENTO DIECIOCHO CON 00/100 SOLES');
+    ->setValue('SON UN CON 00/100 SOLES');
+$invoice->setLegends([$legend]);
 
-$invoice->setDetails([$item])
-        ->setLegends([$legend]);
-
-// === ENVÍO A SUNAT ===
+// =============================================
+// ✅ 7️⃣ Enviar a SUNAT
+// =============================================
+echo "🚀 Enviando factura de prueba a SUNAT...\n";
 $result = $see->send($invoice);
 
-// === GUARDAR XML Y CDR ===
-$xmlPath = __DIR__ . '/xml/' . $invoice->getName() . '.xml';
-$cdrPath = __DIR__ . '/cdr/R-' . $invoice->getName() . '.zip';
+// =============================================
+// ✅ 8️⃣ Guardar XML y CDR
+// =============================================
+$xmlPath = __DIR__ . '/xml/';
+$cdrPath = __DIR__ . '/cdr/';
+if (!is_dir($xmlPath)) mkdir($xmlPath, 0777, true);
+if (!is_dir($cdrPath)) mkdir($cdrPath, 0777, true);
 
-file_put_contents($xmlPath, $see->getFactory()->getLastXml());
+file_put_contents($xmlPath . $invoice->getName() . '.xml', $see->getFactory()->getLastXml());
 
 if (!$result->isSuccess()) {
     echo "❌ Error al enviar a SUNAT:" . PHP_EOL;
-    echo $result->getError()->getCode() . ' - ' . $result->getError()->getMessage();
+    echo $result->getError()->getCode() . ' - ' . $result->getError()->getMessage() . PHP_EOL;
     exit();
 }
 
-file_put_contents($cdrPath, $result->getCdrZip());
+file_put_contents($cdrPath . 'R-' . $invoice->getName() . '.zip', $result->getCdrZip());
 
-// === LECTURA DEL CDR ===
 $cdr = $result->getCdrResponse();
 $code = (int)$cdr->getCode();
 
 if ($code === 0) {
-    echo "✅ ESTADO: ACEPTADA" . PHP_EOL;
-    echo $cdr->getDescription() . PHP_EOL;
+    echo "✅ FACTURA ACEPTADA POR SUNAT" . PHP_EOL;
+    echo "Descripción: " . $cdr->getDescription() . PHP_EOL;
 } elseif ($code >= 2000 && $code <= 3999) {
-    echo "❌ ESTADO: RECHAZADA" . PHP_EOL;
-    echo $cdr->getDescription() . PHP_EOL;
+    echo "❌ FACTURA RECHAZADA" . PHP_EOL;
+    echo "Descripción: " . $cdr->getDescription() . PHP_EOL;
 } else {
-    echo "⚠️ ESTADO: EXCEPCIÓN" . PHP_EOL;
-    echo $cdr->getDescription() . PHP_EOL;
+    echo "⚠️ OBSERVACIÓN O ADVERTENCIA" . PHP_EOL;
+    echo "Descripción: " . $cdr->getDescription() . PHP_EOL;
 }

@@ -956,3 +956,48 @@ Código: 0103
 Mensaje: El Usuario ingresado no existe
 
 
+=========================
+FECHA: 2025-11-12 16:46:09
+ID COMPROBANTE: 118
+TIPO: Factura (01)
+NUMERO: F001-00088900
+NOMBRE CDR: R-F001-00088900.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-88900
+📄 XML generado: xml/F001-88900.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 0103
+Mensaje: El Usuario ingresado no existe
+
+
+=========================
+FECHA: 2025-11-12 16:46:36
+ID COMPROBANTE: 118
+TIPO: Factura (01)
+NUMERO: F001-00088900
+NOMBRE CDR: R-F001-00088900.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-88900
+📄 XML generado: xml/F001-88900.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 0103
+Mensaje: El Usuario ingresado no existe
+
+
+=========================
+FECHA: 2025-11-12 16:48:18
+ID COMPROBANTE: 119
+TIPO: Factura (01)
+NUMERO: FPP1-00088901
+NOMBRE CDR: R-FPP1-00088901.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-88901
+📄 XML generado: xml/FPP1-88901.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 0103
+Mensaje: El Usuario ingresado no existe
+
+
