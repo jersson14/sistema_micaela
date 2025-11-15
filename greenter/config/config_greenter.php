@@ -20,7 +20,7 @@ function getSee($pdo = null) {
 
     $see = new See();
 
-    // ✅ Ruta del certificado PEM de producción
+    // Ruta del certificado PEM de producción
     $certPath = __DIR__ . '/../certificados/certificado_produccion.pem';
     if (!file_exists($certPath)) {
         die("❌ No se encontró el certificado en: $certPath");
@@ -28,7 +28,7 @@ function getSee($pdo = null) {
 
     $see->setCertificate(file_get_contents($certPath));
 
-    // ✅ Determinar ambiente
+    // Determinar ambiente
     $estado = isset($empresa['modo_prueba']) ? (int)$empresa['modo_prueba'] : 1;
 
     if ($estado === 1) {
@@ -39,30 +39,24 @@ function getSee($pdo = null) {
         $see->setService(SunatEndpoints::FE_PRODUCCION);
     }
 
-    // ✅ Configurar credenciales SOL
+    // Configurar credenciales SOL
     $ruc     = trim($empresa['ruc']);
-    $usuario = trim($empresa['usuario_sol']);  // Ejemplo: JERSSON5
-    $clave   = trim($empresa['clave_sol']);    // Ejemplo: Jer2025*
+    $usuario = trim($empresa['usuario_sol']);  // Ej: FACTURA1
+    $clave   = trim($empresa['clave_sol']);    // Ej: Clave SOL
 
     if (empty($ruc) || empty($usuario) || empty($clave)) {
         die("❌ Faltan datos de configuración SOL en la base de datos\n");
     }
 
-    // ========================================
-    // 🔧 FIX: Concatenar RUC + Usuario
-    // ========================================
-    $usuarioCompleto = $ruc . $usuario;
-    
-    // Mostrar depuración (solo en desarrollo)
-    echo "🔑 Usuario SOL: {$usuario}\n";
-    echo "🔑 Usuario completo enviado a SUNAT: {$usuarioCompleto}\n";
-    echo "🔑 Longitud: " . strlen($usuarioCompleto) . " caracteres\n";
+    // Mostrar depuración
+    echo "🔑 RUC: {$ruc}\n";
+    echo "🔑 Usuario SOL enviado a SUNAT: {$usuario}\n";
     echo "📦 Certificado: {$certPath}\n\n";
 
-    // ========================================
-    // ✅ Establecer credenciales para SUNAT
-    // ========================================
-    $see->setClaveSOL($ruc, $usuarioCompleto, $clave);
+    // ============================
+    //  FIX: ENVIAR SOLO EL USUARIO
+    // ============================
+    $see->setClaveSOL($ruc, $usuario, $clave);
 
     return $see;
 }

@@ -501,17 +501,23 @@ if ($resultado->num_rows > 0) {
         </table>
     </div>';
 }
-
 $mpdf = new \Mpdf\Mpdf([
     'mode' => 'utf-8',
-    'format' => [210, 148],
-    'margin_left' => 3,
-    'margin_right' => 3,
-    'margin_top' => 3,
-    'margin_bottom' => 3,
+    'format' => 'A4',
+    'margin_left' => 10,
+    'margin_right' => 10,
+    'margin_top' => 10,
+    'margin_bottom' => 10,
     'default_font' => 'Arial'
 ]);
 
+$html = '
+<div style="height: 50%; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+    <div class="boleta" style="max-width: 148mm; width: 100%; margin: 0 auto;">
+        '.$html.'
+    </div>
+</div>
+';
+
 $mpdf->WriteHTML($html);
 $mpdf->Output('boleta_'.$boleta_nro.'.pdf', 'I');
-?>

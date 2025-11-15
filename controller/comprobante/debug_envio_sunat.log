@@ -1,22 +1,143 @@
-[2025-11-10 22:30:47] Intentando enviar comprobante ID: 114
-[2025-11-10 22:30:47] Datos obtenidos: Array
+[2025-11-12 16:46:35] Intentando enviar comprobante ID: 118
+[2025-11-12 16:46:35] Datos obtenidos: Array
 (
-    [id_comprobante] => 114
+    [id_comprobante] => 118
     [tipo_comprobante] => 01
-    [fecha_emision] => 2025-11-10
+    [fecha_emision] => 2025-11-12
+    [serie] => F001
+    [correlativo] => 88900
+    [estado_sunat] => RECHAZADO
+)
+
+[2025-11-12 16:48:17] Intentando enviar comprobante ID: 119
+[2025-11-12 16:48:17] Datos obtenidos: Array
+(
+    [id_comprobante] => 119
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-12
     [serie] => FPP1
-    [correlativo] => 88889
+    [correlativo] => 88901
     [estado_sunat] => PENDIENTE
 )
 
-[2025-11-10 22:38:37] Intentando enviar comprobante ID: 115
-[2025-11-10 22:38:37] Datos obtenidos: Array
+[2025-11-15 03:51:40] Intentando enviar comprobante ID: 120
+[2025-11-15 03:51:40] Datos obtenidos: Array
 (
-    [id_comprobante] => 115
+    [id_comprobante] => 120
     [tipo_comprobante] => 01
-    [fecha_emision] => 2025-11-10
+    [fecha_emision] => 2025-11-14
+    [serie] => FPP1
+    [correlativo] => 100001
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 13:46:18] Intentando enviar comprobante ID: 121
+[2025-11-15 13:46:18] Datos obtenidos: Array
+(
+    [id_comprobante] => 121
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-15
+    [serie] => FN01
+    [correlativo] => 5
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 13:49:28] Intentando enviar comprobante ID: 122
+[2025-11-15 13:49:28] Datos obtenidos: Array
+(
+    [id_comprobante] => 122
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-15
     [serie] => F001
-    [correlativo] => 88899
+    [correlativo] => 88901
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 13:50:51] Intentando enviar comprobante ID: 123
+[2025-11-15 13:50:51] Datos obtenidos: Array
+(
+    [id_comprobante] => 123
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-15
+    [serie] => FN01
+    [correlativo] => 6
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 15:13:46] Intentando enviar comprobante ID: 124
+[2025-11-15 15:13:46] Datos obtenidos: Array
+(
+    [id_comprobante] => 124
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-15
+    [serie] => FN01
+    [correlativo] => 7
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 15:25:48] Intentando enviar comprobante ID: 125
+[2025-11-15 15:25:48] Datos obtenidos: Array
+(
+    [id_comprobante] => 125
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-15
+    [serie] => B001
+    [correlativo] => 67
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 16:04:08] Intentando enviar comprobante ID: 126
+[2025-11-15 16:04:08] Datos obtenidos: Array
+(
+    [id_comprobante] => 126
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-15
+    [serie] => F001
+    [correlativo] => 88902
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 16:06:55] Intentando enviar comprobante ID: 127
+[2025-11-15 16:06:55] Datos obtenidos: Array
+(
+    [id_comprobante] => 127
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-15
+    [serie] => FN01
+    [correlativo] => 8
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 16:08:25] Intentando enviar comprobante ID: 128
+[2025-11-15 16:08:25] Datos obtenidos: Array
+(
+    [id_comprobante] => 128
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-15
+    [serie] => FN01
+    [correlativo] => 9
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 16:09:57] Intentando enviar comprobante ID: 129
+[2025-11-15 16:09:57] Datos obtenidos: Array
+(
+    [id_comprobante] => 129
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-15
+    [serie] => F001
+    [correlativo] => 88903
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 16:11:16] Intentando enviar comprobante ID: 130
+[2025-11-15 16:11:16] Datos obtenidos: Array
+(
+    [id_comprobante] => 130
+    [tipo_comprobante] => 08
+    [fecha_emision] => 2025-11-15
+    [serie] => FD01
+    [correlativo] => 1
     [estado_sunat] => PENDIENTE
 )
 

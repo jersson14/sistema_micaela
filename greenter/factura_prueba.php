@@ -20,9 +20,9 @@ echo "✅ Conexión inicializada correctamente.\n";
 // ✅ 2️⃣ Cliente de prueba
 // =============================================
 $client = (new Client())
-    ->setTipoDoc('1') // DNI
-    ->setNumDoc('12345678')
-    ->setRznSocial('CLIENTE DE PRUEBA');
+    ->setTipoDoc('6') // DNI
+    ->setNumDoc('20448261272')
+    ->setRznSocial('UNIVERSIDAD NACIONAL DE JULIACA');
 
 // =============================================
 // ✅ 3️⃣ Datos del emisor (tu empresa real)
@@ -42,13 +42,12 @@ $company = (new Company())
 
 // =============================================
 // ✅ 4️⃣ Crear factura simple de S/ 1.00
-// =============================================
 $invoice = (new Invoice())
     ->setUblVersion('2.1')
     ->setTipoOperacion('0101')
     ->setTipoDoc('01')
     ->setSerie('FPP1')
-    ->setCorrelativo('98902') // ⚠️ cambia si ya lo usaste
+    ->setCorrelativo('100000') // ✔ nuevo correlativo libre
     ->setFechaEmision(new DateTime('now', new DateTimeZone('America/Lima')))
     ->setFormaPago(new FormaPagoContado())
     ->setTipoMoneda('PEN')

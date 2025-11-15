@@ -1001,3 +1001,241 @@ Código: 0103
 Mensaje: El Usuario ingresado no existe
 
 
+=========================
+FECHA: 2025-11-15 03:51:41
+ID COMPROBANTE: 120
+TIPO: Factura (01)
+NUMERO: FPP1-00100001
+NOMBRE CDR: R-FPP1-00100001.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100001
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-100001.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-100001, ha sido aceptado
+   Código: 0
+   Hash: u9OZA/ltS1kM1nk5DK0D9cmbjgU=
+
+
+=========================
+FECHA: 2025-11-15 13:46:23
+ID COMPROBANTE: 121
+TIPO: Nota de Crédito (07)
+NUMERO: FN01-00000005
+NOMBRE CDR: R-FN01-00000005.zip
+OUTPUT:
+📄 Procesando comprobante 07: FN01-5
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📌 Documento de referencia: 01 (FPP1-100001)
+📄 XML generado: xml/FN01-5.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Crédito numero FN01-5, ha sido aceptado
+   Código: 0
+   Hash: fr2bAmf7vd66tSg4pcuMmZYeABA=
+
+
+=========================
+FECHA: 2025-11-15 13:49:29
+ID COMPROBANTE: 122
+TIPO: Factura (01)
+NUMERO: F001-00088901
+NOMBRE CDR: R-F001-00088901.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-88901
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/F001-88901.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-88901, ha sido aceptado
+   Código: 0
+   Hash: LsH/uucQMyXBYLXSBAIb5GGyi1c=
+
+
+=========================
+FECHA: 2025-11-15 13:50:52
+ID COMPROBANTE: 123
+TIPO: Nota de Crédito (07)
+NUMERO: FN01-00000006
+NOMBRE CDR: R-FN01-00000006.zip
+OUTPUT:
+📄 Procesando comprobante 07: FN01-6
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📌 Documento de referencia: 01 (F001-88901)
+📄 XML generado: xml/FN01-6.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Crédito numero FN01-6, ha sido aceptado
+   Código: 0
+   Hash: TT4uE7T+Y1yskCMNrZUKgQsaQ90=
+
+
+=========================
+FECHA: 2025-11-15 15:13:48
+ID COMPROBANTE: 124
+TIPO: Nota de Crédito (07)
+NUMERO: FN01-00000007
+NOMBRE CDR: R-FN01-00000007.zip
+OUTPUT:
+📄 Procesando comprobante 07: FN01-7
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📌 Documento de referencia: 01 (FPP1-100001)
+📝 Motivo: [13] 01
+📄 XML generado: xml/FN01-7.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: 3257 - Para el tipo de nota de credito 13 debe consignar información de la operación al credito - Detalle: value='ticket: 7c858216-fe0f-45c9-8814-c5a81dc73f2d, error: INFO: (nodo: "/CreditNote/cac:PaymentTerms/cbc:ID " valor: "")'
+   Código: 3257
+   Hash: 49j1FAx/gY8adqnFaW+OPsSXWOg=
+
+
+=========================
+FECHA: 2025-11-15 15:25:49
+ID COMPROBANTE: 125
+TIPO: Boleta (03)
+NUMERO: B001-00000067
+NOMBRE CDR: R-B001-00000067.zip
+OUTPUT:
+📄 Procesando comprobante 03: B001-67
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/B001-67.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta de Venta numero B001-67, ha sido aceptado
+   Código: 0
+   Hash: b05JNiNpcyvyy2B/YITh3wdJsyE=
+
+
+=========================
+FECHA: 2025-11-15 16:04:10
+ID COMPROBANTE: 126
+TIPO: Factura (01)
+NUMERO: F001-00088902
+NOMBRE CDR: R-F001-00088902.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-88902
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/F001-88902.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-88902, ha sido aceptado
+   Código: 0
+   Hash: pRkJtZmbZVa80e5anR6eqxEfWFg=
+
+
+=========================
+FECHA: 2025-11-15 16:06:56
+ID COMPROBANTE: 127
+TIPO: Nota de Crédito (07)
+NUMERO: FN01-00000008
+NOMBRE CDR: R-FN01-00000008.zip
+OUTPUT:
+📄 Procesando comprobante 07: FN01-8
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📌 Documento de referencia: 01 (F001-88902)
+📝 Motivo: [13] 01
+📄 XML generado: xml/FN01-8.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 0100
+Mensaje: El sistema no puede responder su solicitud. Intente nuevamente o comuníquese con su Administrador
+
+
+=========================
+FECHA: 2025-11-15 16:08:27
+ID COMPROBANTE: 128
+TIPO: Nota de Crédito (07)
+NUMERO: FN01-00000009
+NOMBRE CDR: R-FN01-00000009.zip
+OUTPUT:
+📄 Procesando comprobante 07: FN01-9
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📌 Documento de referencia: 01 (F001-88902)
+📄 XML generado: xml/FN01-9.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Crédito numero FN01-9, ha sido aceptado
+   Código: 0
+   Hash: MVbL/0Km5A0xFvILH0AYPFuwJ0U=
+
+
+=========================
+FECHA: 2025-11-15 16:09:59
+ID COMPROBANTE: 129
+TIPO: Factura (01)
+NUMERO: F001-00088903
+NOMBRE CDR: R-F001-00088903.zip
+OUTPUT:
+📄 Procesando comprobante 01: F001-88903
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/F001-88903.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero F001-88903, ha sido aceptado
+   Código: 0
+   Hash: 7QTWTqf1hH6S1ry5eGlzhnHQVVA=
+
+
+=========================
+FECHA: 2025-11-15 16:11:18
+ID COMPROBANTE: 130
+TIPO: Nota de Débito (08)
+NUMERO: FD01-00000001
+NOMBRE CDR: R-FD01-00000001.zip
+OUTPUT:
+📄 Procesando comprobante 08: FD01-1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📌 Documento de referencia: 01 (F001-88903)
+📄 XML generado: xml/FD01-1.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Débito numero FD01-1, ha sido aceptado
+   Código: 0
+   Hash: /uHa4kVP4PJ1zRw82cRrqoAGiZI=
+
+

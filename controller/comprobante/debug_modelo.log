@@ -1,8 +1,24 @@
-[2025-11-10 16:30:47] Registrar_Cliente_SUNAT llamado
-  Num Doc: 20603540647
-[2025-11-10 16:30:47] Cliente no existe, insertando nuevo...
-[2025-11-10 16:30:47] ✅ Cliente registrado con ID: 64
-[2025-11-10 16:38:37] Registrar_Cliente_SUNAT llamado
-  Num Doc: 20603540647
-[2025-11-10 16:38:37] Cliente ya existe (ID: 64), actualizando...
-[2025-11-10 16:38:37] ✅ Cliente actualizado
+[2025-11-12 10:47:49] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20448261272
+[2025-11-12 10:47:49] Cliente ya existe (ID: 63), actualizando...
+[2025-11-12 10:47:49] ✅ Cliente actualizado
+[2025-11-14 21:51:40] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-11-14 21:51:40] Cliente ya existe (ID: 2), actualizando...
+[2025-11-14 21:51:40] ✅ Cliente actualizado
+[2025-11-15 07:49:28] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20177395227
+[2025-11-15 07:49:28] Cliente ya existe (ID: 11), actualizando...
+[2025-11-15 07:49:28] ✅ Cliente actualizado
+[2025-11-15 09:25:48] Registrar_Cliente_SUNAT llamado
+  Num Doc: 72646121
+[2025-11-15 09:25:48] Cliente ya existe (ID: 4), actualizando...
+[2025-11-15 09:25:48] ✅ Cliente actualizado
+[2025-11-15 10:04:08] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20163779707
+[2025-11-15 10:04:08] Cliente no existe, insertando nuevo...
+[2025-11-15 10:04:08] ✅ Cliente registrado con ID: 65
+[2025-11-15 10:09:57] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20131257750
+[2025-11-15 10:09:57] Cliente no existe, insertando nuevo...
+[2025-11-15 10:09:57] ✅ Cliente registrado con ID: 66

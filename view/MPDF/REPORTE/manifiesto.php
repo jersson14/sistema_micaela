@@ -137,28 +137,37 @@ if ($resultado_salida->num_rows > 0) {
 
     $html = '
     <style>
-        @import url(\'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css\');
-        
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css");
+
         body { 
             font-family: Arial, sans-serif; 
-            margin: 0;
-            padding: 0;
+            margin: 0; 
+            padding: 0; 
         }
-        
+
+        .page-container {
+            width: 100%;
+            padding: 8mm 10mm 0 10mm;
+            box-sizing: border-box;
+        }
+
         .manifiesto { 
-            border: 2px solid #000; 
-            border-radius: 8px;
+            border: 3px solid #000;
+            border-radius: 10px;
             width: 100%;
             background: #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             overflow: hidden;
-            position: relative;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
         }
         
         table {
             border-collapse: collapse;
             width: 100%;
-            font-size: 11px;
+            font-size: 9px;
         }
         
         td {
@@ -176,72 +185,74 @@ if ($resultado_salida->num_rows > 0) {
         
         .header-left {
             width: 50%;
-            padding: 15px;
+            padding: 10px;
             border-right: 2px solid #000;
             text-align: center;
         }
         
         .empresa-titulo { 
             font-weight: bold; 
-            font-size: 15px; 
+            font-size: 10px; 
             color: #000;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
         }
         
         .logo-container {
-            margin: 8px 0;
+            margin: 4px 0;
         }
         
         .logo-autos {
             color: #000;
-            padding: 8px 16px;
+            padding: 4px 8px;
             font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 4px;
+            font-size: 11px;
+            margin-bottom: 2px;
             display: inline-block;
         }
         
         .ruta-text {
-            font-size: 13px;
+            font-size: 10px;
             font-weight: bold;
             color: #333;
         }
         
         .header-right {
             width: 50%;
-            padding: 15px;
+            padding: 10px;
             text-align: center;
         }
         
         .manifiesto-title {
             background: #000;
             color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 4px 12px;
+            border-radius: 15px;
             font-weight: bold;
-            font-size: 15px;
-            margin-bottom: 8px;
+            font-size: 10px;
+            margin-bottom: 4px;
             display: inline-block;
         }
         
         .numero-manifiesto {
-            font-size: 30px;
+            font-size: 22px;
             font-weight: bold;
             color: #ff0000;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
         }
         
         .direcciones-info {
-            font-size: 15px;
+            font-size: 7.5px;
             line-height: 1.4;
             text-align: left;
+            padding: 0 5px;
         }
         
         .lugar-info {
             font-weight: bold;
-            margin-bottom: 4px;
-            font-size: 15px;
+            margin-bottom: 2px;
+            font-size: 7.5px;
         }
         
         /* Información básica */
@@ -261,40 +272,26 @@ if ($resultado_salida->num_rows > 0) {
         
         .info-item {
             font-weight: bold;
-            font-size: 18px;
+            font-size: 9px;
+            padding: 6px 8px;
         }
         
         .info-label {
             color: #666;
+            font-size: 8px;
         }
         
         .info-value {
             color: #000;
-        }
-        
-        /* Conductor info */
-        .conductor-section {
-            border-bottom: 2px solid #000;
-            padding: 10px 15px;
-            background: #fafafa;
-        }
-        
-        .conductor-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-            font-size: 10px;
-        }
-        
-        .conductor-item {
-            font-weight: bold;
+            font-size: 9px;
         }
         
         /* Tabla de pasajeros */
         .pasajeros-table {
             border-collapse: collapse;
             width: 100%;
-            font-size: 12px;
+            font-size: 9px;
+            flex: 1;
         }
         
         .pasajeros-header {
@@ -302,21 +299,22 @@ if ($resultado_salida->num_rows > 0) {
             color: #fff;
             font-weight: bold;
             text-align: center;
-            padding: 8px 4px;
+            padding: 6px 3px;
             border: 2px solid #000;
+            font-size: 9px;
         }
         
         .pasajeros-row {
             border-bottom: 1px solid #000;
-            min-height: 25px;
+            height: 24px;
         }
         
         .pasajeros-cell {
             border-right: 1px solid #000;
-            padding: 6px 4px;
+            padding: 5px 3px;
             text-align: center;
-            min-height: 20px;
             vertical-align: middle;
+            font-size: 8.5px;
         }
         
         .pasajeros-cell:last-child {
@@ -336,7 +334,7 @@ if ($resultado_salida->num_rows > 0) {
         }
         
         .dni-cell {
-            width: 20%;
+            width: 18%;
         }
         
         .edad-cell {
@@ -344,7 +342,7 @@ if ($resultado_salida->num_rows > 0) {
         }
         
         .telefono-cell {
-            width: 0%;
+            width: 14%;
         }
         
         /* Footer */
@@ -365,138 +363,132 @@ if ($resultado_salida->num_rows > 0) {
         
         .firma-cell {
             text-align: center;
-            padding: 20px;
-        }
-        
-        .firma-line {
-            border-bottom: 2px solid #000;
-            height: 30px;
-            width: 60%;
-            margin: 0 auto 8px;
+            padding: 18px 10px 8px 10px;
+            height: 65px;
+            vertical-align: bottom;
         }
         
         .firma-label {
             font-weight: bold;
-            font-size: 11px;
+            font-size: 8.5px;
             color: #333;
+            border-top: 2px solid #000;
+            padding-top: 3px;
+            display: inline-block;
+            width: 85%;
         }
     </style>
     
-    <div class="manifiesto">
-        <!-- Header -->
-        <table class="header-table">
-            <tr>
-                <td class="header-left">
-                    <div class="empresa-titulo">EMPRESA DE TRANSPORTES</div><br>
-                    <div class="logo-container">
-                        <img src="../../../img/logito.png" alt="Logo Empresa" style="max-height: 70px; margin-bottom: 4px;"><br>
-                        <br><div class="logo-autos">AUTOS</div>
-                        <div class="ruta-text">ABANCAY - CUSCO</div>
-                    </div>
-                </td>
-                
-                <td class="header-right">
-                    <div class="manifiesto-title">MANIFIESTO DE PASAJEROS</div>
-                    <div class="numero-manifiesto">N° '.str_pad($salida_nro, 6, "0", STR_PAD_LEFT).'</div>
+    <div class="page-container">
+        <div class="manifiesto">
+            <!-- Header -->
+            <table class="header-table">
+                <tr>
+                    <td class="header-left">
+                        <div class="empresa-titulo">EMPRESA DE TRANSPORTES</div>
+                        <div class="logo-container">
+                            <img src="../../../img/logito.png" alt="Logo Empresa" style="max-height: 50px; margin: 2px 0;">
+                            <div class="logo-autos">AUTOS</div>
+                            <div class="ruta-text">ABANCAY - CUSCO</div>
+                        </div>
+                    </td>
                     
-                    <div class="direcciones-info">
-                        <div class="lugar-info">ABANCAY: PROLONGACIÓN HUANCAVELICA S/N</div><br>
-                        <div class="lugar-info">CUSCO: ALAMEDA PACHACUTEC (Frente al Centro Comercial Confraternidad)</div>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                    <td class="header-right">
+                        <div class="manifiesto-title">MANIFIESTO DE PASAJEROS</div>
+                        <div class="numero-manifiesto">N° S-S-'.str_pad($salida_nro, 7, "0", STR_PAD_LEFT).'</div>
+                        
+                        <div class="direcciones-info">
+                            <div class="lugar-info">ABANCAY: PROLONGACIÓN HUANCAVELICA S/N</div>
+                            <div class="lugar-info">CUSCO: ALAMEDA PACHACUTEC (Frente al Centro Comercial Confraternidad)</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
 
-        <!-- Información básica -->
-        <table class="info-basica">
-            <tr>
-                <td class="info-item" style="width: 50%; padding: 12px; border-right: 2px solid #000; text-align: center;">
-                    <span class="info-label">Origen:</span> <span class="info-value">'.strtoupper($origen).'</span>
-                </td>
-                <td class="info-item" style="width: 50%; padding: 12px; text-align: center;">
-                    <span class="info-label">Destino:</span> <span class="info-value">'.strtoupper($destino).'</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="info-item" style="width: 25%; padding: 8px; border-right: 2px solid #000; text-align: center;">
-                    <span class="info-label">Placa de Vehículo:</span> <span class="info-value">'.$placa_vehiculo.'</span>
-                </td>
-                <td class="info-item" style="width: 25%; padding: 8px; border-right: 2px solid #000; text-align: center;">
-                    <span class="info-label">Marca:</span> <span class="info-value">'.$marca_vehiculo.'</span>
-                </td>
-                <td class="info-item" style="width: 25%; padding: 8px; border-right: 2px solid #000; text-align: center;">
-                    <span class="info-label">Fecha:</span> <span class="info-value">'.$fecha_salida.'</span>
-                </td>
-                <td class="info-item" style="width: 25%; padding: 8px; text-align: center;">
-                    <span class="info-label">Hora:</span> <span class="info-value">'.$hora_salida.'</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="info-item" style="width: 50%; padding: 10px; border-right: 2px solid #000; text-align: center;">
-                    <span class="info-label">Conductor:</span> <span class="info-value">'.strtoupper($conductor_nombre).'</span>
-                </td>
-                <td class="info-item" style="width: 50%; padding: 10px; text-align: center;">
-                    <span class="info-label">N° Licencia:</span> <span class="info-value">'.$conductor_licencia.'</span>
-                </td>
-            </tr>
-        </table>
+            <!-- Información básica -->
+            <table class="info-basica">
+                <tr>
+                    <td class="info-item" style="width: 50%; text-align: center; border-right: 2px solid #000;">
+                        <span class="info-label">Origen:</span> <span class="info-value">'.strtoupper($origen).'</span>
+                    </td>
+                    <td class="info-item" style="width: 50%; text-align: center;">
+                        <span class="info-label">Destino:</span> <span class="info-value">'.strtoupper($destino).'</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info-item" style="width: 25%; text-align: center; border-right: 2px solid #000;">
+                        <span class="info-label">Placa de Vehículo:</span> <span class="info-value">'.$placa_vehiculo.'</span>
+                    </td>
+                    <td class="info-item" style="width: 25%; text-align: center; border-right: 2px solid #000;">
+                        <span class="info-label">Marca:</span> <span class="info-value">'.$marca_vehiculo.'</span>
+                    </td>
+                    <td class="info-item" style="width: 25%; text-align: center; border-right: 2px solid #000;">
+                        <span class="info-label">Fecha:</span> <span class="info-value">'.$fecha_salida.'</span>
+                    </td>
+                    <td class="info-item" style="width: 25%; text-align: center;">
+                        <span class="info-label">Hora:</span> <span class="info-value">'.$hora_salida.'</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info-item" style="width: 50%; text-align: center; border-right: 2px solid #000;">
+                        <span class="info-label">Conductor:</span> <span class="info-value">'.strtoupper($conductor_nombre).'</span>
+                    </td>
+                    <td class="info-item" style="width: 50%; text-align: center;">
+                        <span class="info-label">N° Licencia:</span> <span class="info-value">'.$conductor_licencia.'</span>
+                    </td>
+                </tr>
+            </table>
 
-        <!-- Tabla de pasajeros -->
-        <table class="pasajeros-table">
-            <tr>
-                <td class="pasajeros-header numero-cell">N°</td>
-                <td class="pasajeros-header nombre-cell">NOMBRES Y APELLIDOS</td>
-                <td class="pasajeros-header dni-cell">DNI</td>
-                <td class="pasajeros-header edad-cell">EDAD</td>
-                <td class="pasajeros-header telefono-cell">TELÉFONO</td>
-            </tr>';
+            <!-- Tabla de pasajeros -->
+            <table class="pasajeros-table">
+                <tr>
+                    <td class="pasajeros-header numero-cell">N°</td>
+                    <td class="pasajeros-header nombre-cell">NOMBRES Y APELLIDOS</td>
+                    <td class="pasajeros-header dni-cell">DNI</td>
+                    <td class="pasajeros-header edad-cell">EDAD</td>
+                    <td class="pasajeros-header telefono-cell">TELÉFONO</td>
+                </tr>';
             
     // Agregar filas de pasajeros
     foreach($pasajeros as $pasajero) {
         $html .= '
-            <tr class="pasajeros-row">
-                <td class="pasajeros-cell numero-cell">'.$pasajero['numero'].'</td>
-                <td class="pasajeros-cell nombre-cell">'.strtoupper($pasajero['nombre']).'</td>
-                <td class="pasajeros-cell dni-cell">'.$pasajero['dni'].'</td>
-                <td class="pasajeros-cell edad-cell">'.$pasajero['edad'].'</td>
-                <td class="pasajeros-cell telefono-cell">'.$pasajero['telefono'].'</td>
-            </tr>';
+                <tr class="pasajeros-row">
+                    <td class="pasajeros-cell numero-cell">'.$pasajero['numero'].'</td>
+                    <td class="pasajeros-cell nombre-cell">'.strtoupper($pasajero['nombre']).'</td>
+                    <td class="pasajeros-cell dni-cell">'.$pasajero['dni'].'</td>
+                    <td class="pasajeros-cell edad-cell">'.$pasajero['edad'].'</td>
+                    <td class="pasajeros-cell telefono-cell">'.$pasajero['telefono'].'</td>
+                </tr>';
     }
             
     $html .= '
-        </table>
+            </table>
 
-        <!-- Footer con firmas -->
-        <table class="footer-table">
-            <tr>
-                <td class="firma-cell" style="width: 50%; padding: 20px; text-align: center; border-right: 2px solid #000; height: 120px; vertical-align: bottom;">
-                    <div style="height: 60px; margin-bottom: 5px;"></div>
-                    <div style="padding-top: 8px;">
-                        <div class="firma-label" style="font-weight: bold; font-size: 11px; color: #333;">__________________________________________<br>FIRMA CHOFER</div>
-                    </div>
-                </td>
-                
-                <td class="firma-cell" style="width: 50%; padding: 20px; text-align: center; height: 120px; vertical-align: bottom;">
-                    <div style="height: 60px; margin-bottom: 5px;"></div>
-                    <div style="padding-top: 8px;">
-                        <div class="firma-label" style="font-weight: bold; font-size: 11px; color: #333;">__________________________________________<br>ENCARGADO</div>
-                    </div>
-                </td>
-            </tr>
-        </table>
+            <!-- Footer con firmas -->
+            <table class="footer-table">
+                <tr>
+                    <td class="firma-cell" style="width: 50%;">___________________________________________
+                        <div class=""><b>FIRMA CHOFER</b></div>
+                    </td>
+                    
+                    <td class="firma-cell" style="width: 50%;">___________________________________________
+                        <div class=""><b>ENCARGADO</b></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>';
 }
 
 $mpdf = new \Mpdf\Mpdf([
     'mode' => 'utf-8',
-    'format' => 'A4-L', // Formato horizontal para mejor visualización
-    'margin_left' => 10,
-    'margin_right' => 10,
-    'margin_top' => 10,
-    'margin_bottom' => 10,
+    'format' => 'A4',
+    'margin_left' => 0,
+    'margin_right' => 0,
+    'margin_top' => 0,
+    'margin_bottom' => 0,
     'default_font' => 'Arial'
 ]);
-
 $mpdf->WriteHTML($html);
 $mpdf->Output('manifiesto_'.$salida_nro.'.pdf', 'I');
 ?>

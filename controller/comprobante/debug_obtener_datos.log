@@ -1,22 +1,154 @@
-[2025-11-10 22:30:47] Buscando comprobante ID: 114
-[2025-11-10 22:30:47] Resultado: Array
+[2025-11-12 16:46:35] Buscando comprobante ID: 118
+[2025-11-12 16:46:35] Resultado: Array
 (
-    [id_comprobante] => 114
+    [id_comprobante] => 118
     [tipo_comprobante] => 01
-    [fecha_emision] => 2025-11-10
+    [fecha_emision] => 2025-11-12
+    [serie] => F001
+    [correlativo] => 88900
+    [estado_sunat] => RECHAZADO
+)
+
+[2025-11-12 16:48:17] Buscando comprobante ID: 119
+[2025-11-12 16:48:17] Resultado: Array
+(
+    [id_comprobante] => 119
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-12
     [serie] => FPP1
-    [correlativo] => 88889
+    [correlativo] => 88901
     [estado_sunat] => PENDIENTE
 )
 
-[2025-11-10 22:38:37] Buscando comprobante ID: 115
-[2025-11-10 22:38:37] Resultado: Array
+[2025-11-15 03:51:40] Buscando comprobante ID: 120
+[2025-11-15 03:51:40] Resultado: Array
 (
-    [id_comprobante] => 115
+    [id_comprobante] => 120
     [tipo_comprobante] => 01
-    [fecha_emision] => 2025-11-10
+    [fecha_emision] => 2025-11-14
+    [serie] => FPP1
+    [correlativo] => 100001
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 13:46:18] Buscando comprobante ID: 121
+[2025-11-15 13:46:18] Resultado: Array
+(
+    [id_comprobante] => 121
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-15
+    [serie] => FN01
+    [correlativo] => 5
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 13:49:28] Buscando comprobante ID: 122
+[2025-11-15 13:49:28] Resultado: Array
+(
+    [id_comprobante] => 122
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-15
     [serie] => F001
-    [correlativo] => 88899
+    [correlativo] => 88901
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 13:50:51] Buscando comprobante ID: 123
+[2025-11-15 13:50:51] Resultado: Array
+(
+    [id_comprobante] => 123
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-15
+    [serie] => FN01
+    [correlativo] => 6
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 15:13:46] Buscando comprobante ID: 124
+[2025-11-15 15:13:46] Resultado: Array
+(
+    [id_comprobante] => 124
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-15
+    [serie] => FN01
+    [correlativo] => 7
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 15:25:48] Buscando comprobante ID: 125
+[2025-11-15 15:25:48] Resultado: Array
+(
+    [id_comprobante] => 125
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-15
+    [serie] => B001
+    [correlativo] => 67
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 15:34:49] Buscando comprobante ID: 125
+[2025-11-15 15:34:49] Resultado: Array
+(
+    [id_comprobante] => 125
+    [tipo_comprobante] => 03
+    [fecha_emision] => 2025-11-15
+    [serie] => B001
+    [correlativo] => 67
+    [estado_sunat] => ACEPTADO
+)
+
+[2025-11-15 16:04:08] Buscando comprobante ID: 126
+[2025-11-15 16:04:08] Resultado: Array
+(
+    [id_comprobante] => 126
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-15
+    [serie] => F001
+    [correlativo] => 88902
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 16:06:55] Buscando comprobante ID: 127
+[2025-11-15 16:06:55] Resultado: Array
+(
+    [id_comprobante] => 127
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-15
+    [serie] => FN01
+    [correlativo] => 8
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 16:08:25] Buscando comprobante ID: 128
+[2025-11-15 16:08:25] Resultado: Array
+(
+    [id_comprobante] => 128
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-15
+    [serie] => FN01
+    [correlativo] => 9
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 16:09:57] Buscando comprobante ID: 129
+[2025-11-15 16:09:57] Resultado: Array
+(
+    [id_comprobante] => 129
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-15
+    [serie] => F001
+    [correlativo] => 88903
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-15 16:11:16] Buscando comprobante ID: 130
+[2025-11-15 16:11:16] Resultado: Array
+(
+    [id_comprobante] => 130
+    [tipo_comprobante] => 08
+    [fecha_emision] => 2025-11-15
+    [serie] => FD01
+    [correlativo] => 1
     [estado_sunat] => PENDIENTE
 )
 

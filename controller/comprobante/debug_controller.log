@@ -1,24 +1,74 @@
-[2025-11-10 16:30:47] POST COMPLETO: Array
+[2025-11-12 10:47:49] POST COMPLETO: Array
 (
     [accion] => REGISTRAR_COMPROBANTE
     [tipo_comprobante] => 01
     [serie] => FPP1
-    [correlativo] => 00088889
-    [fecha_emision] => 2025-11-10
+    [correlativo] => 00088901
+    [fecha_emision] => 2025-11-12
     [moneda] => PEN
     [tipo_documento_cliente] => 6
-    [numero_documento] => 20603540647
-    [razon_social] => ETTOM S.A
-    [direccion] => PRO. HUANCAVELICA NRO SN 
+    [numero_documento] => 20448261272
+    [razon_social] => UNIVERSIDAD NACIONAL DE JULIACA
+    [direccion] => AV. NUEVA ZELANDIA NRO 631 URB. LA CAPILLA 
+    [celular] => 
+    [departamento] => PUNO
+    [provincia] => SAN ROMAN
+    [distrito] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-12T10:47
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-12 10:47:49] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20448261272
+  - Razon: UNIVERSIDAD NACIONAL DE JULIACA
+  - Telefono: "" (length: 0)
+[2025-11-12 10:47:49] RESULTADO REGISTRO CLIENTE: ID=63
+[2025-11-14 21:51:40] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00100001
+    [fecha_emision] => 2025-11-14
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
     [departamento] => APURIMAC
     [provincia] => ABANCAY
     [ubigeo] => 030101
-    [id_servicio] => 1
+    [id_servicio] => 3
     [cantidad] => 1
     [id_conductor] => 2
     [id_origen] => 1
     [id_destino] => 2
-    [fecha_viaje] => 2025-11-10T16:24
+    [fecha_viaje] => 2025-11-14T21:51
     [base_gravada] => 0.85
     [igv] => 0.15
     [total] => 1.00
@@ -40,39 +90,39 @@ DEBUG TELEFONO: Array
 )
 
 ================================================================================
-[2025-11-10 16:30:47] ANTES DE REGISTRAR CLIENTE
+[2025-11-14 21:51:40] ANTES DE REGISTRAR CLIENTE
   - Tipo Doc: 6
-  - Num Doc: 20603540647
-  - Razon: ETTOM S.A
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
   - Telefono: "" (length: 0)
-[2025-11-10 16:30:47] RESULTADO REGISTRO CLIENTE: ID=64
-[2025-11-10 16:38:37] POST COMPLETO: Array
+[2025-11-14 21:51:40] RESULTADO REGISTRO CLIENTE: ID=2
+[2025-11-15 07:49:28] POST COMPLETO: Array
 (
     [accion] => REGISTRAR_COMPROBANTE
     [tipo_comprobante] => 01
     [serie] => F001
-    [correlativo] => 00088899
-    [fecha_emision] => 2025-11-10
+    [correlativo] => 00088901
+    [fecha_emision] => 2025-11-15
     [moneda] => PEN
     [tipo_documento_cliente] => 6
-    [numero_documento] => 20603540647
-    [razon_social] => ETTOM S.A
-    [direccion] => PRO. HUANCAVELICA NRO SN 
-    [departamento] => APURIMAC
-    [provincia] => ABANCAY
+    [numero_documento] => 20177395227
+    [razon_social] => UNIVERSIDAD ANDINA DEL CUSCO
+    [direccion] => MZA. A LOTE 5 URB. INGENIERIA LARAPA GRANDE 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
     [ubigeo] => 030101
     [id_servicio] => 1
     [cantidad] => 1
-    [id_conductor] => 3
+    [id_conductor] => 4
     [id_origen] => 1
     [id_destino] => 2
-    [fecha_viaje] => 2025-11-10T16:37
+    [fecha_viaje] => 2025-11-15T07:49
     [base_gravada] => 0.85
     [igv] => 0.15
     [total] => 1.00
     [forma_pago] => CONTADO
     [id_tipo_pago] => 1
-    [observaciones] => FPP1-88889
+    [observaciones] => SOLO ES PRUEBA PARA PASAR A PRODUCCION
     [estado_sunat] => PENDIENTE
     [id_usuario] => 1
 )
@@ -88,9 +138,153 @@ DEBUG TELEFONO: Array
 )
 
 ================================================================================
-[2025-11-10 16:38:37] ANTES DE REGISTRAR CLIENTE
+[2025-11-15 07:49:28] ANTES DE REGISTRAR CLIENTE
   - Tipo Doc: 6
-  - Num Doc: 20603540647
-  - Razon: ETTOM S.A
+  - Num Doc: 20177395227
+  - Razon: UNIVERSIDAD ANDINA DEL CUSCO
   - Telefono: "" (length: 0)
-[2025-11-10 16:38:37] RESULTADO REGISTRO CLIENTE: ID=64
+[2025-11-15 07:49:28] RESULTADO REGISTRO CLIENTE: ID=11
+[2025-11-15 09:25:48] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => B001
+    [correlativo] => 00000067
+    [fecha_emision] => 2025-11-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. NICOLAS DE PIEROLA N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-15T09:25
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => prueba
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-15 09:25:48] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 72646121
+  - Razon: JERSSON JORGE CORILLA MIRANDA
+  - Telefono: "" (length: 0)
+[2025-11-15 09:25:48] RESULTADO REGISTRO CLIENTE: ID=4
+[2025-11-15 10:04:08] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00088902
+    [fecha_emision] => 2025-11-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20163779707
+    [razon_social] => DIRECCION REGIONAL DE SALUD APURIMAC
+    [direccion] => AV. DANIEL A CARRION NRO S/N URB. PATIBAMBA 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-15T10:03
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-15 10:04:08] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20163779707
+  - Razon: DIRECCION REGIONAL DE SALUD APURIMAC
+  - Telefono: "" (length: 0)
+[2025-11-15 10:04:08] RESULTADO REGISTRO CLIENTE: ID=65
+[2025-11-15 10:09:57] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 00088903
+    [fecha_emision] => 2025-11-15
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20131257750
+    [razon_social] => SEGURO SOCIAL DE SALUD
+    [direccion] => AV. DOMINGO CUETO NRO 120 
+    [departamento] => LIMA
+    [provincia] => LIMA
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-15T10:09
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-15 10:09:57] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20131257750
+  - Razon: SEGURO SOCIAL DE SALUD
+  - Telefono: "" (length: 0)
+[2025-11-15 10:09:57] RESULTADO REGISTRO CLIENTE: ID=66
