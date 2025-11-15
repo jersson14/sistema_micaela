@@ -437,6 +437,78 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
+
+        // SEGUIMIENTO PÚBLICO
+        public function Buscar_Encomienda_Por_Boleta($boleta_nro) {
+            $c = conexionBD::conexionPDO();
+            $arreglo = array();
+
+            try {
+                // Buscar información de la encomienda
+                $sql = "SELECT 
+                    e.id_encomienda,
+                    e.boleta_nro,
+                    e.fecha_hora,
+                    e.descripcion,
+                    e.pago,
+                    e.por_pagar,
+                    e.a_domicilio,
+                    e.estado_encomienda,
+                    e.estado_pago,
+                    e.observacion,
+                    e.created_at,
+                    ce.nombre_completo as emisor_nombre,
+                    ce.celular as emisor_celular,
+                    cr.nombre_completo as receptor_nombre,
+                    cr.celular as receptor_celular,
+                    so.sucrusal as origen,
+                    sd.sucrusal as destino,
+                    ch.nombres_apellidos as conductor
+                FROM encomiendas e
+                LEFT JOIN clientes ce ON e.id_cliente_emisor = ce.id_cliente
+                LEFT JOIN clientes cr ON e.id_cliente_receptor = cr.id_cliente
+                LEFT JOIN sucursales so ON e.id_origen = so.id_sucursal
+                LEFT JOIN sucursales sd ON e.id_destino = sd.id_sucursal
+                LEFT JOIN choferes ch ON e.id_conductor = ch.id_chofer
+                WHERE e.boleta_nro = ?";
+                
+                $query = $c->prepare($sql);
+                $query->bindParam(1, $boleta_nro);
+                $query->execute();
+                
+                $encomienda = $query->fetch(PDO::FETCH_ASSOC);
+                
+                if($encomienda) {
+                    $arreglo['encomienda'] = $encomienda;
+                    
+                    // Buscar historial de estados
+                    $sql_historial = "SELECT 
+                        id_historial_estado,
+                        estado,
+                        observacion,
+                        created_at
+                    FROM historial_estados
+                    WHERE id_encomienda = ?
+                    ORDER BY created_at DESC";
+                    
+                    $query_historial = $c->prepare($sql_historial);
+                    $query_historial->bindParam(1, $encomienda['id_encomienda']);
+                    $query_historial->execute();
+                    
+                    $historial = $query_historial->fetchAll(PDO::FETCH_ASSOC);
+                    $arreglo['historial'] = $historial;
+                    
+                    return $arreglo;
+                } else {
+                    return null;
+                }
+                
+            } catch (Exception $e) {
+                return ["error" => true, "message" => $e->getMessage()];
+            } finally {
+                $c = null;
+            }
+        }
     }
 
 
