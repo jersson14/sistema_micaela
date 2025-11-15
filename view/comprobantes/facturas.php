@@ -257,14 +257,18 @@
     $(document).ready(function() {
         $('.js-example-basic-single').select2();
         Cargar_Select_Rutas();
-        Cargar_Select_Conductores(); // NUEVO
-        Cargar_Select_Tipopago(); // NUEVO
-        Cargar_Select_Servicios(); // NUEVO
+        Cargar_Select_Conductores();
+        Cargar_Select_Tipopago();
+        Cargar_Select_Servicios();
+        
+        // INICIALIZAR CON FACTURA POR DEFECTO
+        document.getElementById('select_tipo_comprobante').value = '01';
+        cambiarTipoComprobante(); // Esto establecerá la serie F001 y el tipo de documento RUC
     });
 
     var n = new Date();
     var y = n.getFullYear();
-    var m = n.getMonth() + 1; // Los meses empiezan desde 0
+    var m = n.getMonth() + 1;
     var d = n.getDate();
     var h = n.getHours();
     var min = n.getMinutes();
@@ -278,19 +282,8 @@
     if (s < 10) s = '0' + s;
 
     // Establece el valor con fecha y hora (YYYY-MM-DD HH:MM:SS)
-
     document.getElementById('txt_fecha_viaje').value =
         y + "-" + m + "-" + d + "T" + h + ":" + min;
-
-
-    var n = new Date();
-    var y = n.getFullYear();
-    var m = n.getMonth() + 1; // Los meses empiezan desde 0
-    var d = n.getDate();
-
-    // Asegurar formato con dos dígitos
-    if (d < 10) d = '0' + d;
-    if (m < 10) m = '0' + m;
 
     // Establece solo la fecha (YYYY-MM-DD)
     document.getElementById('txt_fecha_emision').value = y + "-" + m + "-" + d;
@@ -325,8 +318,6 @@
         }
     }
 
-
-
     function limpiarFormulario() {
         document.getElementById('select_tipo_comprobante').value = '';
         document.getElementById('txt_serie').value = '';
@@ -340,21 +331,21 @@
         document.getElementById('txt_igv').value = '';
         document.getElementById('txt_total').value = '';
         document.getElementById('select_tipo_pago').value = '';
-        Cargar_Select_Conductores()
-        Cargar_Select_Tipopago()
-        Cargar_Select_Servicios()
-        Cargar_Select_Rutas()
-
+        Cargar_Select_Conductores();
+        Cargar_Select_Tipopago();
+        Cargar_Select_Servicios();
+        Cargar_Select_Rutas();
     }
-    // Cuando cambie la cantidad, recalcular desde el total
-$("#txt_cantidad").on("input", function() {
-  calcularDesdeTotal();
-});
 
-// O si quieres que funcione en ambas direcciones:
-$("#txt_total").on("input", function() {
-  calcularDesdeTotal();
-});
+    // Cuando cambie la cantidad, recalcular desde el total
+    $("#txt_cantidad").on("input", function() {
+        calcularDesdeTotal();
+    });
+
+    // O si quieres que funcione en ambas direcciones:
+    $("#txt_total").on("input", function() {
+        calcularDesdeTotal();
+    });
 </script>
 <script>
 function habilitarEdicionSerie() {
