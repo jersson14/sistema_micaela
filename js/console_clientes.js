@@ -28,9 +28,26 @@ function listar_clientes() {
         title: function() {
             return "LISTA DE CLIENTES";
         },
-        className: 'btn btn-excel',
+        className: 'btn btn-success btn-sm',
         exportOptions: {
-          columns: [1, 2, 3, 4, 5, 6, 7] // Exportar solo hasta la columna 'estado'
+          columns: [0, 1, 2, 3, 4, 5, 6],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) {
+                return row + 1;
+              }
+              // Limpiar HTML
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              
+              // Formatear columna 1 (Documento): agregar guion entre tipo y número
+              if (column === 1 && cleanData) {
+                // Buscar patrón: TEXTO seguido de NÚMEROS (sin espacio)
+                cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+              }
+              
+              return cleanData;
+            }
+          }
         }
       },
       {
@@ -43,9 +60,28 @@ function listar_clientes() {
         title: function() {
             return "LISTA DE CLIENTES";
         },
-        className: 'btn btn-pdf',
+        className: 'btn btn-danger btn-sm',
+        orientation: 'landscape',
+        pageSize: 'A4',
         exportOptions: {
-          columns: [1, 2, 3, 4, 5, 6, 7] // Exportar solo hasta la columna 'estado'
+          columns: [0, 1, 2, 3, 4, 5, 6],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) {
+                return row + 1;
+              }
+              // Limpiar HTML
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              
+              // Formatear columna 1 (Documento): agregar guion entre tipo y número
+              if (column === 1 && cleanData) {
+                // Buscar patrón: TEXTO seguido de NÚMEROS (sin espacio)
+                cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+              }
+              
+              return cleanData;
+            }
+          }
         }
       },
       {
@@ -55,9 +91,26 @@ function listar_clientes() {
         title: function() {
             return "LISTA DE CLIENTES";
         },
-        className: 'btn btn-print',
+        className: 'btn btn-info btn-sm',
         exportOptions: {
-          columns: [1, 2, 3, 4, 5, 6, 7] // Exportar solo hasta la columna 'estado'
+          columns: [0, 1, 2, 3, 4, 5, 6],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) {
+                return row + 1;
+              }
+              // Limpiar HTML
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              
+              // Formatear columna 1 (Documento): agregar guion entre tipo y número
+              if (column === 1 && cleanData) {
+                // Buscar patrón: TEXTO seguido de NÚMEROS (sin espacio)
+                cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+              }
+              
+              return cleanData;
+            }
+          }
         }
       }
     ],

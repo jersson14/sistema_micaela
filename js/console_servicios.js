@@ -29,9 +29,17 @@ function listar_servicios(){
           title: function() {
             return "LISTA DE SERVICIOS"
           },
-          className: 'btn btn-excel',
+          className: 'btn btn-success btn-sm',
           exportOptions: {
-            columns: [ 1, 2, 3, 4, 5, 6,7] // Exportar solo hasta la columna 'estado'
+            columns: [0, 1, 2, 3, 4, 5],
+            format: {
+              body: function(data, row, column, node) {
+                if (column === 0) {
+                  return row + 1;
+                }
+                return data;
+              }
+            }
           }
         },
         {
@@ -44,9 +52,19 @@ function listar_servicios(){
           title: function() {
             return "LISTA DE SERVICIOS"
           },
-          className: 'btn btn-pdf',
+          className: 'btn btn-danger btn-sm',
+          orientation: 'landscape',
+          pageSize: 'A4',
           exportOptions: {
-            columns: [ 1, 2, 3, 4, 5, 6,7] // Exportar solo hasta la columna 'estado'
+            columns: [0, 1, 2, 3, 4, 5],
+            format: {
+              body: function(data, row, column, node) {
+                if (column === 0) {
+                  return row + 1;
+                }
+                return data;
+              }
+            }
           }
         },
         {
@@ -56,9 +74,17 @@ function listar_servicios(){
           title: function() {
             return "LISTA DE SERVICIOS"
           },
-          className: 'btn btn-print',
+          className: 'btn btn-info btn-sm',
           exportOptions: {
-            columns: [ 1, 2, 3, 4, 5, 6,7] // Exportar solo hasta la columna 'estado'
+            columns: [0, 1, 2, 3, 4, 5],
+            format: {
+              body: function(data, row, column, node) {
+                if (column === 0) {
+                  return row + 1;
+                }
+                return data;
+              }
+            }
           }
         }
       ],

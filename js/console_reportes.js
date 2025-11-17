@@ -1371,3 +1371,138 @@ function exportarExcelEncomiendas() {
         });
     }
 }
+
+
+// ============================================================
+// FUNCIÓN HELPER: GENERAR BOTONES DE EXPORTACIÓN ESTÁNDAR
+// ============================================================
+function generarBotonesExportacion(titulo, filename, columnas) {
+    return [
+        {
+            extend: "excelHtml5",
+            text: '<i class="fas fa-file-excel"></i> Excel',
+            titleAttr: "Exportar a Excel",
+            filename: filename,
+            title: titulo,
+            className: "btn btn-success btn-sm",
+            exportOptions: {
+                columns: columnas,
+                format: {
+                    body: function (data, row, column, node) {
+                        // Agregar numeración en la primera columna
+                        if (column === 0) {
+                            return row + 1;
+                        }
+                        // Limpiar HTML y espacios
+                        var cleanData = data.replace
+                            ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim()
+                            : data;
+                        
+                        // Formatear placas (si aplica)
+                        if (column === 1 && cleanData) {
+                            cleanData = cleanData.replace(/([A-Za-z]+)(\d+)/g, "$1 - $2");
+                        }
+                        
+                        return cleanData;
+                    }
+                }
+            },
+            customize: function (xlsx) {
+                var sheet = xlsx.xl.worksheets["sheet1.xml"];
+                // Centrar todas las celdas
+                $("row c", sheet).attr("s", "51");
+            }
+        },
+        {
+            extend: "pdfHtml5",
+            text: '<i class="fas fa-file-pdf"></i> PDF',
+            titleAttr: "Exportar a PDF",
+            filename: filename,
+            title: titulo,
+            className: "btn btn-danger btn-sm",
+            orientation: "landscape",
+            pageSize: "A4",
+            exportOptions: {
+                columns: columnas,
+                format: {
+                    body: function (data, row, column, node) {
+                        // Agregar numeración en la primera columna
+                        if (column === 0) {
+                            return row + 1;
+                        }
+                        // Limpiar HTML y espacios
+                        var cleanData = data.replace
+                            ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim()
+                            : data;
+                        
+                        // Formatear placas (si aplica)
+                        if (column === 1 && cleanData) {
+                            cleanData = cleanData.replace(/([A-Za-z]+)(\d+)/g, "$1 - $2");
+                        }
+                        
+                        return cleanData;
+                    }
+                }
+            },
+            customize: function (doc) {
+                // Centrar el título
+                doc.content[0].alignment = "center";
+                
+                // Centrar todas las celdas del body y header
+                doc.content[1].table.body.forEach(function (row) {
+                    row.forEach(function (cell) {
+                        cell.alignment = "center";
+                    });
+                });
+                
+                // Estilo adicional para el encabezado
+                doc.styles.tableHeader.alignment = "center";
+            }
+        },
+        {
+            extend: "print",
+            text: '<i class="fa fa-print"></i> Imprimir',
+            titleAttr: "Imprimir",
+            title: titulo,
+            className: "btn btn-info btn-sm",
+            exportOptions: {
+                columns: columnas,
+                format: {
+                    body: function (data, row, column, node) {
+                        // Agregar numeración en la primera columna
+                        if (column === 0) {
+                            return row + 1;
+                        }
+                        // Limpiar HTML y espacios
+                        var cleanData = data.replace
+                            ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim()
+                            : data;
+                        
+                        // Formatear placas (si aplica)
+                        if (column === 1 && cleanData) {
+                            cleanData = cleanData.replace(/([A-Za-z]+)(\d+)/g, "$1 - $2");
+                        }
+                        
+                        return cleanData;
+                    }
+                }
+            },
+            customize: function (win) {
+                // Agregar estilos CSS para centrar todo el contenido
+                $(win.document.body)
+                    .find("table")
+                    .addClass("compact")
+                    .css("font-size", "12px");
+                
+                $(win.document.body)
+                    .find("th, td")
+                    .css("text-align", "center")
+                    .css("vertical-align", "middle");
+                
+                $(win.document.body)
+                    .find("h1")
+                    .css("text-align", "center");
+            }
+        }
+    ];
+}

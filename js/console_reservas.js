@@ -35,41 +35,72 @@ function listar_reservas() {
     dom: "Bfrtip",
 
     buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE RESERVAS",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE RESERVAS",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-    ],
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "NOMBRE_DEL_MODULO",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Ajustar según columnas
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "NOMBRE_DEL_MODULO",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { defaultContent: "" },
       {
@@ -197,42 +228,73 @@ function listar_reservas_pordia() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE RESERVAS",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE RESERVAS",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-    ],
+  buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "NOMBRE_DEL_MODULO",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Ajustar según columnas
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "NOMBRE_DEL_MODULO",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { defaultContent: "" },
       {
@@ -370,42 +432,73 @@ function listar_reservas_ruta_estado() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE RESERVAS",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE RESERVAS",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-    ],
+  buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "NOMBRE_DEL_MODULO",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Ajustar según columnas
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "NOMBRE_DEL_MODULO",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { defaultContent: "" },
       {
@@ -543,42 +636,73 @@ function listar_reservas_fecha_usu() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE RESERVAS",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE RESERVAS",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE RESERVAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
-        },
-      },
-    ],
+   buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "NOMBRE_DEL_MODULO",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Ajustar según columnas
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "NOMBRE_DEL_MODULO",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "NOMBRE_DEL_MODULO",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      format: {
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          if (column === 1 && cleanData) {
+            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+          }
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { defaultContent: "" },
       {
