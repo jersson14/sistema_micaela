@@ -705,3 +705,669 @@ function mostrarCargando() {
 function cerrarCargando() {
     Swal.close();
 }
+
+
+// ============================================================
+// REPORTE DE ENCOMIENDAS
+// ============================================================
+var tbl_encomiendas;
+
+$(document).ready(function() {
+    // Inicializar fechas (último mes)
+    if ($('#filtro_enc_fecha_desde').length) {
+        var hoy = new Date();
+        var hace30dias = new Date();
+        hace30dias.setDate(hace30dias.getDate() - 30);
+        
+        $('#filtro_enc_fecha_desde').val(hace30dias.toISOString().split('T')[0]);
+        $('#filtro_enc_fecha_hasta').val(hoy.toISOString().split('T')[0]);
+        
+        // Cargar sucursales para filtro
+        cargarSucursalesOrigen();
+    }
+    
+    // Inicializar select2
+    if ($('.select2').length) {
+        $('.select2').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Seleccione...'
+        });
+    }
+});
+
+function cargarSucursalesOrigen() {
+  $.ajax({
+    url: "../controller/rutas/controlador_cargar_select_rutas.php",
+    type: "POST",
+  }).done(function (resp) {
+    let data = JSON.parse(resp);
+    let cadena = "<option value=''>TODOS</option>";
+
+    if (data.length > 0) {
+      for (let i = 0; i < data.length; i++) {
+        cadena +=
+          "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
+      }
+    } else {
+      cadena += "<option value=''>No hay sucursales disponibles</option>";
+    }
+
+    $("#filtro_enc_origen").html(cadena);
+
+  }).fail(function(xhr, status, error) {
+    console.error('Error al cargar sucursales:', error);
+    $("#filtro_enc_origen").html("<option value=''>TODOS</option>");
+  });
+}
+
+filtro_enc_origen
+
+// ============================================================
+// REPORTE DE ENCOMIENDAS - CON LOGS DE DEPURACIÓN
+// Reemplaza la función listar_reporte_encomiendas() en tu JS
+// ============================================================
+function listar_reporte_encomiendas() {
+    let fecha_desde = $('#filtro_enc_fecha_desde').val();
+    let fecha_hasta = $('#filtro_enc_fecha_hasta').val();
+    let estado = $('#filtro_enc_estado').val();
+    let estado_pago = $('#filtro_enc_estado_pago').val();
+    let origen = $('#filtro_enc_origen').val();
+    
+    console.log("🔍 INICIANDO BÚSQUEDA DE ENCOMIENDAS");
+    console.log("📅 Fecha desde:", fecha_desde);
+    console.log("📅 Fecha hasta:", fecha_hasta);
+    console.log("📊 Estado:", estado);
+    console.log("💰 Estado pago:", estado_pago);
+    console.log("📍 Origen:", origen);
+    
+    if (!fecha_desde || !fecha_hasta) {
+        Swal.fire('Advertencia', 'Seleccione rango de fechas', 'warning');
+        return;
+    }
+
+    // Destruir tabla anterior si existe
+    if (tbl_encomiendas) {
+        console.log("🗑️ Destruyendo tabla anterior");
+        tbl_encomiendas.destroy();
+    }
+
+    console.log("🌐 Iniciando petición AJAX...");
+
+    tbl_encomiendas = $("#tabla_reporte_encomiendas").DataTable({
+        ordering: true,
+        order: [[2, 'desc']],
+        bLengthChange: true,
+        searching: true,
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+        pageLength: 25,
+        destroy: true,
+        processing: true,
+        responsive: true,
+        dom: '<"row"<"col-sm-6"l><"col-sm-6"f>><"row"<"col-sm-12 text-right mb-2"B>>rtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                className: 'btn btn-success btn-sm',
+                title: 'Reporte de Encomiendas',
+                filename: 'Encomiendas_' + fecha_desde + '_' + fecha_hasta,
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                className: 'btn btn-danger btn-sm',
+                title: 'Reporte de Encomiendas',
+                filename: 'Encomiendas_' + fecha_desde + '_' + fecha_hasta,
+                orientation: 'landscape',
+                pageSize: 'A4',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                className: 'btn btn-info btn-sm',
+                title: 'Reporte de Encomiendas',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                }
+            }
+        ],
+        ajax: {
+            url: "../controller/reportes/controller_reportes.php",
+            type: "POST",
+            data: {
+                accion: 'REPORTE_ENCOMIENDAS',
+                fecha_desde: fecha_desde,
+                fecha_hasta: fecha_hasta,
+                estado: estado,
+                estado_pago: estado_pago,
+                origen: origen
+            },
+            dataSrc: function(json) {
+                console.log("📦 RESPUESTA COMPLETA DEL SERVIDOR:", json);
+                
+                // Verificar estructura de la respuesta
+                if (typeof json === 'undefined') {
+                    console.error("❌ Respuesta indefinida del servidor");
+                    Swal.fire('Error', 'El servidor no respondió correctamente', 'error');
+                    return [];
+                }
+                
+                if (json.status === 'success') {
+                    console.log("✅ Respuesta exitosa");
+                    console.log("📊 Total de registros:", json.data ? json.data.length : 0);
+                    
+                    if (json.data && json.data.length > 0) {
+                        console.log("📄 Primer registro:", json.data[0]);
+                        actualizarIndicadoresEncomiendas(json.data);
+                        generarGraficasEncomiendas(json.data);
+                        generarTopRutas(json.data);
+                        return json.data;
+                    } else {
+                        console.warn("⚠️ No hay datos en la respuesta");
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Sin resultados',
+                            text: 'No se encontraron encomiendas para los filtros seleccionados',
+                            confirmButtonText: 'Entendido'
+                        });
+                        return [];
+                    }
+                } else if (json.status === 'error') {
+                    console.error("❌ Error del servidor:", json.message);
+                    Swal.fire('Error', json.message || 'No se pudieron cargar las encomiendas', 'error');
+                    return [];
+                } else {
+                    console.error("❌ Formato de respuesta inesperado:", json);
+                    Swal.fire('Error', 'Formato de respuesta no válido', 'error');
+                    return [];
+                }
+            },
+            error: function(xhr, error, thrown) {
+                console.error("❌❌❌ ERROR AJAX COMPLETO ❌❌❌");
+                console.error("Estado:", xhr.status);
+                console.error("Error:", error);
+                console.error("Thrown:", thrown);
+                console.error("Respuesta completa:", xhr.responseText);
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de Conexión',
+                    html: `
+                        <p>No se pudo cargar el reporte de encomiendas</p>
+                        <small>Estado HTTP: ${xhr.status}</small><br>
+                        <small>Error: ${error}</small>
+                    `,
+                    confirmButtonText: 'Entendido'
+                });
+            }
+        },
+        columns: [
+            { data: 'id_encomienda' },
+            {
+                data: 'boleta_nro',
+                render: (data) => data ? `<span class="badge badge-dark">${data}</span>` : '-'
+            },
+            {
+                data: 'fecha_hora',
+                render: function(data) {
+                    if (!data) return '-';
+                    const fecha = new Date(data);
+                    return fecha.toLocaleDateString('es-PE');
+                }
+            },
+            { 
+                data: 'origen',
+                defaultContent: 'SIN ORIGEN'
+            },
+            { 
+                data: 'destino',
+                defaultContent: 'SIN DESTINO'
+            },
+            { 
+                data: 'emisor_nombre',
+                defaultContent: 'SIN EMISOR'
+            },
+            { 
+                data: 'receptor_nombre',
+                defaultContent: 'SIN RECEPTOR'
+            },
+            { 
+                data: 'conductor_nombre',
+                defaultContent: 'SIN CONDUCTOR'
+            },
+            {
+                data: 'descripcion',
+                render: (data) => data ? (data.length > 30 ? data.substring(0, 30) + '...' : data) : '-'
+            },
+            {
+                data: 'pago',
+                className: 'text-right',
+                render: (data) => '<b>S/ ' + parseFloat(data || 0).toFixed(2) + '</b>'
+            },
+            {
+                data: 'por_pagar',
+                className: 'text-right',
+                render: (data) => 'S/ ' + parseFloat(data || 0).toFixed(2)
+            },
+            {
+                data: 'estado_encomienda',
+                render: function(data) {
+                    const badges = {
+                        'PENDIENTE': '<span class="badge badge-warning">PENDIENTE</span>',
+                        'EN TRANSITO': '<span class="badge badge-info">EN TRANSITO</span>',
+                        'EN AGENCIA': '<span class="badge badge-primary">EN AGENCIA</span>',
+                        'ENTREGADO': '<span class="badge badge-success">ENTREGADO</span>',
+                        'OBSERVADO': '<span class="badge badge-danger">OBSERVADO</span>',
+                        'ANULADO': '<span class="badge badge-secondary">ANULADO</span>',
+                        'INCOMPLETO': '<span class="badge badge-dark">INCOMPLETO</span>'
+                    };
+                    return badges[data] || data;
+                }
+            },
+            {
+                data: 'estado_pago',
+                render: function(data) {
+                    if (data === 'PAGADO') return '<span class="badge badge-success">PAGADO</span>';
+                    if (data === 'POR PAGAR') return '<span class="badge badge-warning">POR PAGAR</span>';
+                    if (data === 'ANULADO') return '<span class="badge badge-secondary">ANULADO</span>';
+                    return data;
+                }
+            },
+            {
+                data: null,
+                orderable: false,
+                className: 'text-center',
+                render: function(data) {
+                    return `
+                        <button class="btn btn-info btn-sm" onclick="verDetalleEncomienda(${data.id_encomienda})" title="Ver Detalle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    `;
+                }
+            }
+        ],
+        language: {
+            url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+        },
+        initComplete: function(settings, json) {
+            console.log("✅ DataTable inicializado correctamente");
+        },
+        drawCallback: function(settings) {
+            console.log("📊 Tabla dibujada. Registros mostrados:", settings.fnRecordsDisplay());
+        }
+    });
+}
+
+// Agregar esta función al inicio del archivo para pruebas rápidas
+function probar_conexion_encomiendas() {
+    console.log("🧪 PRUEBA DE CONEXIÓN DIRECTA");
+    
+    $.ajax({
+        url: "../controller/reportes/controller_reportes.php",
+        type: "POST",
+        data: {
+            accion: 'REPORTE_ENCOMIENDAS',
+            fecha_desde: '2025-01-01',
+            fecha_hasta: '2025-12-31',
+            estado: '',
+            estado_pago: '',
+            origen: ''
+        },
+        dataType: "json",
+        success: function(response) {
+            console.log("✅ Conexión exitosa:", response);
+        },
+        error: function(xhr, status, error) {
+            console.error("❌ Error de conexión:", {
+                status: xhr.status,
+                statusText: xhr.statusText,
+                responseText: xhr.responseText,
+                error: error
+            });
+        }
+    });
+}
+
+function actualizarIndicadoresEncomiendas(data) {
+    let total = data.length;
+    let entregadas = data.filter(e => e.estado_encomienda === 'ENTREGADO').length;
+    let transito = data.filter(e => e.estado_encomienda === 'EN TRANSITO').length;
+    let total_facturado = data.reduce((sum, item) => sum + parseFloat(item.pago || 0), 0);
+    
+    $('#total_encomiendas').text(total);
+    $('#total_entregadas').text(entregadas);
+    $('#total_transito').text(transito);
+    $('#total_facturado_enc').text('S/ ' + total_facturado.toFixed(2));
+}
+
+function generarGraficasEncomiendas(data) {
+    // Gráfica de estados
+    let estadosCount = {};
+    data.forEach(item => {
+        let estado = item.estado_encomienda;
+        estadosCount[estado] = (estadosCount[estado] || 0) + 1;
+    });
+    
+    const ctx1 = document.getElementById('grafica_estados_enc');
+    if (ctx1) {
+        if (window.chartEstadosEnc) window.chartEstadosEnc.destroy();
+        
+        window.chartEstadosEnc = new Chart(ctx1.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(estadosCount),
+                datasets: [{
+                    data: Object.values(estadosCount),
+                    backgroundColor: [
+                        '#ffc107', '#17a2b8', '#007bff', '#28a745', 
+                        '#dc3545', '#6c757d', '#343a40'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+    
+    // Gráfica temporal
+    let encomiendasPorFecha = {};
+    data.forEach(item => {
+        let fecha = item.fecha_hora ? item.fecha_hora.split(' ')[0] : '';
+        if (fecha) {
+            encomiendasPorFecha[fecha] = (encomiendasPorFecha[fecha] || 0) + 1;
+        }
+    });
+    
+    const ctx2 = document.getElementById('grafica_temporal_enc');
+    if (ctx2) {
+        if (window.chartTemporalEnc) window.chartTemporalEnc.destroy();
+        
+        window.chartTemporalEnc = new Chart(ctx2.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: Object.keys(encomiendasPorFecha).map(f => {
+                    const p = f.split('-');
+                    return `${p[2]}/${p[1]}`;
+                }),
+                datasets: [{
+                    label: 'Encomiendas',
+                    data: Object.values(encomiendasPorFecha),
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+}
+
+function generarTopRutas(data) {
+    let rutas = {};
+    
+    data.forEach(item => {
+        let ruta = `${item.origen} → ${item.destino}`;
+        if (!rutas[ruta]) {
+            rutas[ruta] = {
+                origen: item.origen,
+                destino: item.destino,
+                cantidad: 0,
+                total: 0
+            };
+        }
+        rutas[ruta].cantidad++;
+        rutas[ruta].total += parseFloat(item.pago || 0);
+    });
+    
+    let rutasArray = Object.values(rutas);
+    rutasArray.sort((a, b) => b.total - a.total);
+    let top10 = rutasArray.slice(0, 10);
+    
+    let html = '';
+    if (top10.length === 0) {
+        html = `
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    <i class="fas fa-info-circle"></i> No hay datos para mostrar
+                </td>
+            </tr>
+        `;
+    } else {
+        top10.forEach((ruta, index) => {
+            let medalla = '';
+            if (index === 0) medalla = '🥇';
+            else if (index === 1) medalla = '🥈';
+            else if (index === 2) medalla = '🥉';
+            
+            let promedio = ruta.total / ruta.cantidad;
+            
+            html += `
+                <tr>
+                    <td class="text-center"><b>${medalla} ${index + 1}</b></td>
+                    <td>${ruta.origen}</td>
+                    <td>${ruta.destino}</td>
+                    <td class="text-center"><span class="badge badge-primary">${ruta.cantidad}</span></td>
+                    <td class="text-right"><b class="text-success">S/ ${ruta.total.toFixed(2)}</b></td>
+                    <td class="text-right">S/ ${promedio.toFixed(2)}</td>
+                </tr>
+            `;
+        });
+    }
+    
+    $('#tbody_top_rutas').html(html);
+}
+
+function verDetalleEncomienda(id) {
+    $.ajax({
+        url: "../controller/reportes/controller_reportes.php",
+        type: "POST",
+        data: {
+            accion: "OBTENER_DETALLE_ENCOMIENDA",
+            id_encomienda: id
+        },
+        dataType: "json",
+        beforeSend: function() {
+            Swal.fire({
+                title: 'Cargando...',
+                text: 'Obteniendo información de la encomienda',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        },
+        success: function(data) {
+            Swal.close();
+            
+            if (data && !data.error) {
+                let html = generarHTMLDetalleEncomienda(data);
+                $('#contenido_detalle_encomienda').html(html);
+                $('#modal_detalle_encomienda').modal('show');
+            } else {
+                Swal.fire('Error', data.error || 'No se encontró la encomienda', 'error');
+            }
+        },
+        error: function(xhr, status, error) {
+            Swal.close();
+            console.error('Error:', error);
+            Swal.fire('Error', 'No se pudo cargar el detalle de la encomienda', 'error');
+        }
+    });
+}
+
+function generarHTMLDetalleEncomienda(data) {
+    const formatFecha = (fecha) => {
+        if (!fecha) return '-';
+        const d = new Date(fecha);
+        return d.toLocaleDateString('es-PE') + ' ' + d.toLocaleTimeString('es-PE');
+    };
+    
+    let html = `
+        <div class="row">
+            <div class="col-md-6">
+                <h5><i class="fas fa-info-circle"></i> <b>Información General</b></h5>
+                <table class="table table-sm table-bordered">
+                    <tr>
+                        <th width="40%">N° Boleta:</th>
+                        <td><b>${data.boleta_nro || 'N/A'}</b></td>
+                    </tr>
+                    <tr>
+                        <th>Fecha:</th>
+                        <td>${formatFecha(data.fecha_hora)}</td>
+                    </tr>
+                    <tr>
+                        <th>Estado:</th>
+                        <td><span class="badge badge-info">${data.estado_encomienda}</span></td>
+                    </tr>
+                    <tr>
+                        <th>Estado Pago:</th>
+                        <td><span class="badge badge-${data.estado_pago === 'PAGADO' ? 'success' : 'warning'}">${data.estado_pago}</span></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="col-md-6">
+                <h5><i class="fas fa-route"></i> <b>Ruta</b></h5>
+                <table class="table table-sm table-bordered">
+                    <tr>
+                        <th width="40%">Origen:</th>
+                        <td><i class="fas fa-map-marker-alt text-success"></i> ${data.origen || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>Destino:</th>
+                        <td><i class="fas fa-map-marker-alt text-danger"></i> ${data.destino || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>Conductor:</th>
+                        <td>${data.conductor_nombre || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>Descripción:</th>
+                        <td>${data.descripcion || '-'}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h5><i class="fas fa-user"></i> <b>Remitente</b></h5>
+                <table class="table table-sm table-bordered">
+                    <tr>
+                        <th width="40%">Nombre:</th>
+                        <td>${data.emisor_nombre || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>Celular:</th>
+                        <td>${data.emisor_celular || '-'}</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="col-md-6">
+                <h5><i class="fas fa-user-check"></i> <b>Destinatario</b></h5>
+                <table class="table table-sm table-bordered">
+                    <tr>
+                        <th width="40%">Nombre:</th>
+                        <td>${data.receptor_nombre || '-'}</td>
+                    </tr>
+                    <tr>
+                        <th>Celular:</th>
+                        <td>${data.receptor_celular || '-'}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <h5><i class="fas fa-dollar-sign"></i> <b>Información de Pago</b></h5>
+                <table class="table table-sm table-bordered">
+                    <tr>
+                        <th width="20%">Monto Total:</th>
+                        <td><b class="text-success">S/ ${parseFloat(data.pago || 0).toFixed(2)}</b></td>
+                    </tr>
+                    <tr>
+                        <th>Por Pagar:</th>
+                        <td><b class="text-warning">S/ ${parseFloat(data.por_pagar || 0).toFixed(2)}</b></td>
+                    </tr>
+                    <tr>
+                        <th>A Domicilio:</th>
+                        <td>S/ ${parseFloat(data.a_domicilio || 0).toFixed(2)}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    `;
+    
+    // Agregar historial si existe
+    if (data.historial && data.historial.length > 0) {
+        html += `
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <h5><i class="fas fa-history"></i> <b>Historial de Estados</b></h5>
+                    <div class="timeline">
+        `;
+        
+        data.historial.forEach((item, index) => {
+            html += `
+                <div class="timeline-item">
+                    <div class="timeline-marker ${index === 0 ? 'bg-primary' : 'bg-secondary'}"></div>
+                    <div class="timeline-content">
+                        <span class="badge badge-info">${item.estado}</span>
+                        <small class="text-muted"> - ${formatFecha(item.created_at)}</small>
+                        ${item.observacion ? `<p class="mb-0"><small>${item.observacion}</small></p>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += `
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    return html;
+}
+
+function exportarExcelEncomiendas() {
+    if ($.fn.DataTable.isDataTable('#tabla_reporte_encomiendas')) {
+        $('#tabla_reporte_encomiendas').DataTable().button('.buttons-excel').trigger();
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Reporte no generado',
+            text: 'Primero haga clic en "Buscar"',
+            confirmButtonText: 'Entendido'
+        });
+    }
+}

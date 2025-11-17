@@ -477,7 +477,8 @@ if ($resultado->num_rows > 0) {
         <!-- Advertencia mejorada -->
         <div class="advertencia-section">
             BRINDAMOS SERVICIO PRIVADO CON RECOJO A DOMICILIO<br>
-            <span class="advertencia-destacado">* SOLO 15 DÍAS SE GUARDA LAS ENCOMIENDAS NO NOS HACEMOS RESPONSABLES DE PÉRDIDA.</span>
+            <span class="advertencia-destacado">* SOLO 15 DÍAS SE GUARDA LAS ENCOMIENDAS NO NOS HACEMOS RESPONSABLES DE PÉRDIDA.</span><br>
+            <b>OJO: PARA EL RECOJO MOSTRAR FOTO DE LA BOLETA</b><br>
         </div>
 
         <!-- Footer pagos sin celeste -->

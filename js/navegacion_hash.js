@@ -25,6 +25,7 @@ const MODULOS = {
   'reporte-salidas': 'reportes/reporte_salidas.php',
   'reporte-clientes': 'reportes/reporte_clientes.php',
   'reporte-choferes': 'reportes/reporte_choferes.php',
+  'reporte-encomiendas': 'reportes/reporte_encomiendas.php',
   'reporte-sunat': 'reportes/reporte_sunat.php',
   'usuarios': 'usuario/view_usuario.php',
   'roles': 'roles/view_roles.php',

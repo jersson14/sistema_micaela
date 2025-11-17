@@ -121,39 +121,40 @@ $estadoConfig = $estados[$estadoSunat] ?? [
     'pie' => '<div class="footer-draft">Sin validez tributaria</div>'
 ];
 
-// HTML MEJORADO
+// HTML ULTRA COMPACTO Y CENTRADO
 $html = '
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Courier New",monospace; font-size:7px; color:#000; line-height:1.1; }
-.ticket { width:72mm; margin:0 auto; padding:3px; }
-.header { text-align:center; margin-bottom:3px; padding-bottom:2px; border-bottom:2px solid #000; }
-.logo img { width:40px; margin-bottom:2px; }
-.emp-nom { font-size:9px; font-weight:bold; margin:1px 0; }
-.emp-info { font-size:6px; margin:0; }
-.comp-box { border:2px solid #000; padding:2px; margin:3px 0; text-align:center; background:#f0f0f0; }
-.comp-tipo { font-size:8px; font-weight:bold; }
-.comp-num { font-size:10px; font-weight:bold; letter-spacing:0.5px; }
-.fecha { text-align:center; margin:2px 0; font-size:6px; font-weight:bold; }
-.sec { margin:2px 0; padding:2px 0; border-top:1px dashed #000; }
-.sec-tit { font-size:7px; font-weight:bold; background:#000; color:#fff; padding:1px 2px; margin-bottom:1px; }
-.lin { display:flex; justify-content:space-between; margin:1px 0; font-size:6px; }
-.lin-lab { font-weight:bold; width:35%; }
-.lin-val { width:65%; text-align:right; word-wrap:break-word; }
-.tots { margin:3px 0; padding:2px; background:#f5f5f5; border:1px solid #000; }
-.tot-lin { display:flex; justify-content:space-between; margin:1px 0; font-size:7px; }
-.tot-fin { border-top:1px solid #000; padding-top:1px; margin-top:1px; font-weight:bold; font-size:9px; }
-.qr { text-align:center; margin:3px 0; padding:2px; }
-.qr img { width:60px; height:60px; }
-.qr-txt { font-size:5px; margin-top:1px; }
-.est { text-align:center; padding:2px; margin:2px 0; font-weight:bold; font-size:7px; border:1px solid #000; }
+body { font-family:"Courier New",monospace; font-size:9px; color:#000; line-height:1.15; }
+.ticket { width:72mm; padding:2mm; }
+.header { text-align:center; margin-bottom:1mm; padding-bottom:1mm; border-bottom:2px solid #000; }
+.logo img { width:38px; margin-bottom:0.5mm; }
+.emp-nom { font-size:10px; font-weight:bold; margin:0.3mm 0; }
+.emp-info { font-size:7.5px; margin:0; line-height:1.1; }
+.comp-box { border:2px solid #000; padding:1mm; margin:1mm 0; text-align:center; background:#f0f0f0; }
+.comp-tipo { font-size:9px; font-weight:bold; }
+.comp-num { font-size:11px; font-weight:bold; letter-spacing:0.3px; margin-top:0.3mm; }
+.fecha { text-align:center; margin:0.8mm 0; font-size:8px; font-weight:bold; }
+.sec { margin:0.8mm 0; padding:0.8mm 0; border-top:1px dashed #000; }
+.sec-tit { font-size:8.5px; font-weight:bold; background:#000; color:#fff; padding:0.5mm 1.5mm; margin-bottom:0.5mm; }
+.fila { font-size:8.5px; margin:0.2mm 0; }
+.fila b { font-weight:bold; }
+.tots { margin:1mm 0; padding:1mm; background:#f5f5f5; border:1px solid #000; }
+.tot-lin { display:flex; justify-content:space-between; margin:0.3mm 0; font-size:8.5px; }
+.tot-fin { border-top:1px solid #000; padding-top:0.5mm; margin-top:0.5mm; font-weight:bold; font-size:10px; }
+.qr { text-align:center; margin:1mm 0; }
+.qr img { width:55px; height:55px; }
+.qr-txt { font-size:6.5px; margin-top:0.3mm; }
+.est { text-align:center; padding:1mm; margin:0.8mm 0; font-weight:bold; font-size:8.5px; border:1px solid #000; }
 .pendiente { background:#fff3cd; color:#856404; }
 .aceptado { background:#d4edda; color:#155724; }
 .rechazado { background:#f8d7da; color:#721c24; }
-.footer-oficial { text-align:center; font-size:5px; margin-top:3px; padding-top:2px; border-top:1px solid #000; line-height:1.2; }
-.footer-draft { text-align:center; font-size:6px; margin-top:2px; padding:2px; background:#ffe5e5; border:1px solid #f00; color:#f00; font-weight:bold; }
-.sep { border-top:1px dashed #000; margin:2px 0; }
-.obs { font-size:6px; padding:2px; margin:2px 0; background:#f9f9f9; border-left:2px solid #666; }
+.footer-oficial { text-align:center; font-size:6.5px; margin-top:0.8mm; padding-top:0.8mm; border-top:1px solid #000; line-height:1.15; }
+.footer-draft { text-align:center; font-size:7.5px; margin-top:0.8mm; padding:0.8mm; background:#ffe5e5; border:1px solid #f00; color:#f00; font-weight:bold; }
+.sep { border-top:1px dashed #000; margin:0.8mm 0; }
+.obs { font-size:7.5px; padding:0.8mm; margin:0.8mm 0; background:#f9f9f9; border-left:2px solid #666; }
+.pago-info { text-align:center; margin:0.8mm 0; font-size:8.5px; font-weight:bold; }
+.usuario-info { text-align:center; font-size:6.5px; margin:0.8mm 0; }
 </style>
 
 <div class="ticket">
@@ -175,24 +176,24 @@ body { font-family:"Courier New",monospace; font-size:7px; color:#000; line-heig
 
 <div class="sec">
 <div class="sec-tit">CLIENTE</div>
-<div class="lin"><div class="lin-lab">'.e($tipoDocCliente).':</div><div class="lin-val">'.e($row['cliente_doc']).'</div></div>
-<div class="lin"><div class="lin-lab">NOMBRE:</div><div class="lin-val">'.e($row['cliente_nombre']).'</div></div>
-'.((!empty($row['cliente_direccion'])) ? '<div class="lin"><div class="lin-lab">DIRECCIÓN:</div><div class="lin-val">'.e($row['cliente_direccion']).'</div></div>' : '').'
+<div class="fila"><b>'.e($tipoDocCliente).':</b> '.e($row['cliente_doc']).'</div>
+<div class="fila"><b>NOMBRE:</b> '.e($row['cliente_nombre']).'</div>
+'.((!empty($row['cliente_direccion'])) ? '<div class="fila"><b>DIRECCIÓN:</b> '.e($row['cliente_direccion']).'</div>' : '').'
 </div>
 
 <div class="sec">
 <div class="sec-tit">VIAJE</div>
-<div class="lin"><div class="lin-lab">ORIGEN:</div><div class="lin-val">'.e($row['origen']).'</div></div>
-<div class="lin"><div class="lin-lab">DESTINO:</div><div class="lin-val">'.e($row['destino']).'</div></div>
-'.((!empty($row['servicio_nombre'])) ? '<div class="lin"><div class="lin-lab">SERVICIO:</div><div class="lin-val">'.e($row['servicio_nombre']).'</div></div>' : '').'
+<div class="fila"><b>ORIGEN:</b> '.e($row['origen']).'</div>
+<div class="fila"><b>DESTINO:</b> '.e($row['destino']).'</div>
+'.((!empty($row['servicio_nombre'])) ? '<div class="fila"><b>SERVICIO:</b> '.e($row['servicio_nombre']).'</div>' : '').'
 </div>
 
 '.((!empty($row['chofer_nombre'])) ? '
 <div class="sec">
 <div class="sec-tit">CONDUCTOR</div>
-<div class="lin"><div class="lin-lab">NOMBRE:</div><div class="lin-val">'.e($row['chofer_nombre']).'</div></div>
-<div class="lin"><div class="lin-lab">DNI:</div><div class="lin-val">'.e($row['chofer_doc']).'</div></div>
-<div class="lin"><div class="lin-lab">VEHÍCULO:</div><div class="lin-val">'.e($row['chofer_marca']).' - '.e($row['chofer_placa']).'</div></div>
+<div class="fila"><b>NOMBRE:</b> '.e($row['chofer_nombre']).'</div>
+<div class="fila"><b>DNI:</b> '.e($row['chofer_doc']).'</div>
+<div class="fila"><b>VEHÍCULO:</b> '.e($row['chofer_marca']).' - '.e($row['chofer_placa']).'</div>
 </div>' : '').'
 
 <div class="sep"></div>
@@ -203,9 +204,9 @@ body { font-family:"Courier New",monospace; font-size:7px; color:#000; line-heig
 <div class="tot-lin tot-fin"><span>TOTAL:</span><span>'.e($row['moneda']).' '.e($total).'</span></div>
 </div>
 
-<div style="text-align:center; margin:2px 0; font-size:7px; font-weight:bold;">PAGO: '.e($row['tipo_pago']).'</div>
+<div class="pago-info">PAGO: '.e($row['tipo_pago']).'</div>
 
-'.((!empty($row['observaciones'])) ? '<div class="obs"><strong>Obs:</strong> '.e($row['observaciones']).'</div>' : '').'
+'.((!empty($row['observaciones'])) ? '<div class="obs"><b>Obs:</b> '.e($row['observaciones']).'</div>' : '').'
 
 <div class="sep"></div>
 
@@ -213,20 +214,20 @@ body { font-family:"Courier New",monospace; font-size:7px; color:#000; line-heig
 
 '.($estadoConfig['mostrarQR'] ? '<div class="qr"><img src="'.$qrImage.'"><div class="qr-txt">CONSULTA SUNAT</div></div>' : '').'
 
-<div style="text-align:center; font-size:5px; margin:2px 0;">Atendido por: <b>'.e($row['usuario_nombre']).'</b></div>
+<div class="usuario-info">Atendido por: <b>'.e($row['usuario_nombre']).'</b></div>
 '.$estadoConfig['pie'].'
 </div>';
 
-// Generar PDF
+// Generar PDF ultra compacto
 try {
     $mpdf = new Mpdf([
         'mode' => 'utf-8',
         'format' => [80, 200],
-        'margin_left' => 0,
-        'margin_right' => 0,
-        'margin_top' => 0,
-        'margin_bottom' => 0,
-        'default_font_size' => 7,
+        'margin_left' => 4,
+        'margin_right' => 4,
+        'margin_top' => 2,
+        'margin_bottom' => 2,
+        'default_font_size' => 9,
         'default_font' => 'dejavusanscondensed'
     ]);
 

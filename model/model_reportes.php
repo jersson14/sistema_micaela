@@ -911,4 +911,162 @@ public function Obtener_Detalle_Cliente($id_cliente)
         conexionBD::cerrar_conexion();
     }
 }
-   } 
+
+// ============================================================
+// REPORTE DE ENCOMIENDAS - VERSIÓN CORREGIDA CON DEBUG
+// ============================================================
+public function Reporte_Encomiendas($fecha_desde, $fecha_hasta, $estado = '', $estado_pago = '', $origen = '')
+{
+    $c = conexionBD::conexionPDO();
+    
+    try {
+        // Log de parámetros recibidos
+        error_log("🔍 REPORTE ENCOMIENDAS - Parámetros:");
+        error_log("Fecha desde: " . $fecha_desde);
+        error_log("Fecha hasta: " . $fecha_hasta);
+        error_log("Estado: " . $estado);
+        error_log("Estado pago: " . $estado_pago);
+        error_log("Origen: " . $origen);
+        
+        // Primero, contar cuántas encomiendas hay en total
+        $sql_count = "SELECT COUNT(*) as total FROM encomiendas";
+        $query_count = $c->prepare($sql_count);
+        $query_count->execute();
+        $total = $query_count->fetch(PDO::FETCH_ASSOC);
+        error_log("📊 Total encomiendas en BD: " . $total['total']);
+        
+        // Query con JOINs directos - NOMBRES CORRECTOS DE TABLAS Y COLUMNAS
+        $sql = "SELECT 
+                    e.id_encomienda,
+                    e.boleta_nro,
+                    e.fecha_hora,
+                    e.descripcion,
+                    e.pago,
+                    e.por_pagar,
+                    e.a_domicilio,
+                    e.estado_encomienda,
+                    e.estado_pago,
+                    e.observacion,
+                    ce.nombre_completo as emisor_nombre,
+                    ce.celular as emisor_celular,
+                    cr.nombre_completo as receptor_nombre,
+                    cr.celular as receptor_celular,
+                    so.sucrusal as origen,
+                    sd.sucrusal as destino,
+                    ch.nombres_apellidos as conductor_nombre
+                FROM encomiendas e
+                LEFT JOIN clientes ce ON e.id_cliente_emisor = ce.id_cliente
+                LEFT JOIN clientes cr ON e.id_cliente_receptor = cr.id_cliente
+                LEFT JOIN sucursales so ON e.id_origen = so.id_sucursal
+                LEFT JOIN sucursales sd ON e.id_destino = sd.id_sucursal
+                LEFT JOIN choferes ch ON e.id_conductor = ch.id_chofer
+                WHERE 1=1";
+        
+        $params = [];
+        
+        // Agregar filtro de fecha solo si las fechas son válidas
+        if (!empty($fecha_desde) && !empty($fecha_hasta)) {
+            $sql .= " AND DATE(e.fecha_hora) BETWEEN ? AND ?";
+            $params[] = $fecha_desde;
+            $params[] = $fecha_hasta;
+        }
+        
+        if (!empty($estado)) {
+            $sql .= " AND estado_encomienda = ?";
+            $params[] = $estado;
+        }
+        
+        if (!empty($estado_pago)) {
+            $sql .= " AND estado_pago = ?";
+            $params[] = $estado_pago;
+        }
+        
+        if (!empty($origen)) {
+            $sql .= " AND id_origen = ?";
+            $params[] = $origen;
+        }
+        
+        $sql .= " ORDER BY e.fecha_hora DESC LIMIT 100";
+        
+        error_log("📝 SQL Query: " . $sql);
+        error_log("📝 Params: " . json_encode($params));
+        
+        $query = $c->prepare($sql);
+        $query->execute($params);
+        
+        $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+        
+        error_log("✅ Encomiendas encontradas: " . count($resultado));
+        
+        if (count($resultado) > 0) {
+            error_log("📦 Primera encomienda: " . json_encode($resultado[0]));
+        }
+        
+        return $resultado;
+        
+    } catch (Exception $e) {
+        error_log("❌ Error en Reporte_Encomiendas: " . $e->getMessage());
+        error_log("Stack trace: " . $e->getTraceAsString());
+        return [];
+    } finally {
+        conexionBD::cerrar_conexion();
+    }
+}
+
+// ============================================================
+// OBTENER DETALLE DE UNA ENCOMIENDA - VERSIÓN CORREGIDA
+// ============================================================
+public function Obtener_Detalle_Encomienda($id_encomienda)
+{
+    $c = conexionBD::conexionPDO();
+    
+    try {
+        // Query con JOINs - NOMBRES CORRECTOS
+        $sql = "SELECT 
+                    e.*,
+                    ce.nombre_completo as emisor_nombre,
+                    ce.celular as emisor_celular,
+                    ce.nro_documento as emisor_documento,
+                    cr.nombre_completo as receptor_nombre,
+                    cr.celular as receptor_celular,
+                    cr.nro_documento as receptor_documento,
+                    so.sucrusal as origen,
+                    sd.sucrusal as destino,
+                    ch.nombres_apellidos as conductor_nombre,
+                    ch.celular as conductor_celular
+                FROM encomiendas e
+                LEFT JOIN clientes ce ON e.id_cliente_emisor = ce.id_cliente
+                LEFT JOIN clientes cr ON e.id_cliente_receptor = cr.id_cliente
+                LEFT JOIN sucursales so ON e.id_origen = so.id_sucursal
+                LEFT JOIN sucursales sd ON e.id_destino = sd.id_sucursal
+                LEFT JOIN choferes ch ON e.id_conductor = ch.id_chofer
+                WHERE e.id_encomienda = ?
+                LIMIT 1";
+        
+        $query = $c->prepare($sql);
+        $query->execute([$id_encomienda]);
+        
+        $resultado = $query->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$resultado) {
+            error_log("No se encontró encomienda con ID: " . $id_encomienda);
+            return null;
+        }
+        
+        // Obtener historial
+        $sql_historial = "SELECT * FROM historial_estados WHERE id_encomienda = ? ORDER BY created_at DESC";
+        $query_historial = $c->prepare($sql_historial);
+        $query_historial->execute([$id_encomienda]);
+        
+        $resultado['historial'] = $query_historial->fetchAll(PDO::FETCH_ASSOC);
+        
+        return $resultado;
+        
+    } catch (Exception $e) {
+        error_log("❌ Error en Obtener_Detalle_Encomienda: " . $e->getMessage());
+        return null;
+    } finally {
+        conexionBD::cerrar_conexion();
+    }
+}
+}

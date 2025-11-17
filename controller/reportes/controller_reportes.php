@@ -401,4 +401,144 @@ elseif ($accion == 'OBTENER_DETALLE_CHOFER') {
     }
 }
 
+// ============================================================
+// REPORTE DE ENCOMIENDAS
+// ============================================================
+// ============================================================
+// REPORTE DE ENCOMIENDAS - CON DEBUG COMPLETO
+// Agrega esto en tu controller_reportes.php en el caso REPORTE_ENCOMIENDAS
+// ============================================================
+elseif ($accion == 'REPORTE_ENCOMIENDAS') {
+    header('Content-Type: application/json; charset=utf-8');
+    
+    // Activar log de errores
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    
+    try {
+        $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : '';
+        $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : '';
+        $estado = isset($_POST['estado']) ? $_POST['estado'] : '';
+        $estado_pago = isset($_POST['estado_pago']) ? $_POST['estado_pago'] : '';
+        $origen = isset($_POST['origen']) ? $_POST['origen'] : '';
+        
+        // Log de parámetros recibidos
+        error_log("🔍 REPORTE_ENCOMIENDAS - Parámetros:");
+        error_log("  - Fecha desde: " . $fecha_desde);
+        error_log("  - Fecha hasta: " . $fecha_hasta);
+        error_log("  - Estado: " . $estado);
+        error_log("  - Estado pago: " . $estado_pago);
+        error_log("  - Origen: " . $origen);
+        
+        if (empty($fecha_desde) || empty($fecha_hasta)) {
+            error_log("❌ Faltan fechas");
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Debe seleccionar rango de fechas',
+                'data' => []
+            ]);
+            exit;
+        }
+        
+        // Verificar que el modelo existe
+        if (!class_exists('Modelo_Reportes')) {
+            error_log("❌ Clase Modelo_Reportes no existe");
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Error: Modelo no encontrado',
+                'data' => []
+            ]);
+            exit;
+        }
+        
+        // Verificar que el método existe
+        if (!method_exists($MR, 'Reporte_Encomiendas')) {
+            error_log("❌ Método Reporte_Encomiendas no existe en el modelo");
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Error: Método no encontrado',
+                'data' => []
+            ]);
+            exit;
+        }
+        
+        error_log("✅ Llamando al modelo...");
+        $resultado = $MR->Reporte_Encomiendas($fecha_desde, $fecha_hasta, $estado, $estado_pago, $origen);
+        
+        error_log("📊 Resultado del modelo:");
+        error_log("  - Tipo: " . gettype($resultado));
+        error_log("  - Es array: " . (is_array($resultado) ? 'SI' : 'NO'));
+        error_log("  - Cantidad: " . (is_array($resultado) ? count($resultado) : 'N/A'));
+        
+        if (!is_array($resultado)) {
+            error_log("⚠️ El resultado no es un array, convirtiendo a array vacío");
+            $resultado = [];
+        }
+        
+        // Log del primer registro si existe
+        if (count($resultado) > 0) {
+            error_log("📄 Primer registro: " . json_encode($resultado[0]));
+        } else {
+            error_log("⚠️ No hay registros en el resultado");
+        }
+        
+        echo json_encode([
+            'status' => 'success',
+            'data' => $resultado,
+            'debug' => [
+                'total_registros' => count($resultado),
+                'fecha_desde' => $fecha_desde,
+                'fecha_hasta' => $fecha_hasta
+            ]
+        ], JSON_UNESCAPED_UNICODE);
+        
+        error_log("✅ Respuesta JSON enviada correctamente");
+        
+    } catch (Exception $e) {
+        error_log("❌❌❌ EXCEPCIÓN EN REPORTE_ENCOMIENDAS ❌❌❌");
+        error_log("Mensaje: " . $e->getMessage());
+        error_log("Archivo: " . $e->getFile());
+        error_log("Línea: " . $e->getLine());
+        error_log("Stack trace: " . $e->getTraceAsString());
+        
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Error al generar el reporte: ' . $e->getMessage(),
+            'data' => [],
+            'debug' => [
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]
+        ]);
+    }
+}
+
+// ============================================================
+// OBTENER DETALLE DE UNA ENCOMIENDA
+// ============================================================
+elseif ($accion == 'OBTENER_DETALLE_ENCOMIENDA') {
+    header('Content-Type: application/json; charset=utf-8');
+    
+    try {
+        $id_encomienda = isset($_POST['id_encomienda']) ? intval($_POST['id_encomienda']) : 0;
+        
+        if ($id_encomienda <= 0) {
+            echo json_encode(['error' => 'ID de encomienda inválido']);
+            exit;
+        }
+        
+        $resultado = $MR->Obtener_Detalle_Encomienda($id_encomienda);
+        
+        if ($resultado) {
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+        } else {
+            echo json_encode(['error' => 'No se encontró la encomienda']);
+        }
+        
+    } catch (Exception $e) {
+        error_log("Error en OBTENER_DETALLE_ENCOMIENDA: " . $e->getMessage());
+        echo json_encode(['error' => 'Error: ' . $e->getMessage()]);
+    }
+}
+
 ?>

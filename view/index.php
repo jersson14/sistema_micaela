@@ -312,6 +312,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
 
               <li class="nav-item">
+                <a href="#reporte-encomiendas" data-modulo="reporte-encomiendas" class="nav-link">
+                  <i class="nav-icon fas fa-id-badge"></i>
+                  <p style="color:white">Reporte de Encomiendas</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
                 <a href="#reporte-sunat" data-modulo="reporte-sunat" class="nav-link">
                   <i class="nav-icon fas fa-cloud-upload-alt"></i>
                   <p style="color:white">Estado de Envío SUNAT</p>
