@@ -119,42 +119,76 @@ function listar_usuario() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE USUARIOS",
-        title: "LISTA DE USUARIOS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [1, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
+  buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE USUARIOS",
+    title: "LISTA DE USUARIOS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6], // Ajusta según tus columnas, SIN acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE USUARIOS",
-        title: "LISTA DE USUARIOS",
-        className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
-        exportOptions: {
-          columns: [1, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE USUARIOS",
+    title: "LISTA DE USUARIOS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE USUARIOS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [1, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE USUARIOS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { defaultContent: "" },
       { data: "dni_usuario" },
