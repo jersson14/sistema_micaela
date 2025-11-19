@@ -293,7 +293,7 @@
         var serie = document.getElementById('txt_serie');
 
         if (tipo == '01') {
-            serie.value = 'F001';
+            serie.value = 'FPP1';
             // Para factura, solo RUC
             document.getElementById('select_tipo_documento_cliente').value = '6';
         } else if (tipo == '03') {
