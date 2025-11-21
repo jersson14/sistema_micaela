@@ -150,14 +150,14 @@ if ($resultado->num_rows > 0) {
         
         .empresa-cell {
             width: 50%;
-            padding: 12px;
+            padding: 6px;
             border-right: 2px solid #000;
             text-align: center;
         }
         
         .empresa-titulo { 
             font-weight: bold; 
-            font-size: 10px; 
+            font-size: 11px; 
             color: #fff;
             margin-bottom: 4px;
             letter-spacing: 0.5px;
@@ -165,7 +165,7 @@ if ($resultado->num_rows > 0) {
         }
         
         .logo-text { 
-            font-size: 16px; 
+            font-size: 18px; 
             font-weight: bold; 
             margin-bottom: 4px;
         }
@@ -178,7 +178,7 @@ if ($resultado->num_rows > 0) {
         .logo-micaela {              
             background: linear-gradient(135deg, #ff0000, #cc0000);             
             color: #fff;              
-            padding: 3px 6px;             
+            padding: 4px 10px;             
             border-radius: 4px;             
             box-shadow: 0 2px 4px rgba(255,0,0,0.5);             
             text-shadow: 2px 0 0 #990000, -2px 0 0 #990000, 0 2px 0 #990000, 0 -2px 0 #990000, 1px 1px 0 #990000, -1px -1px 0 #990000, 1px -1px 0 #990000, -1px 1px 0 #990000;         
@@ -277,7 +277,7 @@ if ($resultado->num_rows > 0) {
         
         /* Contenido principal mejorado */
         .contenido-table {
-            min-height: 180px;
+            min-height: 150px;
             border-collapse: collapse;
             width: 100%;
         }
@@ -285,7 +285,7 @@ if ($resultado->num_rows > 0) {
         .contenido-table td {
             border-right: 2px solid #000;
             border-bottom: 2px solid #000;
-            padding: 8px 12px;
+            padding: 6px 10px;
             background: #fafafa;
             vertical-align: top;
         }
@@ -301,7 +301,7 @@ if ($resultado->num_rows > 0) {
         .campo-label {
             font-weight: bold !important;
             color: #ff0000 !important;
-            font-size: 9px;
+            font-size: 11px;
             display: block;
             margin-bottom: 3px;
             text-transform: uppercase;
@@ -320,7 +320,7 @@ if ($resultado->num_rows > 0) {
         }
         
         .descripcion-input {
-            min-height: 70px !important;
+            min-height: 60px !important;
         }
         
         /* Advertencia mejorada */
@@ -329,8 +329,8 @@ if ($resultado->num_rows > 0) {
             border-top: 2px solid #000;
             border-bottom: 2px solid #000;
             text-align: center;
-            padding: 10px;
-            font-size: 9px;
+            padding: 8px;
+            font-size: 8px;
             line-height: 1.3;
         }
         
@@ -371,7 +371,7 @@ if ($resultado->num_rows > 0) {
             display: block;
             font-weight: bold;
             color: #dc3545;
-            font-size: 9px;
+            font-size: 11px;
             margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -394,12 +394,8 @@ if ($resultado->num_rows > 0) {
         <table class="header-table">
             <tr>
                 <td class="empresa-cell">
-                    <div class="empresa-titulo">EMPRESA DE TRANSPORTES</div><br>
-                    <img src="../../../img/logo.jpg" alt="Logo" width="100" style="margin-bottom: 4px;">
-                    <div class="logo-text">
-                        <span class="tours-text">TOURS</span> <span class="logo-micaela">MICAELA</span>
-                    </div>
-                    <div class="slogan">LLEGAMOS A TU FELICIDAD</div>
+                    <img src="../../../img/logito.png" alt="Logo" width="270px" height="140px" style="margin-bottom: 3px;">
+                    
                 </td>
                 
                 <td class="info-cell">
@@ -432,43 +428,43 @@ if ($resultado->num_rows > 0) {
         <table class="contenido-table">             
             <tr>                 
                 <td style="width: 50%;">                     
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase;">Conductor:</span>                     
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase;">Conductor:</span>                     
                     <div class="campo-input">'.strtoupper($conductor_nombre).'</div>                 
                 </td>                 
                 <td style="width: 50%;">                     
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase;">Para:</span>                     
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase;">Para:</span>                     
                     <div class="campo-input">'.strtoupper($receptor_nombre).'</div>                 
                 </td>             
             </tr>             
             <tr>                 
                 <td style="width: 50%;">                     
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase;">Cel:</span>                     
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase;">Cel:</span>                     
                     <div class="campo-input">'.$conductor_celular.'</div>                 
                 </td>                 
                 <td style="width: 50%;">                     
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase;">Cel:</span>                     
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase;">Cel:</span>                     
                     <div class="campo-input">'.$receptor_celular.'</div>                 
                 </td>             
             </tr>             
             <tr>                              
                 <td rowspan="3" style="width: 50%; vertical-align: top;">                     
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase;">Descripción:</span>                     
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase;">Descripción:</span>                     
                     <div class="campo-input descripcion-input">'.strtoupper($descripcion).'</div>                 
                 </td>                 
                 <td style="width: 50%;">                     
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase;">DNI:</span>                     
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase;">DNI:</span>                     
                     <div class="campo-input">'.$receptor_doc.'</div>                 
                 </td>             
             </tr>             
             <tr>                 
                 <td style="width: 50%;">                     
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase;">De parte:</span>                     
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase;">De parte:</span>                     
                     <div class="campo-input">'.strtoupper($emisor_nombre).'</div>                 
                 </td>             
             </tr>             
             <tr>                 
                 <td style="width: 50%;">                     
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase;">Cel:</span>                     
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase;">Cel:</span>                     
                     <div class="campo-input">'.$emisor_celular.'</div>                 
                 </td>             
             </tr>         
@@ -485,17 +481,17 @@ if ($resultado->num_rows > 0) {
         <table class="pagos-table">
             <tr>
                 <td class="pago-cell">
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase; display: block; margin-bottom: 4px;">Pago S/.</span>
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 4px;">Pago S/.</span>
                     <div class="pago-valor">'.number_format($pago, 2).'</div>
                 </td>
                 
                 <td class="pago-cell">
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase; display: block; margin-bottom: 4px;">Por Pagar S/.</span>
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 4px;">Por Pagar S/.</span>
                     <div class="pago-valor">'.number_format($por_pagar, 2).'</div>
                 </td>
                 
                 <td class="pago-cell">
-                    <span style="font-weight: bold; color: #ff0000; font-size: 9px; text-transform: uppercase; display: block; margin-bottom: 4px;">A Domicilio S/.</span>
+                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 4px;">A Domicilio S/.</span>
                     <div class="pago-valor">'.($a_domicilio == "SI" ? "SÍ" : "NO").'</div>
                 </td>
             </tr>
