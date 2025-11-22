@@ -14,10 +14,12 @@ services:
     image: tours-micaela:production
     container_name: tours_micaela_prod
     restart: always
+    # Opción A: Usar puertos (recomendado)
     ports:
       - "80:80"
-      # Si usas HTTPS con reverse proxy (nginx/traefik):
-      # - "443:443"
+    # Opción B: Si host.docker.internal no funciona, descomenta esto:
+    # network_mode: "host"
+    # Y comenta la sección de 'ports' arriba
     volumes:
       # Volúmenes para persistencia de archivos generados
       - ./greenter/xml:/var/www/html/greenter/xml
@@ -29,8 +31,6 @@ services:
       - ./controller/choferes/fotos:/var/www/html/controller/choferes/fotos
       - ./controller/empresa/FOTOS:/var/www/html/controller/empresa/FOTOS
       - ./backup:/var/www/html/backup
-      # Logs
-      - ./logs:/var/log/apache2
     environment:
       - TZ=America/Lima
       - APACHE_RUN_USER=www-data
