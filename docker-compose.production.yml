@@ -34,12 +34,9 @@ services:
       - APACHE_RUN_GROUP=www-data
       - PHP_SESSION_SAVE_PATH=/tmp
     # Para conectar a MySQL del host (VPS):
-    # En Linux: usar host.docker.internal o la IP del VPS
-    # O usar network_mode: "host" (ver abajo)
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      - tours_network
+    # Usando network_mode: host, no se necesita extra_hosts ni networks
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
     # Límites de recursos (ajustar según tu VPS)
     deploy:
       resources:
@@ -56,10 +53,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-
-networks:
-  tours_network:
-    driver: bridge
 
 volumes:
   php_sessions:
