@@ -31,6 +31,8 @@ services:
       - ./controller/choferes/fotos:/var/www/html/controller/choferes/fotos
       - ./controller/empresa/FOTOS:/var/www/html/controller/empresa/FOTOS
       - ./backup:/var/www/html/backup
+      # Volumen para sesiones PHP
+      - php_sessions:/tmp
     environment:
       - TZ=America/Lima
       - APACHE_RUN_USER=www-data
@@ -63,5 +65,9 @@ services:
 networks:
   tours_network:
     driver: bridge
+
+volumes:
+  php_sessions:
+    driver: local
 
 # Nota: No incluimos volúmenes de BD porque la BD es externa
