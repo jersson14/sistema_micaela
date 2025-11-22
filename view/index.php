@@ -1,7 +1,34 @@
 <?php
 session_start();
+
+// Verificar sesión tradicional
 if (!isset($_SESSION['S_ID'])) {
   header('Location: ../index.php');
+  exit;
+}
+
+// MODO PRUEBA: Verificar expiración de token JWT
+if (isset($_SESSION['S_ID'])) {
+  // Si hay sesión pero no hay token válido en el cliente, cerrar sesión
+  // Esto se maneja desde JavaScript, pero agregamos verificación del lado del servidor
+  
+  // Verificar si la sesión tiene más de 2 horas
+  if (!isset($_SESSION['LOGIN_TIME'])) {
+    $_SESSION['LOGIN_TIME'] = time();
+  }
+  
+  $tiempo_transcurrido = time() - $_SESSION['LOGIN_TIME'];
+  $tiempo_maximo = 2 * 3600; // 2 horas
+  
+  if ($tiempo_transcurrido > $tiempo_maximo) {
+    // Sesión expirada, cerrar
+    session_destroy();
+    header('Location: ../index.php?expired=1');
+    exit;
+  }
+  
+  // Actualizar tiempo de última actividad
+  $_SESSION['LAST_ACTIVITY'] = time();
 }
 ?>
 <!DOCTYPE html>
@@ -2233,6 +2260,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </script>
   <!-- jQuery -->
   <script src="../plantilla/plugins//jquery/jquery.min.js"></script>
+  <!-- JWT Handler - Manejo automático de tokens -->
+  <script src="../js/jwt_handler.js"></script>
   <!-- Bootstrap 4 -->
   <script src="../plantilla/plugins//bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->

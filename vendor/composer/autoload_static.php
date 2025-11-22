@@ -54,6 +54,10 @@ class ComposerStaticInit6d92306e573e7cc3e0a1ad74e7743597
             'Greenter\\Sunat\\GRE\\' => 19,
             'Greenter\\' => 9,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
         'D' => 
         array (
             'DASPRiD\\Enum\\' => 13,
@@ -155,6 +159,10 @@ class ComposerStaticInit6d92306e573e7cc3e0a1ad74e7743597
             8 => __DIR__ . '/..' . '/greenter/greenter/packages/xcodes/src',
             9 => __DIR__ . '/..' . '/greenter/greenter/packages/xml-parser/src',
             10 => __DIR__ . '/..' . '/greenter/greenter/packages/xml/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'DASPRiD\\Enum\\' => 
         array (

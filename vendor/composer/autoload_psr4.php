@@ -25,6 +25,7 @@ return array(
     'Greenter\\XMLSecLibs\\' => array($vendorDir . '/greenter/xmldsig/src'),
     'Greenter\\Sunat\\GRE\\' => array($vendorDir . '/greenter/gre-api/src'),
     'Greenter\\' => array($vendorDir . '/greenter/greenter/packages/core/src/Core', $vendorDir . '/greenter/greenter/packages/cpe-validator/src', $vendorDir . '/greenter/greenter/packages/data/src', $vendorDir . '/greenter/greenter/packages/htmltopdf/src', $vendorDir . '/greenter/greenter/packages/lite/src/Greenter', $vendorDir . '/greenter/greenter/packages/report/src', $vendorDir . '/greenter/greenter/packages/validator/src', $vendorDir . '/greenter/greenter/packages/ws/src', $vendorDir . '/greenter/greenter/packages/xcodes/src', $vendorDir . '/greenter/greenter/packages/xml-parser/src', $vendorDir . '/greenter/greenter/packages/xml/src'),
+    'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
     'DASPRiD\\Enum\\' => array($vendorDir . '/dasprid/enum/src'),
     'BaconQrCode\\' => array($vendorDir . '/bacon/bacon-qr-code/src'),
     'App\\' => array($baseDir . '/model'),

@@ -23,6 +23,10 @@
     $_SESSION['S_RAZON']=$razon;
     $_SESSION['S_NOMBRE_ROL']=$nombre_rol;
     $_SESSION['S_SUCURSAL']=$sucursal;
+    
+    // MODO PRUEBA: Guardar tiempo de login para expiración
+    $_SESSION['LOGIN_TIME']=time();
+    $_SESSION['LAST_ACTIVITY']=time();
 
 
 

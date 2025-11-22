@@ -18,8 +18,25 @@ function Iniciar_Sesion() {
       c: con,
     },
   }).done(function (resp) {
-    let data = JSON.parse(resp);
-    if (data.length > 0) {
+    let response = JSON.parse(resp);
+    
+    // Compatibilidad con respuesta antigua y nueva
+    if (response.success === false) {
+      return Swal.fire({
+        icon: "error",
+        title: "Mensaje de Error",
+        text: response.message || "Usuario o Contraseña Incorrectos",
+        heightAuto: false,
+      });
+    }
+    
+    let data = response.data || response;
+    
+    if (data.length > 0 || (response.success && response.data)) {
+      if (response.success) {
+        data = [response.data];
+      }
+      
       if (data[0][7] == "INACTIVO") {
         return Swal.fire({
           icon: "warning",
@@ -28,6 +45,14 @@ function Iniciar_Sesion() {
           heightAuto: false,
         });
       }
+      
+      // Guardar tokens JWT en localStorage
+      if (response.tokens) {
+        localStorage.setItem('access_token', response.tokens.access_token);
+        localStorage.setItem('refresh_token', response.tokens.refresh_token);
+        localStorage.setItem('token_expires', Date.now() + (response.tokens.expires_in * 1000));
+      }
+      
       $.ajax({
         url: "controller/usuario/controlador_crear_sesion.php",
         type: "POST",
