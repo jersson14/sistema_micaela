@@ -41,18 +41,41 @@ git push -u origin main
 
 ---
 
-## 🖥️ PARTE 2: Desplegar en VPS
+## 🖥️ PARTE 2: Desplegar en VPS (Docker + MySQL nativo)
 
 ### Paso 1: Conectar al VPS
 ```bash
 ssh usuario@tu-vps-ip
 ```
 
-### Paso 2: Instalar Docker (si no está instalado)
+### Paso 2: Verificar MySQL (ya lo tienes instalado)
 ```bash
-# Actualizar sistema
-sudo apt update && sudo apt upgrade -y
+# Verificar que MySQL está corriendo
+sudo systemctl status mysql
+```
 
+### Paso 3: Crear base de datos y usuario (si no lo hiciste)
+```bash
+# Entrar a MySQL
+sudo mysql -u root -p
+
+# Dentro de MySQL:
+CREATE DATABASE micaela CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'micaela_user'@'%' IDENTIFIED BY 'TU_PASSWORD_SEGURO';
+GRANT ALL PRIVILEGES ON micaela.* TO 'micaela_user'@'%';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+**Nota:** Usamos `'%'` en lugar de `'localhost'` para que Docker pueda conectarse.
+
+### Paso 4: Importar base de datos (ya lo estás haciendo)
+```bash
+mysql -u micaela_user -p micaela < /ruta/al/backup.sql
+```
+
+### Paso 5: Instalar Docker (si no está instalado)
+```bash
 # Instalar Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
@@ -68,17 +91,19 @@ exit
 ssh usuario@tu-vps-ip
 ```
 
-### Paso 3: Clonar repositorio
+### Paso 6: Clonar repositorio
 ```bash
-cd /var/www
-sudo git clone https://github.com/TU_USUARIO/sistema-tours-micaela.git
+# Ir a tu directorio home
+cd ~
+
+# Clonar el repositorio
+git clone https://github.com/TU_USUARIO/sistema-tours-micaela.git
 cd sistema-tours-micaela
-sudo chown -R $USER:$USER .
 ```
 
-### Paso 4: Configurar archivos sensibles
+### Paso 7: Configurar archivos sensibles
 
-#### 4.1 Configurar conexión principal
+#### 7.1 Configurar conexión principal
 ```bash
 cp model/model_conexion.example.php model/model_conexion.php
 nano model/model_conexion.php
@@ -86,22 +111,22 @@ nano model/model_conexion.php
 
 Editar:
 ```php
-$this->host = "db";
+$this->host = "host.docker.internal";  // Para conectar desde Docker al MySQL del host
 $this->usuario = "micaela_user";
-$this->contrasena = "TU_PASSWORD_SEGURO_AQUI";
+$this->contrasena = "TU_PASSWORD_SEGURO";
 $this->bdName = "micaela";
 $this->puerto = 3306;
 ```
 
-#### 4.2 Configurar conexión mPDF
+#### 7.2 Configurar conexión mPDF
 ```bash
 cp view/MPDF/conexion.example.php view/MPDF/conexion.php
 nano view/MPDF/conexion.php
 ```
 
-Editar igual que arriba.
+Editar con las mismas credenciales (host = "host.docker.internal").
 
-#### 4.3 Configurar variables de entorno
+#### 7.3 Configurar variables de entorno
 ```bash
 cp .env.example .env
 nano .env
@@ -109,11 +134,11 @@ nano .env
 
 Editar:
 ```env
-DB_HOST=db
+DB_HOST=host.docker.internal
 DB_PORT=3306
 DB_NAME=micaela
 DB_USER=micaela_user
-DB_PASSWORD=TU_PASSWORD_SEGURO_AQUI
+DB_PASSWORD=TU_PASSWORD_SEGURO
 
 SUNAT_MODE=beta
 RUC_EMPRESA=20XXXXXXXXX
@@ -122,58 +147,39 @@ RAZON_SOCIAL_EMPRESA=TU EMPRESA
 CERT_PATH=/var/www/html/greenter/certificados/certificado.pem
 ```
 
-#### 4.4 Configurar Docker Compose
+### Paso 8: Subir certificado digital desde tu PC
 ```bash
-nano docker-compose.production.yml
-```
+# Desde tu PC (Windows):
+scp certificado.pem root@tu-vps-ip:~/sistema-tours-micaela/greenter/certificados/
 
-Cambiar las contraseñas:
-```yaml
-MYSQL_ROOT_PASSWORD: TU_ROOT_PASSWORD_SEGURO
-MYSQL_PASSWORD: TU_PASSWORD_SEGURO
-```
-
-### Paso 5: Subir archivos sensibles desde tu PC
-
-**Abrir nueva terminal en tu PC (no cerrar la del VPS):**
-
-```bash
-# Subir certificado digital
-scp certificado.pem usuario@tu-vps-ip:/var/www/sistema-tours-micaela/greenter/certificados/
-
-# Subir backup de base de datos
-scp backup/micaela.sql usuario@tu-vps-ip:/var/www/sistema-tours-micaela/backup/
-```
-
-### Paso 6: Dar permisos al certificado (en el VPS)
-```bash
+# En el VPS:
 chmod 600 greenter/certificados/certificado.pem
 ```
 
-### Paso 7: Levantar servicios Docker
+### Paso 9: Dar permisos a carpetas
 ```bash
-# Instalar dependencias PHP
-docker run --rm -v $(pwd):/app composer install
+chmod -R 775 greenter/xml greenter/cdr greenter/pdf Fotos
+```
 
-# Levantar servicios
+### Paso 10: Levantar Docker
+```bash
+# Construir y levantar el contenedor
 docker-compose -f docker-compose.production.yml up -d
 
 # Ver logs
 docker-compose -f docker-compose.production.yml logs -f
 ```
 
-### Paso 8: Verificar que funciona
+### Paso 11: Verificar que funciona
 ```bash
-# Ver contenedores corriendo
+# Ver contenedor corriendo
 docker ps
 
-# Debería mostrar 3 contenedores:
-# - tours_micaela_app
-# - tours_micaela_db
-# - tours_micaela_phpmyadmin
-
 # Probar la aplicación
-curl http://localhost:8080
+curl http://localhost
+
+# O desde el navegador:
+# http://tu-vps-ip
 ```
 
 ---
@@ -247,49 +253,68 @@ git pull origin main
 docker-compose -f docker-compose.production.yml restart
 ```
 
+**Si cambiaste dependencias de Composer:**
+```bash
+docker-compose -f docker-compose.production.yml down
+docker-compose -f docker-compose.production.yml build --no-cache
+docker-compose -f docker-compose.production.yml up -d
+```
+
 ---
 
 ## 📊 PARTE 5: Comandos Útiles
 
-### Ver logs en tiempo real
+### Ver logs del contenedor
 ```bash
 docker-compose -f docker-compose.production.yml logs -f app
-docker-compose -f docker-compose.production.yml logs -f db
+docker logs tours_micaela_prod -f
+```
+
+### Ver logs de Apache dentro del contenedor
+```bash
+docker exec tours_micaela_prod tail -f /var/log/apache2/error.log
 ```
 
 ### Reiniciar servicios
 ```bash
+# Reiniciar contenedor
 docker-compose -f docker-compose.production.yml restart
-```
 
-### Detener servicios
-```bash
-docker-compose -f docker-compose.production.yml down
+# Reiniciar MySQL (en el host)
+sudo systemctl restart mysql
 ```
 
 ### Hacer backup de BD
 ```bash
-docker exec tours_micaela_db mysqldump -uroot -pTU_ROOT_PASSWORD micaela > backup/backup_$(date +%Y%m%d).sql
+mysqldump -u micaela_user -p micaela > backup/backup_$(date +%Y%m%d).sql
 ```
 
 ### Restaurar backup de BD
 ```bash
-docker exec -i tours_micaela_db mysql -uroot -pTU_ROOT_PASSWORD micaela < backup/micaela.sql
+mysql -u micaela_user -p micaela < backup/micaela.sql
 ```
 
 ### Ver uso de recursos
 ```bash
 docker stats
+htop
+df -h
 ```
 
-### Entrar al contenedor de la aplicación
+### Entrar al contenedor
 ```bash
-docker exec -it tours_micaela_app bash
+docker exec -it tours_micaela_prod bash
 ```
 
-### Entrar al contenedor de MySQL
+### Entrar a MySQL (en el host)
 ```bash
-docker exec -it tours_micaela_db mysql -uroot -pTU_ROOT_PASSWORD
+mysql -u micaela_user -p micaela
+```
+
+### Ver estado del contenedor
+```bash
+docker ps
+docker-compose -f docker-compose.production.yml ps
 ```
 
 ---
@@ -298,25 +323,44 @@ docker exec -it tours_micaela_db mysql -uroot -pTU_ROOT_PASSWORD
 
 ### Error: "Cannot connect to database"
 ```bash
-docker-compose -f docker-compose.production.yml logs db
-docker-compose -f docker-compose.production.yml restart db
+# Verificar que MySQL está corriendo en el host
+sudo systemctl status mysql
+
+# Verificar que el usuario puede conectarse desde cualquier host
+sudo mysql -u root -p
+SELECT user, host FROM mysql.user WHERE user='micaela_user';
+# Debe mostrar '%' en host, no 'localhost'
+
+# Si muestra 'localhost', cambiar:
+GRANT ALL PRIVILEGES ON micaela.* TO 'micaela_user'@'%';
+FLUSH PRIVILEGES;
+```
+
+### Error: "host.docker.internal" no resuelve
+```bash
+# Opción 1: Usar la IP del VPS en lugar de host.docker.internal
+# En model_conexion.php: $this->host = "172.17.0.1";
+
+# Opción 2: Usar network_mode: host en docker-compose
+# (ver docker-compose.production.yml)
 ```
 
 ### Error: "Permission denied"
 ```bash
-chmod -R 755 greenter/xml greenter/cdr greenter/pdf Fotos
+chmod -R 775 greenter/xml greenter/cdr greenter/pdf Fotos
 ```
 
-### Reconstruir contenedores
+### Ver logs de errores
+```bash
+docker-compose -f docker-compose.production.yml logs --tail=100
+docker exec tours_micaela_prod tail -f /var/log/apache2/error.log
+```
+
+### Reconstruir contenedor
 ```bash
 docker-compose -f docker-compose.production.yml down
 docker-compose -f docker-compose.production.yml build --no-cache
 docker-compose -f docker-compose.production.yml up -d
-```
-
-### Ver todos los contenedores (incluso detenidos)
-```bash
-docker ps -a
 ```
 
 ### Limpiar Docker (liberar espacio)
@@ -335,45 +379,82 @@ docker system prune -a
 - [ ] Creé repositorio en GitHub
 - [ ] Hice `git push`
 
-### Antes de VPS:
-- [ ] Tengo acceso SSH al VPS
+### En el VPS:
+- [ ] MySQL está instalado y corriendo
+- [ ] Creé la base de datos `micaela`
+- [ ] Creé el usuario `micaela_user@'%'` (no localhost)
+- [ ] Importé el backup de la BD
 - [ ] Docker está instalado
-- [ ] Cloné el repositorio
-- [ ] Configuré archivos sensibles
-- [ ] Subí certificado y backup
-- [ ] Levanté servicios Docker
+- [ ] Cloné el repositorio en `/var/www`
+- [ ] Configuré `model/model_conexion.php` (host=host.docker.internal)
+- [ ] Configuré `view/MPDF/conexion.php` (host=host.docker.internal)
+- [ ] Subí el certificado digital
+- [ ] Di permisos a las carpetas
+- [ ] Levanté Docker: `docker-compose -f docker-compose.production.yml up -d`
 
 ### Verificación Final:
-- [ ] `docker ps` muestra 3 contenedores
-- [ ] `curl http://localhost:8080` responde
+- [ ] `docker ps` muestra el contenedor corriendo
+- [ ] `curl http://localhost` responde
 - [ ] Puedo acceder desde el navegador
 - [ ] El login funciona
 - [ ] Puedo emitir comprobantes
+- [ ] Los PDFs se generan
+- [ ] Los XMLs se envían a SUNAT
 
 ---
 
 ## 🎯 Resumen Ultra-Rápido
 
 ```bash
-# EN TU PC
+# ========== EN TU PC ==========
 git init
 git add .
 git commit -m "Initial commit"
 git remote add origin https://github.com/TU_USUARIO/sistema-tours-micaela.git
 git push -u origin main
 
-# EN EL VPS
+# ========== EN EL VPS ==========
 ssh usuario@tu-vps-ip
-cd /var/www
+
+# 1. Crear BD (si no existe)
+sudo mysql -u root -p
+CREATE DATABASE micaela;
+CREATE USER 'micaela_user'@'%' IDENTIFIED BY 'TU_PASSWORD';
+GRANT ALL PRIVILEGES ON micaela.* TO 'micaela_user'@'%';
+EXIT;
+
+# 2. Importar datos (ya lo estás haciendo)
+mysql -u micaela_user -p micaela < /ruta/backup.sql
+
+# 3. Clonar proyecto
+cd ~
 git clone https://github.com/TU_USUARIO/sistema-tours-micaela.git
 cd sistema-tours-micaela
+
+# 4. Configurar archivos
 cp model/model_conexion.example.php model/model_conexion.php
+nano model/model_conexion.php
+# Cambiar: $this->host = "host.docker.internal";
+
 cp view/MPDF/conexion.example.php view/MPDF/conexion.php
-cp .env.example .env
-# Editar los 3 archivos con tus credenciales
+nano view/MPDF/conexion.php
+# Cambiar: $host = "host.docker.internal";
+
+# 5. Subir certificado desde tu PC
+# scp certificado.pem root@vps-ip:~/sistema-tours-micaela/greenter/certificados/
+
+# 6. Dar permisos
+chmod -R 775 greenter/xml greenter/cdr greenter/pdf Fotos
+chmod 600 greenter/certificados/certificado.pem
+
+# 7. Levantar Docker (incluye Apache, PHP, Composer, todo!)
 docker-compose -f docker-compose.production.yml up -d
 
-# LISTO! 🎉
+# 8. Ver logs
+docker-compose -f docker-compose.production.yml logs -f
+
+# ¡LISTO! 🎉
+# Accede a: http://tu-vps-ip
 ```
 
 ---

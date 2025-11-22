@@ -35,12 +35,11 @@ services:
       - TZ=America/Lima
       - APACHE_RUN_USER=www-data
       - APACHE_RUN_GROUP=www-data
-      # Variables de BD (configurar según tu BD externa)
-      - DB_HOST=tu_servidor_bd.com
-      - DB_PORT=3306
-      - DB_NAME=micaela
-      - DB_USER=micaela_user
-      - DB_PASS=tu_password_seguro
+    # Para conectar a MySQL del host (VPS):
+    # En Linux: usar host.docker.internal o la IP del VPS
+    # O usar network_mode: "host" (ver abajo)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - tours_network
     # Límites de recursos (ajustar según tu VPS)
