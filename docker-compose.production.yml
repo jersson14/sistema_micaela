@@ -14,8 +14,7 @@ services:
     image: tours-micaela:production
     container_name: tours_micaela_prod
     restart: always
-    ports:
-      - "80:80"
+    network_mode: "host"
     volumes:
       # Volúmenes para persistencia de archivos generados
       - ./greenter/xml:/var/www/html/greenter/xml

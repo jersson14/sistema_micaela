@@ -27,7 +27,7 @@
     // MODO PRUEBA: Guardar tiempo de login para expiración
     $_SESSION['LOGIN_TIME']=time();
     $_SESSION['LAST_ACTIVITY']=time();
-
-
-
+    
+    // Confirmar que la sesión se creó
+    echo json_encode(array('success' => true, 'message' => 'Sesión creada correctamente'));
 ?>

@@ -70,6 +70,7 @@ function Iniciar_Sesion() {
           sucursal: data[0][20], // nombre de sucursal
         },
       }).done(function (resp) {
+        console.log("Sesión creada:", resp);
         let timerInterval;
         Swal.fire({
           title: "Bienvenido al Sistema",
