@@ -108,8 +108,9 @@ RUN { \
     echo 'error_log = /var/log/apache2/php_errors.log'; \
     echo 'session.cookie_httponly = 1'; \
     echo 'session.use_strict_mode = 1'; \
-    echo 'session.save_path = /tmp'; \
+    echo 'session.save_path = /tmp/sessions'; \
     echo 'session.gc_maxlifetime = 7200'; \
+    echo 'session.cookie_lifetime = 7200'; \
     } > /usr/local/etc/php/conf.d/production.ini
 
 # Configurar Apache VirtualHost para producción
@@ -173,6 +174,11 @@ RUN { \
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
     CMD curl -f http://localhost/ || exit 1
+
+# Crear directorio para sesiones y dar permisos
+RUN mkdir -p /tmp/sessions \
+    && chmod 1777 /tmp/sessions \
+    && chown www-data:www-data /tmp/sessions
 
 # Exponer puerto 80
 EXPOSE 80

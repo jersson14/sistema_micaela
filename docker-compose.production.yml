@@ -28,7 +28,7 @@ services:
       - ./controller/empresa/FOTOS:/var/www/html/controller/empresa/FOTOS
       - ./backup:/var/www/html/backup
       # Volumen para sesiones PHP
-      - php_sessions:/tmp
+      - php_sessions:/tmp/sessions
     environment:
       - TZ=America/Lima
       - APACHE_RUN_USER=www-data
