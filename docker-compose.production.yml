@@ -35,6 +35,7 @@ services:
       - TZ=America/Lima
       - APACHE_RUN_USER=www-data
       - APACHE_RUN_GROUP=www-data
+      - PHP_SESSION_SAVE_PATH=/tmp
     # Para conectar a MySQL del host (VPS):
     # En Linux: usar host.docker.internal o la IP del VPS
     # O usar network_mode: "host" (ver abajo)
