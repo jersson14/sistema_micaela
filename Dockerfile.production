@@ -1,0 +1,183 @@
+# ============================================
+# Dockerfile para Producción - Tours Micaela
+# Solo aplicación PHP (sin base de datos)
+# ============================================
+
+# Imagen base con PHP y Apache
+FROM php:8.2-apache
+
+# Información del mantenedor
+LABEL maintainer="jersson1407miranda@gmail.com"
+LABEL description="Sistema Tours Micaela - Producción VPS"
+LABEL version="1.0"
+
+# Variables de entorno
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/Lima
+
+# Instalar dependencias del sistema (optimizado)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar extensiones PHP requeridas
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+    pdo \
+    pdo_mysql \
+    mysqli \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    zip \
+    soap \
+    opcache
+
+# Configurar OPcache para producción
+RUN { \
+    echo 'opcache.enable=1'; \
+    echo 'opcache.memory_consumption=256'; \
+    echo 'opcache.interned_strings_buffer=16'; \
+    echo 'opcache.max_accelerated_files=10000'; \
+    echo 'opcache.revalidate_freq=60'; \
+    echo 'opcache.fast_shutdown=1'; \
+    echo 'opcache.enable_cli=0'; \
+    } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
+# Instalar Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Configurar Apache
+RUN a2enmod rewrite headers expires deflate \
+    && a2dismod -f autoindex
+
+# Establecer directorio de trabajo
+WORKDIR /var/www/html
+
+# Copiar archivos del proyecto
+COPY --chown=www-data:www-data . /var/www/html/
+
+# Instalar dependencias de Composer (producción)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist \
+    && composer clear-cache
+
+# Crear directorios necesarios y establecer permisos
+RUN mkdir -p \
+    greenter/xml \
+    greenter/cdr \
+    greenter/pdf \
+    greenter/certificados \
+    greenter/cache \
+    Fotos \
+    controller/usuario/fotos \
+    controller/choferes/fotos \
+    controller/empresa/FOTOS \
+    view/MPDF \
+    backup \
+    && chmod -R 755 greenter \
+    && chmod -R 755 Fotos \
+    && chmod -R 755 controller/usuario/fotos \
+    && chmod -R 755 controller/choferes/fotos \
+    && chmod -R 755 controller/empresa/FOTOS \
+    && chmod -R 755 view/MPDF \
+    && chmod -R 755 backup \
+    && chown -R www-data:www-data /var/www/html
+
+# Configurar PHP para producción
+RUN { \
+    echo 'upload_max_filesize = 20M'; \
+    echo 'post_max_size = 20M'; \
+    echo 'memory_limit = 256M'; \
+    echo 'max_execution_time = 300'; \
+    echo 'max_input_time = 300'; \
+    echo 'date.timezone = America/Lima'; \
+    echo 'display_errors = Off'; \
+    echo 'log_errors = On'; \
+    echo 'error_log = /var/log/apache2/php_errors.log'; \
+    echo 'session.cookie_httponly = 1'; \
+    echo 'session.cookie_secure = 1'; \
+    echo 'session.use_strict_mode = 1'; \
+    } > /usr/local/etc/php/conf.d/production.ini
+
+# Configurar Apache VirtualHost para producción
+RUN { \
+    echo '<VirtualHost *:80>'; \
+    echo '    ServerAdmin jersson1407miranda@gmail.com'; \
+    echo '    DocumentRoot /var/www/html'; \
+    echo '    ServerName toursmicaela.com'; \
+    echo '    ServerAlias www.toursmicaela.com'; \
+    echo ''; \
+    echo '    <Directory /var/www/html>'; \
+    echo '        Options -Indexes +FollowSymLinks'; \
+    echo '        AllowOverride All'; \
+    echo '        Require all granted'; \
+    echo ''; \
+    echo '        # Seguridad adicional'; \
+    echo '        <FilesMatch "\.(env|sql|md|log)$">'; \
+    echo '            Require all denied'; \
+    echo '        </FilesMatch>'; \
+    echo '    </Directory>'; \
+    echo ''; \
+    echo '    # Logs'; \
+    echo '    ErrorLog ${APACHE_LOG_DIR}/error.log'; \
+    echo '    CustomLog ${APACHE_LOG_DIR}/access.log combined'; \
+    echo ''; \
+    echo '    # Compresión GZIP'; \
+    echo '    <IfModule mod_deflate.c>'; \
+    echo '        AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json'; \
+    echo '    </IfModule>'; \
+    echo ''; \
+    echo '    # Cache de archivos estáticos'; \
+    echo '    <IfModule mod_expires.c>'; \
+    echo '        ExpiresActive On'; \
+    echo '        ExpiresByType image/jpg "access plus 1 year"'; \
+    echo '        ExpiresByType image/jpeg "access plus 1 year"'; \
+    echo '        ExpiresByType image/gif "access plus 1 year"'; \
+    echo '        ExpiresByType image/png "access plus 1 year"'; \
+    echo '        ExpiresByType text/css "access plus 1 month"'; \
+    echo '        ExpiresByType application/javascript "access plus 1 month"'; \
+    echo '    </IfModule>'; \
+    echo '</VirtualHost>'; \
+    } > /etc/apache2/sites-available/000-default.conf
+
+# Crear archivo .htaccess para seguridad adicional
+RUN { \
+    echo '# Seguridad'; \
+    echo '<Files .env>'; \
+    echo '    Require all denied'; \
+    echo '</Files>'; \
+    echo ''; \
+    echo '<Files composer.json>'; \
+    echo '    Require all denied'; \
+    echo '</Files>'; \
+    echo ''; \
+    echo '# Proteger archivos sensibles'; \
+    echo '<FilesMatch "\.(sql|log|md)$">'; \
+    echo '    Require all denied'; \
+    echo '</FilesMatch>'; \
+    } > /var/www/html/.htaccess
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost/ || exit 1
+
+# Exponer puerto 80
+EXPOSE 80
+
+# Usuario no privilegiado
+USER www-data
+
+# Comando de inicio
+CMD ["apache2-foreground"]

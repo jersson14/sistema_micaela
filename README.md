@@ -299,6 +299,41 @@ _(Puedes agregar imágenes del sistema aquí)_
 
 ---
 
+## 🚀 Despliegue en GitHub y VPS
+
+### Guías de Despliegue Disponibles
+
+El proyecto incluye documentación completa para desplegar en producción:
+
+- **`RESUMEN_GITHUB_VPS.md`** - Resumen ejecutivo del proceso completo
+- **`COMANDOS_RAPIDOS.md`** - Comandos copy-paste listos para usar
+- **`GITHUB_DEPLOYMENT.md`** - Guía detallada paso a paso
+- **`check-before-github.bat`** - Script de verificación (Windows)
+- **`check-before-github.sh`** - Script de verificación (Linux/Mac)
+
+### Proceso Rápido
+
+```bash
+# 1. Verificar antes de subir
+.\check-before-github.bat
+
+# 2. Subir a GitHub
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/TU_USUARIO/sistema-tours-micaela.git
+git push -u origin main
+
+# 3. Desplegar en VPS
+ssh usuario@tu-vps-ip
+git clone https://github.com/TU_USUARIO/sistema-tours-micaela.git
+cd sistema-tours-micaela
+# Configurar archivos sensibles (ver COMANDOS_RAPIDOS.md)
+docker-compose -f docker-compose.production.yml up -d
+```
+
+---
+
 ## 🐛 Solución de Problemas
 
 ### Error: "No se puede conectar a la base de datos"

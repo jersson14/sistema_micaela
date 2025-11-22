@@ -1,0 +1,67 @@
+# ============================================
+# Docker Compose para Producción VPS
+# Solo aplicación PHP (BD externa)
+# ============================================
+
+version: '3.8'
+
+services:
+  # Aplicación PHP/Apache
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    image: tours-micaela:production
+    container_name: tours_micaela_prod
+    restart: always
+    ports:
+      - "80:80"
+      # Si usas HTTPS con reverse proxy (nginx/traefik):
+      # - "443:443"
+    volumes:
+      # Volúmenes para persistencia de archivos generados
+      - ./greenter/xml:/var/www/html/greenter/xml
+      - ./greenter/cdr:/var/www/html/greenter/cdr
+      - ./greenter/pdf:/var/www/html/greenter/pdf
+      - ./greenter/certificados:/var/www/html/greenter/certificados
+      - ./Fotos:/var/www/html/Fotos
+      - ./controller/usuario/fotos:/var/www/html/controller/usuario/fotos
+      - ./controller/choferes/fotos:/var/www/html/controller/choferes/fotos
+      - ./controller/empresa/FOTOS:/var/www/html/controller/empresa/FOTOS
+      - ./backup:/var/www/html/backup
+      # Logs
+      - ./logs:/var/log/apache2
+    environment:
+      - TZ=America/Lima
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+      # Variables de BD (configurar según tu BD externa)
+      - DB_HOST=tu_servidor_bd.com
+      - DB_PORT=3306
+      - DB_NAME=micaela
+      - DB_USER=micaela_user
+      - DB_PASS=tu_password_seguro
+    networks:
+      - tours_network
+    # Límites de recursos (ajustar según tu VPS)
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 512M
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  tours_network:
+    driver: bridge
+
+# Nota: No incluimos volúmenes de BD porque la BD es externa

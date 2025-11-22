@@ -1,0 +1,94 @@
+<?php
+/**
+ * Configuración de Conexión a Base de Datos - PRODUCCIÓN
+ * 
+ * INSTRUCCIONES:
+ * 1. Renombrar este archivo a: model_conexion_produccion.php
+ * 2. Configurar los datos de tu base de datos externa
+ * 3. En model_conexion.php, cambiar a usar esta configuración
+ */
+
+class conexionBD
+{
+    // ============================================
+    // CONFIGURACIÓN DE BASE DE DATOS EXTERNA
+    // ============================================
+    
+    // Servidor de base de datos (IP o dominio)
+    private static $host = "tu_servidor_bd.com"; // Ejemplo: "192.168.1.100" o "db.tudominio.com"
+    
+    // Puerto de MySQL (por defecto 3306)
+    private static $port = "3306";
+    
+    // Nombre de la base de datos
+    private static $dbname = "micaela";
+    
+    // Usuario de la base de datos
+    private static $user = "micaela_user";
+    
+    // Contraseña del usuario
+    private static $pass = "tu_password_seguro_aqui";
+    
+    // Charset
+    private static $charset = "utf8mb4";
+
+    /**
+     * Conexión PDO
+     */
+    public static function conexionPDO()
+    {
+        try {
+            $dsn = "mysql:host=" . self::$host . 
+                   ";port=" . self::$port . 
+                   ";dbname=" . self::$dbname . 
+                   ";charset=" . self::$charset;
+            
+            $options = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES " . self::$charset,
+                // Timeout de conexión (30 segundos)
+                PDO::ATTR_TIMEOUT => 30,
+                // Reconexión automática
+                PDO::ATTR_PERSISTENT => false
+            ];
+            
+            $conexion = new PDO($dsn, self::$user, self::$pass, $options);
+            
+            return $conexion;
+            
+        } catch (PDOException $e) {
+            // Log del error
+            error_log("Error de conexión a BD: " . $e->getMessage());
+            
+            // En producción, no mostrar detalles del error
+            die("Error de conexión a la base de datos. Contacte al administrador.");
+        }
+    }
+
+    /**
+     * Cerrar conexión
+     */
+    public static function cerrar_conexion()
+    {
+        return null;
+    }
+
+    /**
+     * Verificar conexión
+     */
+    public static function verificar_conexion()
+    {
+        try {
+            $conn = self::conexionPDO();
+            if ($conn) {
+                return true;
+            }
+            return false;
+        } catch (Exception $e) {
+            error_log("Error verificando conexión: " . $e->getMessage());
+            return false;
+        }
+    }
+}
