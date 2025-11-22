@@ -288,3 +288,147 @@ DEBUG TELEFONO: Array
   - Razon: SEGURO SOCIAL DE SALUD
   - Telefono: "" (length: 0)
 [2025-11-15 10:09:57] RESULTADO REGISTRO CLIENTE: ID=66
+[2025-11-22 09:42:21] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00100002
+    [fecha_emision] => 2025-11-22
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-11-22T09:41
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-22 09:42:21] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2025-11-22 09:42:21] RESULTADO REGISTRO CLIENTE: ID=2
+[2025-11-22 09:42:54] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00100003
+    [fecha_emision] => 2025-11-22
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 5
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2025-11-22T09:41
+    [base_gravada] => 1.69
+    [igv] => 0.31
+    [total] => 2.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-22 09:42:54] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2025-11-22 09:42:54] RESULTADO REGISTRO CLIENTE: ID=2
+[2025-11-22 09:49:36] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00100004
+    [fecha_emision] => 2025-11-22
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20450622011
+    [razon_social] => AFOPEVDA - UAC
+    [direccion] => CAL. SAN ANDRES NRO 239 INT. 106B CENTRO HISTORICO 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2025-11-22T09:49
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-11-22 09:49:36] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20450622011
+  - Razon: AFOPEVDA - UAC
+  - Telefono: "" (length: 0)
+[2025-11-22 09:49:36] RESULTADO REGISTRO CLIENTE: ID=67

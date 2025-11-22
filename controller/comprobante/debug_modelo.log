@@ -22,3 +22,15 @@
   Num Doc: 20131257750
 [2025-11-15 10:09:57] Cliente no existe, insertando nuevo...
 [2025-11-15 10:09:57] ✅ Cliente registrado con ID: 66
+[2025-11-22 09:42:21] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-11-22 09:42:21] Cliente ya existe (ID: 2), actualizando...
+[2025-11-22 09:42:21] ✅ Cliente actualizado
+[2025-11-22 09:42:54] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-11-22 09:42:54] Cliente ya existe (ID: 2), actualizando...
+[2025-11-22 09:42:54] ✅ Cliente actualizado
+[2025-11-22 09:49:36] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20450622011
+[2025-11-22 09:49:36] Cliente no existe, insertando nuevo...
+[2025-11-22 09:49:36] ✅ Cliente registrado con ID: 67

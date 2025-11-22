@@ -785,6 +785,10 @@ function enviarASunat(id_comprobante, serie, correlativo) {
 
 // LIMPIAR FORMULARIO
 function limpiarFormulario() {
+  // Guardar tipo de comprobante y serie antes de limpiar
+  let tipoComprobante = $("#select_tipo_comprobante").val();
+  let serie = $("#txt_serie").val();
+
   $("#select_tipo_comprobante").val("").trigger("change");
   $("#txt_serie").val("");
   $("#txt_correlativo").val("");
@@ -805,6 +809,17 @@ function limpiarFormulario() {
   // Establecer fecha actual
   var hoy = new Date().toISOString().split("T")[0];
   $("#txt_fecha_emision").val(hoy);
+
+  // Restaurar tipo de comprobante y serie, y cargar siguiente correlativo
+  if (tipoComprobante && serie) {
+    $("#select_tipo_comprobante").val(tipoComprobante).trigger("change");
+    $("#txt_serie").val(serie);
+    
+    // Cargar el siguiente correlativo automáticamente
+    setTimeout(function() {
+      obtenerCorrelativo();
+    }, 300); // Pequeño delay para asegurar que los campos estén listos
+  }
 }
 
 // VER LISTA DE COMPROBANTES

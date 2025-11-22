@@ -141,3 +141,69 @@
     [estado_sunat] => PENDIENTE
 )
 
+[2025-11-22 15:42:21] Intentando enviar comprobante ID: 131
+[2025-11-22 15:42:21] Datos obtenidos: Array
+(
+    [id_comprobante] => 131
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-22
+    [serie] => FPP1
+    [correlativo] => 100002
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-22 15:42:54] Intentando enviar comprobante ID: 132
+[2025-11-22 15:42:54] Datos obtenidos: Array
+(
+    [id_comprobante] => 132
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-22
+    [serie] => FPP1
+    [correlativo] => 100003
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-22 15:47:58] Intentando enviar comprobante ID: 133
+[2025-11-22 15:47:58] Datos obtenidos: Array
+(
+    [id_comprobante] => 133
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-22
+    [serie] => FN01
+    [correlativo] => 10
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-22 15:48:30] Intentando enviar comprobante ID: 134
+[2025-11-22 15:48:30] Datos obtenidos: Array
+(
+    [id_comprobante] => 134
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-22
+    [serie] => FN01
+    [correlativo] => 11
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-22 15:49:36] Intentando enviar comprobante ID: 135
+[2025-11-22 15:49:36] Datos obtenidos: Array
+(
+    [id_comprobante] => 135
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-11-22
+    [serie] => FPP1
+    [correlativo] => 100004
+    [estado_sunat] => PENDIENTE
+)
+
+[2025-11-22 15:59:19] Intentando enviar comprobante ID: 136
+[2025-11-22 15:59:19] Datos obtenidos: Array
+(
+    [id_comprobante] => 136
+    [tipo_comprobante] => 07
+    [fecha_emision] => 2025-11-22
+    [serie] => FN01
+    [correlativo] => 12
+    [estado_sunat] => PENDIENTE
+)
+

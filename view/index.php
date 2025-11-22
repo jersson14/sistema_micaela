@@ -2290,6 +2290,269 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- AQUÍ VA EL NUEVO SCRIPT -->
 <script src="../js/navegacion_hash.js?rev=<?php echo time(); ?>"></script>
+
+<!-- ============================================ -->
+<!-- MODAL DE RECORDATORIO DE PAGOS (SOLO ADMIN) -->
+<!-- ============================================ -->
+<?php if ($_SESSION['S_ROL'] == "1"): // Solo para administrador ?>
+<!-- Modal -->
+<div class="modal fade" id="modalRecordatorioPagos" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+      <!-- Header con gradiente -->
+      <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px 20px 0 0; border: none; padding: 30px;">
+        <div style="width: 100%;">
+          <h4 class="modal-title text-white" style="font-weight: 700; font-size: 24px; margin-bottom: 5px;">
+            <i class="fas fa-bell fa-shake"></i> Recordatorio de Pagos de Servicios
+          </h4>
+          <p class="text-white" style="margin: 0; opacity: 0.9; font-size: 14px;">
+            <i class="far fa-calendar-alt"></i> Es momento de renovar los servicios del sistema
+          </p>
+        </div>
+      </div>
+      
+      <!-- Body -->
+      <div class="modal-body" style="padding: 30px;">
+        <!-- Mensaje principal -->
+        <div class="alert" style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border: 2px solid #667eea; border-radius: 15px; padding: 20px; margin-bottom: 25px;">
+          <h5 style="color: #667eea; font-weight: 600; margin-bottom: 10px;">
+            <i class="fas fa-info-circle"></i> Atención Administrador
+          </h5>
+          <p style="margin: 0; color: #555; font-size: 15px;">
+            Es tiempo de realizar el pago de los servicios anuales del sistema. Por favor, contacte al proveedor para procesar la renovación.
+          </p>
+        </div>
+
+        <!-- Lista de servicios -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s;">
+              <div class="card-body" style="padding: 20px;">
+                <div class="d-flex align-items-center mb-2">
+                  <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                    <i class="fas fa-server text-white" style="font-size: 24px;"></i>
+                  </div>
+                  <div>
+                    <h6 style="margin: 0; font-weight: 600; color: #333;">Hosting</h6>
+                    <p style="margin: 0; color: #999; font-size: 13px;">Servidor Web</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span style="font-size: 24px; font-weight: 700; color: #667eea;">S/ 380</span>
+                  <p style="margin: 0; color: #999; font-size: 12px;">Anual</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s;">
+              <div class="card-body" style="padding: 20px;">
+                <div class="d-flex align-items-center mb-2">
+                  <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                    <i class="fas fa-file-invoice text-white" style="font-size: 24px;"></i>
+                  </div>
+                  <div>
+                    <h6 style="margin: 0; font-weight: 600; color: #333;">API SUNAT</h6>
+                    <p style="margin: 0; color: #999; font-size: 13px;">Nubefact</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span style="font-size: 24px; font-weight: 700; color: #f5576c;">S/ 740</span>
+                  <p style="margin: 0; color: #999; font-size: 12px;">Anual</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s;">
+              <div class="card-body" style="padding: 20px;">
+                <div class="d-flex align-items-center mb-2">
+                  <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                    <i class="fas fa-certificate text-white" style="font-size: 24px;"></i>
+                  </div>
+                  <div>
+                    <h6 style="margin: 0; font-weight: 600; color: #333;">Certificado PEM</h6>
+                    <p style="margin: 0; color: #999; font-size: 13px;">Seguridad SSL</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span style="font-size: 24px; font-weight: 700; color: #00f2fe;">S/ 280</span>
+                  <p style="margin: 0; color: #999; font-size: 12px;">Anual</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s;">
+              <div class="card-body" style="padding: 20px;">
+                <div class="d-flex align-items-center mb-2">
+                  <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                    <i class="fas fa-id-card text-white" style="font-size: 24px;"></i>
+                  </div>
+                  <div>
+                    <h6 style="margin: 0; font-weight: 600; color: #333;">API RENIEC</h6>
+                    <p style="margin: 0; color: #999; font-size: 13px;">Consulta DNI</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span style="font-size: 24px; font-weight: 700; color: #38f9d7;">S/ 100</span>
+                  <p style="margin: 0; color: #999; font-size: 12px;">Anual</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total -->
+        <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; border: none; margin-top: 20px;">
+          <div class="card-body" style="padding: 25px;">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="text-white" style="margin: 0; font-weight: 600;">
+                <i class="fas fa-calculator"></i> Total a Pagar:
+              </h5>
+              <h3 class="text-white" style="margin: 0; font-weight: 700; font-size: 32px;">
+                S/ 1,500.00
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Información de contacto -->
+        <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; margin-top: 20px; background: #f8f9fa;">
+          <div class="card-body" style="padding: 25px;">
+            <h6 style="color: #667eea; font-weight: 600; margin-bottom: 15px;">
+              <i class="fas fa-user-tie"></i> Contactar al Proveedor:
+            </h6>
+            <div class="row">
+              <div class="col-md-12 mb-2">
+                <p style="margin: 0; color: #555;">
+                  <i class="fas fa-user" style="color: #667eea; width: 20px;"></i>
+                  <strong>Ing. Jersson Jorge Corilla Miranda</strong>
+                </p>
+              </div>
+              <div class="col-md-6 mb-2">
+                <p style="margin: 0; color: #555;">
+                  <i class="fas fa-phone" style="color: #43e97b; width: 20px;"></i>
+                  <a href="tel:974031318" style="color: #667eea; text-decoration: none; font-weight: 500;">974 031 318</a>
+                </p>
+              </div>
+              <div class="col-md-6 mb-2">
+                <p style="margin: 0; color: #555;">
+                  <i class="fas fa-envelope" style="color: #f5576c; width: 20px;"></i>
+                  <a href="mailto:jersson1407miranda@gmail.com" style="color: #667eea; text-decoration: none; font-weight: 500;">jersson1407miranda@gmail.com</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Footer -->
+      <div class="modal-footer" style="border: none; padding: 20px 30px; background: #f8f9fa; border-radius: 0 0 20px 20px;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 10px; padding: 10px 25px;">
+          <i class="fas fa-times"></i> Cerrar
+        </button>
+        <a href="https://wa.me/51974031318?text=Hola%20Ing.%20Jersson,%20necesito%20renovar%20los%20servicios%20del%20sistema%20Tours%20Micaela" 
+           target="_blank" 
+           class="btn text-white" 
+           style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); border-radius: 10px; padding: 10px 25px; border: none;">
+          <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script para mostrar el modal en fechas específicas -->
+<script>
+$(document).ready(function() {
+  // Obtener fecha actual
+  const hoy = new Date();
+  const mes = hoy.getMonth() + 1; // 0-11, por eso +1
+  const dia = hoy.getDate();
+  
+  // ⚠️ FECHAS DE RECORDATORIO:
+  // - 3 de Octubre (mes 10, dia 3)
+  // - 17 de Octubre (mes 10, dia 17)
+  // - 22 de Noviembre (mes 11, dia 22) ← TEMPORAL PARA PRUEBAS
+  const esFechaRecordatorio = (mes === 10 && (dia === 3 || dia === 17)) || (mes === 11 && dia === 22);
+  
+  // Debug: Mostrar en consola
+  console.log('🔔 Verificación de Recordatorio de Pagos:');
+  console.log('   Fecha actual:', `${dia}/${mes}/${hoy.getFullYear()}`);
+  console.log('   ¿Es fecha de recordatorio?', esFechaRecordatorio);
+  
+  // Verificar si ya se mostró hoy (para no molestar múltiples veces)
+  const fechaHoy = hoy.toISOString().split('T')[0]; // YYYY-MM-DD
+  const ultimaVezMostrado = localStorage.getItem('recordatorio_pagos_mostrado');
+  console.log('   Última vez mostrado:', ultimaVezMostrado);
+  console.log('   Fecha de hoy:', fechaHoy);
+  
+  if (esFechaRecordatorio && ultimaVezMostrado !== fechaHoy) {
+    console.log('   ✅ Mostrando modal de recordatorio...');
+    // Mostrar modal después de 2 segundos
+    setTimeout(function() {
+      $('#modalRecordatorioPagos').modal('show');
+      
+      // Guardar que ya se mostró hoy
+      localStorage.setItem('recordatorio_pagos_mostrado', fechaHoy);
+      
+      // Animación de shake en el ícono
+      setInterval(function() {
+        $('.fa-bell').addClass('fa-shake');
+        setTimeout(function() {
+          $('.fa-bell').removeClass('fa-shake');
+        }, 1000);
+      }, 3000);
+    }, 2000);
+  } else {
+    if (!esFechaRecordatorio) {
+      console.log('   ℹ️ No es fecha de recordatorio');
+    } else if (ultimaVezMostrado === fechaHoy) {
+      console.log('   ℹ️ El modal ya se mostró hoy');
+    }
+  }
+  
+  // Efecto hover en las tarjetas
+  $('.card').hover(
+    function() {
+      $(this).css({
+        'transform': 'translateY(-5px)',
+        'box-shadow': '0 10px 25px rgba(0,0,0,0.15)'
+      });
+    },
+    function() {
+      $(this).css({
+        'transform': 'translateY(0)',
+        'box-shadow': 'none'
+      });
+    }
+  );
+});
+</script>
+
+<!-- Estilos adicionales para animaciones -->
+<style>
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.fa-shake {
+  animation: shake 0.5s;
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+</style>
+<?php endif; ?>
+<!-- FIN MODAL RECORDATORIO -->
+
 </body>
 
 </html>
