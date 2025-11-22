@@ -107,8 +107,9 @@ RUN { \
     echo 'log_errors = On'; \
     echo 'error_log = /var/log/apache2/php_errors.log'; \
     echo 'session.cookie_httponly = 1'; \
-    echo 'session.cookie_secure = 1'; \
     echo 'session.use_strict_mode = 1'; \
+    echo 'session.save_path = /tmp'; \
+    echo 'session.gc_maxlifetime = 7200'; \
     } > /usr/local/etc/php/conf.d/production.ini
 
 # Configurar Apache VirtualHost para producción
