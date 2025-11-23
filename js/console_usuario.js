@@ -53,6 +53,9 @@ function Iniciar_Sesion() {
         localStorage.setItem('token_expires', Date.now() + (response.tokens.expires_in * 1000));
       }
       
+      console.log("Datos del usuario para sesión:", data[0]);
+      console.log("Response completo:", response);
+      
       $.ajax({
         url: "controller/usuario/controlador_crear_sesion.php",
         type: "POST",
