@@ -1,5 +1,16 @@
 <?php
+    // Configurar sesión antes de iniciarla
+    ini_set('session.save_path', '/tmp/sessions');
+    ini_set('session.gc_maxlifetime', 7200);
+    ini_set('session.cookie_lifetime', 7200);
+    
     session_start();
+    
+    // Log para debug
+    error_log("=== CREAR SESION DEBUG ===");
+    error_log("Session ID: " . session_id());
+    error_log("Session save path: " . session_save_path());
+    
     $idusuario = htmlspecialchars($_POST['idusuario'],ENT_QUOTES,'UTF-8');
     $DNIusuario = htmlspecialchars($_POST['DNIusuario'],ENT_QUOTES,'UTF-8');
     $usuario = htmlspecialchars($_POST['usuario'],ENT_QUOTES,'UTF-8');
@@ -28,6 +39,15 @@
     $_SESSION['LOGIN_TIME']=time();
     $_SESSION['LAST_ACTIVITY']=time();
     
+    // Log de sesión creada
+    error_log("Sesión creada - Usuario: $nombres, Rol: $nombre_rol");
+    error_log("Session data: " . print_r($_SESSION, true));
+    
     // Confirmar que la sesión se creó
-    echo json_encode(array('success' => true, 'message' => 'Sesión creada correctamente'));
+    echo json_encode(array(
+        'success' => true, 
+        'message' => 'Sesión creada correctamente',
+        'session_id' => session_id(),
+        'data' => $_SESSION
+    ));
 ?>

@@ -1,8 +1,19 @@
 <?php
+// Configurar sesión antes de iniciarla (igual que en controlador_crear_sesion.php)
+ini_set('session.save_path', '/tmp/sessions');
+ini_set('session.gc_maxlifetime', 7200);
+ini_set('session.cookie_lifetime', 7200);
+
 session_start();
+
+// Log para debug
+error_log("=== VIEW INDEX DEBUG ===");
+error_log("Session ID: " . session_id());
+error_log("Session data: " . print_r($_SESSION, true));
 
 // Verificar sesión tradicional
 if (!isset($_SESSION['S_ID'])) {
+  error_log("No hay sesión S_ID, redirigiendo al login");
   header('Location: ../index.php');
   exit;
 }
