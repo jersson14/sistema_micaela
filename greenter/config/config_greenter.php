@@ -3,6 +3,7 @@ use Greenter\Ws\Services\SunatEndpoints;
 use Greenter\See;
 
 require __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../../model/model_conexion.php';
 
 function getSee($pdo = null) {
     // Si no se pasa una conexión PDO, crearla
@@ -62,19 +63,17 @@ function getSee($pdo = null) {
 }
 
 function getConnection() {
-    // Usar la clase de conexión principal del sistema
-    require_once __DIR__ . '/../../model/model_conexion.php';
-    
     try {
         $conexionBD = new conexionBD();
         $pdo = $conexionBD->conexionPDO();
         
         if ($pdo === null) {
-            die("❌ Error: No se pudo establecer conexión a la base de datos\n");
+            throw new Exception("No se pudo establecer conexión a la base de datos");
         }
         
         return $pdo;
     } catch (Exception $e) {
+        error_log("Error de conexión Greenter: " . $e->getMessage());
         die("❌ Error de conexión a la base de datos: " . $e->getMessage() . "\n");
     }
 }
