@@ -3,10 +3,9 @@ setlocale(LC_TIME, 'es_ES.UTF-8');
 date_default_timezone_set('America/Lima');
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once '../conexion.php';
-$mysqli->set_charset("utf8");
+require_once __DIR__ . '/../conexion.php';
 
-$id_salida = $mysqli->real_escape_string($_GET['id']);
+$id_salida = (int)$_GET['id'];
 
 // Consulta para obtener datos de la salida y conductor
 $query_salida = "SELECT
@@ -59,7 +58,7 @@ FROM
     usuario AS u
     ON 
         s.id_usuario = u.id_usuario   
-WHERE s.id_salidas_diarias = '$id_salida'";
+WHERE s.id_salidas_diarias = :id_salida";
 
 // Consulta para obtener los pasajeros
 $query_pasajeros = "SELECT
@@ -86,15 +85,18 @@ FROM
     clientes
     ON 
         clientes.id_cliente = salida_cliente.idcliente
-WHERE salida_cliente.idsalida = '$id_salida'
+WHERE salida_cliente.idsalida = :id_salida
 ORDER BY salida_cliente.id_cliente_salida";
 
-$resultado_salida = $mysqli->query($query_salida);
-$resultado_pasajeros = $mysqli->query($query_pasajeros);
+$stmt_salida = $conexion->prepare($query_salida);
+$stmt_salida->execute(['id_salida' => $id_salida]);
+
+$stmt_pasajeros = $conexion->prepare($query_pasajeros);
+$stmt_pasajeros->execute(['id_salida' => $id_salida]);
 
 $html = '';
-if ($resultado_salida->num_rows > 0) {
-    $salida = $resultado_salida->fetch_assoc();
+if ($stmt_salida->rowCount() > 0) {
+    $salida = $stmt_salida->fetch(PDO::FETCH_ASSOC);
     
     // Datos de la salida
     $salida_nro = $salida['salida_nro'];
@@ -112,7 +114,7 @@ if ($resultado_salida->num_rows > 0) {
     // Obtener lista de pasajeros
     $pasajeros = array();
     $contador = 1;
-    while($pasajero = $resultado_pasajeros->fetch_assoc()) {
+    while($pasajero = $stmt_pasajeros->fetch(PDO::FETCH_ASSOC)) {
         $pasajeros[] = array(
             'numero' => $contador,
             'nombre' => $pasajero['nombre_completo'],

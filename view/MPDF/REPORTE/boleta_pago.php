@@ -3,10 +3,9 @@ setlocale(LC_TIME, 'es_ES.UTF-8');
 date_default_timezone_set('America/Lima');
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once '../conexion.php';
-$mysqli->set_charset("utf8");
+require_once __DIR__ . '/../conexion.php';
 
-$id_encomienda = $mysqli->real_escape_string($_GET['id']);
+$id_encomienda = (int)$_GET['id']; // Sanitizar como entero
 
 // Consulta directa con SELECT
 $query = "SELECT
@@ -71,13 +70,14 @@ INNER JOIN rutas AS rutas_origen
     ON rutas_origen.idrutas = encomiendas.id_origen
 INNER JOIN rutas AS rutas_destino
     ON rutas_destino.idrutas = encomiendas.id_destino
-WHERE encomiendas.id_encomienda = '$id_encomienda'";
+WHERE encomiendas.id_encomienda = :id_encomienda";
 
-$resultado = $mysqli->query($query);
+$stmt = $conexion->prepare($query);
+$stmt->execute(['id_encomienda' => $id_encomienda]);
 
 $html = '';
-if ($resultado->num_rows > 0) {
-    $row = $resultado->fetch_assoc();
+if ($stmt->rowCount() > 0) {
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $boleta_nro = $row['boleta_nro'];
     $fecha_formateada = $row['fecha_formateada'];

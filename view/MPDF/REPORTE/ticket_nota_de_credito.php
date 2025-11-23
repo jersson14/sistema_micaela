@@ -3,8 +3,7 @@ setlocale(LC_TIME, 'es_ES.UTF-8');
 date_default_timezone_set('America/Lima');
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once '../conexion.php';
-$mysqli->set_charset("utf8");
+require_once __DIR__ . '/../conexion.php';
 
 use Mpdf\Mpdf;
 use Mpdf\QrCode\QrCode;
@@ -48,11 +47,12 @@ LEFT JOIN sucursales su ON u.id_sucursal = su.id_sucursal
 LEFT JOIN empresa e ON su.id_empresa = e.id_empresa
 LEFT JOIN choferes ch ON c.idconductor = ch.id_chofer
 LEFT JOIN comprobantes c_origen ON c.id_comprobante_origen = c_origen.id_comprobante
-WHERE c.id_comprobante = '$id'";
+WHERE c.id_comprobante = :id";
 
-$result = $mysqli->query($query);
-if ($result->num_rows === 0) die("Comprobante no encontrado");
-$row = $result->fetch_assoc();
+$stmt = $conexion->prepare($query);
+$stmt->execute(['id' => $id]);
+if ($stmt->rowCount() === 0) die("Comprobante no encontrado");
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // DETECTAR SI ES NOTA DE CRÉDITO O DÉBITO
 $esNota = in_array($row['tipo_comprobante'], ['07', '08']);

@@ -3,8 +3,7 @@ setlocale(LC_TIME, 'es_ES.UTF-8');
 date_default_timezone_set('America/Lima');
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once '../conexion.php';
-$mysqli->set_charset("utf8");
+require_once __DIR__ . '/../conexion.php';
 
 use Mpdf\Mpdf;
 use Mpdf\QrCode\QrCode;
@@ -68,15 +67,16 @@ LEFT JOIN usuario u ON c.id_usuario = u.id_usuario
 LEFT JOIN sucursales su ON u.id_sucursal = su.id_sucursal
 LEFT JOIN empresa e ON su.id_empresa = e.id_empresa
 LEFT JOIN choferes ch ON c.idconductor = ch.id_chofer
-WHERE c.id_comprobante = '$id'
+WHERE c.id_comprobante = :id
 ";
 
-$result = $mysqli->query($query);
-if ($result->num_rows === 0) {
+$stmt = $conexion->prepare($query);
+$stmt->execute(['id' => $id]);
+if ($stmt->rowCount() === 0) {
     die("No se encontró el comprobante solicitado.");
 }
 
-$row = $result->fetch_assoc();
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // =========================================================
 // VALIDACIÓN SEGÚN ESTADO SUNAT
