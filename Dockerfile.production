@@ -45,14 +45,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     soap \
     opcache
 
-# Configurar OPcache para producción
+# Configurar OPcache para producción (desactivado temporalmente para debug)
 RUN { \
-    echo 'opcache.enable=1'; \
-    echo 'opcache.memory_consumption=256'; \
-    echo 'opcache.interned_strings_buffer=16'; \
-    echo 'opcache.max_accelerated_files=10000'; \
-    echo 'opcache.revalidate_freq=60'; \
-    echo 'opcache.fast_shutdown=1'; \
+    echo 'opcache.enable=0'; \
     echo 'opcache.enable_cli=0'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
@@ -106,11 +101,15 @@ RUN { \
     echo 'display_errors = Off'; \
     echo 'log_errors = On'; \
     echo 'error_log = /var/log/apache2/php_errors.log'; \
+    echo 'session.save_handler = files'; \
+    echo 'session.save_path = /tmp/sessions'; \
+    echo 'session.use_cookies = 1'; \
+    echo 'session.use_only_cookies = 1'; \
     echo 'session.cookie_httponly = 1'; \
     echo 'session.use_strict_mode = 1'; \
-    echo 'session.save_path = /tmp/sessions'; \
     echo 'session.gc_maxlifetime = 7200'; \
     echo 'session.cookie_lifetime = 7200'; \
+    echo 'session.lazy_write = 0'; \
     } > /usr/local/etc/php/conf.d/production.ini
 
 # Configurar Apache VirtualHost para producción
