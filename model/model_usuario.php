@@ -12,7 +12,8 @@ class Modelo_Usuario extends conexionBD
         $query = $c->prepare($sql);
         $query->bindParam(1, $usu);
         $query->execute();
-        $resultado = $query->fetchAll();
+        // Usar PDO::FETCH_BOTH para obtener índices numéricos y asociativos
+        $resultado = $query->fetchAll(PDO::FETCH_BOTH);
         foreach ($resultado as $resp) {
             if (password_verify($con, $resp['usu_contrasenia'])) {
                 $arreglo[] = $resp;
