@@ -46,6 +46,22 @@ function Iniciar_Sesion() {
         });
       }
       
+      // Debug: ver qué datos tenemos
+      console.log("Response completo:", response);
+      console.log("Data:", data);
+      console.log("Data[0]:", data[0]);
+      
+      // Verificar que data[0] existe
+      if (!data[0]) {
+        console.error("ERROR: data[0] está vacío o undefined");
+        return Swal.fire({
+          icon: "error",
+          title: "Error de Sesión",
+          text: "No se pudieron obtener los datos del usuario",
+          heightAuto: false,
+        });
+      }
+      
       // Guardar tokens JWT en localStorage
       if (response.tokens) {
         localStorage.setItem('access_token', response.tokens.access_token);
@@ -70,30 +86,62 @@ function Iniciar_Sesion() {
           sucursal: data[0][20], // nombre de sucursal
         },
       }).done(function (resp) {
-        console.log("Sesión creada:", resp);
-        let timerInterval;
-        Swal.fire({
-          title: "Bienvenido al Sistema",
-          html: "Seras redireccionado en <b></b> milliseconds.",
-          icon: "success",
-          timer: 1200,
-          timerProgressBar: true,
-          heightAuto: false,
-          didOpen: () => {
-            Swal.showLoading();
-            const b = Swal.getHtmlContainer().querySelector("b");
-            timerInterval = setInterval(() => {
-              b.textContent = Swal.getTimerLeft();
-            }, 100);
-          },
-          willClose: () => {
-            clearInterval(timerInterval);
-          },
-        }).then((result) => {
-          /* Read more about handling dismissals below */
-          if (result.dismiss === Swal.DismissReason.timer) {
-            location.reload();
+        console.log("Respuesta crear sesión:", resp);
+        
+        try {
+          let sessionResponse = JSON.parse(resp);
+          
+          if (sessionResponse.success) {
+            console.log("Sesión creada exitosamente:", sessionResponse);
+            
+            let timerInterval;
+            Swal.fire({
+              title: "Bienvenido al Sistema",
+              html: "Seras redireccionado en <b></b> milliseconds.",
+              icon: "success",
+              timer: 1200,
+              timerProgressBar: true,
+              heightAuto: false,
+              didOpen: () => {
+                Swal.showLoading();
+                const b = Swal.getHtmlContainer().querySelector("b");
+                timerInterval = setInterval(() => {
+                  b.textContent = Swal.getTimerLeft();
+                }, 100);
+              },
+              willClose: () => {
+                clearInterval(timerInterval);
+              },
+            }).then((result) => {
+              if (result.dismiss === Swal.DismissReason.timer) {
+                location.reload();
+              }
+            });
+          } else {
+            console.error("Error al crear sesión:", sessionResponse.message);
+            Swal.fire({
+              icon: "error",
+              title: "Error de Sesión",
+              text: sessionResponse.message || "No se pudo crear la sesión",
+              heightAuto: false,
+            });
           }
+        } catch (e) {
+          console.error("Error al parsear respuesta de sesión:", e, resp);
+          Swal.fire({
+            icon: "error",
+            title: "Error de Sesión",
+            text: "Error al procesar la respuesta del servidor",
+            heightAuto: false,
+          });
+        }
+      }).fail(function(xhr, status, error) {
+        console.error("Error AJAX crear sesión:", {xhr, status, error});
+        Swal.fire({
+          icon: "error",
+          title: "Error de Conexión",
+          text: "No se pudo conectar con el servidor para crear la sesión",
+          heightAuto: false,
         });
       });
     } else {

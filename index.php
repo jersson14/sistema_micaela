@@ -1,7 +1,10 @@
 <?php
-session_start();
-if(isset($_SESSION['S_ID'])){
+// Incluir configuración de sesiones
+require_once 'utilitario/session_config.php';
+
+if(isset($_SESSION['S_ID']) && !empty($_SESSION['S_ID'])){
     header('Location: view/index.php');
+    exit;
 }
 ?>
 <!DOCTYPE html>

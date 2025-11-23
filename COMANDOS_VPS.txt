@@ -1,0 +1,181 @@
+═══════════════════════════════════════════════════════════════
+  COMANDOS PARA EJECUTAR EN EL VPS
+  Tours Micaela - Solución de Sesiones
+═══════════════════════════════════════════════════════════════
+
+📌 PASO 1: CONECTAR AL VPS
+───────────────────────────────────────────────────────────────
+ssh usuario@tu-vps-ip
+
+
+📌 PASO 2: IR AL DIRECTORIO DEL PROYECTO
+───────────────────────────────────────────────────────────────
+cd /var/www/html/tu-proyecto
+# o
+cd /home/usuario/public_html
+
+
+📌 PASO 3: ACTUALIZAR CÓDIGO (si usas Git)
+───────────────────────────────────────────────────────────────
+git pull origin main
+
+
+📌 PASO 4: CREAR DIRECTORIO DE SESIONES
+───────────────────────────────────────────────────────────────
+mkdir -p /tmp/php_sessions
+chmod 700 /tmp/php_sessions
+
+
+📌 PASO 5: CONFIGURAR PROPIETARIO
+───────────────────────────────────────────────────────────────
+# Para Apache
+chown -R www-data:www-data /tmp/php_sessions
+
+# Para Nginx
+chown -R nginx:nginx /tmp/php_sessions
+
+# Si no sabes cuál, ejecuta esto primero:
+ps aux | grep -E 'apache|httpd|nginx' | grep -v root | head -1
+
+
+📌 PASO 6: EJECUTAR SCRIPT DE CONFIGURACIÓN
+───────────────────────────────────────────────────────────────
+bash fix_sessions_vps.sh
+
+
+📌 PASO 7: REINICIAR SERVIDOR WEB
+───────────────────────────────────────────────────────────────
+# Para Apache
+sudo systemctl restart apache2
+
+# Para Nginx + PHP-FPM
+sudo systemctl restart nginx
+sudo systemctl restart php-fpm
+
+# Para PHP-FPM 7.4 (ajusta la versión)
+sudo systemctl restart php7.4-fpm
+
+
+📌 PASO 8: VERIFICAR LOGS
+───────────────────────────────────────────────────────────────
+# Ver últimas 50 líneas de log de PHP
+tail -n 50 /var/log/php-fpm/error.log
+
+# Ver últimas 50 líneas de log de Apache
+tail -n 50 /var/log/apache2/error.log
+
+# Ver logs en tiempo real
+tail -f /var/log/apache2/error.log
+
+
+📌 PASO 9: VERIFICAR PERMISOS DE ARCHIVOS
+───────────────────────────────────────────────────────────────
+# Dar permisos correctos a archivos PHP
+find . -name "*.php" -type f -exec chmod 644 {} \;
+
+# Dar permisos a directorios
+find . -type d -exec chmod 755 {} \;
+
+
+📌 PASO 10: VERIFICAR CONFIGURACIÓN PHP
+───────────────────────────────────────────────────────────────
+php -i | grep session
+
+
+═══════════════════════════════════════════════════════════════
+  VERIFICACIÓN
+═══════════════════════════════════════════════════════════════
+
+1. Accede a: http://tu-dominio.com/test_sesiones.php
+   ✅ Debe mostrar todo en verde
+
+2. Accede a: http://tu-dominio.com
+   ✅ Debe permitir login sin errores 500
+
+
+═══════════════════════════════════════════════════════════════
+  SOLUCIÓN DE PROBLEMAS
+═══════════════════════════════════════════════════════════════
+
+🔴 PROBLEMA: "Permission denied" al crear directorio
+───────────────────────────────────────────────────────────────
+sudo mkdir -p /tmp/php_sessions
+sudo chmod 700 /tmp/php_sessions
+sudo chown -R www-data:www-data /tmp/php_sessions
+
+
+🔴 PROBLEMA: Sesiones no persisten
+───────────────────────────────────────────────────────────────
+# Verificar que el módulo de sesiones esté habilitado
+php -m | grep session
+
+# Si no aparece, instalar:
+sudo apt-get install php-session
+sudo systemctl restart apache2
+
+
+🔴 PROBLEMA: Error 500 en controladores
+───────────────────────────────────────────────────────────────
+# Ver el error exacto
+tail -f /var/log/apache2/error.log
+
+# Verificar sintaxis PHP
+php -l controller/usuario/controlador_crear_sesion.php
+
+
+🔴 PROBLEMA: "Session save path not writable"
+───────────────────────────────────────────────────────────────
+# Verificar ruta actual
+php -r "echo session_save_path();"
+
+# Cambiar permisos
+sudo chmod 700 $(php -r "echo session_save_path();")
+sudo chown -R www-data:www-data $(php -r "echo session_save_path();")
+
+
+═══════════════════════════════════════════════════════════════
+  COMANDOS DE DIAGNÓSTICO
+═══════════════════════════════════════════════════════════════
+
+# Ver versión de PHP
+php -v
+
+# Ver configuración de sesiones
+php -i | grep -E "session.save_path|session.gc_maxlifetime"
+
+# Ver usuario del servidor web
+ps aux | grep -E 'apache|nginx' | grep -v root | head -1
+
+# Ver permisos del directorio de sesiones
+ls -la /tmp/php_sessions/
+
+# Probar sesión desde CLI
+php -r "session_start(); echo 'Session ID: ' . session_id();"
+
+
+═══════════════════════════════════════════════════════════════
+  NOTAS IMPORTANTES
+═══════════════════════════════════════════════════════════════
+
+⚠️  Reemplaza "www-data" con el usuario correcto de tu servidor
+⚠️  Reemplaza "php7.4-fpm" con tu versión de PHP
+⚠️  Algunos comandos pueden requerir "sudo"
+⚠️  Haz backup antes de modificar archivos en producción
+⚠️  Elimina test_sesiones.php después de verificar
+
+
+═══════════════════════════════════════════════════════════════
+  CONTACTO Y SOPORTE
+═══════════════════════════════════════════════════════════════
+
+Si después de seguir todos los pasos el problema persiste:
+
+1. Captura pantalla de test_sesiones.php
+2. Copia los logs de error
+3. Ejecuta: php -i > phpinfo.txt
+4. Contacta con soporte técnico del hosting
+
+
+═══════════════════════════════════════════════════════════════
+  FIN
+═══════════════════════════════════════════════════════════════

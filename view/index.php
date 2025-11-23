@@ -1,8 +1,9 @@
 <?php
-session_start();
+// Incluir configuración de sesiones
+require_once '../utilitario/session_config.php';
 
 // Verificar sesión tradicional
-if (!isset($_SESSION['S_ID'])) {
+if (!isset($_SESSION['S_ID']) || empty($_SESSION['S_ID'])) {
   header('Location: ../index.php');
   exit;
 }
