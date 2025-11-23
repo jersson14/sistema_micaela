@@ -62,30 +62,19 @@ function getSee($pdo = null) {
 }
 
 function getConnection() {
-    // Configuración para VPS con Docker usando variables de entorno
-    $host = getenv('DB_HOST') ?: 'db';
-    $usuario = getenv('DB_USER') ?: 'micaela_user';
-    $contrasena = getenv('DB_PASSWORD') ?: 'micaela_pass_2024_VPS';
-    $bdName = getenv('DB_NAME') ?: 'micaela';
-    $puerto = getenv('DB_PORT') ?: 3306;
+    // Usar la clase de conexión principal del sistema
+    require_once __DIR__ . '/../../model/model_conexion.php';
     
     try {
-        $pdo = new PDO(
-            "mysql:host={$host};port={$puerto};dbname={$bdName};charset=utf8mb4",
-            $usuario,
-            $contrasena,
-            [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-            ]
-        );
+        $conexionBD = new conexionBD();
+        $pdo = $conexionBD->conexionPDO();
         
-        // Forzar collation para evitar conflictos
-        $pdo->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
-        $pdo->exec("SET CHARACTER SET utf8mb4");
+        if ($pdo === null) {
+            die("❌ Error: No se pudo establecer conexión a la base de datos\n");
+        }
         
         return $pdo;
-    } catch (PDOException $e) {
+    } catch (Exception $e) {
         die("❌ Error de conexión a la base de datos: " . $e->getMessage() . "\n");
     }
 }
