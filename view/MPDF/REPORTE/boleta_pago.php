@@ -492,7 +492,7 @@ if ($stmt->rowCount() > 0) {
                 
                 <td class="pago-cell">
                     <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 4px;">A Domicilio S/.</span>
-                    <div class="pago-valor">'.($a_domicilio == "SI" ? "SÍ" : "NO").'</div>
+                    <div class="pago-valor">'.number_format($a_domicilio, 2).'</div>
                 </td>
             </tr>
         </table>

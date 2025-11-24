@@ -1,4 +1,4 @@
-# 🛡️ GUÍA DE MANTENIMIENTO EN PRODUCCIÓN
+ # 🛡️ GUÍA DE MANTENIMIENTO EN PRODUCCIÓN
 
 ## 📋 Sistema Tours Micaela - VPS Ubuntu con Docker
 
