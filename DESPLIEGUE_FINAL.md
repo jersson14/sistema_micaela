@@ -1037,3 +1037,8 @@ docker exec -i tours_micaela_db_vps mysql -uroot -p"CONTRASEÑA" micaela < backu
 ---
 
 **¡Listo! Ahora tienes un flujo de trabajo completo para mantener tu aplicación actualizada.** 🚀
+
+## 📋 COMANDO PARA CADA VEZ Q CAMBIE EN LOCAL
+docker-compose -f docker-compose.ssl.yml down
+docker-compose -f docker-compose.ssl.yml up -d --build
+
