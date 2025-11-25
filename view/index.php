@@ -629,7 +629,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="row mb-2">
               <div class="col-sm-6">
                 <h1 class="m-0"><i class="fas fa-home"></i>
-                  <b>BIENVENIDOS AL SISTEMA - TOURS MICAELA</b>
+                  <b>BIENVENIDOS AL SISTEMA - TOURS MICAELA22</b>
                 </h1>
               </div>
               <div class="col-sm-6">
