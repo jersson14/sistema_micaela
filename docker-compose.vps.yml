@@ -78,7 +78,7 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "80:80"    # HTTP
+      - "80:80"    # HTTPs
       - "443:443"  # HTTPS (para futuro)
     volumes:
     - ./:/var/www/html
