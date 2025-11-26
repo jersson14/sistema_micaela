@@ -19,7 +19,7 @@ NC='\033[0m' # No Color
 
 # Configuración del dominio
 DOMAIN="micaela-tours.com"
-EMAIL="jersson1407miranda@gmail.com"  # Cambia esto por tu email
+EMAIL="admin@micaela-tours.com"  # Cambia esto por tu email
 SERVER_IP=$(hostname -I | awk '{print $1}')
 
 # Verificar que estamos en el directorio correcto
@@ -79,15 +79,33 @@ cp model/model_conexion_vps.php model/model_conexion.php
 echo -e "${GREEN}✅ Archivo de conexión actualizado${NC}"
 echo ""
 
+# Detener servicios que puedan usar puerto 80
+echo "🛑 Verificando servicios en puertos 80/443..."
+if systemctl is-active --quiet apache2 2>/dev/null; then
+    echo "   Deteniendo Apache2..."
+    systemctl stop apache2
+    systemctl disable apache2
+    echo -e "${GREEN}   ✅ Apache2 detenido${NC}"
+fi
+
 # Detener contenedores existentes si los hay
 echo "🛑 Deteniendo contenedores existentes (si los hay)..."
 docker-compose -f docker-compose.vps.yml down 2>/dev/null || true
 echo ""
 
+# Modificar docker-compose para usar puerto 8080 interno (Nginx hará proxy desde puerto 80)
+echo "⚙️  Configurando puertos para Nginx..."
+if [ ! -f "docker-compose.vps.original.yml" ]; then
+    cp docker-compose.vps.yml docker-compose.vps.original.yml
+fi
+
+# Crear versión con puerto 8080
+sed 's/"80:80"/"8080:80"/' docker-compose.vps.yml > docker-compose.vps.nginx.yml
+
 # Construir y levantar servicios
 echo "🏗️  Construyendo y levantando servicios..."
 echo "Esto puede tomar varios minutos la primera vez..."
-docker-compose -f docker-compose.vps.yml up -d --build
+docker-compose -f docker-compose.vps.nginx.yml up -d --build
 
 echo ""
 echo "⏳ Esperando que los servicios estén listos..."
@@ -96,7 +114,7 @@ sleep 10
 # Verificar estado de los contenedores
 echo ""
 echo "📊 Estado de los contenedores:"
-docker-compose -f docker-compose.vps.yml ps
+docker-compose -f docker-compose.vps.nginx.yml ps
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -129,11 +147,12 @@ server {
     # Let's Encrypt challenge
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
+        allow all;
     }
 
-    # Proxy a la aplicación Docker
+    # Proxy a la aplicación Docker (puerto 8080 interno)
     location / {
-        proxy_pass http://localhost:80;
+        proxy_pass http://127.0.0.1:8080;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -153,7 +172,7 @@ server {
 
     # phpMyAdmin en subdominio o ruta
     location /phpmyadmin {
-        proxy_pass http://localhost:8081;
+        proxy_pass http://127.0.0.1:8081;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -178,19 +197,29 @@ if nginx -t; then
     echo -e "${GREEN}✅ Configuración de Nginx válida${NC}"
 else
     echo -e "${RED}❌ Error en la configuración de Nginx${NC}"
+    echo "Ejecutando diagnóstico..."
+    systemctl status nginx --no-pager || true
+    journalctl -xeu nginx.service --no-pager | tail -20 || true
     exit 1
 fi
 
 # Reiniciar Nginx
 echo "🔄 Reiniciando Nginx..."
-systemctl restart nginx
-systemctl enable nginx
-echo -e "${GREEN}✅ Nginx reiniciado${NC}"
+if systemctl restart nginx; then
+    systemctl enable nginx
+    echo -e "${GREEN}✅ Nginx reiniciado correctamente${NC}"
+else
+    echo -e "${RED}❌ Error al reiniciar Nginx${NC}"
+    echo "Diagnóstico:"
+    systemctl status nginx --no-pager
+    lsof -i :80 || netstat -tlnp | grep :80
+    exit 1
+fi
 echo ""
 
 # Verificar DNS antes de configurar SSL
 echo "🔍 Verificando configuración DNS de $DOMAIN..."
-DNS_CHECK=$(dig +short $DOMAIN | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' || echo "")
+DNS_CHECK=$(dig +short $DOMAIN 2>/dev/null | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' | head -1 || echo "")
 
 if [ -z "$DNS_CHECK" ]; then
     echo -e "${YELLOW}⚠️  ADVERTENCIA: No se pudo verificar el DNS de $DOMAIN${NC}"
@@ -234,16 +263,17 @@ if [ "$SSL_CONFIGURED" = true ]; then
     echo ""
     
     # Obtener certificado SSL
-    if certbot --nginx -d $DOMAIN -d www.$DOMAIN --non-interactive --agree-tos --email $EMAIL --redirect; then
+    if certbot --nginx -d $DOMAIN -d www.$DOMAIN --non-interactive --agree-tos --email $EMAIL --redirect 2>/dev/null; then
         echo -e "${GREEN}✅ ¡Certificado SSL configurado exitosamente!${NC}"
         echo -e "${GREEN}✅ HTTPS habilitado con redirección automática${NC}"
         
         # Configurar renovación automática
         echo "⚙️  Configurando renovación automática de certificados..."
-        (crontab -l 2>/dev/null || echo ""; echo "0 3 * * * certbot renew --quiet --post-hook 'systemctl reload nginx'") | crontab -
+        (crontab -l 2>/dev/null | grep -v certbot; echo "0 3 * * * certbot renew --quiet --post-hook 'systemctl reload nginx'") | crontab -
         echo -e "${GREEN}✅ Renovación automática configurada${NC}"
     else
         echo -e "${YELLOW}⚠️  No se pudo configurar el certificado SSL automáticamente${NC}"
+        echo "   Esto es normal si el DNS aún no está propagado completamente"
         echo "   Puedes intentarlo manualmente más tarde con:"
         echo "   sudo certbot --nginx -d $DOMAIN -d www.$DOMAIN"
     fi
@@ -292,7 +322,11 @@ echo "🔗 Acceso directo por IP:"
 echo "   http://$SERVER_IP"
 echo ""
 echo "🗄️  phpMyAdmin:"
-echo "   https://$DOMAIN/phpmyadmin"
+if [ "$SSL_CONFIGURED" = true ]; then
+    echo "   https://$DOMAIN/phpmyadmin"
+else
+    echo "   http://$DOMAIN/phpmyadmin"
+fi
 echo "   http://$SERVER_IP:8081"
 echo "   Usuario: root"
 echo "   Contraseña: (la que configuraste en .env)"
@@ -322,12 +356,12 @@ else
 fi
 echo ""
 echo "3. Verifica los logs:"
-echo "   docker-compose -f docker-compose.vps.yml logs -f"
+echo "   docker-compose -f docker-compose.vps.nginx.yml logs -f"
 echo "   tail -f /var/log/nginx/micaela-tours.access.log"
 echo ""
 echo "4. Comandos útiles:"
-echo "   - Detener app: docker-compose -f docker-compose.vps.yml down"
-echo "   - Reiniciar app: docker-compose -f docker-compose.vps.yml restart"
+echo "   - Detener app: docker-compose -f docker-compose.vps.nginx.yml down"
+echo "   - Reiniciar app: docker-compose -f docker-compose.vps.nginx.yml restart"
 echo "   - Reiniciar Nginx: sudo systemctl restart nginx"
 echo "   - Ver logs Nginx: tail -f /var/log/nginx/micaela-tours.error.log"
 echo "   - Renovar SSL: sudo certbot renew"
@@ -338,6 +372,15 @@ if [ "$SSL_CONFIGURED" != true ]; then
     echo ""
 fi
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "🔧 ARQUITECTURA DEL SISTEMA:"
+echo "   Internet (puerto 80/443)"
+echo "        ↓"
+echo "   Nginx Reverse Proxy"
+echo "        ↓"
+echo "   Docker App (puerto 8080 interno)"
+echo "        ↓"
+echo "   MySQL (puerto 3306 interno / 3307 externo)"
 echo ""
 echo -e "${GREEN}🎉 ¡Tu aplicación está lista!${NC}"
 echo ""
