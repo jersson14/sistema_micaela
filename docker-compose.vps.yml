@@ -78,20 +78,33 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "80:80"    # HTTPs
+      - "80:80"    # HTTP
       - "443:443"  # HTTPS (para futuro)
     volumes:
-    - ./:/var/www/html
-    - sessions_data_vps:/tmp/sessions
-
+      # Archivos generados por la aplicación (persistentes)
+      - ./greenter/xml:/var/www/html/greenter/xml
+      - ./greenter/cdr:/var/www/html/greenter/cdr
+      - ./greenter/pdf:/var/www/html/greenter/pdf
+      - ./greenter/certificados:/var/www/html/greenter/certificados
+      - ./Fotos:/var/www/html/Fotos
+      - ./controller/usuario/fotos:/var/www/html/controller/usuario/fotos
+      - ./controller/choferes/fotos:/var/www/html/controller/choferes/fotos
+      - ./controller/empresa/FOTOS:/var/www/html/controller/empresa/FOTOS
+      - ./backup:/var/www/html/backup
+      # Sesiones PHP persistentes
+      - sessions_data_vps:/tmp/sessions
+      # Archivo de conexión (para usar variables de entorno)
+      - ./model/model_conexion.php:/var/www/html/model/model_conexion.php
     environment:
-    - TZ=America/Lima
-    - DB_HOST=db
-    - DB_PORT=3306
-    - DB_NAME=${MYSQL_DATABASE:-micaela}
-    - DB_USER=${MYSQL_USER:-micaela_user}
-    - DB_PASSWORD=${MYSQL_PASSWORD:-micaela_pass_2024_VPS}
-   
+      - TZ=America/Lima
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+      # Variables de conexión a BD
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=${MYSQL_DATABASE:-micaela}
+      - DB_USER=${MYSQL_USER:-micaela_user}
+      - DB_PASSWORD=${MYSQL_PASSWORD:-micaela_pass_2024_VPS}
     networks:
       - tours_network_vps
     deploy:
