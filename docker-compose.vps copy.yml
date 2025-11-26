@@ -1,7 +1,6 @@
 # ============================================
 # Docker Compose para VPS - COMPLETO
 # MySQL + phpMyAdmin + Aplicación PHP
-# CONFIGURADO PARA USAR CON NGINX SSL PROXY
 # ============================================
 
 version: '3.8'
@@ -78,11 +77,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    # ⭐ CAMBIO IMPORTANTE: NO exponemos puertos 80/443 públicamente
-    # El nginx SSL será el único que exponga estos puertos
-    # La app solo es accesible internamente en la red Docker
-    expose:
-      - "80"  # Solo exponer internamente para el proxy nginx
+    ports:
+      - "80:80"    # HTTP
+      - "443:443"  # HTTPS (para futuro)
     volumes:
       # Archivos generados por la aplicación (persistentes)
       - ./greenter/xml:/var/www/html/greenter/xml
@@ -127,8 +124,10 @@ services:
 
 networks:
   tours_network_vps:
-    # ⭐ CAMBIO IMPORTANTE: Usar red externa que será creada antes
-    external: true
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
 
 volumes:
   mysql_data_vps:
