@@ -1,42 +1,40 @@
 #!/bin/bash
 
 # ============================================
-# Script de Despliegue Automático para VPS
-# Tours Micaela - Docker Compose + Dominio
+# Script de Despliegue Simplificado para VPS
+# Tours Micaela - SIN Nginx (Método Directo)
 # ============================================
 
-set -e  # Detener en caso de error
+set -e
 
-echo "🚀 Iniciando despliegue en VPS..."
+echo "🚀 Iniciando despliegue simplificado en VPS..."
 echo ""
 
-# Colores para output
+# Colores
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Configuración del dominio
+# Configuración
 DOMAIN="micaela-tours.com"
-EMAIL="admin@micaela-tours.com"  # Cambia esto por tu email
+EMAIL="admin@micaela-tours.com"
 SERVER_IP=$(hostname -I | awk '{print $1}')
 
-# Verificar que estamos en el directorio correcto
+# Verificar archivos necesarios
 if [ ! -f "docker-compose.vps.yml" ]; then
     echo -e "${RED}❌ Error: No se encuentra docker-compose.vps.yml${NC}"
-    echo "Asegúrate de estar en el directorio del proyecto"
     exit 1
 fi
 
-# Verificar que Docker está instalado
+# Verificar Docker
 if ! command -v docker &> /dev/null; then
     echo -e "${RED}❌ Docker no está instalado${NC}"
-    echo "Instala Docker primero: curl -fsSL https://get.docker.com | sh"
+    echo "Instala Docker: curl -fsSL https://get.docker.com | sh"
     exit 1
 fi
 
-# Verificar que Docker Compose está instalado
 if ! command -v docker-compose &> /dev/null; then
     echo -e "${RED}❌ Docker Compose no está instalado${NC}"
     exit 1
@@ -45,42 +43,43 @@ fi
 echo -e "${GREEN}✅ Docker y Docker Compose detectados${NC}"
 echo ""
 
-# Verificar archivo .env
+# Verificar .env
 if [ ! -f ".env" ]; then
     echo -e "${YELLOW}⚠️  No se encuentra archivo .env${NC}"
     echo "Copiando .env.vps a .env..."
     cp .env.vps .env
-    echo -e "${YELLOW}⚠️  IMPORTANTE: Edita el archivo .env y cambia las contraseñas${NC}"
-    echo "Presiona ENTER para continuar o CTRL+C para cancelar..."
+    echo -e "${YELLOW}⚠️  Edita .env y cambia las contraseñas${NC}"
+    echo "Presiona ENTER para continuar..."
     read
 fi
 
-# Crear directorios necesarios
+# Crear directorios
 echo "📁 Creando directorios necesarios..."
-mkdir -p greenter/xml greenter/cdr greenter/pdf greenter/certificados
-mkdir -p Fotos controller/usuario/fotos controller/choferes/fotos controller/empresa/FOTOS
+mkdir -p greenter/{xml,cdr,pdf,certificados}
+mkdir -p Fotos controller/{usuario,choferes,empresa}/fotos controller/empresa/FOTOS
 mkdir -p backup
-mkdir -p nginx/conf.d
-mkdir -p certbot/conf certbot/www
-chmod -R 755 greenter Fotos controller backup nginx certbot
+chmod -R 755 greenter Fotos controller backup
 echo -e "${GREEN}✅ Directorios creados${NC}"
 echo ""
 
-# Backup del archivo de conexión original
+# Backup de conexión
 if [ -f "model/model_conexion.php" ] && [ ! -f "model/model_conexion_local.php.bak" ]; then
-    echo "💾 Haciendo backup de model_conexion.php..."
+    echo "💾 Backup de model_conexion.php..."
     cp model/model_conexion.php model/model_conexion_local.php.bak
-    echo -e "${GREEN}✅ Backup creado${NC}"
 fi
 
-# Reemplazar archivo de conexión
-echo "🔄 Configurando archivo de conexión para VPS..."
+# Actualizar conexión
+echo "🔄 Configurando archivo de conexión..."
 cp model/model_conexion_vps.php model/model_conexion.php
-echo -e "${GREEN}✅ Archivo de conexión actualizado${NC}"
+echo -e "${GREEN}✅ Conexión actualizada${NC}"
 echo ""
 
-# Detener servicios que puedan usar puerto 80
-echo "🛑 Verificando servicios en puertos 80/443..."
+# ==========================================
+# OPCIÓN 1: DESACTIVAR SERVICIOS CONFLICTIVOS
+# ==========================================
+echo "🛑 Liberando puertos 80 y 443..."
+
+# Detener Apache si existe
 if systemctl is-active --quiet apache2 2>/dev/null; then
     echo "   Deteniendo Apache2..."
     systemctl stop apache2
@@ -88,198 +87,140 @@ if systemctl is-active --quiet apache2 2>/dev/null; then
     echo -e "${GREEN}   ✅ Apache2 detenido${NC}"
 fi
 
-# Detener contenedores existentes si los hay
-echo "🛑 Deteniendo contenedores existentes (si los hay)..."
+# Detener Nginx si existe
+if systemctl is-active --quiet nginx 2>/dev/null; then
+    echo "   Deteniendo Nginx..."
+    systemctl stop nginx
+    systemctl disable nginx
+    echo -e "${GREEN}   ✅ Nginx detenido${NC}"
+fi
+
+# Verificar que los puertos estén libres
+echo "🔍 Verificando puertos..."
+if lsof -i :80 >/dev/null 2>&1; then
+    echo -e "${RED}❌ Puerto 80 aún ocupado${NC}"
+    lsof -i :80
+    exit 1
+fi
+
+if lsof -i :443 >/dev/null 2>&1; then
+    echo -e "${RED}❌ Puerto 443 aún ocupado${NC}"
+    lsof -i :443
+    exit 1
+fi
+
+echo -e "${GREEN}✅ Puertos 80 y 443 disponibles${NC}"
+echo ""
+
+# Detener contenedores existentes
+echo "🛑 Deteniendo contenedores existentes..."
 docker-compose -f docker-compose.vps.yml down 2>/dev/null || true
 echo ""
 
-# Modificar docker-compose para usar puerto 8080 interno (Nginx hará proxy desde puerto 80)
-echo "⚙️  Configurando puertos para Nginx..."
+# ==========================================
+# MODIFICAR DOCKER-COMPOSE PARA PUERTO 80 DIRECTO
+# ==========================================
+echo "⚙️  Configurando Docker para usar puertos 80 y 443 directamente..."
+
+# Backup del original
 if [ ! -f "docker-compose.vps.original.yml" ]; then
     cp docker-compose.vps.yml docker-compose.vps.original.yml
 fi
 
-# Crear versión con puerto 8080
-sed 's/"80:80"/"8080:80"/' docker-compose.vps.yml > docker-compose.vps.nginx.yml
+# Crear versión modificada con puerto 80 directo
+cat > docker-compose.vps.direct.yml << 'EOF'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.vps
+    container_name: micaela_web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html
+      - ./greenter:/var/www/html/greenter
+      - ./Fotos:/var/www/html/Fotos
+      - ./controller:/var/www/html/controller
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    depends_on:
+      - db
+    networks:
+      - micaela_network
+    restart: unless-stopped
 
-# Construir y levantar servicios
+  db:
+    image: mysql:8.0
+    container_name: micaela_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backup:/backup
+    networks:
+      - micaela_network
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: micaela_phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      UPLOAD_LIMIT: 100M
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    networks:
+      - micaela_network
+    restart: unless-stopped
+
+networks:
+  micaela_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+EOF
+
+echo -e "${GREEN}✅ Configuración Docker actualizada${NC}"
+echo ""
+
+# ==========================================
+# LEVANTAR SERVICIOS
+# ==========================================
 echo "🏗️  Construyendo y levantando servicios..."
-echo "Esto puede tomar varios minutos la primera vez..."
-docker-compose -f docker-compose.vps.nginx.yml up -d --build
+echo "Esto puede tomar varios minutos..."
+docker-compose -f docker-compose.vps.direct.yml up -d --build
 
 echo ""
 echo "⏳ Esperando que los servicios estén listos..."
-sleep 10
+sleep 15
 
-# Verificar estado de los contenedores
+# Verificar contenedores
 echo ""
 echo "📊 Estado de los contenedores:"
-docker-compose -f docker-compose.vps.nginx.yml ps
+docker-compose -f docker-compose.vps.direct.yml ps
 
 echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo -e "${BLUE}🌐 CONFIGURANDO DOMINIO Y SSL${NC}"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo ""
+echo "🔍 Verificando que Apache esté escuchando..."
+docker exec micaela_web apache2ctl -S 2>/dev/null || echo "Verificando configuración..."
+sleep 3
 
-# Verificar si Nginx está instalado en el host
-if ! command -v nginx &> /dev/null; then
-    echo "📦 Instalando Nginx..."
-    apt-get update -qq
-    apt-get install -y nginx certbot python3-certbot-nginx
-    echo -e "${GREEN}✅ Nginx instalado${NC}"
-else
-    echo -e "${GREEN}✅ Nginx ya está instalado${NC}"
-fi
-
-# Crear configuración de Nginx para el dominio (HTTP primero)
-echo "⚙️  Configurando Nginx para $DOMAIN..."
-cat > /etc/nginx/sites-available/$DOMAIN << 'NGINX_EOF'
-server {
-    listen 80;
-    listen [::]:80;
-    server_name micaela-tours.com www.micaela-tours.com;
-
-    # Configuración de logs
-    access_log /var/log/nginx/micaela-tours.access.log;
-    error_log /var/log/nginx/micaela-tours.error.log;
-
-    # Let's Encrypt challenge
-    location /.well-known/acme-challenge/ {
-        root /var/www/certbot;
-        allow all;
-    }
-
-    # Proxy a la aplicación Docker (puerto 8080 interno)
-    location / {
-        proxy_pass http://127.0.0.1:8080;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        
-        # Timeouts
-        proxy_connect_timeout 60s;
-        proxy_send_timeout 60s;
-        proxy_read_timeout 60s;
-        
-        # Buffer settings
-        proxy_buffering on;
-        proxy_buffer_size 4k;
-        proxy_buffers 8 4k;
-        proxy_busy_buffers_size 8k;
-    }
-
-    # phpMyAdmin en subdominio o ruta
-    location /phpmyadmin {
-        proxy_pass http://127.0.0.1:8081;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    # Límites de tamaño para uploads
-    client_max_body_size 100M;
-}
-NGINX_EOF
-
-# Habilitar el sitio
-ln -sf /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/
-rm -f /etc/nginx/sites-enabled/default
-
-# Crear directorio para certbot
-mkdir -p /var/www/certbot
-
-# Verificar configuración de Nginx
-echo "🔍 Verificando configuración de Nginx..."
-if nginx -t; then
-    echo -e "${GREEN}✅ Configuración de Nginx válida${NC}"
-else
-    echo -e "${RED}❌ Error en la configuración de Nginx${NC}"
-    echo "Ejecutando diagnóstico..."
-    systemctl status nginx --no-pager || true
-    journalctl -xeu nginx.service --no-pager | tail -20 || true
-    exit 1
-fi
-
-# Reiniciar Nginx
-echo "🔄 Reiniciando Nginx..."
-if systemctl restart nginx; then
-    systemctl enable nginx
-    echo -e "${GREEN}✅ Nginx reiniciado correctamente${NC}"
-else
-    echo -e "${RED}❌ Error al reiniciar Nginx${NC}"
-    echo "Diagnóstico:"
-    systemctl status nginx --no-pager
-    lsof -i :80 || netstat -tlnp | grep :80
-    exit 1
-fi
-echo ""
-
-# Verificar DNS antes de configurar SSL
-echo "🔍 Verificando configuración DNS de $DOMAIN..."
-DNS_CHECK=$(dig +short $DOMAIN 2>/dev/null | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' | head -1 || echo "")
-
-if [ -z "$DNS_CHECK" ]; then
-    echo -e "${YELLOW}⚠️  ADVERTENCIA: No se pudo verificar el DNS de $DOMAIN${NC}"
-    echo "   Asegúrate de que el dominio apunte a esta IP: $SERVER_IP"
-    echo ""
-    echo "   Configura los siguientes registros DNS:"
-    echo "   - Registro A: micaela-tours.com → $SERVER_IP"
-    echo "   - Registro A: www.micaela-tours.com → $SERVER_IP"
-    echo ""
-    echo -e "${YELLOW}¿Deseas continuar con la configuración SSL de todos modos? (s/N)${NC}"
-    read -r CONTINUE_SSL
-    if [[ ! $CONTINUE_SSL =~ ^[Ss]$ ]]; then
-        echo "Saltando configuración SSL. Puedes ejecutarla más tarde con:"
-        echo "sudo certbot --nginx -d $DOMAIN -d www.$DOMAIN"
-        SSL_CONFIGURED=false
-    else
-        SSL_CONFIGURED=true
-    fi
-else
-    if [ "$DNS_CHECK" != "$SERVER_IP" ]; then
-        echo -e "${YELLOW}⚠️  ADVERTENCIA: El DNS apunta a $DNS_CHECK pero tu servidor es $SERVER_IP${NC}"
-        echo "   Esto puede causar problemas. ¿Continuar? (s/N)"
-        read -r CONTINUE_SSL
-        if [[ ! $CONTINUE_SSL =~ ^[Ss]$ ]]; then
-            SSL_CONFIGURED=false
-        else
-            SSL_CONFIGURED=true
-        fi
-    else
-        echo -e "${GREEN}✅ DNS configurado correctamente: $DOMAIN → $SERVER_IP${NC}"
-        SSL_CONFIGURED=true
-    fi
-fi
-
-# Configurar SSL con Let's Encrypt
-if [ "$SSL_CONFIGURED" = true ]; then
-    echo ""
-    echo "🔒 Configurando certificado SSL con Let's Encrypt..."
-    echo "   Dominio: $DOMAIN"
-    echo "   Email: $EMAIL"
-    echo ""
-    
-    # Obtener certificado SSL
-    if certbot --nginx -d $DOMAIN -d www.$DOMAIN --non-interactive --agree-tos --email $EMAIL --redirect 2>/dev/null; then
-        echo -e "${GREEN}✅ ¡Certificado SSL configurado exitosamente!${NC}"
-        echo -e "${GREEN}✅ HTTPS habilitado con redirección automática${NC}"
-        
-        # Configurar renovación automática
-        echo "⚙️  Configurando renovación automática de certificados..."
-        (crontab -l 2>/dev/null | grep -v certbot; echo "0 3 * * * certbot renew --quiet --post-hook 'systemctl reload nginx'") | crontab -
-        echo -e "${GREEN}✅ Renovación automática configurada${NC}"
-    else
-        echo -e "${YELLOW}⚠️  No se pudo configurar el certificado SSL automáticamente${NC}"
-        echo "   Esto es normal si el DNS aún no está propagado completamente"
-        echo "   Puedes intentarlo manualmente más tarde con:"
-        echo "   sudo certbot --nginx -d $DOMAIN -d www.$DOMAIN"
-    fi
-fi
-
-# Configurar firewall
+# ==========================================
+# CONFIGURAR FIREWALL
+# ==========================================
 echo ""
 echo "🔥 Configurando firewall..."
 if command -v ufw &> /dev/null; then
@@ -287,100 +228,132 @@ if command -v ufw &> /dev/null; then
     ufw allow 22/tcp    # SSH
     ufw allow 80/tcp    # HTTP
     ufw allow 443/tcp   # HTTPS
-    ufw allow 8081/tcp  # phpMyAdmin (considera cerrar esto en producción)
-    ufw allow 3307/tcp  # MySQL externo (considera cerrar esto en producción)
+    ufw allow 8081/tcp  # phpMyAdmin
+    ufw allow 3307/tcp  # MySQL externo
     ufw reload
     echo -e "${GREEN}✅ Firewall configurado${NC}"
 else
-    echo -e "${YELLOW}⚠️  UFW no está instalado. Configura el firewall manualmente:${NC}"
-    echo "   - Puerto 22 (SSH)"
-    echo "   - Puerto 80 (HTTP)"
-    echo "   - Puerto 443 (HTTPS)"
-    echo "   - Puerto 8081 (phpMyAdmin - opcional)"
-    echo "   - Puerto 3307 (MySQL - opcional)"
+    echo -e "${YELLOW}⚠️  UFW no instalado. Asegúrate de abrir puertos 22, 80, 443 en Hostinger${NC}"
 fi
 
+# ==========================================
+# VERIFICAR DNS
+# ==========================================
+echo ""
+echo "🔍 Verificando DNS de $DOMAIN..."
+DNS_CHECK=$(dig +short $DOMAIN 2>/dev/null | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' | head -1 || echo "")
+
+if [ -z "$DNS_CHECK" ]; then
+    echo -e "${YELLOW}⚠️  No se pudo verificar DNS${NC}"
+    echo "   Asegúrate de tener estos registros en Hostinger:"
+    echo "   - Tipo A: @ → $SERVER_IP"
+    echo "   - Tipo A: www → $SERVER_IP"
+else
+    if [ "$DNS_CHECK" == "$SERVER_IP" ]; then
+        echo -e "${GREEN}✅ DNS configurado correctamente: $DOMAIN → $SERVER_IP${NC}"
+    else
+        echo -e "${YELLOW}⚠️  DNS apunta a $DNS_CHECK pero tu servidor es $SERVER_IP${NC}"
+        echo "   Actualiza los registros DNS en Hostinger"
+    fi
+fi
+
+# ==========================================
+# CONFIGURAR SSL (OPCIONAL)
+# ==========================================
+echo ""
+echo "🔒 ¿Deseas configurar SSL/HTTPS ahora? (s/N)"
+read -r SETUP_SSL
+
+if [[ $SETUP_SSL =~ ^[Ss]$ ]]; then
+    echo "📦 Instalando Certbot..."
+    apt-get update -qq
+    apt-get install -y certbot python3-certbot-apache
+    
+    echo "🔒 Obteniendo certificado SSL..."
+    echo "   Esto modificará la configuración de Apache dentro del contenedor"
+    
+    # Instalar certbot dentro del contenedor
+    docker exec micaela_web bash -c "apt-get update && apt-get install -y certbot python3-certbot-apache"
+    
+    # Obtener certificado
+    docker exec micaela_web certbot --apache -d $DOMAIN -d www.$DOMAIN --non-interactive --agree-tos --email $EMAIL --redirect
+    
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}✅ SSL configurado exitosamente${NC}"
+        
+        # Configurar renovación automática
+        (crontab -l 2>/dev/null | grep -v certbot; echo "0 3 * * * docker exec micaela_web certbot renew --quiet") | crontab -
+        echo -e "${GREEN}✅ Renovación automática configurada${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Error al configurar SSL${NC}"
+        echo "   Puedes intentarlo manualmente después"
+    fi
+fi
+
+# ==========================================
+# RESUMEN FINAL
+# ==========================================
 echo ""
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-echo -e "${GREEN}✅ ¡DESPLIEGUE COMPLETADO EXITOSAMENTE!${NC}"
+echo -e "${GREEN}✅ ¡DESPLIEGUE COMPLETADO!${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo "📝 INFORMACIÓN DE ACCESO"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "🌐 Aplicación Web Principal:"
-if [ "$SSL_CONFIGURED" = true ]; then
-    echo "   https://$DOMAIN"
-    echo "   https://www.$DOMAIN"
-    echo "   (Con SSL/HTTPS configurado ✅)"
-else
-    echo "   http://$DOMAIN"
-    echo "   http://www.$DOMAIN"
-fi
-echo ""
-echo "🔗 Acceso directo por IP:"
+echo "   http://$DOMAIN"
+echo "   http://www.$DOMAIN"
 echo "   http://$SERVER_IP"
 echo ""
 echo "🗄️  phpMyAdmin:"
-if [ "$SSL_CONFIGURED" = true ]; then
-    echo "   https://$DOMAIN/phpmyadmin"
-else
-    echo "   http://$DOMAIN/phpmyadmin"
-fi
+echo "   http://$DOMAIN:8081"
 echo "   http://$SERVER_IP:8081"
 echo "   Usuario: root"
-echo "   Contraseña: (la que configuraste en .env)"
+echo "   Contraseña: (la de tu .env)"
 echo ""
 echo "🐬 MySQL (acceso externo):"
 echo "   Host: $SERVER_IP"
 echo "   Puerto: 3307"
 echo "   Usuario: micaela_user"
-echo "   Contraseña: (la que configuraste en .env)"
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "📋 PRÓXIMOS PASOS:"
+echo "📋 VERIFICACIONES:"
 echo ""
-echo "1. Verifica que el dominio funcione:"
-if [ "$SSL_CONFIGURED" = true ]; then
-    echo "   https://$DOMAIN"
-else
-    echo "   http://$DOMAIN"
-fi
+echo "1. Prueba en tu navegador:"
+echo "   http://$DOMAIN"
 echo ""
-echo "2. Importa tu base de datos usando phpMyAdmin"
-if [ "$SSL_CONFIGURED" = true ]; then
-    echo "   https://$DOMAIN/phpmyadmin"
-else
-    echo "   http://$DOMAIN/phpmyadmin"
-fi
+echo "2. Si no funciona con el dominio, verifica:"
+echo "   - DNS en Hostinger apunta a: $SERVER_IP"
+echo "   - Firewall de Hostinger permite puertos 80, 443"
+echo "   - Contenedor corriendo: docker ps"
 echo ""
-echo "3. Verifica los logs:"
-echo "   docker-compose -f docker-compose.vps.nginx.yml logs -f"
-echo "   tail -f /var/log/nginx/micaela-tours.access.log"
+echo "3. Ver logs de la aplicación:"
+echo "   docker-compose -f docker-compose.vps.direct.yml logs -f web"
 echo ""
-echo "4. Comandos útiles:"
-echo "   - Detener app: docker-compose -f docker-compose.vps.nginx.yml down"
-echo "   - Reiniciar app: docker-compose -f docker-compose.vps.nginx.yml restart"
-echo "   - Reiniciar Nginx: sudo systemctl restart nginx"
-echo "   - Ver logs Nginx: tail -f /var/log/nginx/micaela-tours.error.log"
-echo "   - Renovar SSL: sudo certbot renew"
+echo "4. Ver logs de Apache:"
+echo "   docker exec micaela_web tail -f /var/log/apache2/error.log"
 echo ""
-if [ "$SSL_CONFIGURED" != true ]; then
-    echo -e "${YELLOW}⚠️  IMPORTANTE: Configurar SSL más tarde${NC}"
-    echo "   sudo certbot --nginx -d $DOMAIN -d www.$DOMAIN"
-    echo ""
-fi
+echo "5. Comandos útiles:"
+echo "   - Reiniciar: docker-compose -f docker-compose.vps.direct.yml restart"
+echo "   - Detener: docker-compose -f docker-compose.vps.direct.yml down"
+echo "   - Ver logs: docker-compose -f docker-compose.vps.direct.yml logs -f"
+echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "🔧 ARQUITECTURA DEL SISTEMA:"
+echo "🔧 ARQUITECTURA SIMPLIFICADA:"
 echo "   Internet (puerto 80/443)"
 echo "        ↓"
-echo "   Nginx Reverse Proxy"
+echo "   Docker Apache (puerto 80 directo)"
 echo "        ↓"
-echo "   Docker App (puerto 8080 interno)"
-echo "        ↓"
-echo "   MySQL (puerto 3306 interno / 3307 externo)"
+echo "   PHP + MySQL"
 echo ""
 echo -e "${GREEN}🎉 ¡Tu aplicación está lista!${NC}"
+echo ""
+echo -e "${BLUE}💡 IMPORTANTE:${NC}"
+echo "   Si el dominio no funciona aún, verifica en Hostinger que:"
+echo "   1. Los registros DNS A estén correctos"
+echo "   2. El firewall/cortafuegos permita tráfico HTTP/HTTPS"
+echo "   3. Espera 5-10 minutos para propagación DNS"
 echo ""
