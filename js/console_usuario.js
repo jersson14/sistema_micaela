@@ -493,7 +493,7 @@ function Registrar_Usuario() {
   ) {
     return Swal.fire(
       "Mensaje de Advertencia",
-      "Tiene campos en el registro del docente",
+      "Tiene campos en el registro del usuario",
       "warning"
     );
   }
@@ -505,7 +505,7 @@ function Registrar_Usuario() {
   ) {
     return Swal.fire(
       "Mensaje de Advertencia",
-      "Los datos del usuario son oblgatorios",
+      "Los datos del usuario son obligatorios",
       "warning"
     );
   }
