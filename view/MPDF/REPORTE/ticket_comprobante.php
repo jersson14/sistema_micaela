@@ -118,40 +118,40 @@ $estadoConfig = $estados[$estadoSunat] ?? [
     'pie' => '<div class="footer-draft">Sin validez tributaria</div>'
 ];
 
-// HTML ULTRA COMPACTO Y CENTRADO
+// HTML CON FUENTES MÁS GRANDES Y MEJOR LEGIBILIDAD
 $html = '
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Courier New",monospace; font-size:9px; color:#000; line-height:1.15; }
+body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-height:1.3; }
 .ticket { width:72mm; padding:2mm; }
-.header { text-align:center; margin-bottom:1mm; padding-bottom:1mm; border-bottom:2px solid #000; }
-.logo img { width:38px; margin-bottom:0.5mm; }
-.emp-nom { font-size:10px; font-weight:bold; margin:0.3mm 0; }
-.emp-info { font-size:7.5px; margin:0; line-height:1.1; }
-.comp-box { border:2px solid #000; padding:1mm; margin:1mm 0; text-align:center; background:#f0f0f0; }
-.comp-tipo { font-size:9px; font-weight:bold; }
-.comp-num { font-size:11px; font-weight:bold; letter-spacing:0.3px; margin-top:0.3mm; }
-.fecha { text-align:center; margin:0.8mm 0; font-size:8px; font-weight:bold; }
-.sec { margin:0.8mm 0; padding:0.8mm 0; border-top:1px dashed #000; }
-.sec-tit { font-size:8.5px; font-weight:bold; background:#000; color:#fff; padding:0.5mm 1.5mm; margin-bottom:0.5mm; }
-.fila { font-size:8.5px; margin:0.2mm 0; }
+.header { text-align:center; margin-bottom:2mm; padding-bottom:2mm; border-bottom:2px solid #000; }
+.logo img { width:45px; margin-bottom:1mm; }
+.emp-nom { font-size:13px; font-weight:bold; margin:0.5mm 0; }
+.emp-info { font-size:9px; margin:0.2mm 0; line-height:1.2; }
+.comp-box { border:2px solid #000; padding:2mm; margin:2mm 0; text-align:center; background:#f0f0f0; }
+.comp-tipo { font-size:11px; font-weight:bold; }
+.comp-num { font-size:14px; font-weight:bold; letter-spacing:0.5px; margin-top:0.5mm; }
+.fecha { text-align:center; margin:1.5mm 0; font-size:10px; font-weight:bold; }
+.sec { margin:1.5mm 0; padding:1mm 0; border-top:1px dashed #000; }
+.sec-tit { font-size:10px; font-weight:bold; background:#000; color:#fff; padding:1mm 2mm; margin-bottom:1mm; }
+.fila { font-size:10px; margin:0.5mm 0; line-height:1.3; }
 .fila b { font-weight:bold; }
-.tots { margin:1mm 0; padding:1mm; background:#f5f5f5; border:1px solid #000; }
-.tot-lin { display:flex; justify-content:space-between; margin:0.3mm 0; font-size:8.5px; }
-.tot-fin { border-top:1px solid #000; padding-top:0.5mm; margin-top:0.5mm; font-weight:bold; font-size:10px; }
-.qr { text-align:center; margin:1mm 0; }
-.qr img { width:55px; height:55px; }
-.qr-txt { font-size:6.5px; margin-top:0.3mm; }
-.est { text-align:center; padding:1mm; margin:0.8mm 0; font-weight:bold; font-size:8.5px; border:1px solid #000; }
+.tots { margin:2mm 0; padding:2mm; background:#f5f5f5; border:1px solid #000; }
+.tot-lin { display:flex; justify-content:space-between; margin:0.5mm 0; font-size:10px; }
+.tot-fin { border-top:1px solid #000; padding-top:1mm; margin-top:1mm; font-weight:bold; font-size:12px; }
+.qr { text-align:center; margin:2mm 0; }
+.qr img { width:65px; height:65px; }
+.qr-txt { font-size:8px; margin-top:0.5mm; }
+.est { text-align:center; padding:1.5mm; margin:1.5mm 0; font-weight:bold; font-size:10px; border:1px solid #000; }
 .pendiente { background:#fff3cd; color:#856404; }
 .aceptado { background:#d4edda; color:#155724; }
 .rechazado { background:#f8d7da; color:#721c24; }
-.footer-oficial { text-align:center; font-size:6.5px; margin-top:0.8mm; padding-top:0.8mm; border-top:1px solid #000; line-height:1.15; }
-.footer-draft { text-align:center; font-size:7.5px; margin-top:0.8mm; padding:0.8mm; background:#ffe5e5; border:1px solid #f00; color:#f00; font-weight:bold; }
-.sep { border-top:1px dashed #000; margin:0.8mm 0; }
-.obs { font-size:7.5px; padding:0.8mm; margin:0.8mm 0; background:#f9f9f9; border-left:2px solid #666; }
-.pago-info { text-align:center; margin:0.8mm 0; font-size:8.5px; font-weight:bold; }
-.usuario-info { text-align:center; font-size:6.5px; margin:0.8mm 0; }
+.footer-oficial { text-align:center; font-size:8px; margin-top:1.5mm; padding-top:1mm; border-top:1px solid #000; line-height:1.2; }
+.footer-draft { text-align:center; font-size:9px; margin-top:1.5mm; padding:1mm; background:#ffe5e5; border:1px solid #f00; color:#f00; font-weight:bold; }
+.sep { border-top:1px dashed #000; margin:1.5mm 0; }
+.obs { font-size:9px; padding:1mm; margin:1.5mm 0; background:#f9f9f9; border-left:2px solid #666; line-height:1.3; }
+.pago-info { text-align:center; margin:1.5mm 0; font-size:10px; font-weight:bold; }
+.usuario-info { text-align:center; font-size:8px; margin:1.5mm 0; }
 </style>
 
 <div class="ticket">
@@ -215,16 +215,16 @@ body { font-family:"Courier New",monospace; font-size:9px; color:#000; line-heig
 '.$estadoConfig['pie'].'
 </div>';
 
-// Generar PDF ultra compacto
+// Generar PDF con fuentes más grandes
 try {
     $mpdf = new Mpdf([
         'mode' => 'utf-8',
-        'format' => [80, 200],
+        'format' => [80, 250],
         'margin_left' => 4,
         'margin_right' => 4,
         'margin_top' => 2,
         'margin_bottom' => 2,
-        'default_font_size' => 9,
+        'default_font_size' => 11,
         'default_font' => 'dejavusanscondensed'
     ]);
 
