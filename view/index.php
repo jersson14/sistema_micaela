@@ -211,6 +211,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
 
               <li class="nav-item">
+                <a href="#notas_salida" data-modulo="notas_salida" class="nav-link">
+                  <i class="nav-icon fas fa-arrow-circle-right"></i>
+                  <p style="color:white">Notas de salida</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
                 <a href="#salidas" data-modulo="salidas" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>
                   <p style="color:white">Salidas diarias</p>
@@ -460,7 +467,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                 </ul>
               </li>
-
+              <li class="nav-item">
+                <a href="#notas_salida" data-modulo="notas_salida" class="nav-link">
+                  <i class="nav-icon fas fa-arrow-circle-right"></i>
+                  <p style="color:white">Notas de salida</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="#salidas-asis" data-modulo="salidas-asis" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>
