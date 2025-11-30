@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
-                                    <button onclick="listar_reservas_ruta_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
+                                    <button onclick="listar_nota_ruta_estado()" class="btn btn-danger mr-2" style="width:100%" onclick><i class="fas fa-search mr-1"></i>Buscar registros</button>
                                 </div>
                                 <div class="col-12 col-md-2" role="document">
                                     <label for="">&nbsp;</label><br>
@@ -125,6 +125,7 @@
                             <table id="tabla_nota_credito" class="table table-striped table-bordered" style="width:100%">
                                 <thead style="background-color:#023D77;color:#FFFFFF; ">
                                     <tr>
+                                        <th style="text-align:center">#</th>
                                         <th style="text-align:center">Nro. Ticket</th>
                                         <th style="text-align:center">Fecha de emisión</th>
                                         <th style="text-align:center">Cliente</th>
@@ -197,15 +198,15 @@
                         <input type="text" class="form-control" id="txt_nomb_emisor" placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
                     </div>
                     <div class="col-4 form-group">
-                        <label for="">Celular - Emisor<b style="color:red">(*)</b>:</label>
+                        <label for="">Celular - Emisor(Opcional):</label>
                         <input type="text" class="form-control" id="txt_celu1_emisor" placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
                     </div>
                     <div class="col-12"><br>
                         <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL VIAJE</b></li><br>
                     </div><br>
                     <div class="col-6 form-group">
-                        <label for="">Fecha emitida<b style="color:red">(*)</b>:</label>
-                        <input type="date" class="form-control" id="txt_fecha_rerserva" readonly>
+                        <label for="">Fecha de emisión<b style="color:red">(*)</b>:</label>
+                        <input type="date" class="form-control" id="txt_fecha_emitida" readonly>
                     </div>
                     <div class="col-6 form-group">
                         <label for="">Servicio<b style="color:red">(*)</b>:</label>
@@ -242,7 +243,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                <button type="button" class="btn btn-success" onclick="Registrar_Reservas()"><i class="fas fa-save"></i> Registrar</button>
+                <button type="button" class="btn btn-success" onclick="Registrar_tickets()"><i class="fas fa-save"></i> Registrar</button>
             </div>
         </div>
     </div>
@@ -254,7 +255,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#1FA0E0;">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>MODIFICAR ENCOMIENDA</b></h5>
+                <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>MODIFICAR NOTA DE SALIDA</b></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -268,33 +269,17 @@
                         <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL PASAJERO</b></li>
                     </div>
                     <div class="col-6 form-group"><br>
-                        <input type="text" id="txt_idreserva" hidden>
+                        <input type="text" id="txt_id_nota" hidden>
                         <label for="">Tipo de documento - Emisor<b style="color:red">(*)</b>:</label>
                         <select class="form-control" id="select_tipo_documento_emisor_editar" style="width:100%">
-                            <option value="" disabled>Seleccione</option>
                             <option value="DNI">DNI</option>
                             <option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
                             <option value="PASAPORTE">PASAPORTE</option>
                         </select>
                     </div>
-                    <div id="dni_section_editar" class="col-6 form-group"><br>
-                        <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="txt_dni_emisor_editar" maxlength="8" onkeypress="return soloNumeros(event)">
-                            <div class="input-group-append">
-                                <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi_editar"><i class="fa fa-search"></i><b> Buscar</b></button>
-                                <button onclick="" class="btn btn-primary" id="prueba_emisor_editar"><i class="fa fa-search"></i><b> RENIEC</b></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="otros_documentos_section_editar" class="col-6 form-group" style="display: none;"><br>
-                        <label for="">N° Documento Emisor<b style="color:red">(*)</b>:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="txt_dni_emisor2_editar">
-                            <div class="input-group-append">
-                                <button onclick="buscarPorDocumentoEditar()" class="btn btn-success" id="prueba_buscar_emi_editar"><i class="fa fa-search"></i><b> Buscar</b></button>
-                            </div>
-                        </div>
+                    <div class="col-6 form-group"><br>
+                        <label for="">Nro. Documento<b style="color:red">(*)</b>:</label>
+                        <input type="text" class="form-control" id="txt_nro_documento_editar" placeholder="Ingrese los nombres y apellidos" onkeypress="return sololetras(event)">
                     </div>
                     <div class="col-8 form-group">
                         <label for="">Nombres y apellidos - Emisor<b style="color:red">(*)</b>:</label>
@@ -305,15 +290,15 @@
                         <input type="text" class="form-control" id="txt_celu1_emisor_editar" placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
                     </div>
                     <div class="col-12"><br>
-                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DE LA RESERVA</b></li><br>
+                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL VIAJE</b></li><br>
                     </div><br>
                     <div class="col-6 form-group">
-                        <label for="">Fecha y hora de actualización<b style="color:red">(*)</b>:</label>
-                        <input type="datetime-local" class="form-control" id="txt_fecha_rerserva_editar" readonly>
+                        <label for="">Fecha de actualización<b style="color:red">(*)</b>:</label>
+                        <input type="date" class="form-control" id="txt_fecha_emitida_editar" readonly>
                     </div>
                     <div class="col-6 form-group">
-                        <label for="">Fecha y hora de viaje<b style="color:red">(*)</b>:</label>
-                        <input type="datetime-local" class="form-control" id="txt_fecha_viaje_editar">
+                        <label for="">Servicio<b style="color:red">(*)</b>:</label>
+                        <select class="js-example-basic-single" id="select_servicio_editar" style="width:100%" required></select>
                     </div>
                     <div class="col-4 form-group">
                         <label for="">Origen<b style="color:red">(*)</b>:</label>
@@ -324,12 +309,23 @@
                         <select class="js-example-basic-single" id="select_destino_editar" style="width:100%"></select>
                     </div>
                     <div class="col-4 form-group">
-                        <label for="">Monto adelantado(Opcional):</label>
-                        <input type="text" class="form-control" value="0.00" id="txt_monto_adelantado_editar" placeholder="Ingrese el monto adelantado" onkeypress="return soloNumeros(event)">
+                        <label for="">Moneda:</label>
+                        <input type="text" class="form-control" value="SOLES" id="txt_moneda_editar" >
                     </div>
-                    <div class="col-12 form-group">
-                        <label for="">Observaciones(Opcional):</label>
-                        <textarea style="color:red" class="form-control" id="txt_observacion_editar" rows="2" style="resize:none" placeholder="Ingrese alguna observación o descripción de la reserva"></textarea>
+
+                    <div class="col-md-4 form-group">
+                        <label for="">Base Gravada (Sin IGV):</label>
+                        <input type="number" class="form-control" readonly id="txt_base_gravada_editar" step="0.01" placeholder="0.00">
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label for="">IGV (18%):</label>
+                        <input type="number" class="form-control" readonly id="txt_igv_editar" step="0.01" readonly placeholder="0.00" style="background-color:#e9ecef;">
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label for="" style="font-size:16px; font-weight:bold;">TOTAL A PAGAR:</label>
+                        <input type="number" class="form-control" id="txt_total_editar" step="0.01"  style="font-size:20px; font-weight:bold; background-color:#fff3cd;" placeholder="0.00">
                     </div>
 
                 </div>
@@ -355,7 +351,7 @@
                 <div class="row">
 
                     <div class="col-12">
-                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL PASAJERO</b></li>
+                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DE LA NOTA DE SALIDA</b></li>
                     </div>
                     <div class="col-6 form-group"><br>
                         <label for="">Tipo de documento:</label>
@@ -379,31 +375,42 @@
                         <input type="text" class="form-control" disabled id="txt_celu1_emisor_mostrar" placeholder="Ingrese el celular" onkeypress="return soloNumeros(event)" maxlenght="9">
                     </div>
                     <div class="col-12"><br>
-                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DE LA RESERVA</b></li><br>
+                        <li class="header text-center" style="color:#FFFFFF;background-color:Black;"><b>DATOS DEL VIAJE</b></li><br>
                     </div><br>
                     <div class="col-6 form-group">
-                        <label for="">Fecha y hora de reserva:</label>
-                        <input type="datetime-local" disabled class="form-control" id="txt_fecha_rerserva_mostrar" readonly>
+                        <label for="">Fecha de emision<b style="color:red">(*)</b>:</label>
+                        <input type="date" class="form-control" disabled id="txt_fecha_emitida_mostrar" readonly>
                     </div>
                     <div class="col-6 form-group">
-                        <label for="">Fecha y hora de viaje:</label>
-                        <input type="datetime-local" disabled class="form-control" id="txt_fecha_viaje_mostrar">
+                        <label for="">Servicio<b style="color:red">(*)</b>:</label>
+                        <select class="js-example-basic-single" disabled id="select_servicio_mostrar" style="width:100%" required></select>
                     </div>
                     <div class="col-4 form-group">
-                        <label for="">Origen:</label>
-                        <input type="text" disabled class="form-control" id="select_origen_mostrar">
+                        <label for="">Origen<b style="color:red">(*)</b>:</label>
+                        <select class="js-example-basic-single" disabled id="select_origen_mostrar" style="width:100%"></select>
                     </div>
                     <div class="col-4 form-group">
-                        <label for="">Destino:</label>
-                        <input type="text" disabled class="form-control" id="select_destino_mostrar">
+                        <label for="">Destino<b style="color:red">(*)</b>:</label>
+                        <select class="js-example-basic-single" disabled id="select_destino_mostrar" style="width:100%"></select>
                     </div>
                     <div class="col-4 form-group">
-                        <label for="">Monto adelantado:</label>
-                        <input type="text" class="form-control" disabled value="0.00" id="txt_monto_adelantado_mostrar" placeholder="Ingrese el monto adelantado" onkeypress="return soloNumeros(event)">
+                        <label for="">Moneda:</label>
+                        <input type="text" class="form-control" disabled value="SOLES">
                     </div>
-                    <div class="col-12 form-group">
-                        <label for="">Observaciones:</label>
-                        <textarea style="color:red" class="form-control" disabled id="txt_observacion_mostrar" rows="2" style="resize:none" placeholder="Ingrese alguna observación o descripción de la reserva"></textarea>
+
+                    <div class="col-md-4 form-group">
+                        <label for="">Base Gravada (Sin IGV):</label>
+                        <input type="number" class="form-control" disabled id="txt_base_gravada_mostrar" step="0.01" placeholder="0.00">
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label for="">IGV (18%):</label>
+                        <input type="number" class="form-control" disabled id="txt_igv_mostrar" step="0.01" readonly placeholder="0.00" style="background-color:#e9ecef;">
+                    </div>
+
+                    <div class="col-md-4 form-group">
+                        <label for="" style="font-size:16px; font-weight:bold;">TOTAL A PAGAR:</label>
+                        <input type="number" class="form-control" disabled id="txt_total_mostrar" step="0.01"  style="font-size:20px; font-weight:bold; background-color:#fff3cd;" placeholder="0.00">
                     </div>
 
                 </div>
@@ -420,27 +427,31 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#1FA0E0;">
-                <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>MOTIVO DE ANULACIÓN</b></h5>
+                <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>ANULAR NOTA DE SALIDA</b></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <input type="hidden" id="txt_id_nota_anula">
                     <div class="col-12 form-group">
-                        <label for="">Fecha de anulación:</label>
+                        <label for="">Fecha de emisión:</label>
                         <input type="datetime-local" class="form-control" disabled id="txt_fecha_anula">
                     </div>
-                    <!-- Campo de Motivo de anulación -->
-                    <div class="col-12 form-group" id="div_anulacion2">
-                        <label for="">Motivo de anulación:</label>
-                        <textarea name="" id="txt_anula_enco2" rows="3" class="form-control" disabled style="resize:none;"></textarea>
+                    <div class="col-12 form-group">
+                        <label for="">Cliente:</label>
+                        <input type="text" class="form-control" disabled id="txt_cliente">
+                    </div>
+                    <div class="col-12 form-group">
+                        <label for="" style="color:red; font-weight:bold;">Motivo de anulación (*):</label>
+                        <textarea disabled for="" id="txt_motivo_anulacion" rows="3" class="form-control" style="resize:none;" placeholder="Ingrese el motivo de anulación (mínimo 10 caracteres)" maxlength="500"></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                <button type="button" class="btn btn-success" onclick="Modificar_Estado()"><i class="fas fa-edit"></i> Modificar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cancelar</button>
+                <button type="button" class="btn btn-success" onclick="Confirmar_Anulacion_Modal()"><i class="fas fa-check"></i> Anular</button>
             </div>
         </div>
     </div>
@@ -454,6 +465,7 @@
 <script>
     $(document).ready(function() {
         $('.js-example-basic-single').select2();
+        listar_nota_salida_pordia();
         Cargar_Select_Usuarios();
         Cargar_Select_Rutas();
         Cargar_Select_Servicios()
@@ -499,11 +511,12 @@
     if (d < 10) d = '0' + d;
 
     // Asignar solo la fecha
-    document.getElementById('txt_fecha_rerserva').value =
+    document.getElementById('txt_fecha_emitida').value =
         y + "-" + m + "-" + d;
 
-    document.getElementById('txt_fecha_rerserva_editar').value =
+    document.getElementById('txt_fecha_emitida_editar').value =
         y + "-" + m + "-" + d;
+
 
     // PARA EMISOR
     // Mostrar la sección correcta al cargar la página
@@ -518,23 +531,7 @@
         }
     });
 
-    // Cambiar la visibilidad según la selección del usuario
-    document.getElementById('select_tipo_documento_emisor').addEventListener('change', function() {
-        const selectedValue = this.value;
-        const dniSection = document.getElementById('dni_section');
-        const otrosDocumentosSection = document.getElementById('otros_documentos_section');
-
-        if (selectedValue === 'DNI') {
-            dniSection.style.display = 'block';
-            otrosDocumentosSection.style.display = 'none';
-        } else if (selectedValue === 'CARNET DE EXTRANJERIA' || selectedValue === 'PASAPORTE') {
-            dniSection.style.display = 'none';
-            otrosDocumentosSection.style.display = 'block';
-        } else {
-            dniSection.style.display = 'none';
-            otrosDocumentosSection.style.display = 'none';
-        }
-    });
+ 
 
 
     // PARA EMISOR EDITAR
@@ -550,24 +547,7 @@
         }
     });
 
-    // Cambiar la visibilidad según la selección del usuario
-    document.getElementById('select_tipo_documento_emisor_editar').addEventListener('change', function() {
-        const selectedValue = this.value;
-        const dniSection = document.getElementById('dni_section');
-        const otrosDocumentosSection = document.getElementById('otros_documentos_section_editar');
-
-        if (selectedValue === 'DNI') {
-            dniSection.style.display = 'block';
-            otrosDocumentosSection.style.display = 'none';
-        } else if (selectedValue === 'CARNET DE EXTRANJERIA' || selectedValue === 'PASAPORTE') {
-            dniSection.style.display = 'none';
-            otrosDocumentosSection.style.display = 'block';
-        } else {
-            dniSection.style.display = 'none';
-            otrosDocumentosSection.style.display = 'none';
-        }
-    });
-
+  
     function configurarBusquedaDNI(inputId, botonId, nombreId) {
         // Detectar Enter en el input
         document.getElementById(inputId).addEventListener("keyup", function(event) {
@@ -674,59 +654,4 @@
 </script>
 
 
-<script>
-    $(document).ready(function() {
-        // Inicialmente ocultar ambos campos hasta que se seleccione un estado
-        $('#div_observacion').hide();
-        $('#div_anulacion').hide();
-
-        // Evento change para el select de estado
-        $('#select_estado_editar2').change(function() {
-            var estado = $(this).val();
-
-            // Ocultar ambos campos y limpiar valores
-            $('#div_observacion').hide();
-            $('#div_anulacion').hide();
-            $('#text_observacion_enco').val('');
-            $('#txt_anula_enco').val('');
-
-            // Si es ANULADO: solo mostrar campo de anulación
-            if (estado == 'ANULADO') {
-                $('#div_anulacion').show();
-            }
-            // Para todos los demás estados: solo mostrar campo de observación
-            else if (estado != '') {
-                $('#div_observacion').show();
-            }
-        });
-
-        // Opcional: También puedes agregar validación al enviar el formulario
-        window.Modificar_Rol = function() {
-            var estado = $('#select_estado_editar2').val();
-
-            // Validaciones básicas
-            if (!estado) {
-                alert('Debe seleccionar un estado');
-                return false;
-            }
-
-            // Validaciones según el estado seleccionado
-            if (estado == 'ANULADO' && !$('#txt_anula_enco').val().trim()) {
-                alert('Debe ingresar el motivo de anulación');
-                return false;
-            }
-
-            if (estado != 'ANULADO' && estado != '' && !$('#text_observacion_enco').val().trim()) {
-                alert('Debe ingresar una observación');
-                return false;
-            }
-
-            // Aquí iría tu lógica para modificar el rol
-            console.log('Modificando estado a:', estado);
-
-            // Ejemplo de envío (ajusta según tu implementación)
-            // Tu código de envío aquí...
-        };
-    });
-</script>
 

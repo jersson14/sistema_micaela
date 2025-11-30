@@ -8,8 +8,6 @@ function listar_nota_salida() {
   document.getElementById("txt_fecha_hasta").value = "";
   document.getElementById("select_estado_buscar").value = "";
 
-
-
   tbl_nota_credito = $("#tabla_nota_credito").DataTable({
     pagingType: "full_numbers",
     scrollCollapse: true,
@@ -23,171 +21,143 @@ function listar_nota_salida() {
     ],
     pageLength: 10,
     destroy: true,
-    pagingType: "full_numbers",
-    scrollCollapse: true,
-    responsive: true,
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/reservas/controlador_listar_reservas.php",
+      url: "../controller/tickets/controller_listar_tickets.php",
       type: "POST",
     },
     dom: "Bfrtip",
-
     buttons: [
-  {
-    extend: "excelHtml5",
-    text: '<i class="fas fa-file-excel"></i> Excel',
-    titleAttr: "Exportar a Excel",
-    filename: "NOMBRE_DEL_MODULO",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-success btn-sm",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Ajustar según columnas
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+      {
+        extend: "excelHtml5",
+        text: '<i class="fas fa-file-excel"></i> Excel',
+        titleAttr: "Exportar a Excel",
+        filename: "TICKETS_VIAJE",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-success btn-sm",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
           }
-          return cleanData;
+        }
+      },
+      {
+        extend: "pdfHtml5",
+        text: '<i class="fas fa-file-pdf"></i> PDF',
+        titleAttr: "Exportar a PDF",
+        filename: "TICKETS_VIAJE",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-danger btn-sm",
+        orientation: "landscape",
+        pageSize: "A4",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
+          }
+        }
+      },
+      {
+        extend: "print",
+        text: '<i class="fa fa-print"></i> Imprimir',
+        titleAttr: "Imprimir",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-info btn-sm",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
+          }
         }
       }
-    }
-  },
-  {
-    extend: "pdfHtml5",
-    text: '<i class="fas fa-file-pdf"></i> PDF',
-    titleAttr: "Exportar a PDF",
-    filename: "NOMBRE_DEL_MODULO",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-danger btn-sm",
-    orientation: "landscape",
-    pageSize: "A4",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
-          }
-          return cleanData;
-        }
-      }
-    }
-  },
-  {
-    extend: "print",
-    text: '<i class="fa fa-print"></i> Imprimir',
-    titleAttr: "Imprimir",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-info btn-sm",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
-          }
-          return cleanData;
-        }
-      }
-    }
-  }
-],
-
+    ],
     columns: [
       { defaultContent: "" },
+      { data: "numero_ticket" },
+      { data: "fecha_viaje" },
       {
         data: null,
         render: function (data, type, row) {
           return (
             "<strong>" +
-            row.tipo_documento +
-            ": " +
             row.nro_documento +
             "</strong><br>" +
-            row.nombre_completo
+            row.cliente
           );
         },
       },
-      { data: "fecha_reserva_formateada" },
-      { data: "fecha_viaje_formateada" },
-
-      { data: "nombre_origen" },
-      { data: "nombre_destino" },
-
-      { data: "celular" },
-
-      // ---- PAGO ----
+      { data: "servicio" },
+      { data: "origen" },
+      { data: "destino" },
       {
-        data: "monto_adelantado",
+        data: "total",
         render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-success">S/ ' + data + "</span>";
-          } else {
-            return '<span class="badge bg-secondary">-</span>';
-          }
+          return '<span class="badge bg-success">S/ ' + data + "</span>";
         },
       },
-
-      // ---- ESTADO RESERVA ----
       {
         data: "estado",
         render: function (data, type, row) {
-          if (data == "PENDIENTE") {
-            return '<span class="badge bg-warning">PENDIENTE</span>';
-          } else if (data == "COMPLETADO") {
-            return '<span class="badge bg-success">COMPLETADO</span>';
+          if (data == "VALIDO") {
+            return '<span class="badge bg-success">VÁLIDO</span>';
           } else {
-            return '<span class="badge bg-danger text-dark">ANULADO</span>';
+            return '<span class="badge bg-danger">ANULADO</span>';
           }
         },
       },
-      { data: "USUARIO" },
-      {
-        data: null,
-        defaultContent: "",
-        render: function (data, type, row) {
-          let botones = "";
+            { data: "usuario" },
 
-          if (row.estado === "PENDIENTE") {
-            // MOSTRAR TODOS LOS BOTONES
-            botones = `
-        <button class='mostrar btn btn-success btn-sm' title='Mostrar datos de reserva'>
-          <i class='fa fa-eye'></i> Mostrar
+
+    {
+  data: null,
+  defaultContent: "",
+  render: function (data, type, row) {
+    let botones = "";
+
+    if (row.estado === "VALIDO") {
+      botones = `
+        <button class='imprimir btn btn-info btn-sm' title='Imprimir ticket'>
+          <i class='fa fa-print'></i> Imprimir
         </button>
-        <button class='editar btn btn-primary btn-sm' title='Editar datos de reserva'>
+
+        <button class='editar btn btn-primary btn-sm' title='Editar ticket'>
           <i class='fa fa-edit'></i> Editar
         </button>
-        <button class='anular btn btn-danger btn-sm' title='Anular reserva'>
+
+        <button class='mostrar btn btn-success btn-sm' title='Mostrar ticket'>
+          <i class='fa fa-eye'></i> Mostrar
+        </button>
+
+        <button class='anular btn btn-danger btn-sm' title='Anular ticket'>
           <i class='fa fa-trash'></i> Anular
         </button>
       `;
-          } else if (row.estado === "COMPLETADO") {
-            // SOLO MOSTRAR
-            botones = `
-        <button class='mostrar btn btn-success btn-sm' title='Mostrar datos de reserva'>
-          <i class='fa fa-eye'></i> Mostrar
-        </button>
-      `;
-          } else if (row.estado === "ANULADO") {
-            // SOLO MOTIVO ANULACIÓN
-            botones = `
+    } else {
+      botones = `
         <button class='ver_motivo btn btn-warning btn-sm' title='Ver motivo de anulación'>
-          <i class='fa fa-info-circle'></i> Motivo Anulación
+          <i class='fa fa-info-circle'></i> Motivo
         </button>
       `;
-          }
+    }
 
-          return botones;
-        },
-      },
+    return botones;
+  },
+},
+
     ],
     language: idioma_espanol,
     select: true,
@@ -217,171 +187,143 @@ function listar_nota_salida_pordia() {
     ],
     pageLength: 10,
     destroy: true,
-    pagingType: "full_numbers",
-    scrollCollapse: true,
-    responsive: true,
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/reservas/controlador_listar_reservas_pordia.php",
+      url: "../controller/tickets/controller_listar_tickets_pordia.php",
       type: "POST",
     },
     dom: "Bfrtip",
-
-  buttons: [
-  {
-    extend: "excelHtml5",
-    text: '<i class="fas fa-file-excel"></i> Excel',
-    titleAttr: "Exportar a Excel",
-    filename: "NOMBRE_DEL_MODULO",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-success btn-sm",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Ajustar según columnas
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+    buttons: [
+      {
+        extend: "excelHtml5",
+        text: '<i class="fas fa-file-excel"></i> Excel',
+        titleAttr: "Exportar a Excel",
+        filename: "TICKETS_VIAJE",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-success btn-sm",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
           }
-          return cleanData;
+        }
+      },
+      {
+        extend: "pdfHtml5",
+        text: '<i class="fas fa-file-pdf"></i> PDF',
+        titleAttr: "Exportar a PDF",
+        filename: "TICKETS_VIAJE",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-danger btn-sm",
+        orientation: "landscape",
+        pageSize: "A4",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
+          }
+        }
+      },
+      {
+        extend: "print",
+        text: '<i class="fa fa-print"></i> Imprimir',
+        titleAttr: "Imprimir",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-info btn-sm",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
+          }
         }
       }
-    }
-  },
-  {
-    extend: "pdfHtml5",
-    text: '<i class="fas fa-file-pdf"></i> PDF',
-    titleAttr: "Exportar a PDF",
-    filename: "NOMBRE_DEL_MODULO",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-danger btn-sm",
-    orientation: "landscape",
-    pageSize: "A4",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
-          }
-          return cleanData;
-        }
-      }
-    }
-  },
-  {
-    extend: "print",
-    text: '<i class="fa fa-print"></i> Imprimir',
-    titleAttr: "Imprimir",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-info btn-sm",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
-          }
-          return cleanData;
-        }
-      }
-    }
-  }
-],
-
-    columns: [
+    ],
+     columns: [
       { defaultContent: "" },
+      { data: "numero_ticket" },
+      { data: "fecha_viaje" },
       {
         data: null,
         render: function (data, type, row) {
           return (
             "<strong>" +
-            row.tipo_documento +
-            ": " +
             row.nro_documento +
             "</strong><br>" +
-            row.nombre_completo
+            row.cliente
           );
         },
       },
-      { data: "fecha_reserva_formateada" },
-      { data: "fecha_viaje_formateada" },
-
-      { data: "nombre_origen" },
-      { data: "nombre_destino" },
-
-      { data: "celular" },
-
-      // ---- PAGO ----
+      { data: "servicio" },
+      { data: "origen" },
+      { data: "destino" },
       {
-        data: "monto_adelantado",
+        data: "total",
         render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-success">S/ ' + data + "</span>";
-          } else {
-            return '<span class="badge bg-secondary">-</span>';
-          }
+          return '<span class="badge bg-success">S/ ' + data + "</span>";
         },
       },
-
-      // ---- ESTADO RESERVA ----
       {
         data: "estado",
         render: function (data, type, row) {
-          if (data == "PENDIENTE") {
-            return '<span class="badge bg-warning">PENDIENTE</span>';
-          } else if (data == "COMPLETADO") {
-            return '<span class="badge bg-success">COMPLETADO</span>';
+          if (data == "VALIDO") {
+            return '<span class="badge bg-success">VÁLIDO</span>';
           } else {
-            return '<span class="badge bg-danger text-dark">ANULADO</span>';
+            return '<span class="badge bg-danger">ANULADO</span>';
           }
         },
       },
-      { data: "USUARIO" },
-      {
-        data: null,
-        defaultContent: "",
-        render: function (data, type, row) {
-          let botones = "";
+            { data: "usuario" },
 
-          if (row.estado === "PENDIENTE") {
-            // MOSTRAR TODOS LOS BOTONES
-            botones = `
-        <button class='mostrar btn btn-success btn-sm' title='Mostrar datos de reserva'>
-          <i class='fa fa-eye'></i> Mostrar
+
+    {
+  data: null,
+  defaultContent: "",
+  render: function (data, type, row) {
+    let botones = "";
+
+    if (row.estado === "VALIDO") {
+      botones = `
+        <button class='imprimir btn btn-info btn-sm' title='Imprimir ticket'>
+          <i class='fa fa-print'></i> Imprimir
         </button>
-        <button class='editar btn btn-primary btn-sm' title='Editar datos de reserva'>
+
+        <button class='editar btn btn-primary btn-sm' title='Editar ticket'>
           <i class='fa fa-edit'></i> Editar
         </button>
-        <button class='anular btn btn-danger btn-sm' title='Anular reserva'>
+
+        <button class='mostrar btn btn-success btn-sm' title='Mostrar ticket'>
+          <i class='fa fa-eye'></i> Mostrar
+        </button>
+
+        <button class='anular btn btn-danger btn-sm' title='Anular ticket'>
           <i class='fa fa-trash'></i> Anular
         </button>
       `;
-          } else if (row.estado === "COMPLETADO") {
-            // SOLO MOSTRAR
-            botones = `
-        <button class='mostrar btn btn-success btn-sm' title='Mostrar datos de reserva'>
-          <i class='fa fa-eye'></i> Mostrar
-        </button>
-      `;
-          } else if (row.estado === "ANULADO") {
-            // SOLO MOTIVO ANULACIÓN
-            botones = `
+    } else {
+      botones = `
         <button class='ver_motivo btn btn-warning btn-sm' title='Ver motivo de anulación'>
-          <i class='fa fa-info-circle'></i> Motivo Anulación
+          <i class='fa fa-info-circle'></i> Motivo
         </button>
       `;
-          }
+    }
 
-          return botones;
-        },
-      },
+    return botones;
+  },
+},
+
     ],
     language: idioma_espanol,
     select: true,
@@ -397,8 +339,7 @@ function listar_nota_salida_pordia() {
   });
 }
 
-//FILTRO POR RUTAS Y ESTADO
-function listar_reservas_ruta_estado() {
+function listar_nota_ruta_estado() {
   let ori = document.getElementById("select_origen_bus").value;
   let des = document.getElementById("select_destino_bus").value;
   let esta = document.getElementById("select_estado_buscar").value;
@@ -416,13 +357,10 @@ function listar_reservas_ruta_estado() {
     ],
     pageLength: 10,
     destroy: true,
-    pagingType: "full_numbers",
-    scrollCollapse: true,
-    responsive: true,
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/reservas/controlador_listar_reservas_filtro1.php",
+      url: "../controller/tickets/controller_listar_tickets_filtro1.php",
       type: "POST",
       data: {
         ori: ori,
@@ -431,161 +369,136 @@ function listar_reservas_ruta_estado() {
       },
     },
     dom: "Bfrtip",
-
-  buttons: [
-  {
-    extend: "excelHtml5",
-    text: '<i class="fas fa-file-excel"></i> Excel',
-    titleAttr: "Exportar a Excel",
-    filename: "NOMBRE_DEL_MODULO",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-success btn-sm",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Ajustar según columnas
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+    buttons: [
+      {
+        extend: "excelHtml5",
+        text: '<i class="fas fa-file-excel"></i> Excel',
+        titleAttr: "Exportar a Excel",
+        filename: "TICKETS_VIAJE",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-success btn-sm",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
           }
-          return cleanData;
+        }
+      },
+      {
+        extend: "pdfHtml5",
+        text: '<i class="fas fa-file-pdf"></i> PDF',
+        titleAttr: "Exportar a PDF",
+        filename: "TICKETS_VIAJE",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-danger btn-sm",
+        orientation: "landscape",
+        pageSize: "A4",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
+          }
+        }
+      },
+      {
+        extend: "print",
+        text: '<i class="fa fa-print"></i> Imprimir',
+        titleAttr: "Imprimir",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-info btn-sm",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
+          }
         }
       }
-    }
-  },
-  {
-    extend: "pdfHtml5",
-    text: '<i class="fas fa-file-pdf"></i> PDF',
-    titleAttr: "Exportar a PDF",
-    filename: "NOMBRE_DEL_MODULO",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-danger btn-sm",
-    orientation: "landscape",
-    pageSize: "A4",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
-          }
-          return cleanData;
-        }
-      }
-    }
-  },
-  {
-    extend: "print",
-    text: '<i class="fa fa-print"></i> Imprimir',
-    titleAttr: "Imprimir",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-info btn-sm",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
-          }
-          return cleanData;
-        }
-      }
-    }
-  }
-],
-
+    ],
     columns: [
       { defaultContent: "" },
+      { data: "numero_ticket" },
+      { data: "fecha_viaje" },
       {
         data: null,
         render: function (data, type, row) {
           return (
             "<strong>" +
-            row.tipo_documento +
-            ": " +
             row.nro_documento +
             "</strong><br>" +
-            row.nombre_completo
+            row.cliente
           );
         },
       },
-      { data: "fecha_reserva_formateada" },
-      { data: "fecha_viaje_formateada" },
-
-      { data: "nombre_origen" },
-      { data: "nombre_destino" },
-
-      { data: "celular" },
-
-      // ---- PAGO ----
+      { data: "servicio" },
+      { data: "origen" },
+      { data: "destino" },
       {
-        data: "monto_adelantado",
+        data: "total",
         render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-success">S/ ' + data + "</span>";
-          } else {
-            return '<span class="badge bg-secondary">-</span>';
-          }
+          return '<span class="badge bg-success">S/ ' + data + "</span>";
         },
       },
-
-      // ---- ESTADO RESERVA ----
       {
         data: "estado",
         render: function (data, type, row) {
-          if (data == "PENDIENTE") {
-            return '<span class="badge bg-warning">PENDIENTE</span>';
-          } else if (data == "COMPLETADO") {
-            return '<span class="badge bg-success">COMPLETADO</span>';
+          if (data == "VALIDO") {
+            return '<span class="badge bg-success">VÁLIDO</span>';
           } else {
-            return '<span class="badge bg-danger text-dark">ANULADO</span>';
+            return '<span class="badge bg-danger">ANULADO</span>';
           }
         },
       },
-      { data: "USUARIO" },
-      {
-        data: null,
-        defaultContent: "",
-        render: function (data, type, row) {
-          let botones = "";
+            { data: "usuario" },
 
-          if (row.estado === "PENDIENTE") {
-            // MOSTRAR TODOS LOS BOTONES
-            botones = `
-        <button class='mostrar btn btn-success btn-sm' title='Mostrar datos de reserva'>
-          <i class='fa fa-eye'></i> Mostrar
+
+      {
+  data: null,
+  defaultContent: "",
+  render: function (data, type, row) {
+    let botones = "";
+
+    if (row.estado === "VALIDO") {
+      botones = `
+        <button class='imprimir btn btn-info btn-sm' title='Imprimir ticket'>
+          <i class='fa fa-print'></i> Imprimir
         </button>
-        <button class='editar btn btn-primary btn-sm' title='Editar datos de reserva'>
+
+        <button class='editar btn btn-primary btn-sm' title='Editar ticket'>
           <i class='fa fa-edit'></i> Editar
         </button>
-        <button class='anular btn btn-danger btn-sm' title='Anular reserva'>
+
+        <button class='mostrar btn btn-success btn-sm' title='Mostrar ticket'>
+          <i class='fa fa-eye'></i> Mostrar
+        </button>
+
+        <button class='anular btn btn-danger btn-sm' title='Anular ticket'>
           <i class='fa fa-trash'></i> Anular
         </button>
       `;
-          } else if (row.estado === "COMPLETADO") {
-            // SOLO MOSTRAR
-            botones = `
-        <button class='mostrar btn btn-success btn-sm' title='Mostrar datos de reserva'>
-          <i class='fa fa-eye'></i> Mostrar
-        </button>
-      `;
-          } else if (row.estado === "ANULADO") {
-            // SOLO MOTIVO ANULACIÓN
-            botones = `
+    } else {
+      botones = `
         <button class='ver_motivo btn btn-warning btn-sm' title='Ver motivo de anulación'>
-          <i class='fa fa-info-circle'></i> Motivo Anulación
+          <i class='fa fa-info-circle'></i> Motivo
         </button>
       `;
-          }
+    }
 
-          return botones;
-        },
-      },
+    return botones;
+  },
+},
+
     ],
     language: idioma_espanol,
     select: true,
@@ -601,7 +514,6 @@ function listar_reservas_ruta_estado() {
   });
 }
 
-//FILTRO POR FECHA Y USUARIO
 function listar_reservas_fecha_usu() {
   let fedes = document.getElementById("txt_fecha_desde").value;
   let fehas = document.getElementById("txt_fecha_hasta").value;
@@ -620,13 +532,10 @@ function listar_reservas_fecha_usu() {
     ],
     pageLength: 10,
     destroy: true,
-    pagingType: "full_numbers",
-    scrollCollapse: true,
-    responsive: true,
     async: false,
     processing: true,
     ajax: {
-      url: "../controller/reservas/controlador_listar_reservas_filtro2.php",
+      url: "../controller/tickets/controller_listar_tickets_filtro2.php",
       type: "POST",
       data: {
         fedes: fedes,
@@ -635,161 +544,136 @@ function listar_reservas_fecha_usu() {
       },
     },
     dom: "Bfrtip",
-
-   buttons: [
-  {
-    extend: "excelHtml5",
-    text: '<i class="fas fa-file-excel"></i> Excel',
-    titleAttr: "Exportar a Excel",
-    filename: "NOMBRE_DEL_MODULO",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-success btn-sm",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // Ajustar según columnas
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
+    buttons: [
+      {
+        extend: "excelHtml5",
+        text: '<i class="fas fa-file-excel"></i> Excel',
+        titleAttr: "Exportar a Excel",
+        filename: "TICKETS_VIAJE",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-success btn-sm",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
           }
-          return cleanData;
+        }
+      },
+      {
+        extend: "pdfHtml5",
+        text: '<i class="fas fa-file-pdf"></i> PDF',
+        titleAttr: "Exportar a PDF",
+        filename: "TICKETS_VIAJE",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-danger btn-sm",
+        orientation: "landscape",
+        pageSize: "A4",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
+          }
+        }
+      },
+      {
+        extend: "print",
+        text: '<i class="fa fa-print"></i> Imprimir',
+        titleAttr: "Imprimir",
+        title: "TICKETS DE VIAJE",
+        className: "btn btn-info btn-sm",
+        exportOptions: {
+          columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function(data, row, column, node) {
+              if (column === 0) return row + 1;
+              var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+              return cleanData;
+            }
+          }
         }
       }
-    }
-  },
-  {
-    extend: "pdfHtml5",
-    text: '<i class="fas fa-file-pdf"></i> PDF',
-    titleAttr: "Exportar a PDF",
-    filename: "NOMBRE_DEL_MODULO",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-danger btn-sm",
-    orientation: "landscape",
-    pageSize: "A4",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
-          }
-          return cleanData;
-        }
-      }
-    }
-  },
-  {
-    extend: "print",
-    text: '<i class="fa fa-print"></i> Imprimir',
-    titleAttr: "Imprimir",
-    title: "NOMBRE_DEL_MODULO",
-    className: "btn btn-info btn-sm",
-    exportOptions: {
-      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      format: {
-        body: function(data, row, column, node) {
-          if (column === 0) return row + 1;
-          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
-          if (column === 1 && cleanData) {
-            cleanData = cleanData.replace(/([A-Za-zÁÉÍÓÚáéíóú\s]+)(\d+)/g, "$1 - $2");
-          }
-          return cleanData;
-        }
-      }
-    }
-  }
-],
-
-    columns: [
+    ],
+   columns: [
       { defaultContent: "" },
+      { data: "numero_ticket" },
+      { data: "fecha_viaje" },
       {
         data: null,
         render: function (data, type, row) {
           return (
             "<strong>" +
-            row.tipo_documento +
-            ": " +
             row.nro_documento +
             "</strong><br>" +
-            row.nombre_completo
+            row.cliente
           );
         },
       },
-      { data: "fecha_reserva_formateada" },
-      { data: "fecha_viaje_formateada" },
-
-      { data: "nombre_origen" },
-      { data: "nombre_destino" },
-
-      { data: "celular" },
-
-      // ---- PAGO ----
+      { data: "servicio" },
+      { data: "origen" },
+      { data: "destino" },
       {
-        data: "monto_adelantado",
+        data: "total",
         render: function (data, type, row) {
-          if (parseFloat(data) > 0) {
-            return '<span class="badge bg-success">S/ ' + data + "</span>";
-          } else {
-            return '<span class="badge bg-secondary">-</span>';
-          }
+          return '<span class="badge bg-success">S/ ' + data + "</span>";
         },
       },
-
-      // ---- ESTADO RESERVA ----
       {
         data: "estado",
         render: function (data, type, row) {
-          if (data == "PENDIENTE") {
-            return '<span class="badge bg-warning">PENDIENTE</span>';
-          } else if (data == "COMPLETADO") {
-            return '<span class="badge bg-success">COMPLETADO</span>';
+          if (data == "VALIDO") {
+            return '<span class="badge bg-success">VÁLIDO</span>';
           } else {
-            return '<span class="badge bg-danger text-dark">ANULADO</span>';
+            return '<span class="badge bg-danger">ANULADO</span>';
           }
         },
       },
-      { data: "USUARIO" },
-      {
-        data: null,
-        defaultContent: "",
-        render: function (data, type, row) {
-          let botones = "";
+            { data: "usuario" },
 
-          if (row.estado === "PENDIENTE") {
-            // MOSTRAR TODOS LOS BOTONES
-            botones = `
-        <button class='mostrar btn btn-success btn-sm' title='Mostrar datos de reserva'>
-          <i class='fa fa-eye'></i> Mostrar
+
+    {
+  data: null,
+  defaultContent: "",
+  render: function (data, type, row) {
+    let botones = "";
+
+    if (row.estado === "VALIDO") {
+      botones = `
+        <button class='imprimir btn btn-info btn-sm' title='Imprimir ticket'>
+          <i class='fa fa-print'></i> Imprimir
         </button>
-        <button class='editar btn btn-primary btn-sm' title='Editar datos de reserva'>
+
+        <button class='editar btn btn-primary btn-sm' title='Editar ticket'>
           <i class='fa fa-edit'></i> Editar
         </button>
-        <button class='anular btn btn-danger btn-sm' title='Anular reserva'>
+
+        <button class='mostrar btn btn-success btn-sm' title='Mostrar ticket'>
+          <i class='fa fa-eye'></i> Mostrar
+        </button>
+
+        <button class='anular btn btn-danger btn-sm' title='Anular ticket'>
           <i class='fa fa-trash'></i> Anular
         </button>
       `;
-          } else if (row.estado === "COMPLETADO") {
-            // SOLO MOSTRAR
-            botones = `
-        <button class='mostrar btn btn-success btn-sm' title='Mostrar datos de reserva'>
-          <i class='fa fa-eye'></i> Mostrar
-        </button>
-      `;
-          } else if (row.estado === "ANULADO") {
-            // SOLO MOTIVO ANULACIÓN
-            botones = `
+    } else {
+      botones = `
         <button class='ver_motivo btn btn-warning btn-sm' title='Ver motivo de anulación'>
-          <i class='fa fa-info-circle'></i> Motivo Anulación
+          <i class='fa fa-info-circle'></i> Motivo
         </button>
       `;
-          }
+    }
 
-          return botones;
-        },
-      },
+    return botones;
+  },
+},
+
     ],
     language: idioma_espanol,
     select: true,
@@ -912,114 +796,51 @@ async function buscarPorDocumentoEditar() {
 }
 
 //ABRIR MODAL VER MOTIVO ANULACION
-$("#tabla_nota_credito").on("click", ".motivo_anulacion", function () {
+$("#tabla_nota_credito").on("click", ".ver_motivo", function () {
   var data = tbl_nota_credito.row($(this).parents("tr")).data();
 
   if (tbl_nota_credito.row(this).child.isShown()) {
     var data = tbl_nota_credito.row(this).data();
   }
   $("#modal_motivo_anula").modal("show");
-  document.getElementById("select_estado_editar3").value =
-    data.estado_encomienda;
-  document.getElementById("txt_anula_enco2").value = data.motivo_anulacion;
+  console.log(data);
+  document.getElementById("txt_fecha_anula").value = data.fecha_anulacion;
+  document.getElementById("txt_cliente").value = data.cliente;
+
+    document.getElementById("txt_motivo_anulacion").value = data.motivo_anulacion;
+
 });
 
-// ABRIR MODAL MOSTRAR
-$("#tabla_nota_credito").on("click", ".editar", function () {
-  var data = tbl_nota_credito.row($(this).parents("tr")).data();
-  if (tbl_nota_credito.row(this).child.isShown()) {
-    data = tbl_nota_credito.row(this).data();
+
+
+$('#tabla_nota_credito').on('click','.editar',function(){
+  var data = tbl_nota_credito.row($(this).parents('tr')).data();
+
+  if(tbl_nota_credito.row(this).child.isShown()){
+      var data = tbl_nota_credito.row(this).data();
   }
+  $("#modal_editar").modal('show');
+  document.getElementById('txt_id_nota').value=data.id;
+  document.getElementById('select_tipo_documento_emisor_editar').value=data.tipo_documento;
+  document.getElementById('txt_nro_documento_editar').value=data.nro_documento;
+  document.getElementById('txt_nomb_emisor_editar').value=data.cliente;
+  document.getElementById('txt_celu1_emisor_editar').value=data.celular;
 
-  $("#modal_editar").modal("show");
 
-  // Esperar a que el modal esté completamente visible
-  $("#modal_editar")
-    .off("shown.bs.modal")
-    .on("shown.bs.modal", function () {
-      // REFERENCIAS A LAS SECCIONES
-      const dniSection = document.getElementById("dni_section_editar");
-      const otrosSection = document.getElementById(
-        "otros_documentos_section_editar"
-      );
-      const selectTipoDocumento = document.getElementById(
-        "select_tipo_documento_emisor_editar"
-      );
+      $("#select_servicio_editar").val(data.idservicio).trigger("change");
 
-      // CARGAR CAMPOS COMUNES
-      document.getElementById("txt_idreserva").value = data.id_reserva;
-      selectTipoDocumento.value = data.tipo_documento;
-      document.getElementById("txt_nomb_emisor_editar").value =
-        data.nombre_completo;
-      document.getElementById("txt_celu1_emisor_editar").value = data.celular;
-      document.getElementById("txt_fecha_rerserva_editar").value =
-        data.fecha_reserva;
-      document.getElementById("txt_fecha_viaje_editar").value =
-        data.fecha_viaje;
-      $("#select_origen_editar").val(data.id_origen).trigger("change");
+      $("#select_origen_editar").val(data.idorigen).trigger("change");
       $("#select_destino_editar").val(data.iddestino).trigger("change");
 
-      document.getElementById("txt_monto_adelantado_editar").value =
-        data.monto_adelantado;
-      document.getElementById("txt_observacion_editar").value =
-        data.observaciones;
+      document.getElementById("txt_base_gravada_editar").value =
+        data.gravada;
+      document.getElementById("txt_igv_editar").value =
+        data.igv;
+      document.getElementById("txt_total_editar").value =
+        data.total;
+})
 
-      // LIMPIAR CAMPOS DE DOCUMENTO
-      document.getElementById("txt_dni_emisor_editar").value = "";
-      document.getElementById("txt_dni_emisor2_editar").value = "";
-
-      // FUNCIÓN PARA MOSTRAR/OCULTAR SECCIONES SEGÚN TIPO
-      function actualizarSecciones(tipo) {
-        tipo = (tipo || "").toString().trim().toUpperCase();
-
-        if (tipo === "DNI") {
-          // MOSTRAR sección DNI (con botones Buscar y RENIEC)
-          dniSection.style.display = "block";
-          otrosSection.style.display = "none";
-          // Cargar número de documento en campo DNI
-          document.getElementById("txt_dni_emisor_editar").value =
-            data.nro_documento;
-        } else if (
-          tipo === "PASAPORTE" ||
-          tipo === "CARNET DE EXTRANJERIA" ||
-          tipo === "CARNET DE EXTRANJERÍA"
-        ) {
-          // MOSTRAR sección otros documentos (solo botón Buscar verde)
-          dniSection.style.display = "none";
-          otrosSection.style.display = "block";
-          // Cargar número de documento en campo otros
-          document.getElementById("txt_dni_emisor2_editar").value =
-            data.nro_documento;
-        } else {
-          // OCULTAR TODO si no hay tipo válido
-          dniSection.style.display = "none";
-          otrosSection.style.display = "none";
-        }
-      }
-
-      // APLICAR AL CARGAR EL MODAL
-      actualizarSecciones(data.tipo_documento);
-
-      // ESCUCHAR CAMBIOS EN EL SELECT
-      $(selectTipoDocumento)
-        .off("change")
-        .on("change", function () {
-          // Limpiar campos al cambiar tipo
-          document.getElementById("txt_dni_emisor_editar").value = "";
-          document.getElementById("txt_dni_emisor2_editar").value = "";
-          actualizarSecciones(this.value);
-        });
-
-      console.log(
-        "TIPO DOC:",
-        data.tipo_documento,
-        "| NRO:",
-        data.nro_documento
-      );
-    });
-});
-
-//ABRIR MODAL EDITAR
+//ABRIR MODAL MOSTRAR
 $("#tabla_nota_credito").on("click", ".mostrar", function () {
   var data = tbl_nota_credito.row($(this).parents("tr")).data();
   if (tbl_nota_credito.row(this).child.isShown()) {
@@ -1028,24 +849,27 @@ $("#tabla_nota_credito").on("click", ".mostrar", function () {
   $("#modal_mostrar").modal("show");
 
   // CAMPOS EXISTENTES
+  document.getElementById('select_tipo_documento_emisor_mostrar').value=data.tipo_documento;
+  document.getElementById('txt_nrodoc_mostrar').value=data.nro_documento;
+  document.getElementById('txt_nomb_emisor_mostrar').value=data.cliente;
+  document.getElementById('txt_celu1_emisor_mostrar').value=data.celular;
 
-  document.getElementById("select_tipo_documento_emisor_mostrar").value =
-    data.tipo_documento;
-  document.getElementById("txt_nrodoc_mostrar").value = data.nro_documento;
-  document.getElementById("txt_nomb_emisor_mostrar").value =
-    data.nombre_completo;
-  document.getElementById("txt_celu1_emisor_mostrar").value = data.celular;
-  document.getElementById("txt_fecha_rerserva_mostrar").value =
-    data.fecha_reserva;
-  document.getElementById("txt_fecha_viaje_mostrar").value = data.fecha_viaje;
-  document.getElementById("select_origen_mostrar").value = data.nombre_origen;
-  document.getElementById("select_destino_mostrar").value = data.nombre_destino;
-  document.getElementById("txt_monto_adelantado_mostrar").value =
-    data.monto_adelantado;
-  document.getElementById("txt_observacion_mostrar").value = data.observaciones;
+  document.getElementById("txt_fecha_emitida_mostrar").value =
+      data.fecha_emision;
+    $("#select_servicio_mostrar").val(data.idservicio).trigger("change");
+
+    $("#select_origen_mostrar").val(data.idorigen).trigger("change");
+    $("#select_destino_mostrar").val(data.iddestino).trigger("change");
+
+    document.getElementById("txt_base_gravada_mostrar").value =
+      data.gravada;
+    document.getElementById("txt_igv_mostrar").value =
+      data.igv;
+    document.getElementById("txt_total_mostrar").value =
+      data.total;
 });
 //LIMPIAR CAMPOS
-function LimpiarCamposEncomienda() {
+function LimpiarCampos() {
   // CAMPOS PRINCIPALES
   document.getElementById("txt_dni_emisor").value = "";
   document.getElementById("txt_dni_emisor2").value = "";
@@ -1053,14 +877,15 @@ function LimpiarCamposEncomienda() {
   document.getElementById("txt_celu1_emisor").value = ""; // CORREGIDO: era txtxt_descripciont_fecha_creacion
 
   // DATOS DEL EMISOR
-  document.getElementById("txt_fecha_viaje").value = "";
   document.getElementById("select_origen").value = "";
   document.getElementById("select_destino").value = "";
-  document.getElementById("txt_monto_adelantado").value = "";
-  document.getElementById("txt_observacion").value = "";
+  document.getElementById("txt_base_gravada").value = "";
+  document.getElementById("txt_igv").value = "";
+    document.getElementById("txt_total").value = "";
+
 }
 //REGISTROS DE ENCOMIENDAS
-function Registrar_Reservas() {
+function Registrar_tickets() {
   // DATOS DEL PASAJERO
   let tipodocemi = document.getElementById(
     "select_tipo_documento_emisor"
@@ -1071,12 +896,14 @@ function Registrar_Reservas() {
   let celemi = document.getElementById("txt_celu1_emisor").value;
 
   // DATOS DE LA RESERVA
-  let fechare = document.getElementById("txt_fecha_rerserva").value;
-  let fechavia = document.getElementById("txt_fecha_viaje").value;
+  let fechare = document.getElementById("txt_fecha_emitida").value;
+  let ser = document.getElementById("select_servicio").value;
   let ori = document.getElementById("select_origen").value;
   let des = document.getElementById("select_destino").value;
-  let monto = document.getElementById("txt_monto_adelantado").value;
-  let obser = document.getElementById("txt_observacion").value;
+  let basegr = document.getElementById("txt_base_gravada").value;
+  let igv = document.getElementById("txt_igv").value;
+  let total = document.getElementById("txt_total").value;
+
   let idusu = document.getElementById("txtprincipalid").value;
 
   // Obtener el nombre del destino (opcional)
@@ -1087,11 +914,12 @@ function Registrar_Reservas() {
   if (
     tipodocemi.length == 0 ||
     nomemi.length == 0 ||
-    celemi.length == 0 ||
     fechare.length == 0 ||
-    fechavia.length == 0 ||
     ori.length == 0 ||
-    monto.length == 0
+    basegr.length == 0 ||
+    igv.length == 0 ||
+    total.length == 0
+
   ) {
     return Swal.fire(
       "Mensaje de Advertencia",
@@ -1133,19 +961,19 @@ function Registrar_Reservas() {
 
   // 🔹 Enviar por AJAX
   $.ajax({
-    url: "../controller/reservas/controlador_registro_reservas.php",
+    url: "../controller/tickets/controller_registrar_ticket.php",
     type: "POST",
     data: {
       tipodocemi: tipodocemi,
       documento: documentoFinal,
       nomemi: nomemi,
       celemi: celemi,
-      fechare: fechare,
-      fechavia: fechavia,
+      ser: ser,
       ori: ori,
       des: des,
-      monto: monto,
-      obser: obser,
+      basegr: basegr,
+      igv: igv,
+      total: total,
       idusu: idusu,
     },
   }).done(function (resp) {
@@ -1153,17 +981,17 @@ function Registrar_Reservas() {
       if (resp == 1) {
         Swal.fire(
           "Mensaje de Confirmación",
-          "Nueva reserva registrada para el pasajero: <b>" + nomemi + "</b>",
+          "Nueva salida registrada para el pasajero: <b>" + nomemi + "</b>",
           "success"
         ).then(() => {
           tbl_nota_credito.ajax.reload();
-          LimpiarCamposEncomienda();
+          LimpiarCampos();
           $("#modal_registro").modal("hide");
         });
       } else {
         Swal.fire(
           "Mensaje de Advertencia",
-          "La reserva que intentas registrar ya se encuentra en la base de datos, revise por favor",
+          "La salida que intentas registrar ya se encuentra en la base de datos, revise por favor",
           "warning"
         );
       }
@@ -1298,87 +1126,87 @@ function Modificar_Reservas() {
   });
 }
 
-//ANULAR ENCOMIENDA CON MOTIVO
-function Anular_reserva(id, motivo) {
+
+
+
+
+function Anular_nota_salida(id, motivo){
   $.ajax({
-    url: "../controller/reservas/controlador_anular_encomiendas.php",
-    type: "POST",
+    url: "../controller/tickets/controlador_anular_nota_salida.php",
+    type: 'POST',
     data: {
       id: id,
-      motivo: motivo,
-    },
-  }).done(function (resp) {
-    if (resp > 0) {
+      motivo: motivo
+    }
+  }).done(function(resp){
+    if(resp > 0){
+        Swal.fire(
+          "Mensaje de Confirmación",
+          "La nota de salida fue anulada con éxito",
+          "success"
+        ).then(() => {
+          tbl_nota_credito.ajax.reload();
+        });
+    }else{
       Swal.fire(
-        "Mensaje de Confirmación",
-        "Se anuló la resergva con éxito",
-        "success"
-      ).then((value) => {
-        tbl_nota_credito.ajax.reload();
-      });
-    } else {
-      return Swal.fire(
         "Mensaje de Advertencia",
-        "No se puede anular la resergva, verifique por favor",
+        "No se pudo anular la nota de salida, verifique por favor",
         "warning"
       );
     }
   });
 }
 
-//ENVIANDO AL BOTON ANULAR
-$("#tabla_nota_credito").on("click", ".anular", function () {
-  var data = tbl_nota_credito.row($(this).parents("tr")).data();
+
+//ENVIANDO AL BOTON DELETE
+$('#tabla_nota_credito').on('click', '.anular', function() {
+  var data = tbl_nota_credito.row($(this).parents('tr')).data();
 
   if (tbl_nota_credito.row(this).child.isShown()) {
-    var data = tbl_nota_credito.row(this).data();
+    data = tbl_nota_credito.row(this).data();
   }
 
   Swal.fire({
-    title: "¿Desea anular la encomienda?",
-    html: `
-      <p><strong>Fecha de reserva:</strong> ${data.fecha_reserva_formateada}</p>
-      <p><strong>Cliente:</strong> ${data.nombre_completo}</p>
-      <br>
-      <label for="motivo_anulacion" style="float:left; font-weight:bold; color:red;">
-        Motivo de Anulación (*):</label>
-      <textarea 
-        id="motivo_anulacion" 
-        class="swal2-input" 
-        placeholder="Ingrese el motivo de anulación" 
-        style="width:100%; height:100px; resize:none;"
-        maxlength="500"
-      ></textarea>
-    `,
+    title: "¿Desea anular la nota de salida del cliente: " + data.cliente + "?",
+    text: "Una vez aceptado la nota será anulada.",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Sí, Anular",
-    cancelButtonText: "Cancelar",
-    preConfirm: () => {
-      const motivo = document.getElementById("motivo_anulacion").value.trim();
-
-      if (!motivo) {
-        Swal.showValidationMessage("Debe ingresar el motivo de anulación");
-        return false;
-      }
-
-      if (motivo.length < 10) {
-        Swal.showValidationMessage(
-          "El motivo debe tener al menos 10 caracteres"
-        );
-        return false;
-      }
-
-      return motivo;
-    },
+    confirmButtonText: "Sí, anular",
+    cancelButtonText: "Cancelar"
   }).then((result) => {
     if (result.isConfirmed) {
-      Anular_reserva(data.id_reserva, result.value);
+
+      // 2. AHORA SE PIDE EL MOTIVO
+      Swal.fire({
+        title: "Ingrese el motivo de anulación",
+        input: "textarea",
+        inputPlaceholder: "Escriba el motivo...",
+        inputAttributes: {
+          maxlength: 300,
+          "aria-label": "Motivo"
+        },
+        showCancelButton: true,
+        confirmButtonText: "Guardar Motivo",
+        cancelButtonText: "Cancelar",
+        preConfirm: (motivo) => {
+          if (!motivo || motivo.trim() === "") {
+            Swal.showValidationMessage("El motivo es obligatorio");
+          }
+          return motivo;
+        }
+      }).then((respMotivo) => {
+        if (respMotivo.isConfirmed) {
+          const motivo = respMotivo.value;
+          Anular_nota_salida(data.id, motivo);
+        }
+      });
+
     }
   });
 });
+
+
+
 
 function Cargar_Select_Rutas() {
   $.ajax({
@@ -1405,6 +1233,10 @@ function Cargar_Select_Rutas() {
 
     $("#select_origen_editar").html(cadena);
     $("#select_destino_editar").html(cadena);
+
+    $("#select_origen_mostrar").html(cadena);
+    $("#select_destino_mostrar").html(cadena);
+
   });
 }
 
@@ -1475,19 +1307,7 @@ function Cargar_Select_Usuarios() {
   });
 }
 
-//MOTIVO ANULACION
-$("#tabla_nota_credito").on("click", ".ver_motivo", function () {
-  var data = tbl_nota_credito.row($(this).parents("tr")).data();
-  if (tbl_nota_credito.row(this).child.isShown()) {
-    var data = tbl_nota_credito.row(this).data();
-  }
-  $("#modal_motivo_anula").modal("show");
 
-  // CAMPOS EXISTENTES
-
-  document.getElementById("txt_fecha_anula").value = data.fecha_anulado;
-  document.getElementById("txt_anula_enco2").value = data.motivo_anula;
-});
 
 // ============================================================
 // CARGAR SERVICIOS AL INICIAR
@@ -1510,6 +1330,9 @@ function Cargar_Select_Servicios() {
     }
 
     $("#select_servicio").html(cadena);
+        $("#select_servicio_editar").html(cadena);
+        $("#select_servicio_mostrar").html(cadena);
+
   });
 }
 
@@ -1596,4 +1419,14 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 $(document).on("keyup", "#txt_total", function () {
     calcularDesdeTotal();
+});
+
+// IMPRIMIR TICKET
+$('#tabla_nota_credito').on('click', '.imprimir', function() {
+  var data = tbl_nota_credito.row($(this).parents('tr')).data();
+  
+  if (tbl_nota_credito.row(this).child.isShown()) {
+      var data = tbl_nota_credito.row(this).data();
+  }
+  window.open('../reportes/ticket_viaje.php?id='+data.id, '_blank');
 });
