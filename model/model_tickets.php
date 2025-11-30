@@ -95,6 +95,57 @@ class Modelo_Tickets extends conexionBD {
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
+
+        // VISTAS ASISTENTE
+        public function Listar_ticket_asis($ori){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_NOTA_SALIDA_ASIS(?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$ori);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+
+ // VISTAS ASISTENTE
+        public function Listar_ticket_pordia_asis($ori){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_NOTA_PORDIA_ASIS(?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$ori);
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+        public function Listar_nota_fecha_ori_asis($fechaini,$fechafin,$esta,$ori){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_LISTAR_NOTA_FECHA_ESTA_ASIS(?,?,?,?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query->bindParam(1,$fechaini);
+            $query->bindParam(2,$fechafin);
+            $query->bindParam(3,$esta);
+            $query->bindParam(4,$ori);
+
+            $query->execute();
+            $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            foreach($resultado as $resp){
+                $arreglo["data"][]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+        // CRUD
          public function Modificar_Ticket($idnota,$tipo_doc,$dniemi,$nomemi,$celemi,$ser,$ori,$des,$basegr,$igv,$total){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_MODIFICAR_TICKET(?,?,?,?,?,?,?,?,?,?,?)";

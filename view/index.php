@@ -468,6 +468,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                 </ul>
               </li>
+                <li class="nav-item">
+                  <a href="#nota_salida_asis" data-modulo="nota_salida_asis" class="nav-link">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p style="color:white">Nota de salida</p>
+                  </a>
+                </li>
 
               <li class="nav-item">
                 <a href="#salidas-asis" data-modulo="salidas-asis" class="nav-link">

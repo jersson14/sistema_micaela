@@ -40,6 +40,8 @@ const MODULOS = {
   'reservas-asis': 'reservas/view_reservas_asi.php',
   'encomiendas-asis': 'encomiendas/view_encomienda_asis.php',
   'encomiendas-asis_envio': 'encomiendas/view_encomienda_env.php',
+    'nota_salida_asis': 'tickets/view_nota_salida_asi.php',
+
   'salidas-asis': 'salidas_diaria/view_salida_diaria_asis.php',
 
   // MODULOS PARA EL CONDUCTOR
