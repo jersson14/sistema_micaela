@@ -978,16 +978,24 @@ function Registrar_tickets() {
     },
   }).done(function (resp) {
     if (resp > 0) {
-      if (resp == 1) {
-        Swal.fire(
-          "Mensaje de Confirmación",
-          "Nueva salida registrada para el pasajero: <b>" + nomemi + "</b>",
-          "success"
-        ).then(() => {
-          tbl_nota_credito.ajax.reload();
-          LimpiarCampos();
-          $("#modal_registro").modal("hide");
-        });
+      if (resp >= 1) {
+          Swal.fire(
+            "Mensaje de Confirmación",
+            "Nueva salida registrada para el pasajero: <b>" + nomemi + "</b>",
+            "success"
+          ).then(() => {
+            tbl_nota_credito.ajax.reload();
+            LimpiarCampos();
+            $("#modal_registro").modal("hide");
+
+            // 🖨️ ABRIR TICKET AUTOMÁTICAMENTE EN UNA VENTANA PEQUEÑA
+            window.open(
+              '../view/MPDF/REPORTE/ticket_viaje.php?id=' + resp,
+              'ticket',
+              'width=400,height=600'
+            );
+          });
+
       } else {
         Swal.fire(
           "Mensaje de Advertencia",
@@ -1001,49 +1009,37 @@ function Registrar_tickets() {
   });
 }
 
-//LIMPIAR CAMPOS
-function LimpiarCamposEncomienda2() {
-  // CAMPOS PRINCIPALES
-  document.getElementById("txt_dni_emisor_editar").value = "";
-  document.getElementById("txt_dni_emisor2_editar").value = "";
-  document.getElementById("txt_nomb_emisor_editar").value = "";
-  document.getElementById("txt_celu1_emisor_editar").value = ""; // CORREGIDO: era txtxt_descripciont_fecha_creacion
 
-  // DATOS DEL EMISOR
-  document.getElementById("txt_fecha_viaje_editar").value = "";
-  document.getElementById("select_origen_editar").value = "";
-  document.getElementById("select_destino_editar").value = "";
-  document.getElementById("txt_monto_adelantado_editar").value = "";
-  document.getElementById("txt_observacion_editar").value = "";
-}
-function Modificar_Reservas() {
+function Modificar_Nota_salida() {
   //DATOS DEL DOCENTE
-  let idreserva = document.getElementById("txt_idreserva").value;
-  let tipodocemi = document.getElementById(
-    "select_tipo_documento_emisor_editar"
-  ).value;
-  let dniemi = document.getElementById("txt_dni_emisor_editar").value;
-  let dni2emi = document.getElementById("txt_dni_emisor2_editar").value;
+  let idnota = document.getElementById("txt_id_nota").value;
+  let tipo_doc = document.getElementById("select_tipo_documento_emisor_editar").value;
+
+  let dniemi = document.getElementById("txt_nro_documento_editar").value;
   let nomemi = document.getElementById("txt_nomb_emisor_editar").value;
   let celemi = document.getElementById("txt_celu1_emisor_editar").value;
 
-  // DATOS DEL RECEPTOR
-  let fechare = document.getElementById("txt_fecha_rerserva_editar").value;
-  let fechavia = document.getElementById("txt_fecha_viaje_editar").value;
+  // DATOS DE LA RESERVA
+  let ser = document.getElementById("select_servicio_editar").value;
   let ori = document.getElementById("select_origen_editar").value;
   let des = document.getElementById("select_destino_editar").value;
-  let monto = document.getElementById("txt_monto_adelantado_editar").value;
-  let obser = document.getElementById("txt_observacion_editar").value;
-  let idusu = document.getElementById("txtprincipalid").value;
+  let basegr = document.getElementById("txt_base_gravada_editar").value;
+  let igv = document.getElementById("txt_igv_editar").value;
+  let total = document.getElementById("txt_total_editar").value;
+
 
   if (
-    tipodocemi.length == 0 ||
+    idnota.length == 0 ||
+    tipo_doc.length == 0 ||
+    dniemi.length == 0 ||
     nomemi.length == 0 ||
-    celemi.length == 0 ||
-    fechare.length == 0 ||
-    fechavia.length == 0 ||
+    ser.length == 0 ||
+    des.length == 0 ||
     ori.length == 0 ||
-    monto.length == 0
+    basegr.length == 0 ||
+    igv.length == 0 ||
+    total.length == 0
+
   ) {
     return Swal.fire(
       "Mensaje de Advertencia",
@@ -1058,64 +1054,35 @@ function Modificar_Reservas() {
       "warning"
     );
   }
-  // Validar documento según tipo EMISOR
-  let documentoFinal = "";
-  if (tipodocemi === "DNI") {
-    if (!dniemi) {
-      return Swal.fire(
-        "Mensaje de Advertencia",
-        "El campo DNI del pasajero es obligatorio",
-        "warning"
-      );
-    }
-    documentoFinal = dniemi;
-  } else {
-    if (!dni2emi) {
-      return Swal.fire(
-        "Mensaje de Advertencia",
-        "El campo de documento del pasajero es obligatorio",
-        "warning"
-      );
-    }
-    documentoFinal = dni2emi;
-  }
+
 
   $.ajax({
-    url: "../controller/reservas/controlador_modificar_reservas.php",
+    url: "../controller/tickets/controlador_modificar_ticket.php",
     type: "POST",
     data: {
-      idreserva: idreserva,
-      tipodocemi: tipodocemi,
-      documento: documentoFinal,
+      idnota: idnota,
+      tipo_doc: tipo_doc,
+      dniemi: dniemi,
       nomemi: nomemi,
       celemi: celemi,
-      fechare: fechare,
-      fechavia: fechavia,
+      ser: ser,
       ori: ori,
       des: des,
-      monto: monto,
-      obser: obser,
-      idusu: idusu,
+      basegr: basegr,
+      igv: igv,
+      total: total
     },
   }).done(function (resp) {
     if (resp > 0) {
-      if (resp == 1) {
         Swal.fire(
           "Mensaje de Confirmación",
-          "Se modifico la reserva para el pasajero: <b>" + nomemi + "</b>",
+          "Se modifico la nota de salida para el pasajero: <b>" + nomemi + "</b>",
           "success"
         ).then((value) => {
           tbl_nota_credito.ajax.reload();
-          LimpiarCamposEncomienda2();
           $("#modal_editar").modal("hide");
         });
-      } else {
-        Swal.fire(
-          "Mensaje de Advertencia",
-          "La reserva que intentas modificar ya se encuentra en la base de datos, revise por favor",
-          "warning"
-        );
-      }
+      
     } else {
       return Swal.fire(
         "Mensaje de Error",
@@ -1308,7 +1275,6 @@ function Cargar_Select_Usuarios() {
 }
 
 
-
 // ============================================================
 // CARGAR SERVICIOS AL INICIAR
 // ============================================================
@@ -1330,27 +1296,38 @@ function Cargar_Select_Servicios() {
     }
 
     $("#select_servicio").html(cadena);
-        $("#select_servicio_editar").html(cadena);
-        $("#select_servicio_mostrar").html(cadena);
-
+    $("#select_servicio_editar").html(cadena);
+    $("#select_servicio_mostrar").html(cadena);
   });
 }
 
-// 2️⃣ Detectar cambio en el select de servicios
+// ============================================================
+// DETECTAR CAMBIO EN SELECT DE SERVICIOS (REGISTRO Y EDITAR)
+// ============================================================
+// Para el formulario de REGISTRO
 $(document).on("change", "#select_servicio", function () {
   let id = $(this).val();
   if (id !== "") {
-    Traerprecio(id);
+    Traerprecio(id, 'registro');
   } else {
-    $("#txt_base_gravada").val("");
-    $("#txt_igv").val("");
-    $("#txt_total").val("");
+    resetCamposCalculo('registro');
   }
 });
 
-// 3️⃣ Traer precio desde el backend y calcular totales
-// 3️⃣ Traer precio desde el backend y calcular totales
-function Traerprecio(id) {
+// Para el formulario de EDITAR
+$(document).on("change", "#select_servicio_editar", function () {
+  let id = $(this).val();
+  if (id !== "") {
+    Traerprecio(id, 'editar');
+  } else {
+    resetCamposCalculo('editar');
+  }
+});
+
+// ============================================================
+// TRAER PRECIO DESDE EL BACKEND
+// ============================================================
+function Traerprecio(id, modo = 'registro') {
   $.ajax({
     url: "../controller/servicios/controlador_traermonto.php",
     type: "POST",
@@ -1361,38 +1338,50 @@ function Traerprecio(id) {
         var data = JSON.parse(resp);
         if (data.length > 0) {
           let total = data[0].monto || data[0][1];
-
-          // Siempre el backend devuelve precio unitario con IGV
-          document.getElementById("txt_total").value = parseFloat(total).toFixed(2);
           
-          calcularDesdeTotal(); // recalcular BG + IGV
+          // Determinar el sufijo según el modo
+          let sufijo = modo === 'editar' ? '_editar' : '';
+          
+          // Siempre el backend devuelve precio unitario con IGV
+          document.getElementById("txt_total" + sufijo).value = parseFloat(total).toFixed(2);
+          
+          calcularDesdeTotal(modo); // recalcular BG + IGV
         } else {
-          resetCamposCalculo();
+          resetCamposCalculo(modo);
         }
       } catch (e) {
         console.error("JSON inválido:", resp);
-        resetCamposCalculo();
+        resetCamposCalculo(modo);
       }
     })
     .fail(function () {
       console.error("Error AJAX");
-      resetCamposCalculo();
+      resetCamposCalculo(modo);
     });
 }
 
-function resetCamposCalculo() {
-  document.getElementById("txt_base_gravada").value = "";
-  document.getElementById("txt_igv").value = "";
-  document.getElementById("txt_total").value = "";
+// ============================================================
+// RESETEAR CAMPOS DE CÁLCULO
+// ============================================================
+function resetCamposCalculo(modo = 'registro') {
+  let sufijo = modo === 'editar' ? '_editar' : '';
+  
+  document.getElementById("txt_base_gravada" + sufijo).value = "";
+  document.getElementById("txt_igv" + sufijo).value = "";
+  document.getElementById("txt_total" + sufijo).value = "";
 }
 
-// 🔄 Función para calcular BASE GRAVADA desde el TOTAL
-function calcularDesdeTotal() {
-  var totalConIGV = parseFloat(document.getElementById("txt_total").value) || 0;
+// ============================================================
+// CALCULAR BASE GRAVADA DESDE EL TOTAL
+// ============================================================
+function calcularDesdeTotal(modo = 'registro') {
+  let sufijo = modo === 'editar' ? '_editar' : '';
+  
+  var totalConIGV = parseFloat(document.getElementById("txt_total" + sufijo).value) || 0;
 
   if (totalConIGV <= 0) {
-    document.getElementById("txt_base_gravada").value = "";
-    document.getElementById("txt_igv").value = "";
+    document.getElementById("txt_base_gravada" + sufijo).value = "";
+    document.getElementById("txt_igv" + sufijo).value = "";
     return;
   }
 
@@ -1400,25 +1389,37 @@ function calcularDesdeTotal() {
   var baseGravada = totalConIGV / 1.18;
   var igv = baseGravada * 0.18;
 
-  document.getElementById("txt_base_gravada").value = baseGravada.toFixed(2);
-  document.getElementById("txt_igv").value = igv.toFixed(2);
-  document.getElementById("txt_total").value = totalConIGV.toFixed(2);
+  document.getElementById("txt_base_gravada" + sufijo).value = baseGravada.toFixed(2);
+  document.getElementById("txt_igv" + sufijo).value = igv.toFixed(2);
+  document.getElementById("txt_total" + sufijo).value = totalConIGV.toFixed(2);
 }
-
 
 // ============================================================
 // EVENTOS - Conectar con los campos del formulario
 // ============================================================
 document.addEventListener('DOMContentLoaded', function () {
-    let inputTotal = document.getElementById("txt_total");
-
-    if (inputTotal) {
-        inputTotal.addEventListener("input", calcularDesdeTotal);
-        inputTotal.addEventListener("blur", calcularDesdeTotal);
-    }
+  // Campos del formulario de REGISTRO
+  let inputTotal = document.getElementById("txt_total");
+  if (inputTotal) {
+    inputTotal.addEventListener("input", function() { calcularDesdeTotal('registro'); });
+    inputTotal.addEventListener("blur", function() { calcularDesdeTotal('registro'); });
+  }
+  
+  // Campos del formulario de EDITAR
+  let inputTotalEditar = document.getElementById("txt_total_editar");
+  if (inputTotalEditar) {
+    inputTotalEditar.addEventListener("input", function() { calcularDesdeTotal('editar'); });
+    inputTotalEditar.addEventListener("blur", function() { calcularDesdeTotal('editar'); });
+  }
 });
+
+// Eventos keyup para ambos modos
 $(document).on("keyup", "#txt_total", function () {
-    calcularDesdeTotal();
+  calcularDesdeTotal('registro');
+});
+
+$(document).on("keyup", "#txt_total_editar", function () {
+  calcularDesdeTotal('editar');
 });
 
 // IMPRIMIR TICKET
@@ -1428,5 +1429,5 @@ $('#tabla_nota_credito').on('click', '.imprimir', function() {
   if (tbl_nota_credito.row(this).child.isShown()) {
       var data = tbl_nota_credito.row(this).data();
   }
-  window.open('../reportes/ticket_viaje.php?id='+data.id, '_blank');
+  window.open('../view/MPDF/REPORTE/ticket_viaje.php?id='+data.id, '_blank');
 });

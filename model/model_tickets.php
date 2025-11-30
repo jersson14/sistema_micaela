@@ -95,6 +95,30 @@ class Modelo_Tickets extends conexionBD {
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
+         public function Modificar_Ticket($idnota,$tipo_doc,$dniemi,$nomemi,$celemi,$ser,$ori,$des,$basegr,$igv,$total){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_MODIFICAR_TICKET(?,?,?,?,?,?,?,?,?,?,?)";
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$idnota);
+            $query ->bindParam(2,$tipo_doc);
+            $query ->bindParam(3,$dniemi);
+            $query ->bindParam(4,$nomemi);
+            $query ->bindParam(5,$celemi);
+            $query ->bindParam(6,$ser);
+            $query ->bindParam(7,$ori);
+            $query ->bindParam(8,$des);
+            $query ->bindParam(9,$basegr);
+            $query ->bindParam(10,$igv);
+            $query ->bindParam(11,$total);
+    $resul = $query->execute();
+            if($resul){
+                return 1;
+            }else{
+                return 0;
+            }
+            conexionBD::cerrar_conexion();
+        }
+
     public function Anular_nota_salida($id,$motivo){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_ANULAR_NOTA_SALIDA(?,?)";
@@ -111,7 +135,7 @@ class Modelo_Tickets extends conexionBD {
             }
             conexionBD::cerrar_conexion();
         }
-
+ }
      
-}
+
 ?>

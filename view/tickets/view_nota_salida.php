@@ -332,7 +332,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                <button type="button" class="btn btn-success" onclick="Modificar_Reservas()"><i class="fas fa-edit"></i> Modificar</button>
+                <button type="button" class="btn btn-success" onclick="Modificar_Nota_salida()"><i class="fas fa-edit"></i> Modificar</button>
             </div>
         </div>
     </div>
@@ -436,7 +436,7 @@
                 <div class="row">
                     <input type="hidden" id="txt_id_nota_anula">
                     <div class="col-12 form-group">
-                        <label for="">Fecha de emisión:</label>
+                        <label for="">Fecha de anulación:</label>
                         <input type="datetime-local" class="form-control" disabled id="txt_fecha_anula">
                     </div>
                     <div class="col-12 form-group">
@@ -488,7 +488,7 @@
             this.value = this.value.slice(0, 9);
     })
 
-    var input = document.getElementById('txt_dni_emisor_editar');
+    var input = document.getElementById('txt_nro_documento_editar');
     input.addEventListener('input', function() {
         if (this.value.length > 8)
             this.value = this.value.slice(0, 8);
@@ -587,7 +587,6 @@
 
     // 👉 Configuras para emisor y receptor
     configurarBusquedaDNI("txt_dni_emisor", "prueba_emisor", "txt_nomb_emisor");
-    configurarBusquedaDNI("txt_dni_emisor_editar", "prueba_emisor_editar", "txt_nomb_emisor_editar");
 </script>
 
 <script>
@@ -634,23 +633,6 @@
         }
     });
 
-    // Cambiar la visibilidad según la selección del usuario
-    document.getElementById('select_tipo_documento_receptor_editar').addEventListener('change', function() {
-        const selectedValue = this.value;
-        const dniSection = document.getElementById('dni_section2_editar');
-        const otrosDocumentosSection = document.getElementById('otros_documentos_section2_editar');
-
-        if (selectedValue === 'DNI') {
-            dniSection.style.display = 'block';
-            otrosDocumentosSection.style.display = 'none';
-        } else if (selectedValue === 'CARNET DE EXTRANJERIA' || selectedValue === 'PASAPORTE') {
-            dniSection.style.display = 'none';
-            otrosDocumentosSection.style.display = 'block';
-        } else {
-            dniSection.style.display = 'none';
-            otrosDocumentosSection.style.display = 'none';
-        }
-    });
 </script>
 
 
