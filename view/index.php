@@ -210,6 +210,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
 
+                <li class="nav-item">
+                  <a href="#nota_salida" data-modulo="nota_salida" class="nav-link">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p style="color:white">Nota de salida</p>
+                  </a>
+                </li>
+
+
               <li class="nav-item">
                 <a href="#salidas" data-modulo="salidas" class="nav-link">
                   <i class="nav-icon fas fa-route"></i>

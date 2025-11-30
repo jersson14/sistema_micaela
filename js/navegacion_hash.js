@@ -10,6 +10,7 @@ const MODULOS = {
   'clientes': 'clientes/view_clientes.php',
   'reservas': 'reservas/view_reservas.php',
   'encomiendas': 'encomiendas/view_encomiendas.php',
+  'nota_salida': 'tickets/view_nota_salida.php',
   'salidas': 'salidas_diaria/view_salida_diaria.php',
   'facturas': 'comprobantes/facturas.php',
   'comprobantes-lista': 'comprobantes/comprobantes_lista.php',
