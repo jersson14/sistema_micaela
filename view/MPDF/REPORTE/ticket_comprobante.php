@@ -160,9 +160,7 @@ body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-hei
 <div class="emp-nom">'.e($row['empresa_nombre']).'</div>
 <div class="emp-info">RUC: '.e($row['empresa_ruc']).'</div>
 <div class="emp-info">'.e($row['empresa_direccion']).'</div>
-<div class="emp-info">Telf: '.e($row['empresa_telefono']).' - +51983152886</div>
-<div class="emp-info">Quejas: +51968110220 - AlEXANDER SERRANO</div>
-
+<div class="emp-info">Telf: '.e($row['empresa_telefono']).'</div>
 </div>
 
 <div class="comp-box">
@@ -221,7 +219,7 @@ body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-hei
 try {
     $mpdf = new Mpdf([
         'mode' => 'utf-8',
-        'format' => [80, 262],
+        'format' => [80, 250],
         'margin_left' => 4,
         'margin_right' => 4,
         'margin_top' => 2,
