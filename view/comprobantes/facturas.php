@@ -297,7 +297,7 @@
             // Para factura, solo RUC
             document.getElementById('select_tipo_documento_cliente').value = '6';
         } else if (tipo == '03') {
-            serie.value = 'B001';
+            serie.value = 'BPP1';
         }
 
         obtenerCorrelativo();
