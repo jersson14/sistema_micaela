@@ -20,7 +20,7 @@ $query = "
 SELECT 
     c.id_comprobante, c.tipo_comprobante, c.serie, c.correlativo,
     CONCAT(c.serie, '-', LPAD(c.correlativo, 8, '0')) AS numero_comprobante,
-    c.fecha_emision, c.hora_emision, c.total, c.total_gravada, c.total_igv,
+    c.fecha_emision,c.observaciones, c.hora_emision, c.total, c.total_gravada, c.total_igv,
     c.moneda, c.estado_sunat, c.estado_documento, c.observaciones,
     cl.razon_social AS cliente_nombre, cl.numero_documento AS cliente_doc,
     cl.direccion AS cliente_direccion, cl.tipo_documento AS cliente_tipo_doc,
