@@ -177,6 +177,8 @@ body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-hei
 <div class="fila"><b>'.e($tipoDocCliente).':</b> '.e($row['cliente_doc']).'</div>
 <div class="fila"><b>NOMBRE:</b> '.e($row['cliente_nombre']).'</div>
 '.((!empty($row['cliente_direccion'])) ? '<div class="fila"><b>DIRECCIÓN:</b> '.e($row['cliente_direccion']).'</div>' : '').'
+<div class="fila"><b>OBSERVACIONES:</b> '.e($row['observaciones']).'</div>
+
 </div>
 
 <div class="sec">
@@ -220,7 +222,7 @@ body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-hei
 try {
     $mpdf = new Mpdf([
         'mode' => 'utf-8',
-        'format' => [80, 262],
+        'format' => [80, 265],
         'margin_left' => 4,
         'margin_right' => 4,
         'margin_top' => 2,

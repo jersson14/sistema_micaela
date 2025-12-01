@@ -34,6 +34,7 @@ SELECT
     c.total_igv,
     c.moneda,
     c.estado_sunat,
+    c.observaciones,
     c.descripcion_respuesta_sunat,
     cl.razon_social AS cliente_nombre,
     cl.numero_documento AS cliente_doc,
