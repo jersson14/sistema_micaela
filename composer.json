@@ -6,7 +6,8 @@
         "greenter/core": "*",
         "greenter/greenter": "^5.0",
         "greenter/lite": "*",
-        "firebase/php-jwt": "^6.11"
+        "firebase/php-jwt": "^6.11",
+        "mpdf/mpdf": "^8.2"
     },
     "autoload": {
         "psr-4": {

@@ -1888,4 +1888,202 @@ WHERE c.id_comprobante =?";
             conexionBD::cerrar_conexion();
         }
     }
+    /**
+ * OBTENER DATOS COMPLETOS PARA DECLARACIÓN SUNAT
+ * Retorna todos los campos necesarios para la declaración mensual
+ */
+public function Obtener_Datos_Declaracion_SUNAT($tipo = '', $estado = '', $fecha_desde = '', $fecha_hasta = '')
+{
+    $c = conexionBD::conexionPDO();
+    error_log("PARAMETROS => tipo:$tipo, estado:$estado, desde:$fecha_desde, hasta:$fecha_hasta");
+
+    try {
+        $sql = "SELECT 
+                -- DATOS DEL COMPROBANTE
+                c.id_comprobante,
+                c.tipo_comprobante,
+                CASE c.tipo_comprobante
+                    WHEN '01' THEN 'FACTURA'
+                    WHEN '03' THEN 'BOLETA'
+                    WHEN '07' THEN 'NOTA DE CRÉDITO'
+                    WHEN '08' THEN 'NOTA DE DÉBITO'
+                    ELSE 'OTROS'
+                END AS tipo_documento_nombre,
+                c.serie,
+                c.correlativo,
+                CONCAT(c.serie, '-', LPAD(c.correlativo, 8, '0')) AS numero_comprobante,
+                DATE_FORMAT(c.fecha_emision, '%d/%m/%Y') AS fecha_emision,
+                DATE_FORMAT(c.fecha_vencimiento, '%d/%m/%Y') AS fecha_vencimiento,
+                c.hora_emision,
+                
+                -- DATOS DEL CLIENTE
+                cl.tipo_documento AS tipo_doc_cliente,
+                cl.numero_documento AS numero_doc_cliente,
+                cl.razon_social AS cliente_nombre,
+                cl.direccion AS cliente_direccion,
+                cl.telefono AS cliente_telefono,
+                cl.departamento,
+                cl.provincia,
+                cl.distrito,
+                cl.ubigeo,
+                
+                -- MONEDA Y TIPO DE CAMBIO
+                c.moneda,
+                c.tipo_cambio,
+                
+                -- IMPORTES BASE
+                FORMAT(IFNULL(c.subtotal, 0), 2) AS subtotal,
+                FORMAT(IFNULL(c.total_descuentos, 0), 2) AS total_descuentos,
+                FORMAT(IFNULL(c.total_gravada, 0), 2) AS total_gravada,
+                FORMAT(IFNULL(c.total_exonerada, 0), 2) AS total_exonerada,
+                FORMAT(IFNULL(c.total_inafecta, 0), 2) AS total_inafecta,
+                FORMAT(IFNULL(c.total_gratuita, 0), 2) AS total_gratuita,
+                
+                -- IMPUESTOS
+                FORMAT(IFNULL(c.total_igv, 0), 2) AS total_igv,
+                FORMAT(IFNULL(c.total_isc, 0), 2) AS total_isc,
+                FORMAT(IFNULL(c.total_otros_tributos, 0), 2) AS total_otros_tributos,
+                FORMAT(IFNULL(c.total_impuestos, 0), 2) AS total_impuestos,
+                FORMAT(IFNULL(c.total, 0), 2) AS total,
+                
+                -- ESTADO SUNAT
+                c.estado_sunat,
+                c.estado_documento,
+                c.codigo_hash,
+                c.hash_cdr,
+                c.codigo_respuesta_sunat,
+                c.descripcion_respuesta_sunat,
+                DATE_FORMAT(c.fecha_envio_sunat, '%d/%m/%Y %H:%i:%s') AS fecha_envio_sunat,
+                
+                -- DATOS DE LA NOTA (SI APLICA)
+                c.id_comprobante_origen,
+                c.motivo_nota,
+                c.texto_motivo,
+                CONCAT(co.serie, '-', LPAD(co.correlativo, 8, '0')) AS comprobante_afectado,
+                
+                -- REFERENCIAS
+                c.orden_compra,
+                c.guia_remision,
+                c.observaciones,
+                
+                -- TIPO DE OPERACIÓN Y FORMA DE PAGO
+                c.tipo_operacion,
+                tp.tipo_pago AS forma_pago,
+                
+                -- INFORMACIÓN DEL SERVICIO
+                s.nombre AS servicio_nombre,
+                s.descripcion AS servicio_descripcion,
+                r_origen.nombre AS origen,
+                r_destino.nombre AS destino,
+                CONCAT(cond.conductor_nombre, ' ', cond.conductor_apellidos) AS conductor_nombre,
+                
+                -- DETALLE DEL SERVICIO
+                cd.cantidad,
+                FORMAT(IFNULL(cd.precio_unitario, 0), 2) AS precio_unitario,
+                FORMAT(IFNULL(cd.valor_unitario, 0), 2) AS valor_unitario,
+                FORMAT(IFNULL(cd.valor_venta, 0), 2) AS valor_venta,
+                FORMAT(IFNULL(cd.igv, 0), 2) AS igv_detalle,
+                FORMAT(IFNULL(cd.total_item, 0), 2) AS total_item,
+                cd.descripcion AS descripcion_detalle,
+                
+                -- ARCHIVOS XML Y CDR
+                c.nombre_archivo_xml,
+                c.nombre_archivo_cdr,
+                
+                -- USUARIO Y FECHAS DE REGISTRO
+                CONCAT(u.usu_nombre, ' ', u.usu_apellido) AS usuario_registro,
+                DATE_FORMAT(c.created_at, '%d/%m/%Y %H:%i:%s') AS fecha_registro,
+                DATE_FORMAT(c.updated_at, '%d/%m/%Y %H:%i:%s') AS fecha_actualizacion,
+                
+                -- DATOS DE ANULACIÓN (SI APLICA)
+                c.motivo_anulacion,
+                DATE_FORMAT(c.fecha_anulacion, '%d/%m/%Y %H:%i:%s') AS fecha_anulacion,
+                ua.usu_nombre AS usuario_anulacion
+                
+            FROM comprobantes c
+            INNER JOIN cliente_sunat cl ON c.id_cliente = cl.id_cliente
+            LEFT JOIN tipo_pago tp ON c.id_tipo_pago = tp.id_tipo_pago
+            LEFT JOIN servicios s ON c.id_servicio = s.id_servicio
+            LEFT JOIN rutas r_origen ON c.id_origen = r_origen.idrutas
+            LEFT JOIN rutas r_destino ON c.iddestino = r_destino.idrutas
+            LEFT JOIN conductor cond ON c.idconductor = cond.idconductor
+            LEFT JOIN comprobante_detalle cd ON c.id_comprobante = cd.id_comprobante
+            LEFT JOIN usuario u ON c.id_usuario = u.id_usuario
+            LEFT JOIN usuario ua ON c.usuario_anulacion = ua.id_usuario
+            LEFT JOIN comprobantes co ON c.id_comprobante_origen = co.id_comprobante
+            WHERE 1=1";
+        
+        $params = array();
+        
+        // FILTRO: TIPO DE COMPROBANTE
+        if ($tipo !== '' && $tipo !== null) {
+            $sql .= " AND c.tipo_comprobante = ?";
+            $params[] = $tipo;
+        }
+
+        // FILTRO: ESTADO SUNAT (CORREGIDO - usar LIKE en lugar de =)
+        if ($estado !== '' && $estado !== null) {
+            $sql .= " AND UPPER(c.estado_sunat) LIKE ?";
+            $params[] = strtoupper($estado) . '%';
+        } else {
+            // POR DEFECTO: Solo mostrar ENVIADO o ACEPTADO (usando LIKE)
+            $sql .= " AND (UPPER(c.estado_sunat) LIKE 'ENVIADO%' OR UPPER(c.estado_sunat) LIKE 'ACEPTADO%')";
+        }
+
+        // FILTRO: FECHA DESDE
+        if ($fecha_desde !== '' && $fecha_desde !== null) {
+            // Convertir formato dd/mm/yyyy a yyyy-mm-dd
+            $fecha_desde_partes = explode('/', $fecha_desde);
+            if (count($fecha_desde_partes) == 3) {
+                $fecha_desde_sql = $fecha_desde_partes[2] . '-' . $fecha_desde_partes[1] . '-' . $fecha_desde_partes[0];
+            } else {
+                $fecha_desde_sql = date('Y-m-d', strtotime($fecha_desde));
+            }
+            $sql .= " AND DATE(c.fecha_emision) >= ?";
+            $params[] = $fecha_desde_sql;
+            error_log("Fecha desde SQL: " . $fecha_desde_sql);
+        }
+
+        // FILTRO: FECHA HASTA
+        if ($fecha_hasta !== '' && $fecha_hasta !== null) {
+            // Convertir formato dd/mm/yyyy a yyyy-mm-dd
+            $fecha_hasta_partes = explode('/', $fecha_hasta);
+            if (count($fecha_hasta_partes) == 3) {
+                $fecha_hasta_sql = $fecha_hasta_partes[2] . '-' . $fecha_hasta_partes[1] . '-' . $fecha_hasta_partes[0];
+            } else {
+                $fecha_hasta_sql = date('Y-m-d', strtotime($fecha_hasta));
+            }
+            $sql .= " AND DATE(c.fecha_emision) <= ?";
+            $params[] = $fecha_hasta_sql;
+            error_log("Fecha hasta SQL: " . $fecha_hasta_sql);
+        }
+        
+        // ORDENAMIENTO
+        $sql .= " ORDER BY c.fecha_emision ASC, c.tipo_comprobante ASC, c.serie ASC, c.correlativo ASC";
+        
+        error_log("SQL FINAL: " . $sql);
+        error_log("PARAMS: " . json_encode($params));
+        
+        $query = $c->prepare($sql);
+        
+        // BIND DE PARÁMETROS
+        foreach ($params as $key => $value) {
+            $query->bindValue($key + 1, $value);
+        }
+        
+        $query->execute();
+        $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+        
+        error_log("REGISTROS ENCONTRADOS: " . count($resultado));
+        
+        return $resultado;
+        
+    } catch (Exception $e) {
+        error_log("Error en Obtener_Datos_Declaracion_SUNAT: " . $e->getMessage());
+        error_log("TRACE: " . $e->getTraceAsString());
+        return array();
+    } finally {
+        conexionBD::cerrar_conexion();
+    }
+}
 }

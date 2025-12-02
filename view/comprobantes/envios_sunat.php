@@ -195,6 +195,7 @@
                                 <label>Estado:</label>
                                 <select class="form-control" id="select_estado_historial">
                                     <option value="">TODOS</option>
+                                    <option value="ACEPTADO">ACEPTADO</option>
                                     <option value="ENVIADO">ENVIADO</option>
                                     <option value="RECHAZADO">RECHAZADO</option>
                                 </select>
@@ -218,8 +219,21 @@
                             </div>
                         </div>
                     </div>
-                    
+  
                     <div class="table-responsive" style="text-align:center">
+                        <div class="col-md-12 mt-3">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-warning" onclick="generarReporteSunat()" title="Generar reporte PDF para declaraciones SUNAT">
+                                    <i class="fas fa-file-pdf"></i> Reporte Declaraciones SUNAT
+                                </button>
+                                <button class="btn btn-success" onclick="exportarExcelSunat()" title="Exportar a Excel">
+                                    <i class="fas fa-file-excel"></i> Exportar Excel
+                                </button>
+                            </div>
+                            <small class="text-muted d-block mt-2">
+                                <i class="fas fa-info-circle"></i> Seleccione un rango de fechas y presione "Buscar" antes de generar el reporte
+                            </small>
+                        </div>
                         <div class="card-body">
                             <table id="tabla_historial_envios" class="table table-striped table-bordered" style="width:100%">
                                 <thead style="background-color:#17a2b8; color:#FFFFFF;">

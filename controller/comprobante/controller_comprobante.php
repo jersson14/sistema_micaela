@@ -892,4 +892,18 @@ elseif ($accion == 'ACTUALIZAR_COMPROBANTE') {
     } else {
         echo json_encode(array('status' => 'error', 'message' => 'Error al actualizar comprobante'));
     }
+
+    
+}
+
+// DECLARACION SUNAT
+elseif ($accion == 'OBTENER_DATOS_DECLARACION_SUNAT') {
+    $tipo = isset($_POST['tipo_comprobante']) ? $_POST['tipo_comprobante'] : '';
+    $estado = isset($_POST['estado_sunat']) ? $_POST['estado_sunat'] : '';
+    $fecha_desde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : '';
+    $fecha_hasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : '';
+    
+    $consulta = $MC->Obtener_Datos_Declaracion_SUNAT($tipo, $estado, $fecha_desde, $fecha_hasta);
+    
+    echo json_encode(array('data' => $consulta));
 }

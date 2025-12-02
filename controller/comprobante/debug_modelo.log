@@ -34,3 +34,87 @@
   Num Doc: 20450622011
 [2025-11-22 09:49:36] Cliente no existe, insertando nuevo...
 [2025-11-22 09:49:36] ✅ Cliente registrado con ID: 67
+[2025-12-02 10:01:32] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:01:32] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:01:32] ✅ Cliente actualizado
+[2025-12-02 10:01:53] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:01:53] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:01:53] ✅ Cliente actualizado
+[2025-12-02 10:02:27] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:02:27] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:02:27] ✅ Cliente actualizado
+[2025-12-02 10:04:01] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:04:01] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:04:01] ✅ Cliente actualizado
+[2025-12-02 10:05:54] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:05:54] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:05:54] ✅ Cliente actualizado
+[2025-12-02 10:07:11] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:07:11] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:07:11] ✅ Cliente actualizado
+[2025-12-02 10:08:01] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:08:01] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:08:01] ✅ Cliente actualizado
+[2025-12-02 10:10:05] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:10:05] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:10:05] ✅ Cliente actualizado
+[2025-12-02 10:10:17] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:10:17] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:10:17] ✅ Cliente actualizado
+[2025-12-02 10:10:43] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:10:43] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:10:43] ✅ Cliente actualizado
+[2025-12-02 10:10:46] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20527056579
+[2025-12-02 10:10:46] Cliente ya existe (ID: 3), actualizando...
+[2025-12-02 10:10:46] ✅ Cliente actualizado
+[2025-12-02 10:11:09] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-12-02 10:11:09] Cliente ya existe (ID: 2), actualizando...
+[2025-12-02 10:11:09] ✅ Cliente actualizado
+[2025-12-02 10:12:28] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-12-02 10:12:28] Cliente ya existe (ID: 2), actualizando...
+[2025-12-02 10:12:28] ✅ Cliente actualizado
+[2025-12-02 10:13:07] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-12-02 10:13:07] Cliente ya existe (ID: 2), actualizando...
+[2025-12-02 10:13:07] ✅ Cliente actualizado
+[2025-12-02 10:13:36] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-12-02 10:13:36] Cliente ya existe (ID: 2), actualizando...
+[2025-12-02 10:13:36] ✅ Cliente actualizado
+[2025-12-02 10:13:44] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-12-02 10:13:44] Cliente ya existe (ID: 2), actualizando...
+[2025-12-02 10:13:44] ✅ Cliente actualizado
+[2025-12-02 10:14:43] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-12-02 10:14:43] Cliente ya existe (ID: 2), actualizando...
+[2025-12-02 10:14:43] ✅ Cliente actualizado
+[2025-12-02 10:15:31] Registrar_Cliente_SUNAT llamado
+  Num Doc: 72646121
+[2025-12-02 10:15:31] Cliente ya existe (ID: 4), actualizando...
+[2025-12-02 10:15:31] ✅ Cliente actualizado
+[2025-12-02 10:17:08] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-12-02 10:17:08] Cliente ya existe (ID: 2), actualizando...
+[2025-12-02 10:17:08] ✅ Cliente actualizado
+[2025-12-02 10:19:02] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-12-02 10:19:02] Cliente ya existe (ID: 2), actualizando...
+[2025-12-02 10:19:02] ✅ Cliente actualizado
+[2025-12-02 10:19:22] Registrar_Cliente_SUNAT llamado
+  Num Doc: 20104985204
+[2025-12-02 10:19:22] Cliente ya existe (ID: 2), actualizando...
+[2025-12-02 10:19:22] ✅ Cliente actualizado

@@ -909,3 +909,91 @@ function verDetallePendiente(id) {
         Swal.fire("Error", "No se pudo obtener el detalle del comprobante.", "error");
     });
 }
+
+// declaracion SUNAT
+function generarReporteSunat() {
+    // Obtener filtros actuales
+    let tipo = $("#select_tipo_historial").val();
+    let estado = $("#select_estado_historial").val();
+    let fecha_desde = $("#txt_fecha_desde_historial").val();
+    let fecha_hasta = $("#txt_fecha_hasta_historial").val();
+    
+    // Validar fechas
+    if (!fecha_desde || !fecha_hasta) {
+        Swal.fire({
+            icon: "warning",
+            title: "Seleccione rango de fechas",
+            text: "Debe especificar fecha desde y fecha hasta para generar el reporte",
+            showConfirmButton: true
+        });
+        return;
+    }
+    
+    // Confirmar generación
+    Swal.fire({
+        title: "¿Generar Reporte SUNAT?",
+        html: `Se generará el reporte desde <b>${fecha_desde}</b> hasta <b>${fecha_hasta}</b>`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Sí, Generar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Mostrar loading
+            Swal.fire({
+                title: "Generando reporte...",
+                html: "Por favor espere",
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => Swal.showLoading()
+            });
+            
+            // Construir URL con parámetros
+            let url = "../view/MPDF/REPORTE/reporte_declaracion_sunat.php";
+            url += "?tipo=" + encodeURIComponent(tipo);
+            url += "&estado=" + encodeURIComponent(estado);
+            url += "&fecha_desde=" + encodeURIComponent(fecha_desde);
+            url += "&fecha_hasta=" + encodeURIComponent(fecha_hasta);
+            
+            console.log("URL generada:", url); // Debug
+            
+            // Abrir en nueva ventana
+            window.open(url, "_blank");
+            
+            // Cerrar loading después de 1 segundo
+            setTimeout(() => {
+                Swal.close();
+                Swal.fire({
+                    icon: "success",
+                    title: "Reporte generado",
+                    text: "El reporte se abrió en una nueva ventana",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }, 1000);
+        }
+    });
+}
+
+// ============================================================
+// EXPORTAR A EXCEL (ALTERNATIVA)
+// ============================================================
+function exportarExcelSunat() {
+    let tipo = $("#select_tipo_historial").val();
+    let estado = $("#select_estado_historial").val();
+    let fecha_desde = $("#txt_fecha_desde_historial").val();
+    let fecha_hasta = $("#txt_fecha_hasta_historial").val();
+    
+    if (!fecha_desde || !fecha_hasta) {
+        Swal.fire("Advertencia", "Seleccione rango de fechas", "warning");
+        return;
+    }
+    
+    window.location.href = "../controller/comprobante/exportar_excel_sunat.php" +
+        "?tipo=" + tipo +
+        "&estado=" + estado +
+        "&fecha_desde=" + fecha_desde +
+        "&fecha_hasta=" + fecha_hasta;
+}

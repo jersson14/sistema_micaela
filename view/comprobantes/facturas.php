@@ -238,9 +238,7 @@
                                 <button class="btn btn-secondary btn-lg" onclick="limpiarFormulario()">
                                     <i class="fas fa-eraser"></i> Limpiar
                                 </button>
-                                <button class="btn btn-success btn-lg" onclick="guardarComprobante('PENDIENTE')">
-                                    <i class="fas fa-save"></i> Guardar como PENDIENTE
-                                </button>
+
                                 <button class="btn btn-primary btn-lg" onclick="guardarYEnviar()">
                                     <i class="fas fa-paper-plane"></i> Guardar y Enviar a SUNAT
                                 </button>

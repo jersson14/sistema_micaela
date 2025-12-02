@@ -256,9 +256,7 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <i class="fas fa-times"></i> Cerrar
                 </button>
-                <button type="button" class="btn btn-success" onclick="guardarNotaCredito('PENDIENTE')">
-                    <i class="fas fa-save"></i> Guardar como PENDIENTE
-                </button>
+
                 <button type="button" class="btn btn-danger" onclick="guardarYEnviarNC()">
                     <i class="fas fa-paper-plane"></i> Guardar y Enviar a SUNAT
                 </button>

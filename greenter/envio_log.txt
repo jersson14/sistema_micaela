@@ -1368,3 +1368,388 @@ OUTPUT:
    Hash: u2JqGncfgKBdIcMHBuirXma5e2k=
 
 
+=========================
+FECHA: 2025-12-02 16:01:33
+ID COMPROBANTE: 137
+TIPO: Factura (01)
+NUMERO: FPP1-00100005
+NOMBRE CDR: R-FPP1-00100005.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100005
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-100005.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-100005, ha sido aceptada
+   Código: 0
+   Hash: M+DfIK2lNs43UYDNtkxCK98yEyU=
+
+
+=========================
+FECHA: 2025-12-02 16:02:00
+ID COMPROBANTE: 138
+TIPO: Factura (01)
+NUMERO: FPP1-00100006
+NOMBRE CDR: R-FPP1-00100006.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100006
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-100006.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:02:28
+ID COMPROBANTE: 139
+TIPO: Factura (01)
+NUMERO: FPP1-00100007
+NOMBRE CDR: R-FPP1-00100007.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100007
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-100007.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:04:02
+ID COMPROBANTE: 140
+TIPO: Factura (01)
+NUMERO: FPP1-00100008
+NOMBRE CDR: R-FPP1-00100008.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100008
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100008.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-100008, ha sido aceptada
+   Código: 0
+   Hash: 5ooh6uPAeSON7FjmZ1vojYp6aek=
+
+
+=========================
+FECHA: 2025-12-02 16:06:54
+ID COMPROBANTE: 141
+TIPO: Factura (01)
+NUMERO: FPP1-00100009
+NOMBRE CDR: R-FPP1-00100009.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100009
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100009.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Error Fetching http headers
+
+
+=========================
+FECHA: 2025-12-02 16:07:11
+ID COMPROBANTE: 142
+TIPO: Factura (01)
+NUMERO: FPP1-00100010
+NOMBRE CDR: R-FPP1-00100010.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100010
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100010.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-100010, ha sido aceptada
+   Código: 0
+   Hash: i/Ke5tkW7+5j7Gg1g3eJVI/WFgM=
+
+
+=========================
+FECHA: 2025-12-02 16:08:02
+ID COMPROBANTE: 143
+TIPO: Factura (01)
+NUMERO: FPP1-00100011
+NOMBRE CDR: R-FPP1-00100011.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100011
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100011.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-100011, ha sido aceptada
+   Código: 0
+   Hash: COoWTWC6oxeLl4RZ2/0gEJJ8owI=
+
+
+=========================
+FECHA: 2025-12-02 16:10:06
+ID COMPROBANTE: 144
+TIPO: Factura (01)
+NUMERO: FPP1-00100012
+NOMBRE CDR: R-FPP1-00100012.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100012
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100012.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:10:17
+ID COMPROBANTE: 145
+TIPO: Factura (01)
+NUMERO: FPP1-00100013
+NOMBRE CDR: R-FPP1-00100013.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100013
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100013.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:11:17
+ID COMPROBANTE: 148
+TIPO: Factura (01)
+NUMERO: FPP1-00100014
+NOMBRE CDR: R-FPP1-00100014.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100014
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100014.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:12:28
+ID COMPROBANTE: 149
+TIPO: Factura (01)
+NUMERO: FPP1-00100015
+NOMBRE CDR: R-FPP1-00100015.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100015
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100015.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:13:08
+ID COMPROBANTE: 150
+TIPO: Factura (01)
+NUMERO: FPP1-00100016
+NOMBRE CDR: R-FPP1-00100016.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100016
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100016.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-100016, ha sido aceptada
+   Código: 0
+   Hash: BwkThvvquxG4fs/+7rZVTuTURG0=
+
+
+=========================
+FECHA: 2025-12-02 16:13:37
+ID COMPROBANTE: 151
+TIPO: Factura (01)
+NUMERO: FPP1-00100017
+NOMBRE CDR: R-FPP1-00100017.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100017
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100017.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:13:45
+ID COMPROBANTE: 152
+TIPO: Factura (01)
+NUMERO: FPP1-00100018
+NOMBRE CDR: R-FPP1-00100018.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100018
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100018.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:14:44
+ID COMPROBANTE: 153
+TIPO: Factura (01)
+NUMERO: FPP1-00100019
+NOMBRE CDR: R-FPP1-00100019.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100019
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/FPP1-100019.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:15:41
+ID COMPROBANTE: 154
+TIPO: Boleta (03)
+NUMERO: BPP1-00000001
+NOMBRE CDR: R-BPP1-00000001.zip
+OUTPUT:
+📄 Procesando comprobante 03: BPP1-1
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificate.pem
+
+📄 XML generado: xml/BPP1-1.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:17:09
+ID COMPROBANTE: 155
+TIPO: Factura (01)
+NUMERO: FPP1-00100020
+NOMBRE CDR: R-FPP1-00100020.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100020
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-100020.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:19:03
+ID COMPROBANTE: 156
+TIPO: Factura (01)
+NUMERO: FPP1-00100021
+NOMBRE CDR: R-FPP1-00100021.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100021
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-100021.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+
+=========================
+FECHA: 2025-12-02 16:19:22
+ID COMPROBANTE: 157
+TIPO: Factura (01)
+NUMERO: FPP1-00100022
+NOMBRE CDR: R-FPP1-00100022.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100022
+🧪 Entorno activo: SUNAT BETA (PRUEBAS)
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: MODDATOS
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-100022.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Bad Gateway
+
+

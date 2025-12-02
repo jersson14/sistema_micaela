@@ -801,10 +801,10 @@ function limpiarFormulario() {
   $("#txt_fecha_viaje").val("");
   $("#txt_asiento").val("");
   $("#txt_placa").val("");
+  $("#txt_observaciones").val("");
   $("#txt_base_gravada").val("");
   $("#txt_igv").val("");
   $("#txt_total").val("");
-  $("#txt_observaciones").val("");
 
   // Establecer fecha actual
   var hoy = new Date().toISOString().split("T")[0];
