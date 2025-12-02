@@ -71,7 +71,7 @@
               <h6><b>Campos Obligatorios (*)</b></h6>
             </div>
             <div class="col-12 form-group">
-              <label for="">Número de Servicio<b style="color:red">(*)</b>:</label>
+              <label for="">Nombre de Servicio<b style="color:red">(*)</b>:</label>
               <input type="text" autocomplete="on" class="form-control" id="txt_servicio" onkeypress="return sololetras(event)" placeholder="Ingrese el nombre del servicio">
             </div>
             <div class="col-12 form-group">
@@ -109,7 +109,7 @@
             </div>
             <div class="col-12 form-group">
               <input type="text" id="txt_id_servicio" hidden>
-              <label for="">Número de Servicio<b style="color:red">(*)</b>:</label>
+              <label for="">Nombre de Servicio<b style="color:red">(*)</b>:</label>
               <input type="text" autocomplete="on" class="form-control" id="txt_servicio_editar" onkeypress="return sololetras(event)" placeholder="Ingrese el nombre del servicio">
             </div>
             <div class="col-12 form-group">

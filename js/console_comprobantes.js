@@ -982,14 +982,24 @@ function listar_comprobantes() {
         data: null,
         render: (data) => "<b>" + data.numero_comprobante + "</b>",
       },
-      {
-        data: "fecha_emision",
-        render: function (data) {
-          if (!data) return "-";
-          const partes = data.split("-");
-          return `${partes[2]}/${partes[1]}/${partes[0]}`; // formato dd/mm/yyyy
-        },
-      },
+{
+    data: "fecha_hora_emision",
+    render: function (data, type, row) {
+        if (!data) return "-";
+
+        // Data viene como "YYYY-MM-DD HH:MM:SS"
+        const [fecha, hora] = data.split(" ");
+        const [yyyy, mm, dd] = fecha.split("-");
+        const formatted = `${dd}/${mm}/${yyyy} ${hora}`;
+
+        // Para ordenamiento y exportación, devolver data en formato original
+        if (type === "sort" || type === "type") {
+            return data; // mantiene orden por YYYY-MM-DD HH:MM:SS
+        }
+
+        return formatted;
+    }
+},
 
       { data: "razon_social" },
       { data: "numero_documento" },
