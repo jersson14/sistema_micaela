@@ -32,7 +32,8 @@ SELECT
     e.direccion AS empresa_direccion, e.telefono AS empresa_telefono,
     e.logo AS empresa_logo,
     ch.nombres_apellidos AS chofer_nombre, ch.nro_doc AS chofer_doc,
-    ch.marca_vehiculo AS chofer_marca, ch.placa_vehiculo AS chofer_placa
+    ch.marca_vehiculo AS chofer_marca, ch.placa_vehiculo AS chofer_placa,
+    ch.celular AS chofer_celular
 FROM comprobantes c
 INNER JOIN cliente_sunat cl ON c.id_cliente = cl.id_cliente
 LEFT JOIN tipo_pago tp ON c.id_tipo_pago = tp.id_tipo_pago
@@ -192,7 +193,7 @@ body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-hei
 <div class="sec">
 <div class="sec-tit">CONDUCTOR</div>
 <div class="fila"><b>NOMBRE:</b> '.e($row['chofer_nombre']).'</div>
-<div class="fila"><b>DNI:</b> '.e($row['chofer_doc']).'</div>
+<div class="fila"><b>CELULAR:</b> '.e($row['chofer_celular']).'</div>
 <div class="fila"><b>VEHÍCULO:</b> '.e($row['chofer_marca']).' - '.e($row['chofer_placa']).'</div>
 </div>' : '').'
 

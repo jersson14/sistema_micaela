@@ -8,29 +8,23 @@ if (!isset($_SESSION['S_ID']) || empty($_SESSION['S_ID'])) {
   exit;
 }
 
-// MODO PRUEBA: Verificar expiración de token JWT
-if (isset($_SESSION['S_ID'])) {
-  // Si hay sesión pero no hay token válido en el cliente, cerrar sesión
-  // Esto se maneja desde JavaScript, pero agregamos verificación del lado del servidor
-  
-  // Verificar si la sesión tiene más de 2 horas
-  if (!isset($_SESSION['LOGIN_TIME'])) {
-    $_SESSION['LOGIN_TIME'] = time();
-  }
-  
-  $tiempo_transcurrido = time() - $_SESSION['LOGIN_TIME'];
-  $tiempo_maximo = 2 * 3600; // 2 horas
-  
-  if ($tiempo_transcurrido > $tiempo_maximo) {
-    // Sesión expirada, cerrar
-    session_destroy();
-    header('Location: ../index.php?expired=1');
-    exit;
-  }
-  
-  // Actualizar tiempo de última actividad
+// *** LÓGICA DE INACTIVIDAD (2 HORAS) ***
+if (!isset($_SESSION['LAST_ACTIVITY'])) {
   $_SESSION['LAST_ACTIVITY'] = time();
 }
+
+$tiempo_transcurrido = time() - $_SESSION['LAST_ACTIVITY'];
+$tiempo_maximo_inactividad = 2 * 3600; // 2 horas
+
+if ($tiempo_transcurrido > $tiempo_maximo_inactividad) {
+  // Sesión expirada por INACTIVIDAD
+  session_destroy();
+  header('Location: ../index.php?expired=1');
+  exit;
+}
+
+// Actualizar tiempo de actividad
+$_SESSION['LAST_ACTIVITY'] = time();
 ?>
 <!DOCTYPE html>
 <!--
@@ -137,7 +131,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index.php" class="brand-link">
+      <a href="" class="brand-link">
         <img src="../img/logito.png" alt="<?php echo $_SESSION['S_RAZON']; ?>" width="100%" height="auto">
       </a>
 
@@ -2273,10 +2267,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       return regex.test(email) ? true : false;
     }
   </script>
-  <!-- jQuery -->
-  <script src="../plantilla/plugins//jquery/jquery.min.js"></script>
-  <!-- JWT Handler - Manejo automático de tokens -->
-  <script src="../js/jwt_handler.js"></script>
+<!-- jQuery -->
+<script src="../plantilla/plugins/jquery/jquery.min.js"></script>
+<!-- Session Keeper - Mantiene sesión PHP activa (SIN JWT) -->
+<script src="../js/session_keeper.js?rev=<?php echo time(); ?>"></script>
   <!-- Bootstrap 4 -->
   <script src="../plantilla/plugins//bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE App -->
