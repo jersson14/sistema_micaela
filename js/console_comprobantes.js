@@ -779,6 +779,8 @@ function limpiarFormulario() {
   $("#txt_razon_social").val("");
   $("#txt_direccion").val("");
     $("#txt_telefono").val("");
+      $("#select_servicio").val("").trigger("change");
+  $("#select_conductor").val("").trigger("change");
 
   $("#select_origen").val("").trigger("change");
   $("#select_destino").val("").trigger("change");
