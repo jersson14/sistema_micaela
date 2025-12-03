@@ -568,25 +568,6 @@ function debugFormulario() {
   console.log("═══════════════════════════════════════");
 }
 
-function limpiarFormulario() {
-  document.getElementById("select_tipo_comprobante").value = "";
-  document.getElementById("txt_serie").value = "";
-  document.getElementById("txt_correlativo").value = "";
-  document.getElementById("txt_cantidad").value = "";
-  document.getElementById("select_tipo_documento_cliente").value = "";
-  document.getElementById("txt_numero_documento").value = "";
-  document.getElementById("txt_razon_social").value = "";
-  document.getElementById("select_conductor").value = "";
-  document.getElementById("txt_observaciones").value = "";
-  document.getElementById("txt_base_gravada").value = "";
-  document.getElementById("txt_igv").value = "";
-  document.getElementById("txt_total").value = "";
-  document.getElementById("select_tipo_pago").value = "";
-  Cargar_Select_Conductores();
-  Cargar_Select_Tipopago();
-  Cargar_Select_Servicios();
-  Cargar_Select_Rutas();
-}
 
 // GUARDAR Y ENVIAR A SUNAT
 function guardarYEnviar() {
@@ -797,9 +778,10 @@ function limpiarFormulario() {
   $("#txt_numero_documento").val("");
   $("#txt_razon_social").val("");
   $("#txt_direccion").val("");
+    $("#txt_telefono").val("");
+
   $("#select_origen").val("").trigger("change");
   $("#select_destino").val("").trigger("change");
-  $("#txt_fecha_viaje").val("");
     $("#txt_observaciones").val("");
   $("#txt_asiento").val("");
   $("#txt_placa").val("");

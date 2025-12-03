@@ -316,24 +316,7 @@
         }
     }
 
-    function limpiarFormulario() {
-        document.getElementById('select_tipo_comprobante').value = '';
-        document.getElementById('txt_serie').value = '';
-        document.getElementById('txt_correlativo').value = '';
-        document.getElementById('txt_cantidad').value = '';
-        document.getElementById('select_tipo_documento_cliente').value = '';
-        document.getElementById('txt_numero_documento').value = '';
-        document.getElementById('txt_razon_social').value = '';
-        document.getElementById('select_conductor').value = '';
-        document.getElementById('txt_base_gravada').value = '';
-        document.getElementById('txt_igv').value = '';
-        document.getElementById('txt_total').value = '';
-        document.getElementById('select_tipo_pago').value = '';
-        Cargar_Select_Conductores();
-        Cargar_Select_Tipopago();
-        Cargar_Select_Servicios();
-        Cargar_Select_Rutas();
-    }
+
 
     // Cuando cambie la cantidad, recalcular desde el total
     $("#txt_cantidad").on("input", function() {
