@@ -1123,61 +1123,128 @@ function generarGraficasEncomiendas(data) {
     }
 }
 
+// ============================================================
+// GENERAR TOP RUTAS - CORREGIDO Y OPTIMIZADO
+// ============================================================
 function generarTopRutas(data) {
+    console.log('📦 Procesando', data.length, 'encomiendas para Top Rutas');
+    
     let rutas = {};
     
     data.forEach(item => {
-        let ruta = `${item.origen} → ${item.destino}`;
-        if (!rutas[ruta]) {
-            rutas[ruta] = {
-                origen: item.origen,
-                destino: item.destino,
+        // Validar que existan origen y destino
+        if (!item.origen || !item.destino) {
+            console.warn('⚠️ Encomienda sin origen/destino:', item);
+            return;
+        }
+        
+        // Crear clave de ruta: ORIGEN → DESTINO
+        let origen = item.origen.trim().toUpperCase();
+        let destino = item.destino.trim().toUpperCase();
+        let claveRuta = `${origen} → ${destino}`;
+        
+        // Inicializar ruta si no existe
+        if (!rutas[claveRuta]) {
+            rutas[claveRuta] = {
+                origen: origen,
+                destino: destino,
                 cantidad: 0,
                 total: 0
             };
         }
-        rutas[ruta].cantidad++;
-        rutas[ruta].total += parseFloat(item.pago || 0);
+        
+        // Incrementar cantidad
+        rutas[claveRuta].cantidad++;
+        
+        // Sumar monto (probar diferentes nombres de campo)
+        let monto = parseFloat(item.pago || item.monto_pago || item.monto || item.total || 0);
+        rutas[claveRuta].total += monto;
+        
+        console.log(`  ✓ ${claveRuta}: ${rutas[claveRuta].cantidad} encomiendas, S/ ${rutas[claveRuta].total.toFixed(2)}`);
     });
     
+    console.log('📊 Total de rutas únicas:', Object.keys(rutas).length);
+    
+    // Convertir objeto a array
     let rutasArray = Object.values(rutas);
-    rutasArray.sort((a, b) => b.total - a.total);
+    
+    // ⚠️ IMPORTANTE: ORDENAR POR CANTIDAD (MAYOR A MENOR)
+    rutasArray.sort((a, b) => b.cantidad - a.cantidad);
+    
+    console.log('🏆 Top 3 rutas:');
+    rutasArray.slice(0, 3).forEach((r, i) => {
+        console.log(`  ${i + 1}. ${r.origen} → ${r.destino}: ${r.cantidad} encomiendas`);
+    });
+    
+    // Tomar top 10
     let top10 = rutasArray.slice(0, 10);
     
+    // Generar HTML
     let html = '';
+    
     if (top10.length === 0) {
         html = `
             <tr>
-                <td colspan="6" class="text-center text-muted">
-                    <i class="fas fa-info-circle"></i> No hay datos para mostrar
+                <td colspan="6" class="text-center text-muted py-4">
+                    <i class="fas fa-info-circle fa-2x mb-2"></i>
+                    <br>No hay datos para mostrar
                 </td>
             </tr>
         `;
     } else {
         top10.forEach((ruta, index) => {
+            // Asignar medallas
             let medalla = '';
             if (index === 0) medalla = '🥇';
             else if (index === 1) medalla = '🥈';
             else if (index === 2) medalla = '🥉';
             
-            let promedio = ruta.total / ruta.cantidad;
+            // Calcular promedio
+            let promedio = ruta.cantidad > 0 ? ruta.total / ruta.cantidad : 0;
             
+            // Generar fila
             html += `
                 <tr>
-                    <td class="text-center"><b>${medalla} ${index + 1}</b></td>
-                    <td>${ruta.origen}</td>
-                    <td>${ruta.destino}</td>
-                    <td class="text-center"><span class="badge badge-primary">${ruta.cantidad}</span></td>
-                    <td class="text-right"><b class="text-success">S/ ${ruta.total.toFixed(2)}</b></td>
-                    <td class="text-right">S/ ${promedio.toFixed(2)}</td>
+                    <td class="text-center align-middle">
+                        <b style="font-size: 1.1rem;">${medalla} ${index + 1}</b>
+                    </td>
+                    <td class="align-middle">
+                        <span class="badge badge-info" style="font-size: 0.95rem; padding: 8px 12px;">
+                            ${ruta.destino}
+                        </span>
+                    </td>
+                    <td class="align-middle">
+                        <span class="badge badge-warning" style="font-size: 0.95rem; padding: 8px 12px;">
+                            ${ruta.origen}
+                        </span>
+                    </td>
+                    <td class="text-center align-middle">
+                        <span class="badge badge-primary badge-lg" style="font-size: 1.2rem; padding: 10px 15px;">
+                            ${ruta.cantidad}
+                        </span>
+                    </td>
+                    <td class="text-right align-middle">
+                        <b class="text-success" style="font-size: 1.05rem;">
+                            S/ ${ruta.total.toFixed(2)}
+                        </b>
+                    </td>
+                    <td class="text-right align-middle text-muted">
+                        S/ ${promedio.toFixed(2)}
+                    </td>
                 </tr>
             `;
         });
     }
     
+    // Insertar en la tabla
     $('#tbody_top_rutas').html(html);
+    
+    console.log('✨ Top Rutas renderizado correctamente');
 }
 
+// ============================================================
+// VER DETALLE DE ENCOMIENDA
+// ============================================================
 function verDetalleEncomienda(id) {
     $.ajax({
         url: "../controller/reportes/controller_reportes.php",
@@ -1206,157 +1273,109 @@ function verDetalleEncomienda(id) {
                 $('#contenido_detalle_encomienda').html(html);
                 $('#modal_detalle_encomienda').modal('show');
             } else {
-                Swal.fire('Error', data.error || 'No se encontró la encomienda', 'error');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.error || 'No se encontró la encomienda'
+                });
             }
         },
         error: function(xhr, status, error) {
             Swal.close();
-            console.error('Error:', error);
-            Swal.fire('Error', 'No se pudo cargar el detalle de la encomienda', 'error');
+            console.error('❌ Error al cargar detalle:', error);
+            console.error('Response:', xhr.responseText);
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo cargar el detalle de la encomienda'
+            });
         }
     });
 }
 
+// ============================================================
+// GENERAR HTML DEL DETALLE (si no existe)
+// ============================================================
 function generarHTMLDetalleEncomienda(data) {
-    const formatFecha = (fecha) => {
-        if (!fecha) return '-';
-        const d = new Date(fecha);
-        return d.toLocaleDateString('es-PE') + ' ' + d.toLocaleTimeString('es-PE');
-    };
-    
     let html = `
-        <div class="row">
-            <div class="col-md-6">
-                <h5><i class="fas fa-info-circle"></i> <b>Información General</b></h5>
-                <table class="table table-sm table-bordered">
-                    <tr>
-                        <th width="40%">N° Boleta:</th>
-                        <td><b>${data.boleta_nro || 'N/A'}</b></td>
-                    </tr>
-                    <tr>
-                        <th>Fecha:</th>
-                        <td>${formatFecha(data.fecha_hora)}</td>
-                    </tr>
-                    <tr>
-                        <th>Estado:</th>
-                        <td><span class="badge badge-info">${data.estado_encomienda}</span></td>
-                    </tr>
-                    <tr>
-                        <th>Estado Pago:</th>
-                        <td><span class="badge badge-${data.estado_pago === 'PAGADO' ? 'success' : 'warning'}">${data.estado_pago}</span></td>
-                    </tr>
-                </table>
+        <div class="container-fluid">
+            <!-- INFORMACIÓN PRINCIPAL -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card border-primary">
+                        <div class="card-header bg-primary text-white">
+                            <i class="fas fa-box"></i> Información de Encomienda
+                        </div>
+                        <div class="card-body">
+                            <p><b>Nro. Boleta:</b> ${data.nro_boleta || 'N/A'}</p>
+                            <p><b>Fecha:</b> ${data.fecha_registro || 'N/A'}</p>
+                            <p><b>Origen:</b> <span class="badge badge-info">${data.origen || 'N/A'}</span></p>
+                            <p><b>Destino:</b> <span class="badge badge-warning">${data.destino || 'N/A'}</span></p>
+                            <p><b>Descripción:</b> ${data.descripcion_producto || 'N/A'}</p>
+                            <p><b>Estado:</b> <span class="badge badge-${getBadgeClass(data.estado)}">${data.estado || 'N/A'}</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card border-success">
+                        <div class="card-header bg-success text-white">
+                            <i class="fas fa-dollar-sign"></i> Información de Pago
+                        </div>
+                        <div class="card-body">
+                            <p><b>Monto:</b> <span class="text-success"><b>S/ ${parseFloat(data.monto_pago || 0).toFixed(2)}</b></span></p>
+                            <p><b>Por Pagar:</b> S/ ${parseFloat(data.monto_por_pagar || 0).toFixed(2)}</p>
+                            <p><b>Estado Pago:</b> <span class="badge badge-${data.estado_pago === 'PAGADO' ? 'success' : 'warning'}">${data.estado_pago || 'N/A'}</span></p>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <div class="col-md-6">
-                <h5><i class="fas fa-route"></i> <b>Ruta</b></h5>
-                <table class="table table-sm table-bordered">
-                    <tr>
-                        <th width="40%">Origen:</th>
-                        <td><i class="fas fa-map-marker-alt text-success"></i> ${data.origen || '-'}</td>
-                    </tr>
-                    <tr>
-                        <th>Destino:</th>
-                        <td><i class="fas fa-map-marker-alt text-danger"></i> ${data.destino || '-'}</td>
-                    </tr>
-                    <tr>
-                        <th>Conductor:</th>
-                        <td>${data.conductor_nombre || '-'}</td>
-                    </tr>
-                    <tr>
-                        <th>Descripción:</th>
-                        <td>${data.descripcion || '-'}</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        
-        <hr>
-        
-        <div class="row">
-            <div class="col-md-6">
-                <h5><i class="fas fa-user"></i> <b>Remitente</b></h5>
-                <table class="table table-sm table-bordered">
-                    <tr>
-                        <th width="40%">Nombre:</th>
-                        <td>${data.emisor_nombre || '-'}</td>
-                    </tr>
-                    <tr>
-                        <th>Celular:</th>
-                        <td>${data.emisor_celular || '-'}</td>
-                    </tr>
-                </table>
-            </div>
-            
-            <div class="col-md-6">
-                <h5><i class="fas fa-user-check"></i> <b>Destinatario</b></h5>
-                <table class="table table-sm table-bordered">
-                    <tr>
-                        <th width="40%">Nombre:</th>
-                        <td>${data.receptor_nombre || '-'}</td>
-                    </tr>
-                    <tr>
-                        <th>Celular:</th>
-                        <td>${data.receptor_celular || '-'}</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        
-        <hr>
-        
-        <div class="row">
-            <div class="col-md-12">
-                <h5><i class="fas fa-dollar-sign"></i> <b>Información de Pago</b></h5>
-                <table class="table table-sm table-bordered">
-                    <tr>
-                        <th width="20%">Monto Total:</th>
-                        <td><b class="text-success">S/ ${parseFloat(data.pago || 0).toFixed(2)}</b></td>
-                    </tr>
-                    <tr>
-                        <th>Por Pagar:</th>
-                        <td><b class="text-warning">S/ ${parseFloat(data.por_pagar || 0).toFixed(2)}</b></td>
-                    </tr>
-                    <tr>
-                        <th>A Domicilio:</th>
-                        <td>S/ ${parseFloat(data.a_domicilio || 0).toFixed(2)}</td>
-                    </tr>
-                </table>
+            <!-- EMISOR Y RECEPTOR -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <i class="fas fa-user"></i> Emisor
+                        </div>
+                        <div class="card-body">
+                            <p><b>Nombre:</b> ${data.emisor_nombre || 'N/A'}</p>
+                            <p><b>Documento:</b> ${data.emisor_documento || 'N/A'}</p>
+                            <p><b>Celular:</b> ${data.emisor_celular || 'N/A'}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-warning text-white">
+                            <i class="fas fa-user"></i> Receptor
+                        </div>
+                        <div class="card-body">
+                            <p><b>Nombre:</b> ${data.receptor_nombre || 'N/A'}</p>
+                            <p><b>Documento:</b> ${data.receptor_documento || 'N/A'}</p>
+                            <p><b>Celular:</b> ${data.receptor_celular || 'N/A'}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     `;
     
-    // Agregar historial si existe
-    if (data.historial && data.historial.length > 0) {
-        html += `
-            <hr>
-            <div class="row">
-                <div class="col-md-12">
-                    <h5><i class="fas fa-history"></i> <b>Historial de Estados</b></h5>
-                    <div class="timeline">
-        `;
-        
-        data.historial.forEach((item, index) => {
-            html += `
-                <div class="timeline-item">
-                    <div class="timeline-marker ${index === 0 ? 'bg-primary' : 'bg-secondary'}"></div>
-                    <div class="timeline-content">
-                        <span class="badge badge-info">${item.estado}</span>
-                        <small class="text-muted"> - ${formatFecha(item.created_at)}</small>
-                        ${item.observacion ? `<p class="mb-0"><small>${item.observacion}</small></p>` : ''}
-                    </div>
-                </div>
-            `;
-        });
-        
-        html += `
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-    
     return html;
+}
+
+function getBadgeClass(estado) {
+    const badges = {
+        'ENTREGADO': 'success',
+        'EN TRANSITO': 'warning',
+        'PENDIENTE': 'secondary',
+        'EN AGENCIA': 'info',
+        'OBSERVADO': 'danger',
+        'ANULADO': 'dark'
+    };
+    return badges[estado] || 'secondary';
 }
 
 function exportarExcelEncomiendas() {
