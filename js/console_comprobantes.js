@@ -577,6 +577,7 @@ function limpiarFormulario() {
   document.getElementById("txt_numero_documento").value = "";
   document.getElementById("txt_razon_social").value = "";
   document.getElementById("select_conductor").value = "";
+  document.getElementById("txt_observaciones").value = "";
   document.getElementById("txt_base_gravada").value = "";
   document.getElementById("txt_igv").value = "";
   document.getElementById("txt_total").value = "";
@@ -799,9 +800,9 @@ function limpiarFormulario() {
   $("#select_origen").val("").trigger("change");
   $("#select_destino").val("").trigger("change");
   $("#txt_fecha_viaje").val("");
+    $("#txt_observaciones").val("");
   $("#txt_asiento").val("");
   $("#txt_placa").val("");
-  $("#txt_observaciones").val("");
   $("#txt_base_gravada").val("");
   $("#txt_igv").val("");
   $("#txt_total").val("");
