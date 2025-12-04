@@ -223,7 +223,7 @@ body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-hei
 try {
     $mpdf = new Mpdf([
         'mode' => 'utf-8',
-        'format' => [80, 265],
+        'format' => [80, 270],
         'margin_left' => 4,
         'margin_right' => 4,
         'margin_top' => 2,
