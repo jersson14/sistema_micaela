@@ -101,6 +101,22 @@ function Cargar_Select_Servicios() {
     $("#select_servicio").html(cadena);
   });
 }
+$("#select_servicio").on("change", function () {
+    let id_servicio = $(this).val();
+
+    // Objeto de reglas según id_servicio
+    const reglas = {
+        1: { origen: "1", destino: "2" },
+        2: { origen: "2", destino: "1" },
+        3: { origen: "1", destino: "2" },
+        4: { origen: "2", destino: "1" },
+    };
+
+    if (reglas[id_servicio]) {
+        $("#select_origen").val(reglas[id_servicio].origen).trigger("change");
+        $("#select_destino").val(reglas[id_servicio].destino).trigger("change");
+    }
+});
 
 // 2️⃣ Detectar cambio en el select de servicios
 $(document).on("change", "#select_servicio", function () {
