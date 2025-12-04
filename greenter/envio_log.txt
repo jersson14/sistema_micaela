@@ -1774,3 +1774,24 @@ OUTPUT:
    Hash: 7icLShQuuuZCFHPSiv7oH9TG+EQ=
 
 
+=========================
+FECHA: 2025-12-04 15:36:43
+ID COMPROBANTE: 159
+TIPO: Factura (01)
+NUMERO: FPP1-00100024
+NOMBRE CDR: R-FPP1-00100024.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100024
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-100024.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-100024, ha sido aceptado
+   Código: 0
+   Hash: JbvOCwrpnbmymgKZ0f9btJlh+K8=
+
+

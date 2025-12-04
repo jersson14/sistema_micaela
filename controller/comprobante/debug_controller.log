@@ -1488,3 +1488,51 @@ DEBUG TELEFONO: Array
   - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
   - Telefono: "" (length: 0)
 [2025-12-02 10:23:47] RESULTADO REGISTRO CLIENTE: ID=2
+[2025-12-04 09:36:41] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00100024
+    [fecha_emision] => 2025-12-04
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20448261272
+    [razon_social] => UNIVERSIDAD NACIONAL DE JULIACA
+    [direccion] => AV. NUEVA ZELANDIA NRO 631 URB. LA CAPILLA 
+    [departamento] => PUNO
+    [provincia] => SAN ROMAN
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2025-12-04T09:36
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 🧑 PASAJERO: NISTER RENE TORRES LAYCHE - DNI: 72651512
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-12-04 09:36:41] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20448261272
+  - Razon: UNIVERSIDAD NACIONAL DE JULIACA
+  - Telefono: "" (length: 0)
+[2025-12-04 09:36:41] RESULTADO REGISTRO CLIENTE: ID=63

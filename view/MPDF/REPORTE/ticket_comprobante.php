@@ -21,7 +21,7 @@ SELECT
     c.id_comprobante, c.tipo_comprobante, c.serie, c.correlativo,
     CONCAT(c.serie, '-', LPAD(c.correlativo, 8, '0')) AS numero_comprobante,
     c.fecha_emision,c.observaciones, c.hora_emision, c.total, c.total_gravada, c.total_igv,
-    c.moneda, c.estado_sunat, c.estado_documento, c.observaciones,
+    c.moneda, c.estado_sunat, c.estado_documento, 
     cl.razon_social AS cliente_nombre, cl.numero_documento AS cliente_doc,
     cl.direccion AS cliente_direccion, cl.tipo_documento AS cliente_tipo_doc,
     tp.tipo_pago, s.nombre AS servicio_nombre,
@@ -53,6 +53,26 @@ if ($stmt->rowCount() === 0) {
     die("Comprobante no encontrado");
 }
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// CONSULTAR DETALLE DEL COMPROBANTE
+$queryDetalle = "
+SELECT 
+    orden_item,
+    descripcion,
+    unidad_medida,
+    cantidad,
+    precio_unitario,
+    valor_unitario,
+    descuento,
+    igv,
+    total_item
+FROM comprobante_detalle
+WHERE id_comprobante = :id
+ORDER BY orden_item ASC";
+
+$stmtDetalle = $conexion->prepare($queryDetalle);
+$stmtDetalle->execute(['id' => $id]);
+$detalles = $stmtDetalle->fetchAll(PDO::FETCH_ASSOC);
 
 // Función helper para escapar HTML
 function e($string) {
@@ -119,40 +139,99 @@ $estadoConfig = $estados[$estadoSunat] ?? [
     'pie' => '<div class="footer-draft">Sin validez tributaria</div>'
 ];
 
-// HTML CON FUENTES MÁS GRANDES Y MEJOR LEGIBILIDAD
+// CONSTRUIR HTML DE DETALLE DE ITEMS - MEJORADO PARA CLIENTES
+$htmlDetalle = '';
+if (count($detalles) > 0) {
+    $htmlDetalle = '<div class="sec"><div class="sec-tit">DETALLE DE PRODUCTOS/SERVICIOS</div>';
+    
+    foreach ($detalles as $detalle) {
+        // Formatear cantidad sin decimales innecesarios
+        $cantidadNum = floatval($detalle['cantidad']);
+        $cantidad = ($cantidadNum == floor($cantidadNum)) 
+            ? number_format($cantidadNum, 0) 
+            : number_format($cantidadNum, 2);
+        
+        $precioUnitario = number_format($detalle['precio_unitario'], 2);
+        $totalItem = number_format($detalle['total_item'], 2);
+        $descuento = floatval($detalle['descuento']);
+        
+        $htmlDetalle .= '<div class="item">';
+        
+        // Descripción del producto/servicio
+        $htmlDetalle .= '<div class="item-desc">'.e($detalle['descripcion']).'</div>';
+        
+        // Información de cantidad y precio detallada
+        $htmlDetalle .= '<div class="item-cantidad">';
+        $htmlDetalle .= '<span class="cant-label">Cantidad:</span> ';
+        $htmlDetalle .= '<span class="cant-num">'.e($cantidad).' '.e($detalle['unidad_medida']).'</span>';
+        $htmlDetalle .= '</div>';
+        
+        $htmlDetalle .= '<div class="item-precio">';
+        $htmlDetalle .= '<span>Precio Unit.: '.e($row['moneda']).' '.e($precioUnitario).'</span>';
+        $htmlDetalle .= '</div>';
+        
+        // Subtotal del item
+        $htmlDetalle .= '<div class="item-subtotal">';
+        $htmlDetalle .= '<span>Subtotal:</span>';
+        $htmlDetalle .= '<span class="item-total">'.e($row['moneda']).' '.e($totalItem).'</span>';
+        $htmlDetalle .= '</div>';
+        
+        if ($descuento > 0) {
+            $htmlDetalle .= '<div class="item-desc-txt">* Descuento aplicado: '.e($row['moneda']).' '.number_format($descuento, 2).'</div>';
+        }
+        
+        $htmlDetalle .= '</div>';
+    }
+    
+    $htmlDetalle .= '</div>';
+}
+
+// HTML CON ESPACIOS REDUCIDOS Y MEJOR DETALLE
 $html = '
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-height:1.3; }
-.ticket { width:72mm; padding:2mm; }
-.header { text-align:center; margin-bottom:2mm; padding-bottom:2mm; border-bottom:2px solid #000; }
-.logo img { width:45px; margin-bottom:1mm; }
-.emp-nom { font-size:13px; font-weight:bold; margin:0.5mm 0; }
-.emp-info { font-size:9px; margin:0.2mm 0; line-height:1.2; }
-.comp-box { border:2px solid #000; padding:2mm; margin:2mm 0; text-align:center; background:#f0f0f0; }
+body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-height:1.2; }
+.ticket { width:72mm; padding:1.5mm; }
+.header { text-align:center; margin-bottom:1mm; padding-bottom:1mm; border-bottom:2px solid #000; }
+.logo img { width:35px; margin-bottom:0.5mm; }
+.emp-nom { font-size:13px; font-weight:bold; margin:0.3mm 0; }
+.emp-info { font-size:9px; margin:0.1mm 0; line-height:1.1; }
+.comp-box { border:2px solid #000; padding:1.5mm; margin:1mm 0; text-align:center; background:#f0f0f0; }
 .comp-tipo { font-size:11px; font-weight:bold; }
-.comp-num { font-size:14px; font-weight:bold; letter-spacing:0.5px; margin-top:0.5mm; }
-.fecha { text-align:center; margin:1.5mm 0; font-size:10px; font-weight:bold; }
-.sec { margin:1.5mm 0; padding:1mm 0; border-top:1px dashed #000; }
-.sec-tit { font-size:10px; font-weight:bold; background:#000; color:#fff; padding:1mm 2mm; margin-bottom:1mm; }
-.fila { font-size:10px; margin:0.5mm 0; line-height:1.3; }
+.comp-num { font-size:14px; font-weight:bold; letter-spacing:0.5px; margin-top:0.3mm; }
+.fecha { text-align:center; margin:0.8mm 0; font-size:10px; font-weight:bold; }
+.sec { margin:1mm 0; padding:0.8mm 0; border-top:1px dashed #000; }
+.sec-tit { font-size:10px; font-weight:bold; background:#000; color:#fff; padding:0.8mm 1.5mm; margin-bottom:0.8mm; }
+.fila { font-size:10px; margin:0.3mm 0; line-height:1.2; }
 .fila b { font-weight:bold; }
-.tots { margin:2mm 0; padding:2mm; background:#f5f5f5; border:1px solid #000; }
-.tot-lin { display:flex; justify-content:space-between; margin:0.5mm 0; font-size:10px; }
-.tot-fin { border-top:1px solid #000; padding-top:1mm; margin-top:1mm; font-weight:bold; font-size:12px; }
-.qr { text-align:center; margin:2mm 0; }
-.qr img { width:65px; height:65px; }
-.qr-txt { font-size:8px; margin-top:0.5mm; }
-.est { text-align:center; padding:1.5mm; margin:1.5mm 0; font-weight:bold; font-size:10px; border:1px solid #000; }
+
+/* ESTILOS MEJORADOS PARA DETALLE DE ITEMS */
+.item { margin:1mm 0; padding:1mm; background:#f9f9f9; border:1px solid #ddd; border-radius:2px; }
+.item-desc { font-size:11px; font-weight:bold; margin-bottom:0.5mm; color:#000; border-bottom:1px dotted #999; padding-bottom:0.3mm; }
+.item-cantidad { font-size:10px; margin:0.4mm 0; background:#fff; padding:0.5mm; border-left:3px solid #4CAF50; }
+.cant-label { font-weight:bold; color:#4CAF50; }
+.cant-num { font-weight:bold; font-size:11px; color:#000; }
+.item-precio { font-size:9px; margin:0.3mm 0; padding:0.3mm 0.5mm; }
+.item-subtotal { display:flex; justify-content:space-between; font-size:10px; margin:0.5mm 0; padding-top:0.5mm; border-top:1px dotted #ccc; font-weight:bold; }
+.item-total { font-weight:bold; font-size:11px; color:#000; }
+.item-desc-txt { font-size:8px; color:#d32f2f; font-style:italic; margin-top:0.3mm; padding:0.3mm; background:#ffebee; }
+
+.tots { margin:1mm 0; padding:1.5mm; background:#f5f5f5; border:1px solid #000; }
+.tot-lin { display:flex; justify-content:space-between; margin:0.3mm 0; font-size:10px; }
+.tot-fin { border-top:1px solid #000; padding-top:0.8mm; margin-top:0.8mm; font-weight:bold; font-size:12px; }
+.qr { text-align:center; margin:1mm 0; }
+.qr img { width:55px; height:55px; }
+.qr-txt { font-size:8px; margin-top:0.3mm; }
+.est { text-align:center; padding:1mm; margin:1mm 0; font-weight:bold; font-size:10px; border:1px solid #000; }
 .pendiente { background:#fff3cd; color:#856404; }
 .aceptado { background:#d4edda; color:#155724; }
 .rechazado { background:#f8d7da; color:#721c24; }
-.footer-oficial { text-align:center; font-size:8px; margin-top:1.5mm; padding-top:1mm; border-top:1px solid #000; line-height:1.2; }
-.footer-draft { text-align:center; font-size:9px; margin-top:1.5mm; padding:1mm; background:#ffe5e5; border:1px solid #f00; color:#f00; font-weight:bold; }
-.sep { border-top:1px dashed #000; margin:1.5mm 0; }
-.obs { font-size:9px; padding:1mm; margin:1.5mm 0; background:#f9f9f9; border-left:2px solid #666; line-height:1.3; }
-.pago-info { text-align:center; margin:1.5mm 0; font-size:10px; font-weight:bold; }
-.usuario-info { text-align:center; font-size:8px; margin:1.5mm 0; }
+.footer-oficial { text-align:center; font-size:8px; margin-top:1mm; padding-top:0.8mm; border-top:1px solid #000; line-height:1.1; }
+.footer-draft { text-align:center; font-size:9px; margin-top:1mm; padding:0.8mm; background:#ffe5e5; border:1px solid #f00; color:#f00; font-weight:bold; }
+.sep { border-top:1px dashed #000; margin:1mm 0; }
+.obs { font-size:9px; padding:0.8mm; margin:1mm 0; background:#fff3cd; border-left:3px solid #ff9800; line-height:1.2; }
+.pago-info { text-align:center; margin:1mm 0; font-size:10px; font-weight:bold; padding:1mm; background:#e3f2fd; border:1px solid #2196F3; }
+.usuario-info { text-align:center; font-size:8px; margin:1mm 0; }
 </style>
 
 <div class="ticket">
@@ -162,7 +241,7 @@ body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-hei
 <div class="emp-info">RUC: '.e($row['empresa_ruc']).'</div>
 <div class="emp-info">'.e($row['empresa_direccion']).'</div>
 <div class="emp-info">Telf: '.e($row['empresa_telefono']).' - +51983152886</div>
-<div class="emp-info">Quejas: +51968110220 - AlEXANDER SERRANO</div>
+<div class="emp-info">Quejas: +51968110220 - ALEXANDER SERRANO</div>
 </div>
 
 <div class="comp-box">
@@ -197,37 +276,38 @@ body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-hei
 <div class="fila"><b>VEHÍCULO:</b> '.e($row['chofer_marca']).' - '.e($row['chofer_placa']).'</div>
 </div>' : '').'
 
+'.$htmlDetalle.'
+
 <div class="sep"></div>
 
 <div class="tots">
 <div class="tot-lin"><span>OP. GRAVADA:</span><span>'.e($row['moneda']).' '.e($total_gravada).'</span></div>
 <div class="tot-lin"><span>IGV (18%):</span><span>'.e($row['moneda']).' '.e($total_igv).'</span></div>
-<div class="tot-lin tot-fin"><span>TOTAL:</span><span>'.e($row['moneda']).' '.e($total).'</span></div>
+<div class="tot-lin tot-fin"><span>TOTAL A PAGAR:</span><span>'.e($row['moneda']).' '.e($total).'</span></div>
 </div>
 
-<div class="pago-info">PAGO: '.e($row['tipo_pago']).'</div>
 
-'.((!empty($row['observaciones'])) ? '<div class="obs"><b>Obs:</b> '.e($row['observaciones']).'</div>' : '').'
+'.((!empty($row['observaciones'])) ? '<div class="obs"><b>Observaciones:</b> '.e($row['observaciones']).'</div>' : '').'
 
 <div class="sep"></div>
 
 <div class="est '.$estadoConfig['clase'].'">'.$estadoConfig['icono'].' '.$estadoConfig['mensaje'].'</div>
 
-'.($estadoConfig['mostrarQR'] ? '<div class="qr"><img src="'.$qrImage.'"><div class="qr-txt">CONSULTA SUNAT</div></div>' : '').'
+'.($estadoConfig['mostrarQR'] ? '<div class="qr"><img src="'.$qrImage.'"><div class="qr-txt">CONSULTA EN SUNAT</div></div>' : '').'
 
 <div class="usuario-info">Atendido por: <b>'.e($row['usuario_nombre']).'</b></div>
 '.$estadoConfig['pie'].'
 </div>';
 
-// Generar PDF con fuentes más grandes
+// Generar PDF con altura ajustada
 try {
     $mpdf = new Mpdf([
         'mode' => 'utf-8',
         'format' => [80, 270],
-        'margin_left' => 4,
-        'margin_right' => 4,
-        'margin_top' => 2,
-        'margin_bottom' => 2,
+        'margin_left' => 3,
+        'margin_right' => 3,
+        'margin_top' => 1,
+        'margin_bottom' => 1,
         'default_font_size' => 11,
         'default_font' => 'dejavusanscondensed'
     ]);

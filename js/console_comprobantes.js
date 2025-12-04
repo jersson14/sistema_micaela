@@ -129,8 +129,10 @@ $(document).on("change", "#select_servicio", function () {
     $("#txt_total").val("");
   }
 });
+// 🎯 Variable global para guardar el precio UNITARIO original
+let precioUnitarioOriginal = 0;
+let editandoManualmente = false; // Para detectar si el usuario está editando
 
-// 3️⃣ Traer precio desde el backend y calcular totales
 // 3️⃣ Traer precio desde el backend y calcular totales
 function Traerprecio(id) {
   $.ajax({
@@ -142,38 +144,46 @@ function Traerprecio(id) {
       try {
         var data = JSON.parse(resp);
         if (data.length > 0) {
-          let total = data[0].monto || data[0][1];
-          $("#txt_total").val(total); // 👈 Ahora va al TOTAL
-          calcularDesdeTotal(); // 👈 Nueva función que calcula al revés
+          // 🔥 GUARDAR el precio UNITARIO original (incluye IGV)
+          precioUnitarioOriginal = parseFloat(data[0].monto || data[0][1]);
+          
+          // Establecer cantidad inicial en 1 si está vacío
+          let cantidadActual = parseFloat($("#txt_cantidad").val()) || 1;
+          $("#txt_cantidad").val(cantidadActual);
+          
+          // Calcular totales con la cantidad actual
+          calcularDesdePrecioUnitario();
         } else {
-          $("#txt_base_gravada").val("");
-          $("#txt_igv").val("");
-          $("#txt_total").val("");
+          precioUnitarioOriginal = 0;
+          limpiarCampos();
         }
       } catch (error) {
         console.error("Error al parsear JSON:", resp);
-        $("#txt_base_gravada").val("");
-        $("#txt_igv").val("");
-        $("#txt_total").val("");
+        precioUnitarioOriginal = 0;
+        limpiarCampos();
       }
     })
     .fail(function () {
       console.error("Error al traer el precio del servicio.");
+      precioUnitarioOriginal = 0;
+      limpiarCampos();
     });
 }
 
-// 🔄 Función para calcular BASE GRAVADA desde el TOTAL
-function calcularDesdeTotal() {
-  // Obtener el precio UNITARIO con IGV
-  var precioUnitarioConIGV = parseFloat(document.getElementById("txt_total").value) || 0;
+// 🔄 Función para calcular desde el precio UNITARIO ORIGINAL (cuando cambia cantidad)
+function calcularDesdePrecioUnitario() {
+  if (editandoManualmente) return; // No recalcular si está editando manualmente
+  
+  var precioUnitarioConIGV = precioUnitarioOriginal;
   var cantidad = parseFloat(document.getElementById("txt_cantidad").value) || 0;
 
   // Validar cantidad mínima
-  if (cantidad === 0) cantidad = 1;
+  if (cantidad === 0) {
+    cantidad = 1;
+    document.getElementById("txt_cantidad").value = 1;
+  }
   
   // ✅ PASO 1: Calcular base gravada UNITARIA (sin IGV)
-  // Precio unitario con IGV = Base Gravada Unitaria × 1.18
-  // Base Gravada Unitaria = Precio unitario con IGV / 1.18
   var baseGravadaUnitaria = precioUnitarioConIGV / 1.18;
   
   // ✅ PASO 2: Multiplicar por la cantidad
@@ -183,8 +193,7 @@ function calcularDesdeTotal() {
   var igvTotal = baseGravadaTotal * 0.18;
   
   // ✅ PASO 4: Calcular total general
-  var totalGeneral = baseGravadaTotal + igvTotal;
-  // O también: var totalGeneral = precioUnitarioConIGV * cantidad;
+  var totalGeneral = precioUnitarioConIGV * cantidad;
 
   // Actualizar campos con 2 decimales
   document.getElementById("txt_base_gravada").value = baseGravadaTotal.toFixed(2);
@@ -192,28 +201,85 @@ function calcularDesdeTotal() {
   document.getElementById("txt_total").value = totalGeneral.toFixed(2);
 }
 
+// 🆕 Función para calcular desde el TOTAL editado manualmente
+function calcularDesdeTotal() {
+  var totalEditado = parseFloat(document.getElementById("txt_total").value) || 0;
+  
+  if (totalEditado === 0) {
+    limpiarCampos();
+    return;
+  }
+  
+  // ✅ PASO 1: Calcular base gravada desde el total
+  // Total = Base Gravada × 1.18
+  // Base Gravada = Total / 1.18
+  var baseGravadaTotal = totalEditado / 1.18;
+  
+  // ✅ PASO 2: Calcular IGV (18% de la base gravada)
+  var igvTotal = baseGravadaTotal * 0.18;
+  
+  // Actualizar campos con 2 decimales
+  document.getElementById("txt_base_gravada").value = baseGravadaTotal.toFixed(2);
+  document.getElementById("txt_igv").value = igvTotal.toFixed(2);
+}
+
+// 🧹 Función auxiliar para limpiar campos
+function limpiarCampos() {
+  $("#txt_base_gravada").val("");
+  $("#txt_igv").val("");
+  $("#txt_total").val("");
+}
+
 // ============================================================
 // EVENTOS - Conectar con los campos del formulario
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
   
-  // Cuando cambia el precio unitario
-  var inputTotal = document.getElementById("txt_total");
-  if (inputTotal) {
-    inputTotal.addEventListener("input", calcularDesdeTotal);
-    inputTotal.addEventListener("blur", calcularDesdeTotal);
-  }
-  
-  // Cuando cambia la cantidad
+  // 📊 Cuando cambia la CANTIDAD (recalcula desde precio unitario)
   var inputCantidad = document.getElementById("txt_cantidad");
   if (inputCantidad) {
-    inputCantidad.addEventListener("input", calcularDesdeTotal);
-    inputCantidad.addEventListener("blur", calcularDesdeTotal);
-    inputCantidad.addEventListener("change", calcularDesdeTotal);
+    inputCantidad.addEventListener("input", function() {
+      editandoManualmente = false;
+      calcularDesdePrecioUnitario();
+    });
+    inputCantidad.addEventListener("blur", function() {
+      editandoManualmente = false;
+      calcularDesdePrecioUnitario();
+    });
+    inputCantidad.addEventListener("change", function() {
+      editandoManualmente = false;
+      calcularDesdePrecioUnitario();
+    });
+  }
+  
+  // 💰 Cuando se EDITA MANUALMENTE el TOTAL (recalcula base e IGV)
+  var inputTotal = document.getElementById("txt_total");
+  if (inputTotal) {
+    // Detectar cuando empieza a escribir
+    inputTotal.addEventListener("focus", function() {
+      editandoManualmente = true;
+    });
+    
+    // Recalcular mientras escribe
+    inputTotal.addEventListener("input", function() {
+      editandoManualmente = true;
+      calcularDesdeTotal();
+    });
+    
+    // Recalcular cuando termina de editar
+    inputTotal.addEventListener("blur", function() {
+      calcularDesdeTotal();
+      setTimeout(() => {
+        editandoManualmente = false;
+      }, 100);
+    });
   }
 });
 
-
+// 🔄 Mantener compatibilidad con el código HTML que llama calcularTotalesServicio()
+function calcularTotalesServicio() {
+  calcularDesdePrecioUnitario();
+}
 // LIMPIAR TOTALES
 function limpiarTotales() {
   $("#txt_base_gravada").val("");

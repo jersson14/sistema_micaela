@@ -438,3 +438,14 @@
     [estado_sunat] => PENDIENTE
 )
 
+[2025-12-04 15:36:41] Buscando comprobante ID: 159
+[2025-12-04 15:36:41] Resultado: Array
+(
+    [id_comprobante] => 159
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2025-12-04
+    [serie] => FPP1
+    [correlativo] => 100024
+    [estado_sunat] => PENDIENTE
+)
+
