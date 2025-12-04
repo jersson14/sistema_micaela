@@ -287,7 +287,6 @@ body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-hei
 </div>
 
 
-'.((!empty($row['observaciones'])) ? '<div class="obs"><b>Observaciones:</b> '.e($row['observaciones']).'</div>' : '').'
 
 <div class="sep"></div>
 
