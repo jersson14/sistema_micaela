@@ -481,7 +481,7 @@ if ($stmt->rowCount() > 0) {
         <table class="pagos-table">
             <tr>
                 <td class="pago-cell">
-                    <span style="font-weight: bold; color: #ff0000; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 4px;">Pago S/.</span>
+                    <span style="font-weight: bold; color: #1a28e9ff; font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 4px;">Pago S/.</span>
                     <div class="pago-valor">'.number_format($pago, 2).'</div>
                 </td>
                 
