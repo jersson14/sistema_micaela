@@ -860,13 +860,14 @@ function limpiarFormulario() {
   $("#txt_numero_documento").val("");
   $("#txt_razon_social").val("");
   $("#txt_direccion").val("");
-    $("#txt_telefono").val("");
-      $("#select_servicio").val("").trigger("change");
-  $("#select_conductor").val("").trigger("change");
+  $("#txt_telefono").val("");
+  $("#select_servicio").val("").trigger("change");
+    $("#txt_cantidad").val(1);
 
+  $("#select_conductor").val("").trigger("change");
   $("#select_origen").val("").trigger("change");
   $("#select_destino").val("").trigger("change");
-    $("#txt_observaciones").val("");
+  $("#txt_observaciones").val("");
   $("#txt_asiento").val("");
   $("#txt_placa").val("");
   $("#txt_base_gravada").val("");
