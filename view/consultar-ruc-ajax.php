@@ -1,7 +1,7 @@
 <?php
 
 $ruc = $_POST['ruc'] ?? null;
-$token = 'sk_6484.RRP3U7oiRSgcS8VJ2m9sTCKcqaFeVH7e'; // Tu token real
+$token = 'sk_1304.xUgs6jFozBUWYXHWMSjB8kela0aDOzmM'; // Tu token real
 
 // Validar longitud del RUC
 if (!$ruc || strlen($ruc) != 11) {

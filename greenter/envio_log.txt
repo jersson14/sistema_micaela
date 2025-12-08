@@ -1795,3 +1795,67 @@ OUTPUT:
    Hash: JbvOCwrpnbmymgKZ0f9btJlh+K8=
 
 
+=========================
+FECHA: 2025-12-06 22:35:11
+ID COMPROBANTE: 160
+TIPO: Factura (01)
+NUMERO: FPP1-00100025
+NOMBRE CDR: R-FPP1-00100025.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-100025
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-100025.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-100025, ha sido aceptado
+   Código: 0
+   Hash: PGhiY/N5HNeZH1T09PY6m/w7At0=
+
+
+=========================
+FECHA: 2025-12-06 22:35:40
+ID COMPROBANTE: 161
+TIPO: Nota de Crédito (07)
+NUMERO: FN01-00000013
+NOMBRE CDR: R-FN01-00000013.zip
+OUTPUT:
+📄 Procesando comprobante 07: FN01-13
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📌 Documento de referencia: 01 (FPP1-100025)
+📄 XML generado: xml/FN01-13.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 1033
+Mensaje: 1033 - El comprobante fue registrado previamente con otros datos - Detalle: value='ticket: 3424a07e-f72e-4733-9a3a-349523805980, error: INFO: (nodo: "/CreditNote/cbc:ID" valor: "FN01-13")'
+
+
+=========================
+FECHA: 2025-12-06 22:40:23
+ID COMPROBANTE: 162
+TIPO: Nota de Crédito (07)
+NUMERO: FN01-00004445
+NOMBRE CDR: R-FN01-00004445.zip
+OUTPUT:
+📄 Procesando comprobante 07: FN01-4445
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📌 Documento de referencia: 01 (FPP1-100025)
+📄 XML generado: xml/FN01-4445.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Nota de Crédito numero FN01-4445, ha sido aceptado
+   Código: 0
+   Hash: XLuQFBrmKp1XJQVquOP+xtRpUqE=
+
+
