@@ -2801,89 +2801,27 @@ function Realizar_pago() {
 // BOLETA DE PAGO
 
 // BOLETA DE PAGO
-// BOLETA DE PAGO
 $("#tabla_encomiendas").on("click", ".imprimir", function () {
   var data = tbl_encomiendas.row($(this).parents("tr")).data();
 
   if (tbl_encomiendas.row(this).child.isShown()) {
     var data = tbl_encomiendas.row(this).data();
   }
+  var url =
+    "../view/MPDF/REPORTE/boleta_pago.php?id=" +
+    encodeURIComponent(data.id_encomienda) +
+    "#zoom=100%";
 
-  // Crear el modal dinámicamente
-  var modalHTML = `
-    <div class="modal fade" id="modalTamanoImpresion" tabindex="-1" role="dialog" aria-labelledby="modalTamanoImpresionLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalTamanoImpresionLabel">Seleccionar Tamaño de Impresión</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body text-center">
-            <p>¿Qué tamaño de boleta desea imprimir?</p>
-          </div>
-          <div class="modal-footer justify-content-center">
-            <button type="button" class="btn btn-secondary" id="btnImprimirPequeno">
-              <i class="fas fa-file-alt"></i> Imprimir Pequeño
-            </button>
-            <button type="button" class="btn btn-primary" id="btnImprimirNormal">
-              <i class="fas fa-file"></i> Imprimir Normal
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
+  // Abrir una nueva ventana con la URL construida
+  var newWindow = window.open(url, "BOLETA DE PAGO", "scrollbars=NO");
 
-  // Remover modal anterior si existe
-  $("#modalTamanoImpresion").remove();
-
-  // Agregar el modal al body
-  $("body").append(modalHTML);
-
-  // Mostrar el modal
-  $("#modalTamanoImpresion").modal("show");
-
-  // Manejador para imprimir pequeño
-  $("#btnImprimirPequeno").on("click", function () {
-    var url =
-      "../view/MPDF/REPORTE/boleta_pago_mini.php?id=" +
-      encodeURIComponent(data.id_encomienda) +
-      "#zoom=100%";
-
-    var newWindow = window.open(url, "BOLETA DE PAGO", "scrollbars=NO");
-
-    if (newWindow) {
-      newWindow.moveTo(0, 0);
-      newWindow.resizeTo(screen.width, screen.height);
-    }
-
-    $("#modalTamanoImpresion").modal("hide");
-  });
-
-  // Manejador para imprimir normal
-  $("#btnImprimirNormal").on("click", function () {
-    var url =
-      "../view/MPDF/REPORTE/boleta_pago.php?id=" +
-      encodeURIComponent(data.id_encomienda) +
-      "#zoom=100%";
-
-    var newWindow = window.open(url, "BOLETA DE PAGO", "scrollbars=NO");
-
-    if (newWindow) {
-      newWindow.moveTo(0, 0);
-      newWindow.resizeTo(screen.width, screen.height);
-    }
-
-    $("#modalTamanoImpresion").modal("hide");
-  });
-
-  // Limpiar el modal cuando se cierre
-  $("#modalTamanoImpresion").on("hidden.bs.modal", function () {
-    $(this).remove();
-  });
+  // Asegurarse de que la ventana se abre en tamaño máximo
+  if (newWindow) {
+    newWindow.moveTo(0, 0);
+    newWindow.resizeTo(screen.width, screen.height);
+  }
 });
+
 
 //CARGAR USUARIOS
 function Cargar_Select_Usuarios() {
