@@ -1,45 +1,39 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../model/model_conexion.php';
+require_once __DIR__ . '/../model/model_comprobante.php';
 require_once __DIR__ . '/config/config_greenter.php';
 
-use Greenter\Model\Response\StatusResult;
+// =============================================
+// CONFIGURAR ZONA HORARIA
+// =============================================
+date_default_timezone_set('America/Lima');
 
 // =============================================
-// 1️⃣ CONEXIÓN BD
+// 1️⃣ OBTENER PARÁMETROS
+// =============================================
+$ticket = isset($argv[1]) ? $argv[1] : null;
+$id_comprobante = isset($argv[2]) && is_numeric($argv[2]) ? (int)$argv[2] : null;
+
+if (!$ticket || !$id_comprobante) {
+    die("❌ ERROR: Faltan parámetros. Uso: php consultar_ticket.php [TICKET] [ID_COMPROBANTE]\n");
+}
+
+echo "\n========================================\n";
+echo "   CONSULTA DE TICKET - GREENTER\n";
+echo "========================================\n";
+echo "Fecha/Hora: " . date('Y-m-d H:i:s') . "\n";
+echo "Ticket: $ticket\n";
+echo "ID Comprobante: $id_comprobante\n";
+
+// =============================================
+// 2️⃣ OBTENER COMPROBANTE
 // =============================================
 $db = new conexionBD();
 $pdo = $db->conexionPDO();
+$MC = new Modelo_Comprobantes();
 
-// =============================================
-// 2️⃣ OBTENER PARÁMETROS
-// =============================================
-$ticket = null;
-$id_comprobante = null;
-
-if (isset($argv[1])) {
-    $ticket = $argv[1];
-}
-
-if (isset($argv[2]) && is_numeric($argv[2])) {
-    $id_comprobante = (int)$argv[2];
-}
-
-if (!$ticket) {
-    die("❌ ERROR: Falta el número de ticket. Uso: php consultar_ticket.php [TICKET] [ID_COMPROBANTE]\n");
-}
-
-if (!$id_comprobante) {
-    die("❌ ERROR: Falta el ID del comprobante. Uso: php consultar_ticket.php [TICKET] [ID_COMPROBANTE]\n");
-}
-
-// =============================================
-// 3️⃣ VERIFICAR QUE EL COMPROBANTE EXISTA
-// =============================================
-$sql = "SELECT c.*, cl.tipo_documento, cl.numero_documento, cl.razon_social
-        FROM comprobantes c
-        INNER JOIN cliente_sunat cl ON c.id_cliente = cl.id_cliente
-        WHERE c.id_comprobante = ?";
+$sql = "SELECT * FROM comprobantes WHERE id_comprobante = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$id_comprobante]);
 $comprobante = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -48,158 +42,117 @@ if (!$comprobante) {
     die("❌ No se encontró el comprobante con ID: $id_comprobante.\n");
 }
 
-echo "═══════════════════════════════════════════════════════════════\n";
-echo "🔍 CONSULTA DE TICKET - COMUNICACIÓN DE BAJA\n";
-echo "═══════════════════════════════════════════════════════════════\n";
-echo "📄 Comprobante: {$comprobante['serie']}-{$comprobante['correlativo']}\n";
-echo "🎫 Ticket: {$ticket}\n";
-echo "⏰ Consultando estado en SUNAT...\n";
-echo "═══════════════════════════════════════════════════════════════\n\n";
+echo "Comprobante: {$comprobante['serie']}-{$comprobante['correlativo']}\n";
+echo "Tipo: " . ($comprobante['tipo_comprobante'] == '03' ? 'BOLETA' : 'FACTURA') . "\n";
 
 // =============================================
-// 4️⃣ CONSULTAR ESTADO DEL TICKET EN SUNAT
+// 3️⃣ CONSULTAR TICKET EN SUNAT
 // =============================================
 $see = getSee();
 
+echo "\n🔍 Consultando ticket en SUNAT...\n";
+
 try {
-    // StatusResult: Consulta el estado del ticket
     $result = $see->getStatus($ticket);
     
     if ($result->isSuccess()) {
-        // ✅ TICKET PROCESADO EXITOSAMENTE
-        $statusCode = $result->getStatusCode();
+        $cdr = $result->getCdrResponse();
+        $code = $cdr->getCode();
+        $description = $cdr->getDescription();
         
-        echo "✅ TICKET PROCESADO CORRECTAMENTE\n";
-        echo "   Código de Estado: {$statusCode}\n\n";
+        echo "\n✅ RESPUESTA DE SUNAT RECIBIDA\n";
+        echo "========================================\n";
+        echo "Código: $code\n";
+        echo "Descripción: $description\n";
         
-        if ($statusCode == '0') {
-            // 🎉 ANULACIÓN ACEPTADA
-            echo "🎉 ¡ANULACIÓN ACEPTADA POR SUNAT!\n";
-            echo "   La boleta {$comprobante['serie']}-{$comprobante['correlativo']} ha sido anulada correctamente.\n\n";
-            
-            // Guardar CDR si existe
-            $cdrZip = $result->getCdrZip();
-            if ($cdrZip) {
-                $cdrPath = __DIR__ . '/cdr/';
-                if (!is_dir($cdrPath)) {
-                    mkdir($cdrPath, 0777, true);
-                }
-                
-                // Buscar el correlativo de baja en la descripción
-                $descripcion = $comprobante['descripcion_respuesta_sunat'];
-                preg_match('/Ticket: (\d+)/', $descripcion, $matches);
-                
-                // Generar nombre del CDR basado en el correlativo de baja
-                $fechaHoy = date('Ymd');
-                $nombreCdr = "R-RA-{$fechaHoy}-XXX.zip"; // Se puede mejorar guardando el correlativo
-                
-                file_put_contents($cdrPath . $nombreCdr, $cdrZip);
-                echo "📦 CDR guardado: cdr/{$nombreCdr}\n\n";
+        // Guardar CDR
+        $cdrZip = $result->getCdrZip();
+        if ($cdrZip) {
+            $cdrPath = __DIR__ . '/cdr/';
+            if (!is_dir($cdrPath)) {
+                mkdir($cdrPath, 0777, true);
             }
             
-            // Actualizar estado en BD
-            $upd = $pdo->prepare("UPDATE comprobantes 
-                                  SET estado_sunat='ANULADO',
-                                      estado_documento='ANULADO',
-                                      codigo_respuesta_sunat='0',
-                                      descripcion_respuesta_sunat=?,
-                                      fecha_anulacion=NOW()
-                                  WHERE id_comprobante=?");
-            $upd->execute([
-                "ANULADO - Comunicación de baja aceptada por SUNAT. Ticket: {$ticket}",
-                $id_comprobante
-            ]);
+            // Obtener correlativo de baja
+            $sql_cb = "SELECT correlativo_baja FROM comunicaciones_baja 
+                       WHERE id_comprobante = ? 
+                       ORDER BY fecha_comunicacion DESC LIMIT 1";
+            $stmt_cb = $pdo->prepare($sql_cb);
+            $stmt_cb->execute([$id_comprobante]);
+            $com_baja = $stmt_cb->fetch(PDO::FETCH_ASSOC);
             
-            echo "💾 Base de datos actualizada: Estado cambiado a ANULADO\n";
+            $nombreCdr = $com_baja ? "R-{$com_baja['correlativo_baja']}.zip" : "R-$ticket.zip";
+            file_put_contents($cdrPath . $nombreCdr, $cdrZip);
+            echo "CDR guardado: cdr/$nombreCdr\n";
+        }
+        
+        // Códigos de éxito de SUNAT
+        $codigos_aceptado = ['0', '00', '0000'];
+        
+        if (in_array($code, $codigos_aceptado)) {
+            echo "\n✅ ANULACIÓN ACEPTADA POR SUNAT\n";
             
-        } else if ($statusCode == '98') {
-            // ⏳ EN PROCESO
-            echo "⏳ TICKET EN PROCESO\n";
-            echo "   SUNAT aún está procesando la comunicación de baja.\n";
-            echo "   Intente consultar nuevamente en unos minutos.\n\n";
+            // Actualizar comprobante a ANULADO
+            $sql_upd = "UPDATE comprobantes 
+                        SET estado_documento = 'ANULADO',
+                            estado_sunat = 'ANULADO',
+                            codigo_respuesta_sunat = ?,
+                            descripcion_respuesta_sunat = ?,
+                            motivo_anulacion = CONCAT('ANULADO VÍA SUNAT - Ticket: ', ?),
+                            fecha_anulacion = NOW()
+                        WHERE id_comprobante = ?";
             
-            $upd = $pdo->prepare("UPDATE comprobantes 
-                                  SET descripcion_respuesta_sunat=?
-                                  WHERE id_comprobante=?");
-            $upd->execute([
-                "EN PROCESO - SUNAT está procesando la anulación. Ticket: {$ticket}",
-                $id_comprobante
-            ]);
+            $stmt_upd = $pdo->prepare($sql_upd);
+            $stmt_upd->execute([$code, $description, $ticket, $id_comprobante]);
             
-        } else if ($statusCode == '99') {
-            // ❌ RECHAZADO
-            echo "❌ ANULACIÓN RECHAZADA POR SUNAT\n";
-            echo "   La comunicación de baja fue rechazada.\n";
+            // Actualizar comunicación de baja
+            $sql_cb_upd = "UPDATE comunicaciones_baja 
+                          SET estado = 'ACEPTADO',
+                              descripcion_respuesta = ?,
+                              fecha_respuesta = NOW()
+                          WHERE ticket_sunat = ?";
             
-            // Obtener observaciones/errores si existen
-            if (method_exists($result, 'getNotes') && $result->getNotes()) {
-                echo "\n📝 Observaciones:\n";
-                foreach ($result->getNotes() as $note) {
-                    echo "   - {$note}\n";
-                }
-            }
+            $stmt_cb_upd = $pdo->prepare($sql_cb_upd);
+            $stmt_cb_upd->execute([$description, $ticket]);
             
-            $upd = $pdo->prepare("UPDATE comprobantes 
-                                  SET codigo_respuesta_sunat='99',
-                                      descripcion_respuesta_sunat=?
-                                  WHERE id_comprobante=?");
-            $upd->execute([
-                "RECHAZADO - La anulación fue rechazada por SUNAT. Ticket: {$ticket}",
-                $id_comprobante
-            ]);
+            echo "✅ Comprobante actualizado a ANULADO en BD\n";
             
         } else {
-            // OTRO ESTADO
-            echo "ℹ️  Estado: {$statusCode}\n";
+            echo "\n⚠️ SUNAT RECHAZÓ LA ANULACIÓN\n";
+            echo "El comprobante permanece ACTIVO\n";
             
-            $upd = $pdo->prepare("UPDATE comprobantes 
-                                  SET descripcion_respuesta_sunat=?
-                                  WHERE id_comprobante=?");
-            $upd->execute([
-                "Estado {$statusCode} - Ticket: {$ticket}",
-                $id_comprobante
-            ]);
+            // Actualizar comunicación de baja como rechazada
+            $sql_cb_upd = "UPDATE comunicaciones_baja 
+                          SET estado = 'RECHAZADO',
+                              descripcion_respuesta = ?,
+                              fecha_respuesta = NOW()
+                          WHERE ticket_sunat = ?";
+            
+            $stmt_cb_upd = $pdo->prepare($sql_cb_upd);
+            $stmt_cb_upd->execute(["[$code] $description", $ticket]);
         }
+        
+        echo "========================================\n";
         
     } else {
-        // ❌ ERROR AL CONSULTAR
         $error = $result->getError();
+        echo "\n❌ ERROR AL CONSULTAR TICKET\n";
+        echo "========================================\n";
+        echo "Código: {$error->getCode()}\n";
+        echo "Mensaje: {$error->getMessage()}\n";
+        echo "========================================\n";
         
-        echo "❌ ERROR AL CONSULTAR TICKET\n";
-        echo "   Código: {$error->getCode()}\n";
-        echo "   Mensaje: {$error->getMessage()}\n\n";
-        
-        // Verificar si es error de ticket no encontrado
-        if ($error->getCode() == '0127' || $error->getCode() == '127') {
-            echo "⚠️  El ticket no existe o aún no está disponible en SUNAT.\n";
-            echo "   Intente consultar nuevamente en unos minutos.\n";
+        // Si es error 0127 (ticket no encontrado), puede que aún no esté procesado
+        if ($error->getCode() == '0127') {
+            echo "\n⏳ El ticket aún no ha sido procesado por SUNAT.\n";
+            echo "   Intenta nuevamente en 1-2 minutos.\n";
         }
-        
-        $upd = $pdo->prepare("UPDATE comprobantes 
-                              SET descripcion_respuesta_sunat=?
-                              WHERE id_comprobante=?");
-        $upd->execute([
-            "ERROR AL CONSULTAR TICKET - Código: {$error->getCode()} - {$error->getMessage()}",
-            $id_comprobante
-        ]);
     }
     
 } catch (Exception $e) {
-    echo "❌ EXCEPCIÓN AL CONSULTAR TICKET\n";
-    echo "   Error: " . $e->getMessage() . "\n";
-    echo "   Archivo: " . $e->getFile() . "\n";
-    echo "   Línea: " . $e->getLine() . "\n\n";
-    
-    $upd = $pdo->prepare("UPDATE comprobantes 
-                          SET descripcion_respuesta_sunat=?
-                          WHERE id_comprobante=?");
-    $upd->execute([
-        "EXCEPCIÓN AL CONSULTAR - " . $e->getMessage(),
-        $id_comprobante
-    ]);
+    echo "\n❌ EXCEPCIÓN AL CONSULTAR TICKET\n";
+    echo "========================================\n";
+    echo "Error: {$e->getMessage()}\n";
+    echo "========================================\n";
 }
-
-echo "═══════════════════════════════════════════════════════════════\n";
-echo "✅ Consulta finalizada\n";
-echo "═══════════════════════════════════════════════════════════════\n";
 ?>

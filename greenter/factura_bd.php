@@ -1,7 +1,10 @@
 <?php
+
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../model/model_conexion.php';
 require_once __DIR__ . '/config/config_greenter.php';
+
+date_default_timezone_set('America/Lima');
 
 use Greenter\Model\Company\Address;
 use Greenter\Model\Company\Company;
@@ -135,7 +138,7 @@ switch ($tipo) {
             ->setTipoDoc($tipo)
             ->setSerie($comprobante['serie'])
             ->setCorrelativo($comprobante['correlativo'])
-            ->setFechaEmision(new DateTime($comprobante['fecha_emision']))
+            ->setFechaEmision(new DateTime($comprobante['fecha_emision'], new DateTimeZone('America/Lima')))
             ->setTipoMoneda('PEN')
             ->setCompany($company)
             ->setClient($client)

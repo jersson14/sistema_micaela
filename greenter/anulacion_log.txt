@@ -366,3 +366,785 @@ OUTPUT:
    php consultar_ticket.php 500000397131472 125
 
 
+
+=========================
+FECHA: 2025-12-21 17:36:53
+TIPO: FACTURA
+ID COMPROBANTE: 165
+SERIE-CORRELATIVO: FPP1-100302
+CORRELATIVO BAJA: RA-20251221-001
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 165 "RA-20251221-001" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 11:36:53
+ID Comprobante: 165
+Correlativo Baja: RA-20251221-001
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100302
+Comunicación: Comunicación de Baja (RA)
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: ERROR DE DIGITACIÓN
+
+🔄 Generando Comunicación de Baja (RA)...
+Fecha Generación: 2025-12-21
+Fecha Comunicación: 2025-12-21
+✅ XML guardado: xml/RA-20251221-001.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410082866
+Correlativo: RA-20251221-001
+Comprobante: FPP1-100302
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410082866 165
+========================================
+
+
+=========================
+FECHA: 2025-12-21 17:37:26
+TIPO: FACTURA
+ID COMPROBANTE: 165
+SERIE-CORRELATIVO: FPP1-100302
+CORRELATIVO BAJA: RA-20251221-002
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 165 "RA-20251221-002" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 11:37:26
+ID Comprobante: 165
+Correlativo Baja: RA-20251221-002
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100302
+Comunicación: Comunicación de Baja (RA)
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: ERROR DE DIGITACIÓN
+
+🔄 Generando Comunicación de Baja (RA)...
+Fecha Generación: 2025-12-21
+Fecha Comunicación: 2025-12-21
+✅ XML guardado: xml/RA-20251221-002.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410082900
+Correlativo: RA-20251221-002
+Comprobante: FPP1-100302
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410082900 165
+========================================
+
+
+=========================
+FECHA: 2025-12-21 17:38:12
+TIPO: FACTURA
+ID COMPROBANTE: 165
+SERIE-CORRELATIVO: FPP1-100302
+CORRELATIVO BAJA: RA-20251221-003
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 165 "RA-20251221-003" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 11:38:12
+ID Comprobante: 165
+Correlativo Baja: RA-20251221-003
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100302
+Comunicación: Comunicación de Baja (RA)
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: ERROR DE DIGITACIÓN
+
+🔄 Generando Comunicación de Baja (RA)...
+Fecha Generación: 2025-12-21
+Fecha Comunicación: 2025-12-21
+✅ XML guardado: xml/RA-20251221-003.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410081055
+Correlativo: RA-20251221-003
+Comprobante: FPP1-100302
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410081055 165
+========================================
+
+
+=========================
+FECHA: 2025-12-21 18:03:24
+TIPO: FACTURA
+ID COMPROBANTE: 166
+SERIE-CORRELATIVO: FPP1-100303
+CORRELATIVO BAJA: RA-20251221-004
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 166 "RA-20251221-004" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 12:03:24
+ID Comprobante: 166
+Correlativo Baja: RA-20251221-004
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100303
+Comunicación: Comunicación de Baja (RA)
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: SE DA DE BAJA POR ERROR DE TIPEO
+
+🔄 Generando Comunicación de Baja (RA)...
+Fecha Generación: 2025-12-21
+Fecha Comunicación: 2025-12-21
+✅ XML guardado: xml/RA-20251221-004.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410109876
+Correlativo: RA-20251221-004
+Comprobante: FPP1-100303
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410109876 166
+========================================
+
+
+=========================
+FECHA: 2025-12-21 18:08:36
+TIPO: FACTURA
+ID COMPROBANTE: 166
+SERIE-CORRELATIVO: FPP1-100303
+CORRELATIVO BAJA: RA-20251221-005
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 166 "RA-20251221-005" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 12:08:36
+ID Comprobante: 166
+Correlativo Baja: RA-20251221-005
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100303
+Comunicación: Comunicación de Baja (RA)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: SE DA DE BAJA POR ERROR DE TIPEO
+
+🔄 Generando Comunicación de Baja (RA)...
+📋 Generando Voided (RA)
+  FecGeneracion (fecha factura): 2025-12-21
+  FecComunicacion (hoy): 2025-12-21
+  Serie: FPP1
+  Correlativo: 00100303
+✅ XML guardado: xml/RA-20251221-005.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410116099
+Correlativo: RA-20251221-005
+Comprobante: FPP1-100303
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410116099 166
+========================================
+
+
+=========================
+FECHA: 2025-12-21 18:13:24
+TIPO: FACTURA
+ID COMPROBANTE: 165
+SERIE-CORRELATIVO: FPP1-100302
+CORRELATIVO BAJA: RA-20251221-006
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 165 "RA-20251221-006" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 12:13:24
+ID Comprobante: 165
+Correlativo Baja: RA-20251221-006
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100302
+Comunicación: Comunicación de Baja (RA)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: ERROR DE DIGITACIÓN
+
+🔄 Generando Comunicación de Baja (RA)...
+📋 Generando Voided (RA)
+  FecGeneracion (hoy): 2025-12-21
+  FecComunicacion (fecha factura): 2025-12-21
+  Serie: FPP1
+  Correlativo: 100302
+✅ XML guardado: xml/RA-20251221-006.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410115513
+Correlativo: RA-20251221-006
+Comprobante: FPP1-100302
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410115513 165
+========================================
+
+
+=========================
+FECHA: 2025-12-21 18:15:40
+TIPO: FACTURA
+ID COMPROBANTE: 166
+SERIE-CORRELATIVO: FPP1-100303
+CORRELATIVO BAJA: RA-20251221-007
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 166 "RA-20251221-007" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 12:15:40
+ID Comprobante: 166
+Correlativo Baja: RA-20251221-007
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100303
+Comunicación: Comunicación de Baja (RA)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: SE DA DE BAJA POR ERROR DE TIPEO
+
+🔄 Generando Comunicación de Baja (RA)...
+📋 Generando Voided (RA)
+  FecGeneracion (hoy): 2025-12-21
+  FecComunicacion (fecha factura): 2025-12-21
+  Serie: FPP1
+  Correlativo: 100303
+✅ XML guardado: xml/RA-20251221-007.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410118054
+Correlativo: RA-20251221-007
+Comprobante: FPP1-100303
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410118054 166
+========================================
+
+
+=========================
+FECHA: 2025-12-21 18:20:00
+TIPO: FACTURA
+ID COMPROBANTE: 166
+SERIE-CORRELATIVO: FPP1-100303
+CORRELATIVO BAJA: RA-20251221-008
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 166 "RA-20251221-008" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 12:20:01
+ID Comprobante: 166
+Correlativo Baja: RA-20251221-008
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100303
+Comunicación: Comunicación de Baja (RA)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: SE DA DE BAJA POR ERROR DE TIPEO
+
+🔄 Generando Comunicación de Baja (RA)...
+📋 Generando Voided (RA)
+  FecGeneracion (fecha factura): 2025-12-21
+  FecComunicacion (hoy): 2025-12-21
+  Serie: FPP1
+  Correlativo: 100303
+✅ XML guardado: xml/RA-20251221-008.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410115880
+Correlativo: RA-20251221-008
+Comprobante: FPP1-100303
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410115880 166
+========================================
+
+
+=========================
+FECHA: 2025-12-21 18:35:20
+TIPO: FACTURA
+ID COMPROBANTE: 168
+SERIE-CORRELATIVO: FPP1-100304
+CORRELATIVO BAJA: RA-20251221-009
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 168 "RA-20251221-009" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 12:35:20
+ID Comprobante: 168
+Correlativo Baja: RA-20251221-009
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100304
+Comunicación: Comunicación de Baja (RA)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: ERROR DE DIGITACION
+
+🔄 Generando Comunicación de Baja (RA)...
+📋 Generando Voided (RA)
+  FecGeneracion (fecha factura): 2025-12-21
+  FecComunicacion (hoy): 2025-12-21
+  Serie: FPP1
+  Correlativo: 100304
+✅ XML guardado: xml/RA-20251221-009.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410127337
+Correlativo: RA-20251221-009
+Comprobante: FPP1-100304
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410127337 168
+========================================
+
+
+=========================
+FECHA: 2025-12-21 18:38:35
+TIPO: FACTURA
+ID COMPROBANTE: 169
+SERIE-CORRELATIVO: FPP1-100305
+CORRELATIVO BAJA: RA-20251221-010
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 169 "RA-20251221-010" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 12:38:35
+ID Comprobante: 169
+Correlativo Baja: RA-20251221-010
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100305
+Comunicación: Comunicación de Baja (RA)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: ERROR DE DIGITACION
+
+🔄 Generando Comunicación de Baja (RA)...
+📋 Generando Voided (RA)
+  FecGeneracion (fecha factura): 2025-12-21
+  FecComunicacion (hoy): 2025-12-21
+  Serie: FPP1
+  Correlativo: 100305
+✅ XML guardado: xml/RA-20251221-010.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410130070
+Correlativo: RA-20251221-010
+Comprobante: FPP1-100305
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410130070 169
+========================================
+
+
+=========================
+FECHA: 2025-12-21 18:39:34
+TIPO: FACTURA
+ID COMPROBANTE: 168
+SERIE-CORRELATIVO: FPP1-100304
+CORRELATIVO BAJA: RA-20251221-011
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 168 "RA-20251221-011" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 12:39:34
+ID Comprobante: 168
+Correlativo Baja: RA-20251221-011
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100304
+Comunicación: Comunicación de Baja (RA)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: ERROR DE DIGITACION
+
+🔄 Generando Comunicación de Baja (RA)...
+📋 Generando Voided (RA)
+  FecGeneracion (fecha factura): 2025-12-21
+  FecComunicacion (hoy): 2025-12-21
+  Serie: FPP1
+  Correlativo: 100304
+✅ XML guardado: xml/RA-20251221-011.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410121346
+Correlativo: RA-20251221-011
+Comprobante: FPP1-100304
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410121346 168
+========================================
+
+
+=========================
+FECHA: 2025-12-21 18:41:30
+TIPO: FACTURA
+ID COMPROBANTE: 165
+SERIE-CORRELATIVO: FPP1-100302
+CORRELATIVO BAJA: RA-20251221-012
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 165 "RA-20251221-012" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 12:41:30
+ID Comprobante: 165
+Correlativo Baja: RA-20251221-012
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100302
+Comunicación: Comunicación de Baja (RA)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: ERROR DE DIGITACIÓN
+
+🔄 Generando Comunicación de Baja (RA)...
+📋 Generando Voided (RA)
+  FecGeneracion (fecha factura): 2025-12-21
+  FecComunicacion (hoy): 2025-12-21
+  Serie: FPP1
+  Correlativo: 100302
+✅ XML guardado: xml/RA-20251221-012.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410093566
+Correlativo: RA-20251221-012
+Comprobante: FPP1-100302
+Tipo: Comunicación de Baja (RA)
+
+⚠️  IMPORTANTE:
+El ticket debe ser consultado después para confirmar
+que SUNAT procesó la anulación correctamente.
+
+📌 CONSULTAR TICKET:
+php consultar_ticket.php 500000410093566 165
+========================================
+
+
+=========================
+FECHA: 2025-12-21 18:58:23
+TIPO: FACTURA
+ID COMPROBANTE: 170
+SERIE-CORRELATIVO: FPP1-100306
+CORRELATIVO BAJA: RA-20251221-013
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 170 "RA-20251221-013" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 12:58:23
+ID Comprobante: 170
+Correlativo Baja: RA-20251221-013
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100306
+Comunicación: Comunicación de Baja (RA)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: ERROR POR PRUEBA DE SISTEMA
+
+🔄 Generando Comunicación de Baja (RA)...
+📋 Generando Voided (RA)
+  FecGeneracion (fecha factura): 2025-12-21
+  FecComunicacion (hoy): 2025-12-21
+  Serie: FPP1
+  Correlativo: 100306
+✅ XML guardado: xml/RA-20251221-013.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410145348
+Correlativo: RA-20251221-013
+Comprobante: FPP1-100306
+Tipo: Comunicación de Baja (RA)
+✅ Registro guardado en tabla comunicaciones_baja
+
+⚠️  IMPORTANTE:
+El ticket será consultado automáticamente por el proceso programado.
+También puedes consultar manualmente:
+php consultar_ticket.php 500000410145348 170
+========================================
+
+
+=========================
+FECHA: 2025-12-21 19:06:26
+TIPO: FACTURA
+ID COMPROBANTE: 171
+SERIE-CORRELATIVO: FPP1-100307
+CORRELATIVO BAJA: RA-20251221-015
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 171 "RA-20251221-015" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 13:06:26
+ID Comprobante: 171
+Correlativo Baja: RA-20251221-015
+Tipo: FACTURA
+Serie-Correlativo: FPP1-100307
+Comunicación: Comunicación de Baja (RA)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: ERROR
+
+🔄 Generando Comunicación de Baja (RA)...
+📋 Generando Voided (RA)
+  FecGeneracion (fecha factura): 2025-12-21
+  FecComunicacion (hoy): 2025-12-21
+  Serie: FPP1
+  Correlativo: 100307
+✅ XML guardado: xml/RA-20251221-015.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410156008
+Correlativo: RA-20251221-015
+Comprobante: FPP1-100307
+Tipo: Comunicación de Baja (RA)
+✅ Registro guardado en tabla comunicaciones_baja
+
+⚠️  IMPORTANTE:
+El ticket será consultado automáticamente por el proceso programado.
+También puedes consultar manualmente:
+php consultar_ticket.php 500000410156008 171
+========================================
+
+
+=========================
+FECHA: 2025-12-21 19:15:53
+TIPO: BOLETA
+ID COMPROBANTE: 172
+SERIE-CORRELATIVO: BPP1-100003
+CORRELATIVO BAJA: RA-20251221-017
+COMANDO: php "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/comunicacion_baja.php" 172 "RA-20251221-017" 2>&1
+OUTPUT:
+
+========================================
+   COMUNICACIÓN DE BAJA - GREENTER
+========================================
+Fecha/Hora: 2025-12-21 13:15:54
+ID Comprobante: 172
+Correlativo Baja: RA-20251221-017
+Tipo: BOLETA
+Serie-Correlativo: BPP1-100003
+Comunicación: Resumen de Reversiones (RC)
+Fecha emisión DB: 2025-12-21
+Fecha emisión procesada: 2025-12-21
+Fecha actual (hoy): 2025-12-21
+Días transcurridos: 0/7
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+Motivo: SE ANULA POR ERROR
+
+🔄 Generando Resumen de Reversiones (RC)...
+📋 Generando Summary (RC)
+  FecGeneracion: 2025-12-21
+  FecResumen: 2025-12-21
+✅ XML guardado: xml/RA-20251221-017.xml
+
+📤 Enviando a SUNAT...
+
+✅ DOCUMENTO ACEPTADO POR SUNAT
+========================================
+Ticket: 500000410160188
+Correlativo: RA-20251221-017
+Comprobante: BPP1-100003
+Tipo: Resumen de Reversiones (RC)
+✅ Registro guardado en tabla comunicaciones_baja
+
+⚠️  IMPORTANTE:
+El ticket será consultado automáticamente por el proceso programado.
+También puedes consultar manualmente:
+php consultar_ticket.php 500000410160188 172
+========================================
+
