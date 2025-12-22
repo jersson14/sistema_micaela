@@ -102,20 +102,20 @@ function Cargar_Select_Servicios() {
   });
 }
 $("#select_servicio").on("change", function () {
-    let id_servicio = $(this).val();
+  let id_servicio = $(this).val();
 
-    // Objeto de reglas según id_servicio
-    const reglas = {
-        1: { origen: "1", destino: "2" },
-        2: { origen: "2", destino: "1" },
-        3: { origen: "1", destino: "2" },
-        4: { origen: "2", destino: "1" },
-    };
+  // Objeto de reglas según id_servicio
+  const reglas = {
+    1: { origen: "1", destino: "2" },
+    2: { origen: "2", destino: "1" },
+    3: { origen: "1", destino: "2" },
+    4: { origen: "2", destino: "1" },
+  };
 
-    if (reglas[id_servicio]) {
-        $("#select_origen").val(reglas[id_servicio].origen).trigger("change");
-        $("#select_destino").val(reglas[id_servicio].destino).trigger("change");
-    }
+  if (reglas[id_servicio]) {
+    $("#select_origen").val(reglas[id_servicio].origen).trigger("change");
+    $("#select_destino").val(reglas[id_servicio].destino).trigger("change");
+  }
 });
 
 // 2️⃣ Detectar cambio en el select de servicios
@@ -146,11 +146,11 @@ function Traerprecio(id) {
         if (data.length > 0) {
           // 🔥 GUARDAR el precio UNITARIO original (incluye IGV)
           precioUnitarioOriginal = parseFloat(data[0].monto || data[0][1]);
-          
+
           // Establecer cantidad inicial en 1 si está vacío
           let cantidadActual = parseFloat($("#txt_cantidad").val()) || 1;
           $("#txt_cantidad").val(cantidadActual);
-          
+
           // Calcular totales con la cantidad actual
           calcularDesdePrecioUnitario();
         } else {
@@ -173,7 +173,7 @@ function Traerprecio(id) {
 // 🔄 Función para calcular desde el precio UNITARIO ORIGINAL (cuando cambia cantidad)
 function calcularDesdePrecioUnitario() {
   if (editandoManualmente) return; // No recalcular si está editando manualmente
-  
+
   var precioUnitarioConIGV = precioUnitarioOriginal;
   var cantidad = parseFloat(document.getElementById("txt_cantidad").value) || 0;
 
@@ -182,44 +182,47 @@ function calcularDesdePrecioUnitario() {
     cantidad = 1;
     document.getElementById("txt_cantidad").value = 1;
   }
-  
+
   // ✅ PASO 1: Calcular base gravada UNITARIA (sin IGV)
   var baseGravadaUnitaria = precioUnitarioConIGV / 1.18;
-  
+
   // ✅ PASO 2: Multiplicar por la cantidad
   var baseGravadaTotal = baseGravadaUnitaria * cantidad;
-  
+
   // ✅ PASO 3: Calcular IGV (18% de la base gravada total)
   var igvTotal = baseGravadaTotal * 0.18;
-  
+
   // ✅ PASO 4: Calcular total general
   var totalGeneral = precioUnitarioConIGV * cantidad;
 
   // Actualizar campos con 2 decimales
-  document.getElementById("txt_base_gravada").value = baseGravadaTotal.toFixed(2);
+  document.getElementById("txt_base_gravada").value =
+    baseGravadaTotal.toFixed(2);
   document.getElementById("txt_igv").value = igvTotal.toFixed(2);
   document.getElementById("txt_total").value = totalGeneral.toFixed(2);
 }
 
 // 🆕 Función para calcular desde el TOTAL editado manualmente
 function calcularDesdeTotal() {
-  var totalEditado = parseFloat(document.getElementById("txt_total").value) || 0;
-  
+  var totalEditado =
+    parseFloat(document.getElementById("txt_total").value) || 0;
+
   if (totalEditado === 0) {
     limpiarCampos();
     return;
   }
-  
+
   // ✅ PASO 1: Calcular base gravada desde el total
   // Total = Base Gravada × 1.18
   // Base Gravada = Total / 1.18
   var baseGravadaTotal = totalEditado / 1.18;
-  
+
   // ✅ PASO 2: Calcular IGV (18% de la base gravada)
   var igvTotal = baseGravadaTotal * 0.18;
-  
+
   // Actualizar campos con 2 decimales
-  document.getElementById("txt_base_gravada").value = baseGravadaTotal.toFixed(2);
+  document.getElementById("txt_base_gravada").value =
+    baseGravadaTotal.toFixed(2);
   document.getElementById("txt_igv").value = igvTotal.toFixed(2);
 }
 
@@ -233,41 +236,40 @@ function limpiarCampos() {
 // ============================================================
 // EVENTOS - Conectar con los campos del formulario
 // ============================================================
-document.addEventListener('DOMContentLoaded', function() {
-  
+document.addEventListener("DOMContentLoaded", function () {
   // 📊 Cuando cambia la CANTIDAD (recalcula desde precio unitario)
   var inputCantidad = document.getElementById("txt_cantidad");
   if (inputCantidad) {
-    inputCantidad.addEventListener("input", function() {
+    inputCantidad.addEventListener("input", function () {
       editandoManualmente = false;
       calcularDesdePrecioUnitario();
     });
-    inputCantidad.addEventListener("blur", function() {
+    inputCantidad.addEventListener("blur", function () {
       editandoManualmente = false;
       calcularDesdePrecioUnitario();
     });
-    inputCantidad.addEventListener("change", function() {
+    inputCantidad.addEventListener("change", function () {
       editandoManualmente = false;
       calcularDesdePrecioUnitario();
     });
   }
-  
+
   // 💰 Cuando se EDITA MANUALMENTE el TOTAL (recalcula base e IGV)
   var inputTotal = document.getElementById("txt_total");
   if (inputTotal) {
     // Detectar cuando empieza a escribir
-    inputTotal.addEventListener("focus", function() {
+    inputTotal.addEventListener("focus", function () {
       editandoManualmente = true;
     });
-    
+
     // Recalcular mientras escribe
-    inputTotal.addEventListener("input", function() {
+    inputTotal.addEventListener("input", function () {
       editandoManualmente = true;
       calcularDesdeTotal();
     });
-    
+
     // Recalcular cuando termina de editar
-    inputTotal.addEventListener("blur", function() {
+    inputTotal.addEventListener("blur", function () {
       calcularDesdeTotal();
       setTimeout(() => {
         editandoManualmente = false;
@@ -441,14 +443,14 @@ function guardarComprobante(estadoSunat) {
   let numero_documento = $("#txt_numero_documento").val();
   let razon_social = $("#txt_razon_social").val();
   let direccion = $("#txt_direccion").val();
-  
+
   // 📱 CAPTURA DEL TELÉFONO - TRIPLE VERIFICACIÓN
   let celular = $("#txt_telefono").val() || "";
   if (celular === undefined || celular === null) {
-    celular = document.getElementById('txt_telefono')?.value || "";
+    celular = document.getElementById("txt_telefono")?.value || "";
   }
   celular = String(celular).trim();
-  
+
   let departamento = $("#txt_departamento").val();
   let provincia = $("#txt_provincia").val();
   let distrito = $("#txt_distrito").val() || "ABANCAY";
@@ -471,7 +473,10 @@ function guardarComprobante(estadoSunat) {
   console.log("🔍 DEBUG TELÉFONO:");
   console.log("Campo existe:", $("#txt_telefono").length);
   console.log("Valor jQuery:", $("#txt_telefono").val());
-  console.log("Valor JS nativo:", document.getElementById('txt_telefono')?.value);
+  console.log(
+    "Valor JS nativo:",
+    document.getElementById("txt_telefono")?.value
+  );
   console.log("Valor final (celular):", celular);
   console.log("Tipo:", typeof celular);
   console.log("Length:", celular.length);
@@ -479,19 +484,47 @@ function guardarComprobante(estadoSunat) {
 
   // 2️⃣ VALIDACIONES BÁSICAS
   if (!tipo_comprobante)
-    return Swal.fire("Advertencia", "Seleccione un tipo de comprobante", "warning");
+    return Swal.fire(
+      "Advertencia",
+      "Seleccione un tipo de comprobante",
+      "warning"
+    );
   if (!serie)
-    return Swal.fire("Advertencia", "Ingrese la serie del comprobante", "warning");
+    return Swal.fire(
+      "Advertencia",
+      "Ingrese la serie del comprobante",
+      "warning"
+    );
   if (!correlativo)
-    return Swal.fire("Advertencia", "Ingrese el número correlativo del comprobante", "warning");
+    return Swal.fire(
+      "Advertencia",
+      "Ingrese el número correlativo del comprobante",
+      "warning"
+    );
   if (!fecha_emision)
-    return Swal.fire("Advertencia", "Seleccione la fecha de emisión", "warning");
+    return Swal.fire(
+      "Advertencia",
+      "Seleccione la fecha de emisión",
+      "warning"
+    );
   if (!tipo_documento_cliente)
-    return Swal.fire("Advertencia", "Seleccione el tipo de documento del cliente", "warning");
+    return Swal.fire(
+      "Advertencia",
+      "Seleccione el tipo de documento del cliente",
+      "warning"
+    );
   if (!numero_documento)
-    return Swal.fire("Advertencia", "Ingrese el número de documento del cliente", "warning");
+    return Swal.fire(
+      "Advertencia",
+      "Ingrese el número de documento del cliente",
+      "warning"
+    );
   if (!razon_social)
-    return Swal.fire("Advertencia", "Ingrese la razón social o nombre del cliente", "warning");
+    return Swal.fire(
+      "Advertencia",
+      "Ingrese la razón social o nombre del cliente",
+      "warning"
+    );
   if (!id_servicio || id_servicio === "0")
     return Swal.fire("Advertencia", "Seleccione un servicio", "warning");
   if (!id_conductor || id_conductor === "0")
@@ -505,22 +538,30 @@ function guardarComprobante(estadoSunat) {
   if (!forma_pago)
     return Swal.fire("Advertencia", "Seleccione la forma de pago", "warning");
   if (!id_tipo_pago || id_tipo_pago === "0")
-    return Swal.fire("Advertencia", "Seleccione un tipo de pago válido", "warning");
+    return Swal.fire(
+      "Advertencia",
+      "Seleccione un tipo de pago válido",
+      "warning"
+    );
   if (!base_gravada || base_gravada <= 0)
-    return Swal.fire("Advertencia", "Ingrese una base gravada válida", "warning");
+    return Swal.fire(
+      "Advertencia",
+      "Ingrese una base gravada válida",
+      "warning"
+    );
   if (!igv || igv < 0)
     return Swal.fire("Advertencia", "Ingrese un IGV válido", "warning");
   if (!total || total <= 0)
     return Swal.fire("Advertencia", "El total no puede ser 0", "warning");
 
   if (id_origen === id_destino) {
-  return Swal.fire({
-    icon: "warning",
-    title: "Origen y Destino iguales",
-    text: "La ruta de ORIGEN y DESTINO no pueden ser iguales. Por favor seleccione rutas diferentes.",
-    confirmButtonText: "Entendido"
-  });
-}
+    return Swal.fire({
+      icon: "warning",
+      title: "Origen y Destino iguales",
+      text: "La ruta de ORIGEN y DESTINO no pueden ser iguales. Por favor seleccione rutas diferentes.",
+      confirmButtonText: "Entendido",
+    });
+  }
 
   // 3️⃣ CONSTRUIR OBJETO formData - SINTAXIS EXPLÍCITA
   let formData = {
@@ -534,7 +575,7 @@ function guardarComprobante(estadoSunat) {
     numero_documento: numero_documento,
     razon_social: razon_social,
     direccion: direccion,
-    celular: celular,  // 👈 CRÍTICO: DEBE ESTAR AQUÍ
+    celular: celular, // 👈 CRÍTICO: DEBE ESTAR AQUÍ
     departamento: departamento,
     provincia: provincia,
     distrito: distrito,
@@ -552,13 +593,13 @@ function guardarComprobante(estadoSunat) {
     id_tipo_pago: id_tipo_pago,
     observaciones: observaciones,
     estado_sunat: estadoSunat,
-    id_usuario: id_usuario
+    id_usuario: id_usuario,
   };
 
   // 🔍 DEBUG FORMDATA
   console.log("📦 FormData completo:", formData);
   console.log("📱 Celular en formData:", formData.celular);
-  console.log("📱 ¿Tiene propiedad 'celular'?:", 'celular' in formData);
+  console.log("📱 ¿Tiene propiedad 'celular'?:", "celular" in formData);
   console.log("📱 Todas las claves:", Object.keys(formData));
 
   // 4️⃣ CONFIRMACIÓN VISUAL
@@ -571,14 +612,13 @@ function guardarComprobante(estadoSunat) {
     cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
-      
       // 🔍 DEBUG FINAL ANTES DE ENVIAR
       console.log("═══════════════════════════════════════");
       console.log("📤 ENVIANDO AL SERVIDOR:");
       console.log("Celular:", formData.celular);
       console.log("FormData JSON:", JSON.stringify(formData, null, 2));
       console.log("═══════════════════════════════════════");
-      
+
       // 5️⃣ ENVÍO AJAX
       $.ajax({
         url: "../controller/comprobante/controller_comprobante.php",
@@ -593,7 +633,11 @@ function guardarComprobante(estadoSunat) {
               response = JSON.parse(response);
             } catch (e) {
               console.error("❌ No es JSON válido:", response);
-              return Swal.fire("Error", "Respuesta inválida del servidor", "error");
+              return Swal.fire(
+                "Error",
+                "Respuesta inválida del servidor",
+                "error"
+              );
             }
           }
 
@@ -607,7 +651,11 @@ function guardarComprobante(estadoSunat) {
               location.reload();
             });
           } else {
-            Swal.fire("Error", response.message || "No se pudo registrar el comprobante", "error");
+            Swal.fire(
+              "Error",
+              response.message || "No se pudo registrar el comprobante",
+              "error"
+            );
           }
         },
         error: function (xhr, status, error) {
@@ -619,37 +667,37 @@ function guardarComprobante(estadoSunat) {
   });
 }
 
-
 function debugFormulario() {
   console.log("═══════════════════════════════════════");
   console.log("🔍 TODOS LOS INPUTS DEL FORMULARIO:");
   console.log("═══════════════════════════════════════");
-  
-  $('input, select, textarea').each(function(index) {
+
+  $("input, select, textarea").each(function (index) {
     let elemento = $(this);
     let info = {
       index: index,
-      tipo: elemento.prop('tagName'),
-      id: elemento.attr('id') || 'SIN ID',
-      name: elemento.attr('name') || 'SIN NAME',
+      tipo: elemento.prop("tagName"),
+      id: elemento.attr("id") || "SIN ID",
+      name: elemento.attr("name") || "SIN NAME",
       value: elemento.val(),
-      placeholder: elemento.attr('placeholder') || ''
+      placeholder: elemento.attr("placeholder") || "",
     };
-    
+
     // Resaltar campos relacionados con teléfono
-    if (info.id.toLowerCase().includes('tel') || 
-        info.id.toLowerCase().includes('cel') || 
-        info.name.toLowerCase().includes('tel') || 
-        info.name.toLowerCase().includes('cel')) {
+    if (
+      info.id.toLowerCase().includes("tel") ||
+      info.id.toLowerCase().includes("cel") ||
+      info.name.toLowerCase().includes("tel") ||
+      info.name.toLowerCase().includes("cel")
+    ) {
       console.log("📱 CAMPO TELÉFONO ENCONTRADO:", info);
     } else {
       console.log(info);
     }
   });
-  
+
   console.log("═══════════════════════════════════════");
 }
-
 
 // GUARDAR Y ENVIAR A SUNAT
 function guardarYEnviar() {
@@ -718,13 +766,13 @@ function guardarComprobanteYEnviar() {
     );
   }
   if (id_origen === id_destino) {
-  return Swal.fire({
-    icon: "warning",
-    title: "Origen y Destino iguales",
-    text: "La ruta de ORIGEN y DESTINO no pueden ser iguales. Por favor seleccione rutas diferentes.",
-    confirmButtonText: "Entendido"
-  });
-}
+    return Swal.fire({
+      icon: "warning",
+      title: "Origen y Destino iguales",
+      text: "La ruta de ORIGEN y DESTINO no pueden ser iguales. Por favor seleccione rutas diferentes.",
+      confirmButtonText: "Entendido",
+    });
+  }
 
   // Construir objeto de envío
   let formData = {
@@ -862,7 +910,7 @@ function limpiarFormulario() {
   $("#txt_direccion").val("");
   $("#txt_telefono").val("");
   $("#select_servicio").val("").trigger("change");
-    $("#txt_cantidad").val(1);
+  $("#txt_cantidad").val(1);
 
   $("#select_conductor").val("").trigger("change");
   $("#select_origen").val("").trigger("change");
@@ -882,9 +930,9 @@ function limpiarFormulario() {
   if (tipoComprobante && serie) {
     $("#select_tipo_comprobante").val(tipoComprobante).trigger("change");
     $("#txt_serie").val(serie);
-    
+
     // Cargar el siguiente correlativo automáticamente
-    setTimeout(function() {
+    setTimeout(function () {
       obtenerCorrelativo();
     }, 300); // Pequeño delay para asegurar que los campos estén listos
   }
@@ -929,9 +977,9 @@ var tbl_comprobantes;
 // ============================================================
 function listar_comprobantes() {
   tbl_comprobantes = $("#tabla_comprobantes").DataTable({
-      scrollCollapse: false, // 👈 CAMBIAR A false
+    scrollCollapse: false, // 👈 CAMBIAR A false
     ordering: true,
-    order: [[3, 'desc']], // 👈 ORDENAR por la columna "Fecha Emisión" descendente
+    order: [[3, "desc"]], // 👈 ORDENAR por la columna "Fecha Emisión" descendente
     bLengthChange: true,
     searching: true,
     lengthMenu: [
@@ -1050,24 +1098,24 @@ function listar_comprobantes() {
         data: null,
         render: (data) => "<b>" + data.numero_comprobante + "</b>",
       },
-{
-    data: "fecha_hora_emision",
-    render: function (data, type, row) {
-        if (!data) return "-";
+      {
+        data: "fecha_hora_emision",
+        render: function (data, type, row) {
+          if (!data) return "-";
 
-        // Data viene como "YYYY-MM-DD HH:MM:SS"
-        const [fecha, hora] = data.split(" ");
-        const [yyyy, mm, dd] = fecha.split("-");
-        const formatted = `${dd}/${mm}/${yyyy} ${hora}`;
+          // Data viene como "YYYY-MM-DD HH:MM:SS"
+          const [fecha, hora] = data.split(" ");
+          const [yyyy, mm, dd] = fecha.split("-");
+          const formatted = `${dd}/${mm}/${yyyy} ${hora}`;
 
-        // Para ordenamiento y exportación, devolver data en formato original
-        if (type === "sort" || type === "type") {
+          // Para ordenamiento y exportación, devolver data en formato original
+          if (type === "sort" || type === "type") {
             return data; // mantiene orden por YYYY-MM-DD HH:MM:SS
-        }
+          }
 
-        return formatted;
-    }
-},
+          return formatted;
+        },
+      },
 
       { data: "razon_social" },
       { data: "numero_documento" },
@@ -1103,14 +1151,14 @@ function listar_comprobantes() {
       },
       { data: "usuario_nombre" },
       {
-    data: null,
-    orderable: false,
-    render: function (data) {
-        let estado = data.estado_sunat;
-        let estado_doc = data.estado_documento;
-        let tipo = data.tipo_comprobante;
-        
-        let botones = `
+        data: null,
+        orderable: false,
+        render: function (data) {
+          let estado = data.estado_sunat;
+          let estado_doc = data.estado_documento;
+          let tipo = data.tipo_comprobante;
+
+          let botones = `
             <div class="btn-group" role="group">
                 <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" data-boundary="window">
                     <i class="fas fa-bars"></i>
@@ -1120,8 +1168,8 @@ function listar_comprobantes() {
                         <i class="fas fa-eye text-info"></i> Ver Detalle
                     </a>`;
 
-        // ✅ BOTÓN EDITAR (solo para PENDIENTE)
-        if (estado == "PENDIENTE" && estado_doc == "ACTIVO") {
+          // ✅ BOTÓN EDITAR (solo para PENDIENTE)
+          if (estado == "PENDIENTE" && estado_doc == "ACTIVO") {
             botones += `
                 <a class="dropdown-item" href="javascript:void(0)" onclick="editarComprobante(${data.id_comprobante})">
                     <i class="fas fa-edit text-warning"></i> Editar Comprobante
@@ -1130,9 +1178,12 @@ function listar_comprobantes() {
                 <a class="dropdown-item" href="javascript:void(0)" onclick="abrirModalEnviar(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
                     <i class="fas fa-paper-plane text-success"></i> Enviar a SUNAT
                 </a>`;
-        }
+          }
 
-        if ((estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
+          if (
+            (estado == "ENVIADO" || estado == "ACEPTADO") &&
+            estado_doc == "ACTIVO"
+          ) {
             botones += `
                 <a class="dropdown-item" href="javascript:void(0)" onclick="descargarXML('${data.serie}', '${data.correlativo}')">
                     <i class="fas fa-file-code text-primary"></i> Descargar XML
@@ -1143,36 +1194,49 @@ function listar_comprobantes() {
                 <a class="dropdown-item" href="javascript:void(0)" onclick="imprimirTicket(${data.id_comprobante})">
                     <i class="fas fa-print text-dark"></i> Imprimir Ticket
                 </a>`;
-        }
+          }
 
-        if (estado_doc == "ACTIVO") {
+          if (estado_doc == "ACTIVO") {
             botones += `
                 <a class="dropdown-item" href="javascript:void(0)" onclick="descargarPDF(${data.id_comprobante})">
                     <i class="fas fa-file-pdf text-danger"></i> Descargar PDF
                 </a>`;
-        }
+          }
 
-        if (tipo == "03" && (estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
+          // En la función render de la columna de acciones
+          if (
+            tipo == "01" &&
+            (estado == "ENVIADO" || estado == "ACEPTADO") &&
+            estado_doc == "ACTIVO"
+          ) {
             botones += `
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="abrirModalAnularBoleta(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
-                    <i class="fas fa-file-invoice"></i> Anular Boleta (Comunicar SUNAT)
-                </a>`;
-        }
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="javascript:void(0)" 
+                onclick="abrirModalAnularComprobante(${data.id_comprobante}, '${data.serie}', '${data.correlativo}', '01')">
+                  <i class="fas fa-ban"></i> Anular Factura (Comunicar SUNAT)
+              </a>`;
+          }
 
-        if ((estado == "PENDIENTE" || estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
+          if (
+            tipo == "03" &&
+            (estado == "ENVIADO" || estado == "ACEPTADO") &&
+            estado_doc == "ACTIVO"
+          ) {
             botones += `
-                <a class="dropdown-item text-warning" href="javascript:void(0)" onclick="abrirModalAnular(${data.id_comprobante})">
-                    <i class="fas fa-ban"></i> Anular Comprobante (Local)
-                </a>`;
-        }
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-danger" href="javascript:void(0)" 
+                onclick="abrirModalAnularComprobante(${data.id_comprobante}, '${data.serie}', '${data.correlativo}', '03')">
+                  <i class="fas fa-file-invoice"></i> Anular Boleta (Comunicar SUNAT)
+              </a>`;
+          }
 
-        botones += `
+         
+          botones += `
                 </div>
             </div>`;
-        return botones;
-    },
-},
+          return botones;
+        },
+      },
     ],
     language: {
       url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json",
@@ -1196,10 +1260,10 @@ function listar_comprobantes_filtro() {
   if (tbl_comprobantes) tbl_comprobantes.destroy();
 
   tbl_comprobantes = $("#tabla_comprobantes").DataTable({
-      scrollCollapse: false, // 👈 CAMBIAR A false
+    scrollCollapse: false, // 👈 CAMBIAR A false
 
     ordering: true,
-    order: [[3, 'desc']], // 👈 ORDENAR por la columna "Fecha Emisión" descendente
+    order: [[3, "desc"]], // 👈 ORDENAR por la columna "Fecha Emisión" descendente
     bLengthChange: true,
     searching: true,
     lengthMenu: [
@@ -1364,24 +1428,24 @@ function listar_comprobantes_filtro() {
         data: null,
         render: (data) => "<b>" + data.numero_comprobante + "</b>",
       },
-{
-    data: "fecha_hora_emision",
-    render: function (data, type, row) {
-        if (!data) return "-";
+      {
+        data: "fecha_hora_emision",
+        render: function (data, type, row) {
+          if (!data) return "-";
 
-        // Data viene como "YYYY-MM-DD HH:MM:SS"
-        const [fecha, hora] = data.split(" ");
-        const [yyyy, mm, dd] = fecha.split("-");
-        const formatted = `${dd}/${mm}/${yyyy} ${hora}`;
+          // Data viene como "YYYY-MM-DD HH:MM:SS"
+          const [fecha, hora] = data.split(" ");
+          const [yyyy, mm, dd] = fecha.split("-");
+          const formatted = `${dd}/${mm}/${yyyy} ${hora}`;
 
-        // Para ordenamiento y exportación, devolver data en formato original
-        if (type === "sort" || type === "type") {
+          // Para ordenamiento y exportación, devolver data en formato original
+          if (type === "sort" || type === "type") {
             return data; // mantiene orden por YYYY-MM-DD HH:MM:SS
-        }
+          }
 
-        return formatted;
-    }
-},
+          return formatted;
+        },
+      },
       { data: "razon_social" },
       { data: "numero_documento" },
       {
@@ -1415,15 +1479,15 @@ function listar_comprobantes_filtro() {
           data ? '<small class="text-muted">' + data + "</small>" : "-",
       },
       { data: "usuario_nombre" },
-   {
-    data: null,
-    orderable: false,
-    render: function (data) {
-        let estado = data.estado_sunat;
-        let estado_doc = data.estado_documento;
-        let tipo = data.tipo_comprobante;
-        
-        let botones = `
+      {
+        data: null,
+        orderable: false,
+        render: function (data) {
+          let estado = data.estado_sunat;
+          let estado_doc = data.estado_documento;
+          let tipo = data.tipo_comprobante;
+
+          let botones = `
             <div class="btn-group" role="group">
                 <button class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" data-boundary="window">
                     <i class="fas fa-bars"></i>
@@ -1433,8 +1497,8 @@ function listar_comprobantes_filtro() {
                         <i class="fas fa-eye text-info"></i> Ver Detalle
                     </a>`;
 
-        // ✅ BOTÓN EDITAR (solo para PENDIENTE)
-        if (estado == "PENDIENTE" && estado_doc == "ACTIVO") {
+          // ✅ BOTÓN EDITAR (solo para PENDIENTE)
+          if (estado == "PENDIENTE" && estado_doc == "ACTIVO") {
             botones += `
                 <a class="dropdown-item" href="javascript:void(0)" onclick="editarComprobante(${data.id_comprobante})">
                     <i class="fas fa-edit text-warning"></i> Editar Comprobante
@@ -1443,9 +1507,12 @@ function listar_comprobantes_filtro() {
                 <a class="dropdown-item" href="javascript:void(0)" onclick="abrirModalEnviar(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
                     <i class="fas fa-paper-plane text-success"></i> Enviar a SUNAT
                 </a>`;
-        }
+          }
 
-        if ((estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
+          if (
+            (estado == "ENVIADO" || estado == "ACEPTADO") &&
+            estado_doc == "ACTIVO"
+          ) {
             botones += `
                 <a class="dropdown-item" href="javascript:void(0)" onclick="descargarXML('${data.serie}', '${data.correlativo}')">
                     <i class="fas fa-file-code text-primary"></i> Descargar XML
@@ -1456,36 +1523,50 @@ function listar_comprobantes_filtro() {
                 <a class="dropdown-item" href="javascript:void(0)" onclick="imprimirTicket(${data.id_comprobante})">
                     <i class="fas fa-print text-dark"></i> Imprimir Ticket
                 </a>`;
-        }
+          }
 
-        if (estado_doc == "ACTIVO") {
+          if (estado_doc == "ACTIVO") {
             botones += `
                 <a class="dropdown-item" href="javascript:void(0)" onclick="descargarPDF(${data.id_comprobante})">
                     <i class="fas fa-file-pdf text-danger"></i> Descargar PDF
                 </a>`;
-        }
+          }
 
-        if (tipo == "03" && (estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
+          // En la función render de la columna de acciones
+          if (
+            tipo == "01" &&
+            (estado == "ENVIADO" || estado == "ACEPTADO") &&
+            estado_doc == "ACTIVO"
+          ) {
             botones += `
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="abrirModalAnularBoleta(${data.id_comprobante}, '${data.serie}', '${data.correlativo}')">
-                    <i class="fas fa-file-invoice"></i> Anular Boleta (Comunicar SUNAT)
-                </a>`;
-        }
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item text-danger" href="javascript:void(0)" 
+           onclick="abrirModalAnularComprobante(${data.id_comprobante}, '${data.serie}', '${data.correlativo}', '01')">
+            <i class="fas fa-ban"></i> Anular Factura (Comunicar SUNAT)
+        </a>`;
+          }
 
-        if ((estado == "PENDIENTE" || estado == "ENVIADO" || estado == "ACEPTADO") && estado_doc == "ACTIVO") {
+          if (
+            tipo == "03" &&
+            (estado == "ENVIADO" || estado == "ACEPTADO") &&
+            estado_doc == "ACTIVO"
+          ) {
             botones += `
-                <a class="dropdown-item text-warning" href="javascript:void(0)" onclick="abrirModalAnular(${data.id_comprobante})">
-                    <i class="fas fa-ban"></i> Anular Comprobante (Local)
-                </a>`;
-        }
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item text-danger" href="javascript:void(0)" 
+           onclick="abrirModalAnularComprobante(${data.id_comprobante}, '${data.serie}', '${data.correlativo}', '03')">
+            <i class="fas fa-file-invoice"></i> Anular Boleta (Comunicar SUNAT)
+        </a>`;
+          }
 
-        botones += `
+        
+
+          botones += `
                 </div>
             </div>`;
-        return botones;
-    },
-},
+          return botones;
+        },
+      },
     ],
     language: {
       url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json",
@@ -1847,18 +1928,17 @@ function confirmarAnulacion() {
 // DESCARGAR XML
 // ============================================================
 function descargarXML(serie, correlativo) {
-    let url = "../greenter/xml/" + serie + "-" + correlativo + ".xml";
-    window.open(url, "_blank");
+  let url = "../greenter/xml/" + serie + "-" + correlativo + ".xml";
+  window.open(url, "_blank");
 }
 
 // ============================================================
 // DESCARGAR CDR
 // ============================================================
 function descargarCDR(serie, correlativo) {
-    let url = "../greenter/cdr/R-" + serie + "-" + correlativo + ".zip";
-    window.open(url, "_blank");
+  let url = "../greenter/cdr/R-" + serie + "-" + correlativo + ".zip";
+  window.open(url, "_blank");
 }
-
 
 // ============================================================
 // IMPRIMIR TICKET
@@ -1937,551 +2017,775 @@ async function buscarPorDocumento() {
 }
 
 // ============================================================
-// ABRIR MODAL ANULAR BOLETA (COMUNICAR A SUNAT)
+// ABRIR MODAL GENÉRICO PARA ANULAR COMPROBANTE (FACTURA O BOLETA)
 // ============================================================
-function abrirModalAnularBoleta(id, serie, correlativo) {
-    $("#txt_id_comprobante_anular_boleta").val(id);
-    $("#txt_serie_anular_boleta").val(serie);
-    $("#txt_correlativo_anular_boleta").val(correlativo);
-    $("#span_numero_anular_boleta").text(serie + "-" + correlativo);
-    $("#txt_motivo_anulacion_boleta").val("");
-    $("#modal_anular_boleta").modal("show");
+function abrirModalAnularComprobante(id, serie, correlativo, tipo) {
+  // tipo = '01' (Factura) o '03' (Boleta)
+  let titulo = tipo == "01" ? "Factura" : "Boleta";
+  let advertencia =
+    tipo == "03"
+      ? '<small class="text-warning">⚠️ Solo se pueden anular boletas con máximo 7 días de emisión</small>'
+      : '<small class="text-info">ℹ️ Las facturas se pueden anular sin límite de tiempo</small>';
+
+  Swal.fire({
+    title: `Anular ${titulo}`,
+    html: `
+            <div class="text-left">
+                <p><strong>Comprobante:</strong> ${serie}-${correlativo}</p>
+                ${advertencia}
+                <div class="form-group mt-3">
+                    <label>Motivo de Anulación: <span class="text-danger">*</span></label>
+                    <textarea id="swal_motivo_anulacion" class="form-control" rows="3" 
+                              placeholder="Ingrese el motivo de la anulación" required></textarea>
+                </div>
+                <div class="alert alert-warning mt-2">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Esta acción comunicará la anulación a SUNAT mediante una 
+                    <strong>${
+                      tipo == "01"
+                        ? "Comunicación de Baja (RA)"
+                        : "Resumen de Reversiones (RC)"
+                    }</strong>
+                </div>
+            </div>
+        `,
+    showCancelButton: true,
+    confirmButtonText: '<i class="fas fa-check"></i> Sí, anular',
+    cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    width: "600px",
+    preConfirm: () => {
+      const motivo = document
+        .getElementById("swal_motivo_anulacion")
+        .value.trim();
+      if (!motivo) {
+        Swal.showValidationMessage("Debe ingresar el motivo de anulación");
+        return false;
+      }
+      return motivo;
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      confirmarAnulacionComprobante(id, serie, correlativo, tipo, result.value);
+    }
+  });
 }
 
 // ============================================================
-// CONFIRMAR ANULACIÓN DE BOLETA Y COMUNICAR A SUNAT
+// CONFIRMAR ANULACIÓN Y COMUNICAR A SUNAT (GENÉRICO)
 // ============================================================
-function confirmarAnulacionBoleta() {
-    let id = $("#txt_id_comprobante_anular_boleta").val();
-    let motivo = $("#txt_motivo_anulacion_boleta").val().trim();
-    let serie = $("#txt_serie_anular_boleta").val();
-    let correlativo = $("#txt_correlativo_anular_boleta").val();
-    let usuario = $("#txtprincipalid").val();
+function confirmarAnulacionComprobante(id, serie, correlativo, tipo, motivo) {
+  let usuario = $("#txtprincipalid").val();
+  let tipoTexto = tipo == "01" ? "Factura" : "Boleta";
 
-    if (!motivo) {
-        return Swal.fire("Advertencia", "Debe ingresar el motivo de anulación", "warning");
-    }
+  Swal.fire({
+    title: `Anulando ${tipoTexto}...`,
+    html: `Procesando anulación de <b>${serie}-${correlativo}</b><br>Se comunicará a SUNAT`,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    willOpen: () => {
+      Swal.showLoading();
+    },
+  });
 
-    $("#modal_anular_boleta").modal("hide");
-
-    Swal.fire({
-        title: "Anulando boleta...",
-        html: `Procesando anulación de <b>${serie}-${correlativo}</b><br>Se comunicará a SUNAT`,
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        willOpen: () => {
-            Swal.showLoading();
-        },
-    });
-
-    $.ajax({
-        url: "../controller/comprobante/controller_comprobante.php",
-        type: "POST",
-        data: {
-            accion: "ANULAR_BOLETA_SUNAT",
-            id_comprobante: id,
-            motivo: motivo,
-            usuario: usuario,
-        },
-        dataType: "json",
-    })
+  $.ajax({
+    url: "../controller/comprobante/controller_comprobante.php",
+    type: "POST",
+    data: {
+      accion: "ANULAR_COMPROBANTE_SUNAT",
+      id_comprobante: id,
+      motivo: motivo,
+      usuario: usuario,
+      tipo_comprobante: tipo,
+    },
+    dataType: "json",
+  })
     .done(function (resp) {
-        Swal.close();
+      Swal.close();
 
-        if (resp.status == "success") {
-            Swal.fire({
-                icon: "success",
-                title: "Boleta anulada correctamente",
-                html: `<b>${serie}-${correlativo}</b> fue anulada y comunicada a SUNAT`,
-                showConfirmButton: true,
-            }).then(() => {
-                tbl_comprobantes.ajax.reload();
-            });
-        } else {
-            Swal.fire({
-                icon: "error",
-                title: "Error al anular boleta",
-                html: resp.message + "<br><small>" + (resp.output || "") + "</small>",
-                showConfirmButton: true,
-            });
-        }
+      if (resp.status == "success") {
+        Swal.fire({
+          icon: "success",
+          title: `${tipoTexto} procesada correctamente`,
+          html: `
+                    <div class="text-left">
+                        <p><strong>Comprobante:</strong> ${resp.comprobante}</p>
+                        <p><strong>Correlativo Baja:</strong> ${
+                          resp.correlativo_baja
+                        }</p>
+                        ${
+                          resp.ticket
+                            ? `<p><strong>Ticket SUNAT:</strong> ${resp.ticket}</p>`
+                            : ""
+                        }
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle"></i> ${resp.message}
+                        </div>
+                        ${
+                          resp.ticket
+                            ? `
+                            <div class="alert alert-warning">
+                                <strong>⚠️ Importante:</strong> Debes consultar el ticket después para confirmar 
+                                que SUNAT procesó la anulación correctamente.
+                            </div>
+                        `
+                            : ""
+                        }
+                    </div>
+                `,
+          confirmButtonText: "Aceptar",
+          width: "600px",
+        }).then(() => {
+          if (typeof tbl_comprobantes !== "undefined") {
+            tbl_comprobantes.ajax.reload();
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: `Error al anular ${tipoTexto}`,
+          html: `
+                    <div class="text-left">
+                        <p>${resp.message}</p>
+                        ${
+                          resp.output
+                            ? `
+                            <div class="mt-3">
+                                <strong>Detalle técnico:</strong>
+                                <pre style="max-height: 200px; overflow-y: auto; background: #f5f5f5; padding: 10px; border-radius: 5px;">${resp.output}</pre>
+                            </div>
+                        `
+                            : ""
+                        }
+                    </div>
+                `,
+          confirmButtonText: "Cerrar",
+          width: "700px",
+        });
+      }
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+      Swal.close();
+      Swal.fire({
+        icon: "error",
+        title: "Error de conexión",
+        html: `
+                <p>No se pudo comunicar con el servidor</p>
+                <small>Error: ${textStatus} - ${errorThrown}</small>
+            `,
+        confirmButtonText: "Cerrar",
+      });
+    });
+}
+function consultarTicketAnulacion(id_comprobante) {
+  Swal.fire({
+    title: "Consultando ticket...",
+    html: "Verificando estado en SUNAT",
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    willOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  $.ajax({
+    url: "../controller/comprobante/controller_comprobante.php",
+    type: "POST",
+    data: {
+      accion: "CONSULTAR_TICKET_ANULACION",
+      id_comprobante: id_comprobante,
+    },
+    dataType: "json",
+  })
+    .done(function (resp) {
+      Swal.close();
+
+      if (resp.status == "success") {
+        Swal.fire({
+          icon: "success",
+          title: "Estado del Ticket",
+          html: `
+                    <div class="text-left">
+                        <p><strong>Ticket:</strong> ${resp.ticket}</p>
+                        <p><strong>Estado:</strong> <span class="badge badge-success">${
+                          resp.estado
+                        }</span></p>
+                        <p><strong>Descripción:</strong> ${resp.descripcion}</p>
+                        ${
+                          resp.comprobante_anulado
+                            ? `
+                            <div class="alert alert-success mt-3">
+                                <i class="fas fa-check-circle"></i> El comprobante ha sido anulado correctamente
+                            </div>
+                        `
+                            : ""
+                        }
+                    </div>
+                `,
+          width: "600px",
+        }).then(() => {
+          if (typeof tbl_comprobantes !== "undefined") {
+            tbl_comprobantes.ajax.reload();
+          }
+        });
+      } else if (resp.status == "pending") {
+        Swal.fire({
+          icon: "info",
+          title: "Ticket en proceso",
+          html: resp.message,
+          confirmButtonText: "Entendido",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error al consultar ticket",
+          html: resp.message,
+          confirmButtonText: "Cerrar",
+        });
+      }
     })
     .fail(function () {
-        Swal.close();
-        Swal.fire("Error", "Error al comunicarse con el servidor", "error");
+      Swal.close();
+      Swal.fire("Error", "Error al comunicarse con el servidor", "error");
     });
 }
 
+// ============================================================
+// COMPATIBILIDAD CON MODAL ANTIGUO DE BOLETAS
+// ============================================================
+function abrirModalAnularBoleta(id, serie, correlativo) {
+  abrirModalAnularComprobante(id, serie, correlativo, "03");
+}
+
+function confirmarAnulacionBoleta() {
+  let id = $("#txt_id_comprobante_anular_boleta").val();
+  let motivo = $("#txt_motivo_anulacion_boleta").val().trim();
+  let serie = $("#txt_serie_anular_boleta").val();
+  let correlativo = $("#txt_correlativo_anular_boleta").val();
+
+  if (!motivo) {
+    return Swal.fire(
+      "Advertencia",
+      "Debe ingresar el motivo de anulación",
+      "warning"
+    );
+  }
+
+  $("#modal_anular_boleta").modal("hide");
+  confirmarAnulacionComprobante(id, serie, correlativo, "03", motivo);
+}
 
 // ============================================================
 // EDITAR COMPROBANTE (SOLO PENDIENTES)
 // ============================================================
 function editarComprobante(id) {
-    Swal.fire({
-        title: "Cargando datos...",
-        text: "Espere un momento",
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        willOpen: () => {
-            Swal.showLoading();
-        },
-    });
+  Swal.fire({
+    title: "Cargando datos...",
+    text: "Espere un momento",
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    willOpen: () => {
+      Swal.showLoading();
+    },
+  });
 
-    // Obtener datos del comprobante
-    $.ajax({
-        url: "../controller/comprobante/controller_comprobante.php",
-        type: "POST",
-        data: {
-            accion: "OBTENER_COMPROBANTE_EDITAR",
-            id_comprobante: id,
-        },
-        dataType: "json",
-    })
+  // Obtener datos del comprobante
+  $.ajax({
+    url: "../controller/comprobante/controller_comprobante.php",
+    type: "POST",
+    data: {
+      accion: "OBTENER_COMPROBANTE_EDITAR",
+      id_comprobante: id,
+    },
+    dataType: "json",
+  })
     .done(function (data) {
-        Swal.close();
+      Swal.close();
 
-        if (data && data.id_comprobante) {
-            // Verificar que sea PENDIENTE
-            if (data.estado_sunat !== "PENDIENTE") {
-                return Swal.fire("Advertencia", "Solo se pueden editar comprobantes PENDIENTES", "warning");
-            }
-
-            // Guardar datos temporalmente
-            window.datosComprobanteEditar = data;
-
-            // Abrir modal (esto dispara el evento shown.bs.modal)
-            $("#modal_editar_comprobante").modal("show");
-        } else {
-            Swal.fire("Error", "No se pudo obtener los datos del comprobante", "error");
+      if (data && data.id_comprobante) {
+        // Verificar que sea PENDIENTE
+        if (data.estado_sunat !== "PENDIENTE") {
+          return Swal.fire(
+            "Advertencia",
+            "Solo se pueden editar comprobantes PENDIENTES",
+            "warning"
+          );
         }
+
+        // Guardar datos temporalmente
+        window.datosComprobanteEditar = data;
+
+        // Abrir modal (esto dispara el evento shown.bs.modal)
+        $("#modal_editar_comprobante").modal("show");
+      } else {
+        Swal.fire(
+          "Error",
+          "No se pudo obtener los datos del comprobante",
+          "error"
+        );
+      }
     })
     .fail(function () {
-        Swal.close();
-        Swal.fire("Error", "Error al consultar el comprobante", "error");
+      Swal.close();
+      Swal.fire("Error", "Error al consultar el comprobante", "error");
     });
 }
 
 // ============================================================
 // EVENTO CUANDO SE ABRE EL MODAL
 // ============================================================
-$('#modal_editar_comprobante').on('shown.bs.modal', function () {
-    console.log("🔵 Modal abierto, iniciando carga de selects...");
-    
-    // 1️⃣ Cargar todos los selects
-    Promise.all([
-        Cargar_Select_Servicios_Edit(),
-        Cargar_Select_Conductores_Edit(),
-        Cargar_Select_Rutas_Edit(),
-        Cargar_Select_Tipopago_Edit()
-    ]).then(() => {
-        console.log("✅ Todos los selects cargados");
-        
-        // 2️⃣ Inicializar Select2 en los selects del modal
-        $('#edit_servicio').select2({
-            dropdownParent: $('#modal_editar_comprobante'),
-            width: '100%'
-        });
-        
-        $('#edit_conductor').select2({
-            dropdownParent: $('#modal_editar_comprobante'),
-            width: '100%'
-        });
-        
-        $('#edit_origen').select2({
-            dropdownParent: $('#modal_editar_comprobante'),
-            width: '100%'
-        });
-        
-        $('#edit_destino').select2({
-            dropdownParent: $('#modal_editar_comprobante'),
-            width: '100%'
-        });
-        
-        $('#edit_tipo_pago').select2({
-            dropdownParent: $('#modal_editar_comprobante'),
-            width: '100%'
-        });
-        
-        // 3️⃣ Esperar un poco para que Select2 se renderice
-        setTimeout(() => {
-            if (window.datosComprobanteEditar) {
-                console.log("📦 Datos a cargar:", window.datosComprobanteEditar);
-                llenarFormularioEditar(window.datosComprobanteEditar);
-                delete window.datosComprobanteEditar;
-            }
-        }, 300);
+$("#modal_editar_comprobante").on("shown.bs.modal", function () {
+  console.log("🔵 Modal abierto, iniciando carga de selects...");
+
+  // 1️⃣ Cargar todos los selects
+  Promise.all([
+    Cargar_Select_Servicios_Edit(),
+    Cargar_Select_Conductores_Edit(),
+    Cargar_Select_Rutas_Edit(),
+    Cargar_Select_Tipopago_Edit(),
+  ]).then(() => {
+    console.log("✅ Todos los selects cargados");
+
+    // 2️⃣ Inicializar Select2 en los selects del modal
+    $("#edit_servicio").select2({
+      dropdownParent: $("#modal_editar_comprobante"),
+      width: "100%",
     });
+
+    $("#edit_conductor").select2({
+      dropdownParent: $("#modal_editar_comprobante"),
+      width: "100%",
+    });
+
+    $("#edit_origen").select2({
+      dropdownParent: $("#modal_editar_comprobante"),
+      width: "100%",
+    });
+
+    $("#edit_destino").select2({
+      dropdownParent: $("#modal_editar_comprobante"),
+      width: "100%",
+    });
+
+    $("#edit_tipo_pago").select2({
+      dropdownParent: $("#modal_editar_comprobante"),
+      width: "100%",
+    });
+
+    // 3️⃣ Esperar un poco para que Select2 se renderice
+    setTimeout(() => {
+      if (window.datosComprobanteEditar) {
+        console.log("📦 Datos a cargar:", window.datosComprobanteEditar);
+        llenarFormularioEditar(window.datosComprobanteEditar);
+        delete window.datosComprobanteEditar;
+      }
+    }, 300);
+  });
 });
-$('#modal_editar_comprobante').on('hidden.bs.modal', function () {
-    // Destruir Select2 para evitar duplicados
-    $('#edit_servicio').select2('destroy');
-    $('#edit_conductor').select2('destroy');
-    $('#edit_origen').select2('destroy');
-    $('#edit_destino').select2('destroy');
-    $('#edit_tipo_pago').select2('destroy');
+$("#modal_editar_comprobante").on("hidden.bs.modal", function () {
+  // Destruir Select2 para evitar duplicados
+  $("#edit_servicio").select2("destroy");
+  $("#edit_conductor").select2("destroy");
+  $("#edit_origen").select2("destroy");
+  $("#edit_destino").select2("destroy");
+  $("#edit_tipo_pago").select2("destroy");
 });
 
 // ============================================================
 // LLENAR FORMULARIO DE EDICIÓN
 // ============================================================
 function llenarFormularioEditar(data) {
-    console.log("🔍 Iniciando llenado de formulario con datos:", data);
-    
-    // Guardar ID del comprobante
-    $("#txt_id_comprobante_editar").val(data.id_comprobante);
+  console.log("🔍 Iniciando llenado de formulario con datos:", data);
 
-    // Llenar datos del comprobante
-    $("#edit_tipo_comprobante").val(data.tipo_comprobante);
-    $("#edit_serie").val(data.serie);
-    $("#edit_correlativo").val(data.correlativo);
-    $("#edit_fecha_emision").val(data.fecha_emision);
-    $("#edit_moneda").val(data.moneda);
+  // Guardar ID del comprobante
+  $("#txt_id_comprobante_editar").val(data.id_comprobante);
 
-    // Datos del cliente
-    $("#edit_tipo_documento_cliente").val(data.tipo_documento_cliente);
-    $("#edit_numero_documento").val(data.numero_documento);
-    $("#edit_razon_social").val(data.razon_social);
-    $("#edit_direccion").val(data.direccion);
-    $("#edit_telefono").val(data.celular || "");
-    $("#edit_departamento").val(data.departamento);
-    $("#edit_provincia").val(data.provincia);
-    $("#edit_distrito").val(data.distrito);
+  // Llenar datos del comprobante
+  $("#edit_tipo_comprobante").val(data.tipo_comprobante);
+  $("#edit_serie").val(data.serie);
+  $("#edit_correlativo").val(data.correlativo);
+  $("#edit_fecha_emision").val(data.fecha_emision);
+  $("#edit_moneda").val(data.moneda);
 
-    // ✅ Datos del servicio (CON SELECT2)
-    if (data.id_servicio) {
-        $("#edit_servicio").val(data.id_servicio).trigger('change');
-    }
-    
-    if (data.idconductor) {
-        $("#edit_conductor").val(data.idconductor).trigger('change');
-    }
-    
-    if (data.id_origen) {
-        $("#edit_origen").val(data.id_origen).trigger('change');
-    }
-    
-    if (data.iddestino) {
-        $("#edit_destino").val(data.iddestino).trigger('change');
-    }
-    
-    if (data.id_tipo_pago) {
-        $("#edit_tipo_pago").val(data.id_tipo_pago).trigger('change');
-    }
-    
-    $("#edit_cantidad").val(data.cantidad);
-    $("#edit_fecha_viaje").val(data.fecha_viaje);
+  // Datos del cliente
+  $("#edit_tipo_documento_cliente").val(data.tipo_documento_cliente);
+  $("#edit_numero_documento").val(data.numero_documento);
+  $("#edit_razon_social").val(data.razon_social);
+  $("#edit_direccion").val(data.direccion);
+  $("#edit_telefono").val(data.celular || "");
+  $("#edit_departamento").val(data.departamento);
+  $("#edit_provincia").val(data.provincia);
+  $("#edit_distrito").val(data.distrito);
 
-    // Montos
-    $("#edit_base_gravada").val(parseFloat(data.total_gravada).toFixed(2));
-    $("#edit_igv").val(parseFloat(data.total_igv).toFixed(2));
-    $("#edit_total").val(parseFloat(data.total).toFixed(2));
-    
-    $("#edit_observaciones").val(data.observaciones || "");
+  // ✅ Datos del servicio (CON SELECT2)
+  if (data.id_servicio) {
+    $("#edit_servicio").val(data.id_servicio).trigger("change");
+  }
 
-    // Verificación final
-    console.log("✅ Valores asignados:");
-    console.log("  Servicio seleccionado:", $("#edit_servicio").val());
-    console.log("  Conductor seleccionado:", $("#edit_conductor").val());
-    console.log("  Origen seleccionado:", $("#edit_origen").val());
-    console.log("  Destino seleccionado:", $("#edit_destino").val());
-    console.log("  Tipo Pago seleccionado:", $("#edit_tipo_pago").val());
+  if (data.idconductor) {
+    $("#edit_conductor").val(data.idconductor).trigger("change");
+  }
+
+  if (data.id_origen) {
+    $("#edit_origen").val(data.id_origen).trigger("change");
+  }
+
+  if (data.iddestino) {
+    $("#edit_destino").val(data.iddestino).trigger("change");
+  }
+
+  if (data.id_tipo_pago) {
+    $("#edit_tipo_pago").val(data.id_tipo_pago).trigger("change");
+  }
+
+  $("#edit_cantidad").val(data.cantidad);
+  $("#edit_fecha_viaje").val(data.fecha_viaje);
+
+  // Montos
+  $("#edit_base_gravada").val(parseFloat(data.total_gravada).toFixed(2));
+  $("#edit_igv").val(parseFloat(data.total_igv).toFixed(2));
+  $("#edit_total").val(parseFloat(data.total).toFixed(2));
+
+  $("#edit_observaciones").val(data.observaciones || "");
+
+  // Verificación final
+  console.log("✅ Valores asignados:");
+  console.log("  Servicio seleccionado:", $("#edit_servicio").val());
+  console.log("  Conductor seleccionado:", $("#edit_conductor").val());
+  console.log("  Origen seleccionado:", $("#edit_origen").val());
+  console.log("  Destino seleccionado:", $("#edit_destino").val());
+  console.log("  Tipo Pago seleccionado:", $("#edit_tipo_pago").val());
 }
 
 // ============================================================
 // CARGAR SELECTS PARA EDICIÓN (con Promise)
 // ============================================================
 function Cargar_Select_Servicios_Edit() {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: "../controller/servicios/controlador_cargar_select_servicios.php",
-            type: "POST",
-        })
-        .done(function (resp) {
-            let data = JSON.parse(resp);
-            let cadena = "<option value=''>Seleccionar servicio</option>";
-            if (data.length > 0) {
-                for (let i = 0; i < data.length; i++) {
-                    cadena += "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
-                }
-            }
-            $("#edit_servicio").html(cadena);
-            resolve();
-        })
-        .fail(reject);
-    });
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "../controller/servicios/controlador_cargar_select_servicios.php",
+      type: "POST",
+    })
+      .done(function (resp) {
+        let data = JSON.parse(resp);
+        let cadena = "<option value=''>Seleccionar servicio</option>";
+        if (data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            cadena +=
+              "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
+          }
+        }
+        $("#edit_servicio").html(cadena);
+        resolve();
+      })
+      .fail(reject);
+  });
 }
 
 function Cargar_Select_Conductores_Edit() {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: "../controller/choferes/controlador_cargar_select_choferes.php",
-            type: "POST",
-        })
-        .done(function (resp) {
-            let data = JSON.parse(resp);
-            let cadena = "<option value=''>Seleccionar conductor</option>";
-            if (data.length > 0) {
-                for (let i = 0; i < data.length; i++) {
-                    cadena += "<option value='" + data[i][0] + "'>DNI: " + data[i][1] + " - " + data[i][2] + "</option>";
-                }
-            }
-            $("#edit_conductor").html(cadena);
-            resolve();
-        })
-        .fail(reject);
-    });
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "../controller/choferes/controlador_cargar_select_choferes.php",
+      type: "POST",
+    })
+      .done(function (resp) {
+        let data = JSON.parse(resp);
+        let cadena = "<option value=''>Seleccionar conductor</option>";
+        if (data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            cadena +=
+              "<option value='" +
+              data[i][0] +
+              "'>DNI: " +
+              data[i][1] +
+              " - " +
+              data[i][2] +
+              "</option>";
+          }
+        }
+        $("#edit_conductor").html(cadena);
+        resolve();
+      })
+      .fail(reject);
+  });
 }
 
 function Cargar_Select_Rutas_Edit() {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: "../controller/rutas/controlador_cargar_select_rutas.php",
-            type: "POST",
-        })
-        .done(function (resp) {
-            let data = JSON.parse(resp);
-            let cadena = "<option value=''>Seleccionar ruta</option>";
-            if (data.length > 0) {
-                for (let i = 0; i < data.length; i++) {
-                    cadena += "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
-                }
-            }
-            $("#edit_origen").html(cadena);
-            $("#edit_destino").html(cadena);
-            resolve();
-        })
-        .fail(reject);
-    });
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "../controller/rutas/controlador_cargar_select_rutas.php",
+      type: "POST",
+    })
+      .done(function (resp) {
+        let data = JSON.parse(resp);
+        let cadena = "<option value=''>Seleccionar ruta</option>";
+        if (data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            cadena +=
+              "<option value='" + data[i][0] + "'>" + data[i][1] + "</option>";
+          }
+        }
+        $("#edit_origen").html(cadena);
+        $("#edit_destino").html(cadena);
+        resolve();
+      })
+      .fail(reject);
+  });
 }
 
 function Cargar_Select_Tipopago_Edit() {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            url: "../controller/tipo_pago/controlador_cargar_select_tipo_pago.php",
-            type: "POST",
-        })
-        .done(function (resp) {
-            let data = JSON.parse(resp);
-            let cadena = "<option value=''>Seleccionar tipo pago</option>";
-            if (data.length > 0) {
-                for (let i = 0; i < data.length; i++) {
-                    cadena += `<option value="${data[i][0]}">${data[i][1]}</option>`;
-                }
-            }
-            $("#edit_tipo_pago").html(cadena);
-            resolve();
-        })
-        .fail(reject);
-    });
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "../controller/tipo_pago/controlador_cargar_select_tipo_pago.php",
+      type: "POST",
+    })
+      .done(function (resp) {
+        let data = JSON.parse(resp);
+        let cadena = "<option value=''>Seleccionar tipo pago</option>";
+        if (data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            cadena += `<option value="${data[i][0]}">${data[i][1]}</option>`;
+          }
+        }
+        $("#edit_tipo_pago").html(cadena);
+        resolve();
+      })
+      .fail(reject);
+  });
 }
 
 // ============================================================
 // ACTUALIZAR COMPROBANTE
 // ============================================================
 function actualizarComprobante() {
-    let id_comprobante = $("#txt_id_comprobante_editar").val();
-    let tipo_comprobante = $("#edit_tipo_comprobante").val();
-    let serie = $("#edit_serie").val();
-    let correlativo = $("#edit_correlativo").val();
-    let fecha_emision = $("#edit_fecha_emision").val();
-    let moneda = $("#edit_moneda").val();
-    let tipo_documento_cliente = $("#edit_tipo_documento_cliente").val();
-    let numero_documento = $("#edit_numero_documento").val();
-    let razon_social = $("#edit_razon_social").val();
-    let direccion = $("#edit_direccion").val();
-    let celular = $("#edit_telefono").val() || "";
-    let departamento = $("#edit_departamento").val();
-    let provincia = $("#edit_provincia").val();
-    let distrito = $("#edit_distrito").val();
-    let id_servicio = $("#edit_servicio").val();
-    let cantidad = $("#edit_cantidad").val();
-    let id_conductor = $("#edit_conductor").val();
-    let id_origen = $("#edit_origen").val();
-    let id_destino = $("#edit_destino").val();
-    let fecha_viaje = $("#edit_fecha_viaje").val();
-    let base_gravada = $("#edit_base_gravada").val();
-    let igv = $("#edit_igv").val();
-    let total = $("#edit_total").val();
-    let id_tipo_pago = $("#edit_tipo_pago").val();
-    let observaciones = $("#edit_observaciones").val() || "";
-    let id_usuario = $("#txtprincipalid").val();
+  let id_comprobante = $("#txt_id_comprobante_editar").val();
+  let tipo_comprobante = $("#edit_tipo_comprobante").val();
+  let serie = $("#edit_serie").val();
+  let correlativo = $("#edit_correlativo").val();
+  let fecha_emision = $("#edit_fecha_emision").val();
+  let moneda = $("#edit_moneda").val();
+  let tipo_documento_cliente = $("#edit_tipo_documento_cliente").val();
+  let numero_documento = $("#edit_numero_documento").val();
+  let razon_social = $("#edit_razon_social").val();
+  let direccion = $("#edit_direccion").val();
+  let celular = $("#edit_telefono").val() || "";
+  let departamento = $("#edit_departamento").val();
+  let provincia = $("#edit_provincia").val();
+  let distrito = $("#edit_distrito").val();
+  let id_servicio = $("#edit_servicio").val();
+  let cantidad = $("#edit_cantidad").val();
+  let id_conductor = $("#edit_conductor").val();
+  let id_origen = $("#edit_origen").val();
+  let id_destino = $("#edit_destino").val();
+  let fecha_viaje = $("#edit_fecha_viaje").val();
+  let base_gravada = $("#edit_base_gravada").val();
+  let igv = $("#edit_igv").val();
+  let total = $("#edit_total").val();
+  let id_tipo_pago = $("#edit_tipo_pago").val();
+  let observaciones = $("#edit_observaciones").val() || "";
+  let id_usuario = $("#txtprincipalid").val();
 
-    // Validaciones
-    if (!tipo_comprobante || !serie || !correlativo || !fecha_emision) {
-        return Swal.fire("Advertencia", "Complete los datos del comprobante", "warning");
-    }
-    if (!tipo_documento_cliente || !numero_documento || !razon_social) {
-        return Swal.fire("Advertencia", "Complete los datos del cliente", "warning");
-    }
-    if (!id_servicio || !id_conductor || !id_origen || !id_destino || !fecha_viaje) {
-        return Swal.fire("Advertencia", "Complete los datos del servicio", "warning");
-    }
-    if (!base_gravada || !total || base_gravada <= 0 || total <= 0) {
-        return Swal.fire("Advertencia", "Los montos deben ser mayores a 0", "warning");
-    }
+  // Validaciones
+  if (!tipo_comprobante || !serie || !correlativo || !fecha_emision) {
+    return Swal.fire(
+      "Advertencia",
+      "Complete los datos del comprobante",
+      "warning"
+    );
+  }
+  if (!tipo_documento_cliente || !numero_documento || !razon_social) {
+    return Swal.fire(
+      "Advertencia",
+      "Complete los datos del cliente",
+      "warning"
+    );
+  }
+  if (
+    !id_servicio ||
+    !id_conductor ||
+    !id_origen ||
+    !id_destino ||
+    !fecha_viaje
+  ) {
+    return Swal.fire(
+      "Advertencia",
+      "Complete los datos del servicio",
+      "warning"
+    );
+  }
+  if (!base_gravada || !total || base_gravada <= 0 || total <= 0) {
+    return Swal.fire(
+      "Advertencia",
+      "Los montos deben ser mayores a 0",
+      "warning"
+    );
+  }
 
-    // Confirmar actualización
-    Swal.fire({
-        title: "¿Confirmar actualización?",
-        text: "Se actualizarán los datos del comprobante",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "Sí, actualizar",
-        cancelButtonText: "Cancelar",
-    }).then((result) => {
-        if (result.isConfirmed) {
+  // Confirmar actualización
+  Swal.fire({
+    title: "¿Confirmar actualización?",
+    text: "Se actualizarán los datos del comprobante",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Sí, actualizar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Actualizando...",
+        text: "Procesando cambios",
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        willOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      $.ajax({
+        url: "../controller/comprobante/controller_comprobante.php",
+        type: "POST",
+        data: {
+          accion: "ACTUALIZAR_COMPROBANTE",
+          id_comprobante: id_comprobante,
+          tipo_comprobante: tipo_comprobante,
+          serie: serie,
+          correlativo: correlativo,
+          fecha_emision: fecha_emision,
+          moneda: moneda,
+          tipo_documento_cliente: tipo_documento_cliente,
+          numero_documento: numero_documento,
+          razon_social: razon_social,
+          direccion: direccion,
+          celular: celular,
+          departamento: departamento,
+          provincia: provincia,
+          distrito: distrito,
+          id_servicio: id_servicio,
+          cantidad: cantidad,
+          id_conductor: id_conductor,
+          id_origen: id_origen,
+          id_destino: id_destino,
+          fecha_viaje: fecha_viaje,
+          base_gravada: base_gravada,
+          igv: igv,
+          total: total,
+          id_tipo_pago: id_tipo_pago,
+          observaciones: observaciones,
+          id_usuario: id_usuario,
+        },
+        dataType: "json",
+      })
+        .done(function (response) {
+          Swal.close();
+
+          if (response.status === "success") {
             Swal.fire({
-                title: "Actualizando...",
-                text: "Procesando cambios",
-                allowOutsideClick: false,
-                showConfirmButton: false,
-                willOpen: () => {
-                    Swal.showLoading();
-                },
+              icon: "success",
+              title: "Comprobante actualizado",
+              text: "Los cambios se guardaron correctamente",
+              showConfirmButton: true,
+            }).then(() => {
+              $("#modal_editar_comprobante").modal("hide");
+              tbl_comprobantes.ajax.reload();
             });
-
-            $.ajax({
-                url: "../controller/comprobante/controller_comprobante.php",
-                type: "POST",
-                data: {
-                    accion: "ACTUALIZAR_COMPROBANTE",
-                    id_comprobante: id_comprobante,
-                    tipo_comprobante: tipo_comprobante,
-                    serie: serie,
-                    correlativo: correlativo,
-                    fecha_emision: fecha_emision,
-                    moneda: moneda,
-                    tipo_documento_cliente: tipo_documento_cliente,
-                    numero_documento: numero_documento,
-                    razon_social: razon_social,
-                    direccion: direccion,
-                    celular: celular,
-                    departamento: departamento,
-                    provincia: provincia,
-                    distrito: distrito,
-                    id_servicio: id_servicio,
-                    cantidad: cantidad,
-                    id_conductor: id_conductor,
-                    id_origen: id_origen,
-                    id_destino: id_destino,
-                    fecha_viaje: fecha_viaje,
-                    base_gravada: base_gravada,
-                    igv: igv,
-                    total: total,
-                    id_tipo_pago: id_tipo_pago,
-                    observaciones: observaciones,
-                    id_usuario: id_usuario,
-                },
-                dataType: "json",
-            })
-            .done(function (response) {
-                Swal.close();
-
-                if (response.status === "success") {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Comprobante actualizado",
-                        text: "Los cambios se guardaron correctamente",
-                        showConfirmButton: true,
-                    }).then(() => {
-                        $("#modal_editar_comprobante").modal("hide");
-                        tbl_comprobantes.ajax.reload();
-                    });
-                } else {
-                    Swal.fire("Error", response.message || "No se pudo actualizar", "error");
-                }
-            })
-            .fail(function (xhr) {
-                Swal.close();
-                console.error("Error AJAX:", xhr.responseText);
-                Swal.fire("Error", "Error al actualizar el comprobante", "error");
-            });
-        }
-    });
+          } else {
+            Swal.fire(
+              "Error",
+              response.message || "No se pudo actualizar",
+              "error"
+            );
+          }
+        })
+        .fail(function (xhr) {
+          Swal.close();
+          console.error("Error AJAX:", xhr.responseText);
+          Swal.fire("Error", "Error al actualizar el comprobante", "error");
+        });
+    }
+  });
 }
 
 // Recalcular totales en modal de edición
 $(document).on("change", "#edit_servicio", function () {
-    let id = $(this).val();
-    if (id !== "") {
-        TraerprecioEditar(id);
-    }
+  let id = $(this).val();
+  if (id !== "") {
+    TraerprecioEditar(id);
+  }
 });
 
 // Recalcular totales en modal de edición
 $(document).on("change", "#edit_servicio", function () {
-    let id = $(this).val();
-    if (id !== "" && id !== null) {
-        TraerprecioEditar(id);
-    }
+  let id = $(this).val();
+  if (id !== "" && id !== null) {
+    TraerprecioEditar(id);
+  }
 });
 
 $(document).on("change", "#edit_cantidad", function () {
-    calcularDesdeTotalEditar();
+  calcularDesdeTotalEditar();
 });
 
 // Recalcular cuando cambie el servicio (Select2)
 $(document).on("select2:select", "#edit_servicio", function (e) {
-    let id = e.params.data.id;
-    if (id !== "" && id !== null) {
-        TraerprecioEditar(id);
-    }
+  let id = e.params.data.id;
+  if (id !== "" && id !== null) {
+    TraerprecioEditar(id);
+  }
 });
 
 // Recalcular cuando cambie la cantidad o el total
 $(document).on("change input", "#edit_cantidad, #edit_total", function () {
-    calcularDesdeTotalEditar();
+  calcularDesdeTotalEditar();
 });
 
 function calcularDesdeTotalEditar() {
-    // Obtener el precio UNITARIO con IGV
-    var precioUnitarioConIGV = parseFloat($("#edit_total").val()) || 0;
-    var cantidad = parseFloat($("#edit_cantidad").val()) || 0;
+  // Obtener el precio UNITARIO con IGV
+  var precioUnitarioConIGV = parseFloat($("#edit_total").val()) || 0;
+  var cantidad = parseFloat($("#edit_cantidad").val()) || 0;
 
-    // Validar cantidad mínima
-    if (cantidad === 0) cantidad = 1;
-    
-    // ✅ PASO 1: Calcular base gravada UNITARIA (sin IGV)
-    var baseGravadaUnitaria = precioUnitarioConIGV / 1.18;
-    
-    // ✅ PASO 2: Multiplicar por la cantidad
-    var baseGravadaTotal = baseGravadaUnitaria * cantidad;
-    
-    // ✅ PASO 3: Calcular IGV (18% de la base gravada total)
-    var igvTotal = baseGravadaTotal * 0.18;
-    
-    // ✅ PASO 4: Calcular total general
-    var totalGeneral = precioUnitarioConIGV * cantidad;
+  // Validar cantidad mínima
+  if (cantidad === 0) cantidad = 1;
 
-    // Actualizar campos con 2 decimales
-    $("#edit_base_gravada").val(baseGravadaTotal.toFixed(2));
-    $("#edit_igv").val(igvTotal.toFixed(2));
-    $("#edit_total").val(totalGeneral.toFixed(2));
+  // ✅ PASO 1: Calcular base gravada UNITARIA (sin IGV)
+  var baseGravadaUnitaria = precioUnitarioConIGV / 1.18;
+
+  // ✅ PASO 2: Multiplicar por la cantidad
+  var baseGravadaTotal = baseGravadaUnitaria * cantidad;
+
+  // ✅ PASO 3: Calcular IGV (18% de la base gravada total)
+  var igvTotal = baseGravadaTotal * 0.18;
+
+  // ✅ PASO 4: Calcular total general
+  var totalGeneral = precioUnitarioConIGV * cantidad;
+
+  // Actualizar campos con 2 decimales
+  $("#edit_base_gravada").val(baseGravadaTotal.toFixed(2));
+  $("#edit_igv").val(igvTotal.toFixed(2));
+  $("#edit_total").val(totalGeneral.toFixed(2));
 }
-
 
 // ============================================================
 // TRAER PRECIO DEL SERVICIO (EDICIÓN)
 // ============================================================
 function TraerprecioEditar(id) {
-    $.ajax({
-        url: "../controller/servicios/controlador_traermonto.php",
-        type: "POST",
-        data: { id: id },
-    }).done(function (resp) {
-        try {
-            var data = JSON.parse(resp);
-            if (data.length > 0) {
-                let total = data[0].monto || data[0][1];
-                $("#edit_total").val(total);
-                calcularDesdeTotalEditar();
-            }
-        } catch (error) {
-            console.error("Error al parsear JSON:", resp);
-        }
-    });
+  $.ajax({
+    url: "../controller/servicios/controlador_traermonto.php",
+    type: "POST",
+    data: { id: id },
+  }).done(function (resp) {
+    try {
+      var data = JSON.parse(resp);
+      if (data.length > 0) {
+        let total = data[0].monto || data[0][1];
+        $("#edit_total").val(total);
+        calcularDesdeTotalEditar();
+      }
+    } catch (error) {
+      console.error("Error al parsear JSON:", resp);
+    }
+  });
 }
 // ============================================================
 // SOLUCIÓN UNIVERSAL PARA DROPDOWNS EN DATATABLES
 // ============================================================
-

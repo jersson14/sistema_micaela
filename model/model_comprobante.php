@@ -1223,6 +1223,9 @@ WHERE c.id_comprobante =?";
             conexionBD::cerrar_conexion();
         }
     }
+
+
+
     // ============================================================
     // ANULAR BOLETA Y GENERAR COMUNICACIÓN DE BAJA
     // ============================================================
@@ -1283,85 +1286,100 @@ WHERE c.id_comprobante =?";
     // ============================================================
     // OBTENER CORRELATIVO PARA COMUNICACIÓN DE BAJA
     // ============================================================
-    public function Obtener_Correlativo_Comunicacion_Baja($fecha)
-    {
-        $c = conexionBD::conexionPDO();
+public function Obtener_Correlativo_Comunicacion_Baja($fecha_emision)
+{
+    $c = conexionBD::conexionPDO();
 
-        try {
-            // Formato: RA-YYYYMMDD-###
-            $fecha_formato = date('Ymd', strtotime($fecha));
+    try {
+        // Formato: RA-YYYYMMDD-### (usar fecha ACTUAL, no fecha de emisión)
+        $fecha_hoy = date('Ymd');
 
-            $sql = "SELECT IFNULL(MAX(CAST(SUBSTRING_INDEX(correlativo_baja, '-', -1) AS UNSIGNED)), 0) + 1 as correlativo
-                FROM comunicaciones_baja
-                WHERE DATE(fecha_comunicacion) = ?";
+        // Contar comunicaciones de baja del día de HOY
+        $sql = "SELECT COUNT(*) as total 
+                FROM comunicaciones_baja 
+                WHERE DATE(fecha_comunicacion) = CURDATE()";
+        
+        $query = $c->prepare($sql);
+        $query->execute();
+        $result = $query->fetch(PDO::FETCH_ASSOC);
 
-            $query = $c->prepare($sql);
-            $query->execute([$fecha]);
-            $result = $query->fetch(PDO::FETCH_ASSOC);
+        $numero = ($result['total'] ?? 0) + 1;
+        $correlativo = str_pad($numero, 3, '0', STR_PAD_LEFT);
 
-            $correlativo = str_pad($result['correlativo'], 3, '0', STR_PAD_LEFT);
-
-            return "RA-{$fecha_formato}-{$correlativo}";
-        } catch (Exception $e) {
-            // Si falla, generar uno por defecto
-            return "RA-" . date('Ymd') . "-001";
-        } finally {
-            conexionBD::cerrar_conexion();
-        }
+        // Retornar formato: RA-20251221-001
+        return "RA-{$fecha_hoy}-{$correlativo}";
+        
+    } catch (Exception $e) {
+        error_log("❌ Error en Obtener_Correlativo_Comunicacion_Baja: " . $e->getMessage());
+        return "RA-" . date('Ymd') . "-001";
+    } finally {
+        conexionBD::cerrar_conexion();
     }
+}
 
     // ============================================================
     // REGISTRAR COMUNICACIÓN DE BAJA
     // ============================================================
-    public function Registrar_Comunicacion_Baja($id_comprobante, $correlativo_baja, $ticket_sunat = null)
-    {
-        $c = conexionBD::conexionPDO();
+public function Registrar_Comunicacion_Baja($id_comprobante, $correlativo_baja, $ticket_sunat = null)
+{
+    $c = conexionBD::conexionPDO();
 
-        try {
-            $sql = "INSERT INTO comunicaciones_baja 
+    try {
+        $sql = "INSERT INTO comunicaciones_baja 
                 (id_comprobante, correlativo_baja, fecha_comunicacion, ticket_sunat, estado)
                 VALUES (?, ?, NOW(), ?, 'ENVIADO')";
 
-            $query = $c->prepare($sql);
-            $query->execute([$id_comprobante, $correlativo_baja, $ticket_sunat]);
+        $query = $c->prepare($sql);
+        $resultado = $query->execute([$id_comprobante, $correlativo_baja, $ticket_sunat]);
 
-            return $c->lastInsertId();
-        } catch (Exception $e) {
-            file_put_contents(
-                'error_comunicacion_baja.log',
-                '[' . date('Y-m-d H:i:s') . '] ' . $e->getMessage() . PHP_EOL,
-                FILE_APPEND
-            );
+        if (!$resultado) {
+            error_log("❌ Error al insertar comunicación de baja");
             return 0;
-        } finally {
-            conexionBD::cerrar_conexion();
         }
+
+        $id_comunicacion = $c->lastInsertId();
+        error_log("✅ Comunicación de baja registrada ID: $id_comunicacion");
+        
+        return $id_comunicacion;
+        
+    } catch (Exception $e) {
+        error_log("❌ Error en Registrar_Comunicacion_Baja: " . $e->getMessage());
+        return 0;
+    } finally {
+        conexionBD::cerrar_conexion();
     }
+}
 
     // ============================================================
     // ACTUALIZAR ESTADO COMUNICACIÓN DE BAJA
     // ============================================================
-    public function Actualizar_Estado_Comunicacion_Baja($id_comunicacion, $estado, $descripcion = null)
-    {
-        $c = conexionBD::conexionPDO();
+public function Actualizar_Estado_Comunicacion_Baja($id_comunicacion, $estado, $descripcion = null)
+{
+    $c = conexionBD::conexionPDO();
 
-        try {
-            $sql = "UPDATE comunicaciones_baja 
+    try {
+        $sql = "UPDATE comunicaciones_baja 
                 SET estado = ?,
                     descripcion_respuesta = ?,
                     fecha_respuesta = NOW()
                 WHERE id_comunicacion = ?";
 
-            $query = $c->prepare($sql);
-            $query->execute([$estado, $descripcion, $id_comunicacion]);
+        $query = $c->prepare($sql);
+        $resultado = $query->execute([$estado, $descripcion, $id_comunicacion]);
 
-            return true;
-        } catch (Exception $e) {
-            return false;
-        } finally {
-            conexionBD::cerrar_conexion();
+        if ($resultado) {
+            error_log("✅ Estado comunicación baja actualizado ID: $id_comunicacion -> $estado");
         }
+
+        return $resultado;
+        
+    } catch (Exception $e) {
+        error_log("❌ Error en Actualizar_Estado_Comunicacion_Baja: " . $e->getMessage());
+        return false;
+    } finally {
+        conexionBD::cerrar_conexion();
     }
+}
 
     // ============================================================
     // LISTAR COMUNICACIONES DE BAJA
@@ -1471,79 +1489,69 @@ WHERE c.id_comprobante =?";
 
 
     // ✅ REEMPLÁZALA CON ESTA VERSIÓN COMPLETA:
-    public function Obtener_Datos_Basicos_Comprobante($id_comprobante)
-    {
-        $c = conexionBD::conexionPDO();
+public function Obtener_Datos_Basicos_Comprobante($id_comprobante)
+{
+    $c = conexionBD::conexionPDO();
 
-        try {
-            // 🔍 DEBUG: Ver qué ID estamos buscando
-            file_put_contents(
-                'debug_obtener_datos.log',
-                '[' . date('Y-m-d H:i:s') . '] Buscando comprobante ID: ' . $id_comprobante . PHP_EOL,
-                FILE_APPEND
-            );
-
-            $sql = "SELECT 
+    try {
+        $sql = "SELECT 
                     id_comprobante,
                     tipo_comprobante,
                     fecha_emision, 
                     serie, 
                     correlativo,
-                    estado_sunat
+                    estado_sunat,
+                    estado_documento,
+                    total,
+                    total_gravada AS op_gravadas,
+                    total_igv AS igv,
+                    observaciones,
+                    DATEDIFF(CURDATE(), fecha_emision) as dias_transcurridos
                 FROM comprobantes 
                 WHERE id_comprobante = ?";
 
-            $query = $c->prepare($sql);
-            $query->bindParam(1, $id_comprobante, PDO::PARAM_INT);
-            $query->execute();
+        $query = $c->prepare($sql);
+        $query->bindParam(1, $id_comprobante, PDO::PARAM_INT);
+        $query->execute();
 
-            $resultado = $query->fetch(PDO::FETCH_ASSOC);
+        $resultado = $query->fetch(PDO::FETCH_ASSOC);
 
-            // 🔍 DEBUG: Ver qué encontramos
-            file_put_contents(
-                'debug_obtener_datos.log',
-                '[' . date('Y-m-d H:i:s') . '] Resultado: ' . print_r($resultado, true) . PHP_EOL,
-                FILE_APPEND
-            );
-
-            // ✅ Si no hay resultado, devolver array vacío en lugar de false
-            if (!$resultado) {
-                return null;
-            }
-
-            return $resultado;
-        } catch (Exception $e) {
-            file_put_contents(
-                'debug_obtener_datos.log',
-                '[' . date('Y-m-d H:i:s') . '] ERROR: ' . $e->getMessage() . PHP_EOL,
-                FILE_APPEND
-            );
-            error_log("Error en Obtener_Datos_Basicos_Comprobante: " . $e->getMessage());
+        if (!$resultado) {
+            error_log("⚠️ No se encontró comprobante ID: $id_comprobante");
             return null;
-        } finally {
-            conexionBD::cerrar_conexion();
         }
+
+        return $resultado;
+        
+    } catch (Exception $e) {
+        error_log("❌ Error en Obtener_Datos_Basicos_Comprobante: " . $e->getMessage());
+        return null;
+    } finally {
+        conexionBD::cerrar_conexion();
     }
+}
     // ============================================================
     // ACTUALIZAR OBSERVACIONES DEL COMPROBANTE
     // ============================================================
-    public function Actualizar_Observaciones_Comprobante($id_comprobante, $motivo)
-    {
-        $c = conexionBD::conexionPDO();
+public function Actualizar_Observaciones_Comprobante($id_comprobante, $observaciones)
+{
+    $c = conexionBD::conexionPDO();
 
-        try {
-            $sql = "UPDATE comprobantes 
-                SET observaciones = CONCAT(IFNULL(observaciones, ''), '\n[MOTIVO ANULACIÓN] ', ?)
+    try {
+        $sql = "UPDATE comprobantes 
+                SET observaciones = CONCAT(COALESCE(observaciones, ''), '\n', ?)
                 WHERE id_comprobante = ?";
 
-            $query = $c->prepare($sql);
-            return $query->execute([$motivo, $id_comprobante]);
-        } catch (Exception $e) {
-            return false;
-        } finally {
-            conexionBD::cerrar_conexion();
-        }
+        $query = $c->prepare($sql);
+        $query->execute([$observaciones, $id_comprobante]);
+
+        return true;
+    } catch (Exception $e) {
+        return false;
+    } finally {
+        conexionBD::cerrar_conexion();
     }
+}
     // ========================================
     // OBTENER COMPROBANTE COMPLETO PARA EDITAR
     // ========================================
@@ -2088,4 +2096,124 @@ public function Obtener_Datos_Declaracion_SUNAT($tipo = '', $estado = '', $fecha
         conexionBD::cerrar_conexion();
     }
 }
+// ============================================================
+    // MÉTODOS PARA COMUNICACIÓN DE BAJA - AGREGAR AL FINAL DEL MODELO
+    // ============================================================
+
+    /**
+     * ANULAR COMPROBANTE LOCALMENTE (DESPUÉS DE CONFIRMACIÓN SUNAT)
+     * Se ejecuta cuando SUNAT confirma que aceptó la anulación
+     */
+    public function Anular_Comprobante_Local($id_comprobante, $motivo, $usuario)
+    {
+        $c = conexionBD::conexionPDO();
+
+        try {
+            $c->beginTransaction();
+
+            // Verificar que el comprobante existe y no está anulado
+            $sql_check = "SELECT tipo_comprobante, serie, correlativo, estado_documento 
+                          FROM comprobantes 
+                          WHERE id_comprobante = ?";
+            $query_check = $c->prepare($sql_check);
+            $query_check->execute([$id_comprobante]);
+            $comp = $query_check->fetch(PDO::FETCH_ASSOC);
+
+            if (!$comp) {
+                throw new Exception("Comprobante no encontrado");
+            }
+
+            if ($comp['estado_documento'] == 'ANULADO') {
+                throw new Exception("El comprobante ya está anulado");
+            }
+
+            // Actualizar estado del comprobante
+            $sql = "UPDATE comprobantes 
+                    SET estado_documento = 'ANULADO',
+                        estado_sunat = 'ANULADO',
+                        motivo_anulacion = ?,
+                        fecha_anulacion = NOW(),
+                        usuario_anulacion = ?
+                    WHERE id_comprobante = ?";
+
+            $query = $c->prepare($sql);
+            $query->execute([$motivo, $usuario, $id_comprobante]);
+
+            $c->commit();
+            
+            error_log("✅ Comprobante {$comp['serie']}-{$comp['correlativo']} anulado correctamente en BD");
+            return true;
+
+        } catch (Exception $e) {
+            $c->rollBack();
+            error_log("❌ Error en Anular_Comprobante_Local: " . $e->getMessage());
+            return false;
+        } finally {
+            conexionBD::cerrar_conexion();
+        }
+    }
+
+    /**
+     * ACTUALIZAR TICKET DE COMUNICACIÓN DE BAJA
+     * Guarda el ticket que devuelve SUNAT después de enviar la comunicación
+     */
+    public function Actualizar_Ticket_Comunicacion_Baja($id_comprobante, $ticket_sunat)
+    {
+        $c = conexionBD::conexionPDO();
+
+        try {
+            $sql = "UPDATE comunicaciones_baja 
+                    SET ticket_sunat = ?
+                    WHERE id_comprobante = ? 
+                    AND ticket_sunat IS NULL
+                    ORDER BY fecha_comunicacion DESC 
+                    LIMIT 1";
+
+            $query = $c->prepare($sql);
+            $resultado = $query->execute([$ticket_sunat, $id_comprobante]);
+
+            if ($resultado) {
+                error_log("✅ Ticket actualizado para comprobante $id_comprobante: $ticket_sunat");
+            }
+
+            return $resultado;
+            
+        } catch (Exception $e) {
+            error_log("❌ Error en Actualizar_Ticket_Comunicacion_Baja: " . $e->getMessage());
+            return false;
+        } finally {
+            conexionBD::cerrar_conexion();
+        }
+    }
+
+    /**
+     * OBTENER COMUNICACIÓN DE BAJA POR TICKET
+     * Busca una comunicación usando el ticket de SUNAT
+     */
+    public function Obtener_Comunicacion_Por_Ticket($ticket_sunat)
+    {
+        $c = conexionBD::conexionPDO();
+
+        try {
+            $sql = "SELECT cb.*, 
+                           c.serie, 
+                           c.correlativo, 
+                           c.tipo_comprobante
+                    FROM comunicaciones_baja cb
+                    INNER JOIN comprobantes c ON cb.id_comprobante = c.id_comprobante
+                    WHERE cb.ticket_sunat = ?
+                    LIMIT 1";
+
+            $query = $c->prepare($sql);
+            $query->execute([$ticket_sunat]);
+
+            return $query->fetch(PDO::FETCH_ASSOC);
+            
+        } catch (Exception $e) {
+            error_log("❌ Error en Obtener_Comunicacion_Por_Ticket: " . $e->getMessage());
+            return null;
+        } finally {
+            conexionBD::cerrar_conexion();
+        }
+    }
 }
