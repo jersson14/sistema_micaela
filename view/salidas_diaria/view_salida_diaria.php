@@ -770,26 +770,23 @@
         })
     </script>
     <script>
-        var n = new Date();
-        var y = n.getFullYear();
-        var m = n.getMonth() + 1; // Los meses empiezan desde 0
-        var d = n.getDate();
-        var h = n.getHours();
-        var min = n.getMinutes();
-        var s = n.getSeconds();
+      // Fecha actual en UTC
+const fecha = new Date();
 
-        // Formato con dos dígitos
-        if (d < 10) d = '0' + d;
-        if (m < 10) m = '0' + m;
-        if (h < 10) h = '0' + h;
-        if (min < 10) min = '0' + min;
-        if (s < 10) s = '0' + s;
+const formatter = new Intl.DateTimeFormat('sv-SE', {
+  timeZone: 'America/Lima',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false
+});
 
-        // Establece el valor con fecha y hora (YYYY-MM-DD HH:MM:SS)
-        document.getElementById('txt_fecha_creacion').value =
-            y + "-" + m + "-" + d + "T" + h + ":" + min;
-        document.getElementById('txt_fecha_actualizacion').value =
-            y + "-" + m + "-" + d + "T" + h + ":" + min;
+const fechaLima = formatter.format(fecha).replace(' ', 'T');
+
+document.getElementById('txt_fecha_actualizacion').value = fechaLima;
+
         // PARA EMISOR
         // Mostrar la sección correcta al cargar la página
         window.addEventListener('DOMContentLoaded', function() {

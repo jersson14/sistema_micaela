@@ -982,11 +982,21 @@ function AbrirRegistro() {
       console.log("Select2 destino inicializado");
     }
     
-    // Establecer fecha y hora actual
-    const now = new Date();
-    const fechaActual = now.toISOString().slice(0, 16);
-    $("#txt_fecha_creacion").val(fechaActual);
-    console.log("Fecha establecida:", fechaActual);
+ const now = new Date();
+
+const fechaLima = new Intl.DateTimeFormat('sv-SE', {
+  timeZone: 'America/Lima',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false
+}).format(now).replace(' ', 'T');
+
+$("#txt_fecha_creacion").val(fechaLima);
+console.log("Fecha establecida:", fechaLima);
+
     
   }, 300); // Esperar 300ms para que los datos se carguen
   
