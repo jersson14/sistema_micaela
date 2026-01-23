@@ -785,6 +785,7 @@ const formatter = new Intl.DateTimeFormat('sv-SE', {
 
 const fechaLima = formatter.format(fecha).replace(' ', 'T');
 
+document.getElementById('txt_fecha_creacion').value = fechaLima;
 document.getElementById('txt_fecha_actualizacion').value = fechaLima;
 
         // PARA EMISOR

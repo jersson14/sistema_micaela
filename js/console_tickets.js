@@ -1409,44 +1409,39 @@ function resetCamposCalculo(modo = 'registro') {
 // ============================================================
 // CALCULAR BASE GRAVADA DESDE EL TOTAL
 // ============================================================
-function calcularDesdeTotal(modo = 'registro') {
+function calcularDesdeTotal(modo = 'registro', formatear = false) {
   let sufijo = modo === 'editar' ? '_editar' : '';
-  
-  var totalConIGV = parseFloat(document.getElementById("txt_total" + sufijo).value) || 0;
+  let inputTotal = document.getElementById("txt_total" + sufijo);
 
-  if (totalConIGV <= 0) {
+  let totalConIGV = parseFloat(inputTotal.value);
+  if (isNaN(totalConIGV) || totalConIGV <= 0) {
     document.getElementById("txt_base_gravada" + sufijo).value = "";
     document.getElementById("txt_igv" + sufijo).value = "";
     return;
   }
 
-  // Cantidad SIEMPRE es 1
-  var baseGravada = totalConIGV / 1.18;
-  var igv = baseGravada * 0.18;
+  let baseGravada = totalConIGV / 1.18;
+  let igv = totalConIGV - baseGravada;
 
   document.getElementById("txt_base_gravada" + sufijo).value = baseGravada.toFixed(2);
   document.getElementById("txt_igv" + sufijo).value = igv.toFixed(2);
-  document.getElementById("txt_total" + sufijo).value = totalConIGV.toFixed(2);
+
+  // SOLO al salir del campo
+  if (formatear) {
+    inputTotal.value = totalConIGV.toFixed(2);
+  }
 }
 
-// ============================================================
-// EVENTOS - Conectar con los campos del formulario
-// ============================================================
 document.addEventListener('DOMContentLoaded', function () {
-  // Campos del formulario de REGISTRO
-  let inputTotal = document.getElementById("txt_total");
-  if (inputTotal) {
-    inputTotal.addEventListener("input", function() { calcularDesdeTotal('registro'); });
-    inputTotal.addEventListener("blur", function() { calcularDesdeTotal('registro'); });
-  }
-  
-  // Campos del formulario de EDITAR
-  let inputTotalEditar = document.getElementById("txt_total_editar");
-  if (inputTotalEditar) {
-    inputTotalEditar.addEventListener("input", function() { calcularDesdeTotal('editar'); });
-    inputTotalEditar.addEventListener("blur", function() { calcularDesdeTotal('editar'); });
-  }
+  ["", "_editar"].forEach(sufijo => {
+    let input = document.getElementById("txt_total" + sufijo);
+    if (!input) return;
+
+    input.addEventListener("input", () => calcularDesdeTotal(sufijo ? 'editar' : 'registro'));
+    input.addEventListener("blur", () => calcularDesdeTotal(sufijo ? 'editar' : 'registro', true));
+  });
 });
+
 
 // Eventos keyup para ambos modos
 $(document).on("keyup", "#txt_total", function () {
