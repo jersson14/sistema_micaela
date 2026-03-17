@@ -406,13 +406,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
 
-              <!-- Manual -->
-              <li class="nav-item">
-                <a href="../manual_admin.pdf" target="_blank" class="nav-link">
-                  <i class="nav-icon fas fa-file-pdf"></i>
-                  <p style="color:white">Manual de Usuario</p>
-                </a>
-              </li>
 
 
             <?php
@@ -565,17 +558,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-              <li class="header text-center" style="color:#FFFFFF; background-color:#023D77; border-radius: 10px;">
-                <b>MANUAL</b>
-              </li>
-
-              <!-- Manual -->
-              <li class="nav-item">
-                <a href="../manual_admin.pdf" target="_blank" class="nav-link">
-                  <i class="nav-icon fas fa-file-pdf"></i>
-                  <p style="color:white">Manual de Usuario</p>
-                </a>
-              </li>
+             
 
 
             <?php
@@ -592,17 +575,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
 
 
-              <li class="header text-center" style="color:#FFFFFF; background-color:#023D77; border-radius: 10px;">
-                <b>MANUAL</b>
-              </li>
-
-              <!-- Manual -->
-              <li class="nav-item">
-                <a href="../manual_admin.pdf" target="_blank" class="nav-link">
-                  <i class="nav-icon fas fa-file-pdf"></i>
-                  <p style="color:white">Manual de Usuario</p>
-                </a>
-              </li>
 
 
             <?php
