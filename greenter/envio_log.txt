@@ -2026,3 +2026,84 @@ OUTPUT:
    Hash: wm+nP3kwUWBT/KOATj0ScbO3Fw8=
 
 
+=========================
+FECHA: 2026-03-17 19:37:32
+ID COMPROBANTE: 2883
+TIPO: Factura (01)
+NUMERO: FPP1-09000014
+NOMBRE CDR: R-FPP1-09000014.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000014
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000014.xml
+
+❌ ERROR EN EL ENVÍO
+Código: 0151
+Mensaje: 0151 - El nombre del archivo ZIP es incorrecto - Detalle: value='ticket: 871e2d2d-ffea-448a-94b7-2ffdfbedbb70, error: INFO: (nodo: "" valor: "")'
+
+
+=========================
+FECHA: 2026-03-17 19:40:04
+ID COMPROBANTE: 2884
+TIPO: Factura (01)
+NUMERO: FPP1-09000015
+NOMBRE CDR: R-FPP1-09000015.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000015
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000015.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-9000015, ha sido aceptado
+   Código: 0
+   Hash: jSo8DVCNquuGC7RJi3zV7kxLXFw=
+
+
+=========================
+FECHA: 2026-03-17 19:40:35
+ID COMPROBANTE: 2885
+TIPO: Factura (01)
+NUMERO: FPP1-09000016
+NOMBRE CDR: R-FPP1-09000016.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000016
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000016.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Internal Server Error
+
+
+=========================
+FECHA: 2026-03-17 19:40:44
+ID COMPROBANTE: 2886
+TIPO: Factura (01)
+NUMERO: FPP1-09000017
+NOMBRE CDR: R-FPP1-09000017.zip
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000017
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL enviado a SUNAT: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000017.xml
+
+❌ ERROR EN EL ENVÍO
+Código: HTTP
+Mensaje: Internal Server Error
+
+

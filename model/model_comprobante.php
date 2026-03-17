@@ -159,25 +159,34 @@ class Modelo_Comprobantes extends conexionBD
     // ========================================
     // OBTENER CORRELATIVO
     // ========================================
-    public function Obtener_Correlativo($serie, $tipo_comprobante)
-    {
-        $c = conexionBD::conexionPDO();
+public function Obtener_Correlativo($serie, $tipo_comprobante)
+{
+    $c = conexionBD::conexionPDO();
+    try {
+        $c->beginTransaction();
 
-        try {
-            $sql = "CALL SP_OBTENER_CORRELATIVO(?, ?, @correlativo_out)";
-            $query = $c->prepare($sql);
-            $query->bindParam(1, $serie);
-            $query->bindParam(2, $tipo_comprobante);
-            $query->execute();
+        $sql = "SELECT IFNULL(MAX(CAST(correlativo AS UNSIGNED)), 0) + 1 as siguiente
+                FROM comprobantes
+                WHERE serie = ?
+                AND tipo_comprobante = ?
+                FOR UPDATE";
 
-            $result = $c->query("SELECT @correlativo_out as correlativo")->fetch(PDO::FETCH_ASSOC);
-            return str_pad($result['correlativo'], 8, '0', STR_PAD_LEFT);
-        } catch (Exception $e) {
-            return '00000001';
-        }
+        $query = $c->prepare($sql);
+        $query->execute([$serie, $tipo_comprobante]);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
 
+        $correlativo = str_pad($result['siguiente'], 8, '0', STR_PAD_LEFT);
+
+        $c->commit();
+        return $correlativo;
+
+    } catch (Exception $e) {
+        $c->rollBack();
+        return '00000001';
+    } finally {
         conexionBD::cerrar_conexion();
     }
+}
 
     // ========================================
     // REGISTRAR COMPROBANTE

@@ -135,9 +135,9 @@ switch ($tipo) {
         $invoice = (new Invoice())
             ->setUblVersion('2.1')
             ->setTipoOperacion('0101')
-            ->setTipoDoc($tipo)
+            ->setTipoDoc($tipo)  // ← faltaba esta línea
             ->setSerie($comprobante['serie'])
-            ->setCorrelativo($comprobante['correlativo'])
+            ->setCorrelativo(str_pad($comprobante['correlativo'], 8, '0', STR_PAD_LEFT))
             ->setFechaEmision(new DateTime($comprobante['fecha_emision'], new DateTimeZone('America/Lima')))
             ->setTipoMoneda('PEN')
             ->setCompany($company)
@@ -222,7 +222,7 @@ $xml = $see->getXmlSigned($documento);
 $xmlPath = __DIR__ . '/xml/';
 if (!is_dir($xmlPath)) mkdir($xmlPath, 0777, true);
 
-$nombreXml = $comprobante['serie'] . '-' . $comprobante['correlativo'] . '.xml';
+$nombreXml = $comprobante['serie'] . '-' . str_pad($comprobante['correlativo'], 8, '0', STR_PAD_LEFT) . '.xml';
 file_put_contents($xmlPath . $nombreXml, $xml);
 echo "📄 XML generado: xml/{$nombreXml}\n";
 
@@ -241,7 +241,7 @@ if ($res->isSuccess()) {
     if ($res->getCdrZip()) {
         $cdrPath = __DIR__ . '/cdr/';
         if (!is_dir($cdrPath)) mkdir($cdrPath, 0777, true);
-        $nombreCdr = 'R-' . $comprobante['serie'] . '-' . $comprobante['correlativo'] . '.zip';
+        $nombreCdr = 'R-' . $comprobante['serie'] . '-' . str_pad($comprobante['correlativo'], 8, '0', STR_PAD_LEFT) . '.zip';
         file_put_contents($cdrPath . $nombreCdr, $res->getCdrZip());
     }
 

@@ -291,28 +291,55 @@ function limpiarTotales() {
 }
 
 // OBTENER CORRELATIVO AUTOMÁTICO
+var intervalo_correlativo = null;
+
 function obtenerCorrelativo() {
-  let serie = $("#txt_serie").val();
-  let tipo = $("#select_tipo_comprobante").val();
+    var tipo = document.getElementById('select_tipo_comprobante').value;
+    var serie = document.getElementById('txt_serie').value;
+    if (!tipo || !serie) return;
 
-  if (!serie || !tipo) return;
+    $.ajax({
+        url: "../controller/comprobante/controller_comprobante.php",
+        type: "POST",
+        data: { accion: "OBTENER_CORRELATIVO", serie: serie, tipo_comprobante: tipo },
+        dataType: "json"
+    }).done(function(data) {
+        if (data && data.correlativo) {
+            var anterior = document.getElementById('txt_correlativo').value;
+            document.getElementById('txt_correlativo').value = data.correlativo;
 
-  $.ajax({
-    url: "../controller/comprobante/controller_comprobante.php",
-    type: "POST",
-    data: {
-      accion: "OBTENER_CORRELATIVO",
-      serie: serie,
-      tipo_comprobante: tipo,
-    },
-  }).done(function (resp) {
-    let data = JSON.parse(resp);
-    if (data.correlativo) {
-      $("#txt_correlativo").val(data.correlativo);
-    }
-  });
+            if (anterior !== '' && anterior !== data.correlativo) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '⚠️ Correlativo actualizado',
+                    html: `Otro usuario generó un comprobante.<br>
+                           Correlativo actualizado a <b>${data.correlativo}</b>`,
+                    timer: 3000,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end'
+                });
+            }
+        }
+    });
 }
+function cambiarTipoComprobante() {
+    var tipo = document.getElementById('select_tipo_comprobante').value;
+    var serie = document.getElementById('txt_serie');
 
+    if (tipo == '01') {
+        serie.value = 'FPP1';
+        document.getElementById('select_tipo_documento_cliente').value = '6';
+    } else if (tipo == '03') {
+        serie.value = 'BPP1';
+    }
+
+    obtenerCorrelativo();
+
+    // Refrescar cada 20 segundos por si otro usuario genera uno
+    if (intervalo_correlativo) clearInterval(intervalo_correlativo);
+    intervalo_correlativo = setInterval(obtenerCorrelativo, 20000);
+}
 // BUSCAR CLIENTE POR RUC (API SUNAT)
 // BUSCAR CLIENTE POR RUC (API SUNAT)
 function buscarRUC(ruc) {
@@ -701,6 +728,8 @@ function debugFormulario() {
 
 // GUARDAR Y ENVIAR A SUNAT
 function guardarYEnviar() {
+      // Detener refresco al guardar
+    if (intervalo_correlativo) clearInterval(intervalo_correlativo);
   // Primero guardar como PENDIENTE
   guardarComprobanteYEnviar();
 }
@@ -1928,8 +1957,7 @@ function confirmarAnulacion() {
 // DESCARGAR XML
 // ============================================================
 function descargarXML(serie, correlativo) {
-  let url = "../greenter/xml/" + serie + "-" + correlativo + ".xml";
-  window.open(url, "_blank");
+    window.location.href = "../greenter/descargar_xml.php?serie=" + serie + "&correlativo=" + correlativo;
 }
 
 // ============================================================
