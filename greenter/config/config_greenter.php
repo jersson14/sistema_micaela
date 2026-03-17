@@ -51,7 +51,7 @@ function getSee($pdo = null) {
 
     // Mostrar depuración
     echo "🔑 RUC: {$ruc}\n";
-    echo "🔑 Usuario SOL enviado a SUNAT: {$usuario}\n";
+    echo "🔑 Usuario SOL configurado: {$usuario}\n";
     echo "📦 Certificado: {$certPath}\n\n";
 
     // ============================

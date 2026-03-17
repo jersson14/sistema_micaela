@@ -265,6 +265,9 @@ elseif ($accion == 'ENVIAR_SUNAT') {
     $ruta_script = __DIR__ . '/../../greenter/factura_bd.php';
     $comando = "php \"$ruta_script\" $id_comprobante 2>&1";
     $output = shell_exec($comando);
+    if ($output === null) {
+        $output = '';
+    }
 
     // 4️⃣ Registrar log
     $log_file = __DIR__ . '/../../greenter/envio_log.txt';
@@ -278,8 +281,39 @@ elseif ($accion == 'ENVIAR_SUNAT') {
 
     // 5️⃣ Analizar respuesta
     $output_lower = strtolower($output);
+    $codigo_error = null;
+    $mensaje_error = null;
 
-    if (strpos($output_lower, 'aceptado') !== false || strpos($output_lower, '¡éxito!') !== false) {
+    if (preg_match('/^c[oó]digo:\s*([^\r\n]+)/mi', $output, $match_codigo)) {
+        $codigo_error = strtoupper(trim($match_codigo[1]));
+    }
+    if (preg_match('/^mensaje:\s*([^\r\n]+)/mi', $output, $match_mensaje)) {
+        $mensaje_error = trim($match_mensaje[1]);
+    }
+
+    $es_aceptado = (strpos($output_lower, '✅ aceptado por sunat') !== false);
+    $tiene_ticket = (strpos($output_lower, 'ticket recibido') !== false);
+    $es_error_explicito = (
+        strpos($output_lower, '❌ error en el envío') !== false ||
+        strpos($output_lower, '❌ error en el envio') !== false ||
+        strpos($output_lower, 'error en el envío') !== false ||
+        strpos($output_lower, 'error en el envio') !== false ||
+        strpos($output_lower, 'error transitorio sunat') !== false ||
+        strpos($output_lower, 'rechazado') !== false ||
+        !empty($codigo_error) ||
+        !empty($mensaje_error)
+    );
+    $mensaje_error_lower = strtolower((string)$mensaje_error);
+    $es_error_transitorio = (
+        $codigo_error === 'HTTP' ||
+        strpos($output_lower, 'error transitorio sunat') !== false ||
+        strpos($mensaje_error_lower, 'internal server error') !== false ||
+        strpos($mensaje_error_lower, 'timeout') !== false ||
+        strpos($mensaje_error_lower, 'service unavailable') !== false ||
+        strpos($mensaje_error_lower, 'temporarily unavailable') !== false
+    );
+
+    if ($es_aceptado) {
         // 6️⃣ Generar hash del CDR si existe
         $ruta_cdr_info = $MC->Obtener_Ruta_CDR($comprobante['serie'], $comprobante['correlativo'], $comprobante['fecha_emision']);
         $hash_cdr = null;
@@ -307,7 +341,7 @@ elseif ($accion == 'ENVIAR_SUNAT') {
             'nombre_cdr' => $nombre_cdr,
             'hash_cdr' => $hash_cdr
         ]);
-    } elseif (strpos($output_lower, 'enviado') !== false) {
+    } elseif ($tiene_ticket) {
         $MC->Actualizar_Estado_SUNAT($id_comprobante, 'ENVIADO');
 
         echo json_encode([
@@ -315,20 +349,44 @@ elseif ($accion == 'ENVIAR_SUNAT') {
             'message' => "📤 {$tipo_nombre} ENVIADA a SUNAT",
             'output'  => nl2br($output)
         ]);
-    } elseif (strpos($output_lower, 'rechazado') !== false || strpos($output_lower, 'error') !== false) {
-        $MC->Actualizar_Estado_SUNAT($id_comprobante, 'RECHAZADO', null, $output);
+    } elseif ($es_error_explicito) {
+        if ($es_error_transitorio) {
+            $descripcion_temporal = $mensaje_error ?: 'Error temporal al comunicar con SUNAT';
 
-        echo json_encode([
-            'status'  => 'error',
-            'message' => "❌ {$tipo_nombre} RECHAZADA por SUNAT",
-            'output'  => nl2br($output)
-        ]);
+            $MC->Actualizar_Estado_SUNAT(
+                $id_comprobante,
+                'PENDIENTE',
+                $codigo_error,
+                '[TEMPORAL] ' . $descripcion_temporal
+            );
+
+            echo json_encode([
+                'status'  => 'error',
+                'message' => "⚠️ {$tipo_nombre} pendiente por error temporal de SUNAT. Reintente el envío.",
+                'output'  => nl2br($output)
+            ]);
+        } else {
+            $descripcion_rechazo = $mensaje_error ?: $output;
+
+            $MC->Actualizar_Estado_SUNAT(
+                $id_comprobante,
+                'RECHAZADO',
+                $codigo_error,
+                $descripcion_rechazo
+            );
+
+            echo json_encode([
+                'status'  => 'error',
+                'message' => "❌ {$tipo_nombre} RECHAZADA por SUNAT",
+                'output'  => nl2br($output)
+            ]);
+        }
     } else {
-        $MC->Actualizar_Estado_SUNAT($id_comprobante, 'ERROR', null, $output);
+        $MC->Actualizar_Estado_SUNAT($id_comprobante, 'PENDIENTE', null, $output);
 
         echo json_encode([
             'status'  => 'error',
-            'message' => '⚠️ No se pudo determinar el estado',
+            'message' => '⚠️ SUNAT no devolvió un estado concluyente. Reintente el envío.',
             'output'  => nl2br($output)
         ]);
     }

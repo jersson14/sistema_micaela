@@ -229,7 +229,64 @@ echo "📄 XML generado: xml/{$nombreXml}\n";
 // =============================================
 // 🔟 ENVIAR A SUNAT
 // =============================================
-$res = $see->send($documento);
+function esErrorTransitorioSunat($codigo, $mensaje)
+{
+    $codigo = strtoupper(trim((string)$codigo));
+    $mensaje = strtolower(trim((string)$mensaje));
+
+    if ($codigo === 'HTTP') {
+        return true;
+    }
+
+    $patrones = [
+        'internal server error',
+        'service unavailable',
+        'temporarily unavailable',
+        'timeout',
+        'timed out',
+        'connection reset',
+        'could not connect',
+        'ssl',
+    ];
+
+    foreach ($patrones as $patron) {
+        if (strpos($mensaje, $patron) !== false) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+$maxIntentos = 3;
+$res = null;
+$codigoUltimoError = '';
+$mensajeUltimoError = '';
+
+for ($intento = 1; $intento <= $maxIntentos; $intento++) {
+    $res = $see->send($documento);
+
+    if ($res->isSuccess()) {
+        break;
+    }
+
+    $errorActual = $res->getError();
+    $codigoUltimoError = $errorActual ? trim((string)$errorActual->getCode()) : '';
+    $mensajeUltimoError = $errorActual ? trim((string)$errorActual->getMessage()) : 'Error desconocido';
+    $esTransitorio = esErrorTransitorioSunat($codigoUltimoError, $mensajeUltimoError);
+
+    echo "\n⚠️ INTENTO {$intento}/{$maxIntentos} FALLIDO\n";
+    echo "Código: {$codigoUltimoError}\n";
+    echo "Mensaje: {$mensajeUltimoError}\n";
+
+    if (!$esTransitorio || $intento >= $maxIntentos) {
+        break;
+    }
+
+    $espera = $intento * 2;
+    echo "⏳ Reintentando en {$espera} segundos...\n";
+    sleep($espera);
+}
 
 if ($res->isSuccess()) {
     $cdr = $res->getCdrResponse();
@@ -267,21 +324,35 @@ if ($res->isSuccess()) {
 
 } else {
     $error = $res->getError();
-    
-    // Actualizar estado a RECHAZADO
+    $codigoError = $error ? trim((string)$error->getCode()) : $codigoUltimoError;
+    $mensajeError = $error ? trim((string)$error->getMessage()) : $mensajeUltimoError;
+    $esTransitorio = esErrorTransitorioSunat($codigoError, $mensajeError);
+
+    $estadoSunat = $esTransitorio ? 'PENDIENTE' : 'RECHAZADO';
+    $descripcionSunat = $esTransitorio ? '[TEMPORAL] ' . $mensajeError : $mensajeError;
+
+    // Actualizar estado en BD
     $upd = $pdo->prepare("UPDATE comprobantes 
-                          SET estado_sunat='RECHAZADO',
+                          SET estado_sunat=?,
                               codigo_respuesta_sunat=?,
                               descripcion_respuesta_sunat=?,
                               fecha_envio_sunat=NOW()
                           WHERE id_comprobante=?");
     $upd->execute([
-        $error->getCode(),
-        $error->getMessage(),
+        $estadoSunat,
+        $codigoError,
+        $descripcionSunat,
         $comprobante['id_comprobante']
     ]);
-    
-    echo "\n❌ ERROR EN EL ENVÍO\n";
-    echo "Código: {$error->getCode()}\n";
-    echo "Mensaje: {$error->getMessage()}\n";
+
+    if ($esTransitorio) {
+        echo "\n⚠️ ERROR TRANSITORIO SUNAT\n";
+        echo "Código: {$codigoError}\n";
+        echo "Mensaje: {$mensajeError}\n";
+        echo "Acción: Reintentar envío\n";
+    } else {
+        echo "\n❌ ERROR EN EL ENVÍO\n";
+        echo "Código: {$codigoError}\n";
+        echo "Mensaje: {$mensajeError}\n";
+    }
 }

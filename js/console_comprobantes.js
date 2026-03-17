@@ -728,10 +728,16 @@ function debugFormulario() {
 
 // GUARDAR Y ENVIAR A SUNAT
 function guardarYEnviar() {
-      // Detener refresco al guardar
-    if (intervalo_correlativo) clearInterval(intervalo_correlativo);
   // Primero guardar como PENDIENTE
   guardarComprobanteYEnviar();
+}
+
+function reactivarRefrescoCorrelativo() {
+  if (intervalo_correlativo) clearInterval(intervalo_correlativo);
+  intervalo_correlativo = setInterval(obtenerCorrelativo, 20000);
+  setTimeout(function () {
+    obtenerCorrelativo();
+  }, 300);
 }
 
 function guardarComprobanteYEnviar() {
@@ -835,6 +841,9 @@ function guardarComprobanteYEnviar() {
     id_usuario,
   };
 
+  // Detener refresco solo cuando ya vamos a registrar/enviar
+  if (intervalo_correlativo) clearInterval(intervalo_correlativo);
+
   Swal.fire({
     title: "Guardando y enviando...",
     html: "Paso 1/2: Registrando comprobante...",
@@ -910,6 +919,7 @@ function enviarASunat(id_comprobante, serie, correlativo) {
           limpiarFormulario();
         });
       } else {
+        reactivarRefrescoCorrelativo();
         Swal.fire({
           icon: "error",
           title: "Error al enviar a SUNAT",
@@ -920,6 +930,7 @@ function enviarASunat(id_comprobante, serie, correlativo) {
     })
     .fail(function () {
       Swal.close();
+      reactivarRefrescoCorrelativo();
       Swal.fire("Error", "Error al comunicarse con SUNAT", "error");
     });
 }
