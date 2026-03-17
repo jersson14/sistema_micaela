@@ -1,4 +1,5 @@
 <?php
+require '../../utilitario/jwt_config.php';
 require '../../utilitario/JWTHelper.php';
 require '../../model/model_usuario.php';
 
@@ -39,13 +40,13 @@ $userData = array(
     'usuario' => $decoded->data->usuario
 );
 
-// Generar nuevo access token (2 horas)
-$newAccessToken = JWTHelper::generateToken($userData, 2);
+// Generar nuevo access token
+$newAccessToken = JWTHelper::generateToken($userData, JWT_ACCESS_TOKEN_EXPIRATION);
 
 echo json_encode([
     'success' => true,
     'tokens' => [
         'access_token' => $newAccessToken,
-        'expires_in' => 7200 // 2 horas en segundos
+        'expires_in' => JWT_ACCESS_TOKEN_EXPIRATION * 3600
     ]
 ]);

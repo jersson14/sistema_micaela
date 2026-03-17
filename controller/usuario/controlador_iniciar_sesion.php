@@ -1,5 +1,6 @@
 <?php
     require '../../model/model_usuario.php';
+    require '../../utilitario/jwt_config.php';
     require '../../utilitario/JWTHelper.php';
     
     $MU = new Modelo_Usuario();
@@ -23,8 +24,8 @@
             'sucursal' => $consulta[0][20]
         );
         
-        // Generar access token (2 horas)
-        $accessToken = JWTHelper::generateToken($userData, 2);
+        // Generar access token
+        $accessToken = JWTHelper::generateToken($userData, JWT_ACCESS_TOKEN_EXPIRATION);
         
         // Generar refresh token (7 días)
         $refreshToken = JWTHelper::generateRefreshToken($userData);
@@ -36,7 +37,7 @@
             'tokens' => array(
                 'access_token' => $accessToken,
                 'refresh_token' => $refreshToken,
-                'expires_in' => 7200 // 2 horas en segundos
+                'expires_in' => JWT_ACCESS_TOKEN_EXPIRATION * 3600
             )
         );
         

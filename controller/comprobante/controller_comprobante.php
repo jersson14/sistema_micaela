@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once '../../utilitario/session_config.php';
 
 require_once '../../model/model_comprobante.php';
 $MC = new Modelo_Comprobantes();

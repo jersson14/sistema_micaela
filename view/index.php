@@ -8,13 +8,13 @@ if (!isset($_SESSION['S_ID']) || empty($_SESSION['S_ID'])) {
   exit;
 }
 
-// *** LÓGICA DE INACTIVIDAD (2 HORAS) ***
+// *** LÓGICA DE INACTIVIDAD (1 HORA) ***
 if (!isset($_SESSION['LAST_ACTIVITY'])) {
   $_SESSION['LAST_ACTIVITY'] = time();
 }
 
 $tiempo_transcurrido = time() - $_SESSION['LAST_ACTIVITY'];
-$tiempo_maximo_inactividad = 2 * 3600; // 2 horas
+$tiempo_maximo_inactividad = defined('SESSION_TIMEOUT_SECONDS') ? SESSION_TIMEOUT_SECONDS : 3600;
 
 if ($tiempo_transcurrido > $tiempo_maximo_inactividad) {
   // Sesión expirada por INACTIVIDAD

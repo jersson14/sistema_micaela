@@ -13,7 +13,7 @@ define('JWT_SECRET_KEY', getenv('JWT_SECRET_KEY') ?: 'ToursMicaela2024_SecretKey
 define('JWT_ALGORITHM', 'HS256');
 
 // Tiempo de expiración del access token (en horas)
-define('JWT_ACCESS_TOKEN_EXPIRATION', 2);
+define('JWT_ACCESS_TOKEN_EXPIRATION', 1);
 
 // Tiempo de expiración del refresh token (en días)
 define('JWT_REFRESH_TOKEN_EXPIRATION', 7);

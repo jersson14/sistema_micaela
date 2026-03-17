@@ -448,7 +448,6 @@ public function Reporte_Choferes($estado = '', $fecha_desde = '', $fecha_hasta =
     $c = conexionBD::conexionPDO();
     
     try {
-        // 🔥 PRIMERO: Obtener datos base de choferes con salidas
         $sql = "SELECT 
                     ch.id_chofer,
                     ch.tipo_documen,
@@ -460,79 +459,57 @@ public function Reporte_Choferes($estado = '', $fecha_desde = '', $fecha_hasta =
                     COALESCE(ch.nro_licencia, '') AS nro_licencia,
                     ch.fecha_vencimiento_licencia,
                     ch.estado,
-                    COUNT(DISTINCT sd.id_salidas_diarias) AS total_salidas
+                    COALESCE(sd.total_salidas, 0) AS total_salidas,
+                    COALESCE(cp.total_comprobantes, 0) AS total_comprobantes,
+                    COALESCE(cp.total_facturado, 0) AS total_facturado
                 FROM choferes ch
-                LEFT JOIN salidas_diarias sd ON ch.id_chofer = sd.id_conductor";
-        
-        $where_parts = [];
+                LEFT JOIN (
+                    SELECT 
+                        sd.id_conductor,
+                        COUNT(sd.id_salidas_diarias) AS total_salidas
+                    FROM salidas_diarias sd
+                    WHERE sd.estado != 'ELIMINADO'";
+
         $params = [];
-        
-        // Filtro por fechas en salidas
+
         if (!empty($fecha_desde) && !empty($fecha_hasta)) {
-            $where_parts[] = "(sd.id_salidas_diarias IS NULL OR DATE(sd.fecha_hora) BETWEEN ? AND ?)";
+            $sql .= " AND DATE(sd.fecha_hora) BETWEEN ? AND ?";
             $params[] = $fecha_desde;
             $params[] = $fecha_hasta;
         }
-        
-        if (!empty($where_parts)) {
-            $sql .= " AND " . implode(' AND ', $where_parts);
+
+        $sql .= " GROUP BY sd.id_conductor
+                ) sd ON ch.id_chofer = sd.id_conductor
+                LEFT JOIN (
+                    SELECT
+                        c.idconductor,
+                        COUNT(DISTINCT c.id_comprobante) AS total_comprobantes,
+                        COALESCE(SUM(c.total), 0) AS total_facturado
+                    FROM comprobantes c
+                    WHERE c.estado_documento = 'ACTIVO'
+                    AND c.estado_sunat IN ('ACEPTADO', 'ENVIADO')
+                    AND c.tipo_comprobante IN ('01', '03')";
+
+        if (!empty($fecha_desde) && !empty($fecha_hasta)) {
+            $sql .= " AND DATE(c.fecha_emision) BETWEEN ? AND ?";
+            $params[] = $fecha_desde;
+            $params[] = $fecha_hasta;
         }
-        
-        // Filtro por estado del chofer
-        $where_conditions = [];
+
+        $sql .= " GROUP BY c.idconductor
+                ) cp ON ch.id_chofer = cp.idconductor";
+
         if (!empty($estado)) {
-            $where_conditions[] = "ch.estado = ?";
+            $sql .= " WHERE ch.estado = ?";
             $params[] = $estado;
         }
-        
-        if (!empty($where_conditions)) {
-            $sql .= " WHERE " . implode(' AND ', $where_conditions);
-        }
-        
-        $sql .= " GROUP BY ch.id_chofer, ch.tipo_documen, ch.nro_doc, ch.nombres_apellidos, 
-                  ch.celular, ch.marca_vehiculo, ch.placa_vehiculo, ch.nro_licencia, 
-                  ch.fecha_vencimiento_licencia, ch.estado";
-        
+
+        $sql .= " ORDER BY total_salidas DESC, ch.nombres_apellidos ASC";
+
         $query = $c->prepare($sql);
         $query->execute($params);
         
-        $choferes = $query->fetchAll(PDO::FETCH_ASSOC);
-        
-        // 🔥 SEGUNDO: Calcular comprobantes y total facturado por separado
-        foreach ($choferes as &$chofer) {
-            // Query para comprobantes del chofer
-            $sql_comp = "SELECT 
-                            COUNT(DISTINCT c.id_comprobante) AS total_comprobantes,
-                            COALESCE(SUM(c.total), 0) AS total_facturado
-                        FROM comprobantes c
-                        WHERE c.idconductor = ?
-                        AND c.estado_documento = 'ACTIVO'
-                        AND c.estado_sunat IN ('ACEPTADO', 'ENVIADO')";
-            
-            $params_comp = [$chofer['id_chofer']];
-            
-            // Si hay filtro de fechas, aplicarlo también a comprobantes
-            if (!empty($fecha_desde) && !empty($fecha_hasta)) {
-                $sql_comp .= " AND DATE(c.fecha_emision) BETWEEN ? AND ?";
-                $params_comp[] = $fecha_desde;
-                $params_comp[] = $fecha_hasta;
-            }
-            
-            $query_comp = $c->prepare($sql_comp);
-            $query_comp->execute($params_comp);
-            $resultado_comp = $query_comp->fetch(PDO::FETCH_ASSOC);
-            
-            // Agregar datos de comprobantes al chofer
-            $chofer['total_comprobantes'] = $resultado_comp['total_comprobantes'] ?? 0;
-            $chofer['total_facturado'] = $resultado_comp['total_facturado'] ?? 0;
-        }
-        
-        // 🔥 ORDENAR por total de salidas
-        usort($choferes, function($a, $b) {
-            return $b['total_salidas'] - $a['total_salidas'];
-        });
-        
-        return $choferes;
+        return $query->fetchAll(PDO::FETCH_ASSOC);
         
     } catch (Exception $e) {
         error_log("Error en Reporte_Choferes: " . $e->getMessage());
@@ -813,19 +790,30 @@ public function Obtener_Detalle_Chofer($id_chofer)
                     COALESCE(ch.nro_licencia, '') AS nro_licencia,
                     ch.fecha_vencimiento_licencia,
                     ch.estado,
-                    COUNT(DISTINCT sd.id_salidas_diarias) AS total_salidas,
-                    COUNT(DISTINCT c.id_comprobante) AS total_comprobantes,
-                    COALESCE(SUM(c.total), 0) AS total_facturado
+                    COALESCE(sd.total_salidas, 0) AS total_salidas,
+                    COALESCE(cp.total_comprobantes, 0) AS total_comprobantes,
+                    COALESCE(cp.total_facturado, 0) AS total_facturado
                 FROM choferes ch
-                LEFT JOIN salidas_diarias sd ON ch.id_chofer = sd.id_conductor
-                    AND sd.estado != 'ELIMINADO'
-                LEFT JOIN comprobantes c ON ch.id_chofer = c.idconductor
-                    AND c.estado_documento = 'ACTIVO'
+                LEFT JOIN (
+                    SELECT 
+                        sd.id_conductor,
+                        COUNT(sd.id_salidas_diarias) AS total_salidas
+                    FROM salidas_diarias sd
+                    WHERE sd.estado != 'ELIMINADO'
+                    GROUP BY sd.id_conductor
+                ) sd ON ch.id_chofer = sd.id_conductor
+                LEFT JOIN (
+                    SELECT 
+                        c.idconductor,
+                        COUNT(DISTINCT c.id_comprobante) AS total_comprobantes,
+                        COALESCE(SUM(c.total), 0) AS total_facturado
+                    FROM comprobantes c
+                    WHERE c.estado_documento = 'ACTIVO'
                     AND c.estado_sunat IN ('ACEPTADO', 'ENVIADO')
+                    AND c.tipo_comprobante IN ('01', '03')
+                    GROUP BY c.idconductor
+                ) cp ON ch.id_chofer = cp.idconductor
                 WHERE ch.id_chofer = ?
-                GROUP BY ch.id_chofer, ch.tipo_documen, ch.nro_doc, ch.nombres_apellidos, 
-                         ch.celular, ch.marca_vehiculo, ch.placa_vehiculo, ch.nro_licencia, 
-                         ch.fecha_vencimiento_licencia, ch.estado
                 LIMIT 1";
         
         $query = $c->prepare($sql);

@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once '../../utilitario/session_config.php';
 
 // 🔧 DETECTAR RUTA AUTOMÁTICAMENTE
 $ruta_model = '';

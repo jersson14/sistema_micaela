@@ -1,22 +1,23 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/jwt_config.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 class JWTHelper
 {
-    // Clave secreta - CAMBIAR EN PRODUCCIÓN
-    private static $secret_key = "ToursMicaela2024_SecretKey_ChangeInProduction";
-    private static $encrypt = 'HS256';
+    // Configuración desde jwt_config.php
+    private static $secret_key = JWT_SECRET_KEY;
+    private static $encrypt = JWT_ALGORITHM;
     private static $aud = null;
 
     /**
      * Genera un token JWT
      * @param array $data Datos del usuario a incluir en el token
-     * @param int $expiration_hours Horas de expiración (default: 2 horas)
+     * @param int $expiration_hours Horas de expiración (default: JWT_ACCESS_TOKEN_EXPIRATION)
      * @return string Token JWT
      */
-    public static function generateToken($data, $expiration_hours = 2)
+    public static function generateToken($data, $expiration_hours = JWT_ACCESS_TOKEN_EXPIRATION)
     {
         $time = time();
         
@@ -41,7 +42,7 @@ class JWTHelper
         
         $token = array(
             'iat' => $time,
-            'exp' => $time + (7 * 24 * 3600), // 7 días
+            'exp' => $time + (JWT_REFRESH_TOKEN_EXPIRATION * 24 * 3600),
             'aud' => self::Aud(),
             'type' => 'refresh',
             'data' => array(

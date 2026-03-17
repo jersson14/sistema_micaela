@@ -7,7 +7,7 @@
 
     const SessionKeeper = {
         config: {
-            inactivityTimeout: 2 * 60 * 60 * 1000, // 2 horas en milisegundos
+            inactivityTimeout: 1 * 60 * 60 * 1000, // 1 hora en milisegundos
             checkInterval: 5 * 60 * 1000, // Verificar cada 5 minutos
             pingInterval: 10 * 60 * 1000 // Ping al servidor cada 10 minutos
         },
@@ -53,8 +53,8 @@
                 console.log(`⏱️ Inactividad: ${inactiveMinutes} minutos`);
                 
                 if (inactiveTime >= this.config.inactivityTimeout) {
-                    console.log('❌ Sesión expirada por inactividad (2 horas)');
-                    this.logout('Tu sesión expiró por inactividad (2 horas sin actividad)');
+                    console.log('❌ Sesión expirada por inactividad (1 hora)');
+                    this.logout('Tu sesión expiró por inactividad (1 hora sin actividad)');
                 }
             }, this.config.checkInterval);
         },
