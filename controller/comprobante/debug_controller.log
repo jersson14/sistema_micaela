@@ -814,3 +814,640 @@ DEBUG TELEFONO: Array
   - Razon: UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
   - Telefono: "" (length: 0)
 [2026-03-17 14:54:26] RESULTADO REGISTRO CLIENTE: ID=3
+[2026-03-18 09:47:49] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000025
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-18T09:47
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 09:47:49] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 09:47:49] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 09:47:55] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000026
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-18T09:47
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 09:47:55] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 09:47:55] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 09:47:58] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000027
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-18T09:47
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 09:47:58] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 09:47:58] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 09:51:01] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000028
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T09:50
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 09:51:01] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 09:51:01] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 09:54:39] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000029
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T09:54
+    [base_gravada] => 1.69
+    [igv] => 0.31
+    [total] => 2.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 09:54:39] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 09:54:39] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 10:07:45] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000030
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:07
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:07:45] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 10:07:45] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 10:10:37] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000031
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:10
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:10:37] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 10:10:37] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 10:10:55] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000032
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:10
+    [base_gravada] => 1.69
+    [igv] => 0.31
+    [total] => 2.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:10:55] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 10:10:55] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 10:11:20] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000033
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:10
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:11:20] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 10:11:20] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 10:16:43] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000034
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:10
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:16:43] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 10:16:43] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 10:32:55] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000035
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:32
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:32:55] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 10:32:55] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 13:21:37] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000036
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 19
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T13:21
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 13:21:37] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 13:21:37] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 13:21:59] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000037
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 19
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T13:21
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 13:21:59] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 13:21:59] RESULTADO REGISTRO CLIENTE: ID=2

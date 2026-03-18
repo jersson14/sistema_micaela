@@ -191,6 +191,55 @@ elseif ($accion == 'REGISTRAR_COMPROBANTE') {
 // ============================================================
 elseif ($accion == 'ENVIAR_SUNAT') {
     header('Content-Type: application/json; charset=utf-8');
+    if (function_exists('set_time_limit')) {
+        @set_time_limit(240);
+    }
+
+    // Resolver binario PHP CLI real (evita usar binarios de Apache en Windows).
+    $resolverPhpCli = function () {
+        $es_windows = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+        $php_binario = PHP_BINARY ?: '';
+        $nombre_bin = strtolower(basename((string)$php_binario));
+
+        $binario_invalido = (
+            empty($php_binario) ||
+            strpos($nombre_bin, 'httpd') !== false ||
+            strpos($nombre_bin, 'apache') !== false ||
+            strpos($nombre_bin, '.dll') !== false
+        );
+
+        if (!$binario_invalido && @is_file($php_binario)) {
+            return $php_binario;
+        }
+
+        if ($es_windows) {
+            $candidatos = [
+                rtrim((string)PHP_BINDIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'php.exe',
+                'C:\\xampp\\php\\php.exe',
+                'php'
+            ];
+        } else {
+            $candidatos = [
+                rtrim((string)PHP_BINDIR, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'php',
+                '/usr/bin/php',
+                '/usr/local/bin/php',
+                'php'
+            ];
+        }
+
+        foreach ($candidatos as $cand) {
+            if ($cand === 'php') {
+                return $cand;
+            }
+            if (@is_file($cand)) {
+                return $cand;
+            }
+        }
+
+        return 'php';
+    };
+
+    $php_cli_real = $resolverPhpCli();
 
     // 🔍 Verificar que llegue el ID
     if (!isset($_POST['id_comprobante']) || empty($_POST['id_comprobante'])) {
@@ -261,12 +310,98 @@ elseif ($accion == 'ENVIAR_SUNAT') {
     $numero_completo = $comprobante['serie'] . '-' . str_pad($comprobante['correlativo'], 8, '0', STR_PAD_LEFT);
     $nombre_cdr = 'R-' . $numero_completo . '.zip';
 
+    // 2.1️⃣ Modo envío en segundo plano (deshabilitado para flujo estricto)
+    // Aunque el frontend antiguo envíe background=1, aquí forzamos modo síncrono
+    // para que el ticket solo se emita después de respuesta SUNAT.
+    $permitir_background = false;
+    $enviar_background = $permitir_background && isset($_POST['background']) && $_POST['background'] == '1';
+    if ($enviar_background) {
+        $ruta_script_bg = __DIR__ . '/../../greenter/factura_bd.php';
+        $es_windows_bg = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+        $lanzado_bg = false;
+        $comando_bg = '';
+
+        if ($es_windows_bg) {
+            $php_win = '"' . str_replace('"', '\"', $php_cli_real) . '"';
+            $script_win = '"' . str_replace('"', '\"', $ruta_script_bg) . '"';
+            $comando_bg = "start /B \"\" {$php_win} {$script_win} {$id_comprobante} >NUL 2>&1";
+            $proc = @popen($comando_bg, 'r');
+            if (is_resource($proc)) {
+                @pclose($proc);
+                $lanzado_bg = true;
+            }
+        } else {
+            $php_bg = escapeshellarg($php_cli_real);
+            $script_bg = escapeshellarg($ruta_script_bg);
+            $id_bg = escapeshellarg((string)$id_comprobante);
+            $comando_bg = "nohup {$php_bg} {$script_bg} {$id_bg} > /dev/null 2>&1 &";
+            @exec($comando_bg, $tmp_out_bg, $code_bg);
+            $lanzado_bg = ($code_bg === 0);
+        }
+
+        // Log específico de cola/background
+        $log_file_bg = __DIR__ . '/../../greenter/envio_log.txt';
+        file_put_contents($log_file_bg, "=========================\n", FILE_APPEND);
+        file_put_contents($log_file_bg, "FECHA: " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+        file_put_contents($log_file_bg, "MODO: BACKGROUND\n", FILE_APPEND);
+        file_put_contents($log_file_bg, "ID COMPROBANTE: $id_comprobante\n", FILE_APPEND);
+        file_put_contents($log_file_bg, "TIPO: $tipo_nombre ($comprobante[tipo_comprobante])\n", FILE_APPEND);
+        file_put_contents($log_file_bg, "NUMERO: $numero_completo\n", FILE_APPEND);
+        file_put_contents($log_file_bg, "CMD: $comando_bg\n", FILE_APPEND);
+        file_put_contents($log_file_bg, "LANZADO: " . ($lanzado_bg ? 'SI' : 'NO') . "\n\n", FILE_APPEND);
+
+        if ($lanzado_bg) {
+            $MC->Actualizar_Estado_SUNAT(
+                $id_comprobante,
+                'PENDIENTE',
+                'QUEUE',
+                '[COLA] Envío a SUNAT en segundo plano iniciado'
+            );
+
+            echo json_encode([
+                'status' => 'queued',
+                'message' => "📨 {$tipo_nombre} registrada. Envío a SUNAT en segundo plano iniciado.",
+                'id_comprobante' => $id_comprobante,
+                'numero' => $numero_completo
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => "No se pudo iniciar el envío en segundo plano para {$tipo_nombre}. Intente reenviar desde la lista de pendientes."
+            ]);
+        }
+        exit;
+    }
+
     // 3️⃣ Ejecutar script de Greenter
     $ruta_script = __DIR__ . '/../../greenter/factura_bd.php';
-    $comando = "php \"$ruta_script\" $id_comprobante 2>&1";
-    $output = shell_exec($comando);
+    $php_bin = escapeshellarg($php_cli_real);
+    $script_arg = escapeshellarg($ruta_script);
+    $id_arg = escapeshellarg((string)$id_comprobante);
+    $comando_base = "{$php_bin} {$script_arg} {$id_arg}";
+    $es_windows = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+    if ($es_windows) {
+        $comando = "{$comando_base} 2>&1";
+    } else {
+        $timeout_cmd = trim((string)@shell_exec('command -v timeout 2>/dev/null'));
+        $comando = !empty($timeout_cmd)
+            ? "timeout 180s {$comando_base} 2>&1"
+            : "{$comando_base} 2>&1";
+    }
+
+    $output_lines = [];
+    $codigo_salida_comando = 0;
+    @exec($comando, $output_lines, $codigo_salida_comando);
+    $output = trim(implode(PHP_EOL, $output_lines));
     if ($output === null) {
         $output = '';
+    }
+
+    $fue_timeout_comando = (!$es_windows && (int)$codigo_salida_comando === 124);
+    if ($fue_timeout_comando) {
+        $output .= "\n⚠️ ERROR TRANSITORIO SUNAT\n";
+        $output .= "Código: TIMEOUT\n";
+        $output .= "Mensaje: Tiempo de espera agotado al enviar a SUNAT\n";
     }
 
     // 4️⃣ Registrar log
@@ -277,6 +412,7 @@ elseif ($accion == 'ENVIAR_SUNAT') {
     file_put_contents($log_file, "TIPO: $tipo_nombre ($comprobante[tipo_comprobante])\n", FILE_APPEND);
     file_put_contents($log_file, "NUMERO: $numero_completo\n", FILE_APPEND);
     file_put_contents($log_file, "NOMBRE CDR: $nombre_cdr\n", FILE_APPEND);
+    file_put_contents($log_file, "EXIT CODE: $codigo_salida_comando\n", FILE_APPEND);
     file_put_contents($log_file, "OUTPUT:\n$output\n\n", FILE_APPEND);
 
     // 5️⃣ Analizar respuesta
@@ -290,23 +426,50 @@ elseif ($accion == 'ENVIAR_SUNAT') {
     if (preg_match('/^mensaje:\s*([^\r\n]+)/mi', $output, $match_mensaje)) {
         $mensaje_error = trim($match_mensaje[1]);
     }
+    if ($fue_timeout_comando) {
+        if (empty($codigo_error)) {
+            $codigo_error = 'TIMEOUT';
+        }
+        if (empty($mensaje_error)) {
+            $mensaje_error = 'Tiempo de espera agotado al enviar a SUNAT';
+        }
+    }
 
-    $es_aceptado = (strpos($output_lower, '✅ aceptado por sunat') !== false);
+    $codigo_error_norm = strtoupper(trim((string)$codigo_error));
+    $codigo_es_error = (
+        $codigo_error_norm !== '' &&
+        $codigo_error_norm !== '0' &&
+        $codigo_error_norm !== '0000' &&
+        $codigo_error_norm !== 'OK'
+    );
+
+    $es_aceptado = (
+        strpos($output_lower, 'aceptado por sunat') !== false ||
+        strpos($output_lower, 'ha sido aceptad') !== false
+    );
     $tiene_ticket = (strpos($output_lower, 'ticket recibido') !== false);
     $es_error_explicito = (
+        $fue_timeout_comando ||
         strpos($output_lower, '❌ error en el envío') !== false ||
         strpos($output_lower, '❌ error en el envio') !== false ||
         strpos($output_lower, 'error en el envío') !== false ||
         strpos($output_lower, 'error en el envio') !== false ||
         strpos($output_lower, 'error transitorio sunat') !== false ||
         strpos($output_lower, 'rechazado') !== false ||
-        !empty($codigo_error) ||
+        $codigo_es_error ||
         !empty($mensaje_error)
     );
     $mensaje_error_lower = strtolower((string)$mensaje_error);
     $es_error_transitorio = (
-        $codigo_error === 'HTTP' ||
+        $fue_timeout_comando ||
+        $codigo_error_norm === 'TIMEOUT' ||
+        $codigo_error_norm === 'HTTP' ||
         strpos($output_lower, 'error transitorio sunat') !== false ||
+        strpos($output_lower, 'internal server error') !== false ||
+        strpos($output_lower, 'service unavailable') !== false ||
+        strpos($output_lower, 'temporarily unavailable') !== false ||
+        strpos($output_lower, 'gateway timeout') !== false ||
+        strpos($output_lower, 'timeout') !== false ||
         strpos($mensaje_error_lower, 'internal server error') !== false ||
         strpos($mensaje_error_lower, 'timeout') !== false ||
         strpos($mensaje_error_lower, 'service unavailable') !== false ||
@@ -361,8 +524,8 @@ elseif ($accion == 'ENVIAR_SUNAT') {
             );
 
             echo json_encode([
-                'status'  => 'error',
-                'message' => "⚠️ {$tipo_nombre} pendiente por error temporal de SUNAT. Reintente el envío.",
+                'status'  => 'pending',
+                'message' => "⚠️ {$tipo_nombre} en estado PENDIENTE por error temporal de SUNAT. Reintente el envío en 1-2 minutos y no anule el comprobante.",
                 'output'  => nl2br($output)
             ]);
         } else {

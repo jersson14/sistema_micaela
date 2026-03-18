@@ -298,6 +298,22 @@ function enviarIndividual(id, serie, correlativo) {
                         cargarResumen();
                         listar_historial_envios();
                     });
+                } else if (
+                    resp.status == "pending" ||
+                    resp.status == "info" ||
+                    resp.status == "warning"
+                ) {
+                    Swal.fire({
+                        icon: resp.status == "info" ? "info" : "warning",
+                        title: "SUNAT respondió temporalmente",
+                        html: (resp.message || "El comprobante quedó en estado temporal.") +
+                              "<br><small>Puede reintentarlo desde esta misma lista en 1-2 minutos.</small>",
+                        showConfirmButton: true
+                    }).then(() => {
+                        listar_pendientes_envio();
+                        cargarResumen();
+                        listar_historial_envios();
+                    });
                 } else {
                     Swal.fire({
                         icon: "error",
@@ -396,6 +412,13 @@ function procesarEnvioMasivo(indice) {
         if (resp.status == "success") {
             totalExitosos++;
             agregarLog(`<i class="fas fa-check-circle text-success"></i> <b>${comprobante.serie}-${comprobante.correlativo}</b> - Aceptado`, "envio-exitoso");
+        } else if (
+            resp.status == "pending" ||
+            resp.status == "info" ||
+            resp.status == "warning"
+        ) {
+            totalErrores++;
+            agregarLog(`<i class="fas fa-exclamation-triangle text-warning"></i> <b>${comprobante.serie}-${comprobante.correlativo}</b> - Temporal: ${resp.message || "Reintentar más tarde"}`, "envio-error");
         } else {
             totalErrores++;
             agregarLog(`<i class="fas fa-times-circle text-danger"></i> <b>${comprobante.serie}-${comprobante.correlativo}</b> - Error: ${resp.message}`, "envio-error");

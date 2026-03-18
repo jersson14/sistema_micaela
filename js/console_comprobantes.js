@@ -292,6 +292,7 @@ function limpiarTotales() {
 
 // OBTENER CORRELATIVO AUTOMÁTICO
 var intervalo_correlativo = null;
+var suprimirAvisoCorrelativo = false;
 
 function obtenerCorrelativo() {
     var tipo = document.getElementById('select_tipo_comprobante').value;
@@ -308,7 +309,7 @@ function obtenerCorrelativo() {
             var anterior = document.getElementById('txt_correlativo').value;
             document.getElementById('txt_correlativo').value = data.correlativo;
 
-            if (anterior !== '' && anterior !== data.correlativo) {
+            if (!suprimirAvisoCorrelativo && anterior !== '' && anterior !== data.correlativo) {
                 Swal.fire({
                     icon: 'warning',
                     title: '⚠️ Correlativo actualizado',
@@ -320,6 +321,7 @@ function obtenerCorrelativo() {
                     position: 'top-end'
                 });
             }
+            suprimirAvisoCorrelativo = false;
         }
     });
 }
@@ -727,7 +729,41 @@ function debugFormulario() {
 }
 
 // GUARDAR Y ENVIAR A SUNAT
+var envioEnProceso = false;
+
+function setEstadoBotonGuardarEnviar(bloquear) {
+  const $btn = $("#btn_guardar_enviar_sunat");
+  if (!$btn.length) return;
+
+  if (bloquear) {
+    if (!$btn.data("html-original")) {
+      $btn.data("html-original", $btn.html());
+    }
+    $btn.prop("disabled", true);
+    $btn.html('<i class="fas fa-spinner fa-spin"></i> Procesando...');
+  } else {
+    const htmlOriginal =
+      $btn.data("html-original") ||
+      '<i class="fas fa-paper-plane"></i> Guardar y Enviar a SUNAT';
+    $btn.prop("disabled", false);
+    $btn.html(htmlOriginal);
+  }
+}
+
+function finalizarFlujoGuardarEnviar() {
+  envioEnProceso = false;
+  setEstadoBotonGuardarEnviar(false);
+  reactivarRefrescoCorrelativo();
+}
+
 function guardarYEnviar() {
+  if (envioEnProceso) {
+    return Swal.fire(
+      "Espere",
+      "Ya hay un proceso de guardado/envío en curso. No vuelva a hacer clic todavía.",
+      "info"
+    );
+  }
   // Primero guardar como PENDIENTE
   guardarComprobanteYEnviar();
 }
@@ -735,6 +771,7 @@ function guardarYEnviar() {
 function reactivarRefrescoCorrelativo() {
   if (intervalo_correlativo) clearInterval(intervalo_correlativo);
   intervalo_correlativo = setInterval(obtenerCorrelativo, 20000);
+  suprimirAvisoCorrelativo = true;
   setTimeout(function () {
     obtenerCorrelativo();
   }, 300);
@@ -751,6 +788,7 @@ function guardarComprobanteYEnviar() {
   let numero_documento = $("#txt_numero_documento").val();
   let razon_social = $("#txt_razon_social").val();
   let direccion = $("#txt_direccion").val();
+  let celular = ($("#txt_telefono").val() || "").trim();
   let departamento = $("#txt_departamento").val();
   let provincia = $("#txt_provincia").val();
   let distrito = $("#txt_distrito").val();
@@ -809,6 +847,26 @@ function guardarComprobanteYEnviar() {
     });
   }
 
+  envioEnProceso = true;
+  setEstadoBotonGuardarEnviar(true);
+
+  // Reservar ventana de ticket desde el gesto del usuario para evitar bloqueo del navegador.
+  // En modo estricto NO se imprime aún: solo se mostrará si SUNAT responde ACEPTADO.
+  const popupWidth = 480;
+  const popupHeight = 700;
+  const left = (screen.width - popupWidth) / 2;
+  const top = (screen.height - popupHeight) / 2;
+  let ventanaTicket = window.open(
+    "about:blank",
+    "TicketSUNAT",
+    `width=${popupWidth},height=${popupHeight},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no`
+  );
+  if (ventanaTicket && !ventanaTicket.closed) {
+    ventanaTicket.document.write(
+      "<html><body style='font-family:Arial,sans-serif;padding:16px;'><h3>Validando con SUNAT...</h3><p>Se imprimira el ticket solo cuando SUNAT lo acepte.</p></body></html>"
+    );
+  }
+
   // Construir objeto de envío
   let formData = {
     accion: "REGISTRAR_COMPROBANTE",
@@ -821,6 +879,7 @@ function guardarComprobanteYEnviar() {
     numero_documento,
     razon_social,
     direccion,
+    celular,
     departamento,
     provincia,
     distrito,
@@ -859,29 +918,175 @@ function guardarComprobanteYEnviar() {
     type: "POST",
     data: formData,
     dataType: "json",
+    timeout: 45000,
   })
     .done(function (resp) {
       if (resp.status == "success") {
-        // Ahora enviar a SUNAT
+        // Ahora enviar a SUNAT en modo estricto (esperar respuesta para imprimir ticket)
         Swal.update({
-          html: "Paso 2/2: Enviando a SUNAT...",
+          html: "Paso 2/2: Enviando a SUNAT y esperando respuesta...",
         });
 
-        enviarASunat(resp.id_comprobante, resp.serie, resp.correlativo);
+        enviarASunat(
+          resp.id_comprobante,
+          resp.serie,
+          resp.correlativo,
+          ventanaTicket
+        );
       } else {
         Swal.close();
+        if (ventanaTicket && !ventanaTicket.closed) {
+          ventanaTicket.close();
+        }
+        finalizarFlujoGuardarEnviar();
         Swal.fire("Error", resp.message, "error");
       }
     })
-    .fail(function () {
+    .fail(function (xhr, status) {
       Swal.close();
-      Swal.fire("Error", "Error al guardar el comprobante", "error");
+      if (ventanaTicket && !ventanaTicket.closed) {
+        ventanaTicket.close();
+      }
+      finalizarFlujoGuardarEnviar();
+      if (status === "timeout") {
+        Swal.fire(
+          "Error",
+          "El guardado tardó demasiado. Verifique su conexión y vuelva a intentar.",
+          "error"
+        );
+      } else {
+        Swal.fire("Error", "Error al guardar el comprobante", "error");
+      }
     });
 }
 
 // ENVIAR A SUNAT
+function enviarASunatEnSegundoPlano(
+  id_comprobante,
+  serie,
+  correlativo,
+  ventanaTicket
+) {
+  const popupWidth = 480;
+  const popupHeight = 700;
+  const left = (screen.width - popupWidth) / 2;
+  const top = (screen.height - popupHeight) / 2;
+  const urlTicket =
+    "../view/MPDF/REPORTE/ticket_comprobante.php?id=" + id_comprobante;
 
-function enviarASunat(id_comprobante, serie, correlativo) {
+  function abrirTicketSeguro() {
+    if (ventanaTicket && !ventanaTicket.closed) {
+      ventanaTicket.location.href = urlTicket;
+      ventanaTicket.focus();
+    } else {
+      window.open(
+        urlTicket,
+        "TicketSUNAT",
+        `width=${popupWidth},height=${popupHeight},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no`
+      );
+    }
+  }
+
+  $.ajax({
+    url: "../controller/comprobante/controller_comprobante.php",
+    type: "POST",
+    data: {
+      accion: "ENVIAR_SUNAT",
+      id_comprobante: id_comprobante,
+      background: 1,
+    },
+    dataType: "json",
+    timeout: 20000,
+  })
+    .done(function (resp) {
+      Swal.close();
+
+      if (resp.status == "success") {
+        abrirTicketSeguro();
+
+        Swal.fire({
+          icon: "success",
+          title: "Comprobante guardado",
+          html: `
+            <b>${serie}-${correlativo}</b> se registró correctamente.<br>
+            <small>El envío a SUNAT quedó en segundo plano.</small>
+          `,
+          showConfirmButton: true,
+        }).then(() => {
+          limpiarFormulario();
+          finalizarFlujoGuardarEnviar();
+        });
+      } else if (
+        resp.status == "queued" ||
+        resp.status == "pending" ||
+        resp.status == "info" ||
+        resp.status == "warning"
+      ) {
+        // En modo rapido abrir ticket SI o SI (aunque SUNAT siga en proceso)
+        abrirTicketSeguro();
+        Swal.fire({
+          icon: "success",
+          title: "Comprobante guardado",
+          html: `
+            <b>${serie}-${correlativo}</b> se registró correctamente.<br>
+            <small>Envío a SUNAT en proceso (segundo plano).</small><br>
+            <small><b>Ticket generado. Si aún figura pendiente, reimprima luego de ACEPTADO para validez tributaria.</b></small>
+          `,
+          showConfirmButton: true,
+        }).then(() => {
+          limpiarFormulario();
+          finalizarFlujoGuardarEnviar();
+        });
+      } else {
+        finalizarFlujoGuardarEnviar();
+        Swal.fire({
+          icon: "error",
+          title: "No se inició el envío en segundo plano",
+          html: resp.message || "Intente reenviar desde la lista de pendientes.",
+          showConfirmButton: true,
+        });
+      }
+    })
+    .fail(function () {
+      Swal.close();
+      // Si el registro ya existió pero falló el segundo request, igual intentar abrir ticket
+      abrirTicketSeguro();
+      finalizarFlujoGuardarEnviar();
+      Swal.fire(
+        "Error",
+        "No se pudo iniciar el envío en segundo plano. El comprobante quedó registrado; reenvíelo desde pendientes.",
+        "error"
+      );
+    });
+}
+
+function enviarASunat(id_comprobante, serie, correlativo, ventanaTicket = null) {
+  const popupWidth = 480;
+  const popupHeight = 700;
+  const left = (screen.width - popupWidth) / 2;
+  const top = (screen.height - popupHeight) / 2;
+  const urlTicket =
+    "../view/MPDF/REPORTE/ticket_comprobante.php?id=" + id_comprobante;
+
+  function abrirTicketSeguro() {
+    if (ventanaTicket && !ventanaTicket.closed) {
+      ventanaTicket.location.href = urlTicket;
+      ventanaTicket.focus();
+    } else {
+      window.open(
+        urlTicket,
+        "TicketSUNAT",
+        `width=${popupWidth},height=${popupHeight},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no`
+      );
+    }
+  }
+
+  function cerrarVentanaReserva() {
+    if (ventanaTicket && !ventanaTicket.closed) {
+      ventanaTicket.close();
+    }
+  }
+
   $.ajax({
     url: "../controller/comprobante/controller_comprobante.php",
     type: "POST",
@@ -890,22 +1095,13 @@ function enviarASunat(id_comprobante, serie, correlativo) {
       id_comprobante: id_comprobante,
     },
     dataType: "json",
+    timeout: 180000,
   })
     .done(function (resp) {
       Swal.close();
 
       if (resp.status == "success") {
-        // 🧾 Abrir ticket en una ventanita pequeña adelante de la principal
-        const popupWidth = 480;
-        const popupHeight = 700;
-        const left = (screen.width - popupWidth) / 2;
-        const top = (screen.height - popupHeight) / 2;
-
-        window.open(
-          "../view/MPDF/REPORTE/ticket_comprobante.php?id=" + id_comprobante,
-          "TicketSUNAT",
-          `width=${popupWidth},height=${popupHeight},top=${top},left=${left},resizable=yes,scrollbars=yes,status=no`
-        );
+        abrirTicketSeguro();
 
         Swal.fire({
           icon: "success",
@@ -917,9 +1113,34 @@ function enviarASunat(id_comprobante, serie, correlativo) {
           showConfirmButton: true,
         }).then(() => {
           limpiarFormulario();
+          finalizarFlujoGuardarEnviar();
+        });
+      } else if (
+        resp.status == "queued" ||
+        resp.status == "pending" ||
+        resp.status == "info" ||
+        resp.status == "warning"
+      ) {
+        cerrarVentanaReserva();
+        reactivarRefrescoCorrelativo();
+        Swal.fire({
+          icon: resp.status == "info" ? "info" : "warning",
+          title: "SUNAT respondió temporalmente",
+          html:
+            resp.message +
+            "<br><small><b>No anules</b> el comprobante. Reintenta el envío en 1-2 minutos.</small>" +
+            "<br><small>" +
+            (resp.output || "") +
+            "</small>",
+          showConfirmButton: true,
+        }).then(() => {
+          // El comprobante ya fue guardado; limpiar para continuar con el siguiente
+          limpiarFormulario();
+          finalizarFlujoGuardarEnviar();
         });
       } else {
-        reactivarRefrescoCorrelativo();
+        cerrarVentanaReserva();
+        finalizarFlujoGuardarEnviar();
         Swal.fire({
           icon: "error",
           title: "Error al enviar a SUNAT",
@@ -928,10 +1149,19 @@ function enviarASunat(id_comprobante, serie, correlativo) {
         });
       }
     })
-    .fail(function () {
+    .fail(function (xhr, status) {
       Swal.close();
-      reactivarRefrescoCorrelativo();
-      Swal.fire("Error", "Error al comunicarse con SUNAT", "error");
+      cerrarVentanaReserva();
+      finalizarFlujoGuardarEnviar();
+      if (status === "timeout") {
+        Swal.fire(
+          "Advertencia",
+          "SUNAT demoró demasiado en responder. El comprobante ya está guardado; revise su estado en la lista e intente reenviar si quedó PENDIENTE.",
+          "warning"
+        );
+      } else {
+        Swal.fire("Error", "Error al comunicarse con SUNAT", "error");
+      }
     });
 }
 
@@ -952,10 +1182,13 @@ function limpiarFormulario() {
   $("#select_servicio").val("").trigger("change");
   $("#txt_cantidad").val(1);
 
-  $("#select_conductor").val("").trigger("change");
-  $("#select_origen").val("").trigger("change");
-  $("#select_destino").val("").trigger("change");
+  // Limpiar selects con Select2 de forma robusta (incluye placeholders deshabilitados)
+  $("#select_conductor").val(null).trigger("change");
+  $("#select_origen").val(null).trigger("change");
+  $("#select_destino").val(null).trigger("change");
   $("#txt_observaciones").val("");
+  $("#txt_dni_pasajero").val("");
+  $("#txt_nombre_pasajero").val("");
   $("#txt_asiento").val("");
   $("#txt_placa").val("");
   $("#txt_base_gravada").val("");
@@ -972,6 +1205,7 @@ function limpiarFormulario() {
     $("#txt_serie").val(serie);
 
     // Cargar el siguiente correlativo automáticamente
+    suprimirAvisoCorrelativo = true;
     setTimeout(function () {
       obtenerCorrelativo();
     }, 300); // Pequeño delay para asegurar que los campos estén listos
@@ -1011,6 +1245,28 @@ function sololetras(e) {
 
 // listados:
 var tbl_comprobantes;
+var intervalo_refresco_comprobantes = null;
+
+function iniciarAutoRefrescoComprobantes() {
+  if (intervalo_refresco_comprobantes) {
+    clearInterval(intervalo_refresco_comprobantes);
+  }
+
+  intervalo_refresco_comprobantes = setInterval(function () {
+    try {
+      if (
+        tbl_comprobantes &&
+        $.fn.DataTable.isDataTable("#tabla_comprobantes") &&
+        $("#tabla_comprobantes").is(":visible")
+      ) {
+        tbl_comprobantes.ajax.reload(null, false);
+      }
+    } catch (e) {
+      // Evitar que un error de refresco afecte al flujo principal
+      console.warn("Auto-refresco de comprobantes omitido:", e);
+    }
+  }, 15000);
+}
 
 // ============================================================
 // LISTAR TODOS LOS COMPROBANTES CON EXPORTACIÓN
@@ -1287,6 +1543,8 @@ function listar_comprobantes() {
       },
     },
   });
+
+  iniciarAutoRefrescoComprobantes();
 }
 
 // ============================================================
@@ -1866,6 +2124,7 @@ function confirmarEnvioSunat() {
       id_comprobante: id,
     },
     dataType: "json",
+    timeout: 180000,
   })
     .done(function (resp) {
       Swal.close();
@@ -1875,6 +2134,22 @@ function confirmarEnvioSunat() {
           icon: "success",
           title: "¡Comprobante aceptado por SUNAT!",
           html: "<b>" + serie + "-" + correlativo + "</b> enviado exitosamente",
+          showConfirmButton: true,
+        }).then(() => {
+          tbl_comprobantes.ajax.reload();
+        });
+      } else if (
+        resp.status == "queued" ||
+        resp.status == "pending" ||
+        resp.status == "info" ||
+        resp.status == "warning"
+      ) {
+        Swal.fire({
+          icon: resp.status == "info" ? "info" : "warning",
+          title: "SUNAT respondió temporalmente",
+          html:
+            resp.message +
+            "<br><small><b>No anules</b> el comprobante. Reintenta el envío en 1-2 minutos.</small>",
           showConfirmButton: true,
         }).then(() => {
           tbl_comprobantes.ajax.reload();

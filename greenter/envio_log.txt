@@ -2251,3 +2251,366 @@ OUTPUT:
    Hash: U7iCiUhDUm9W2x/Y8Tf8C/DdLNI=
 
 
+=========================
+FECHA: 2026-03-18 15:47:50
+ID COMPROBANTE: 2896
+TIPO: Factura (01)
+NUMERO: FPP1-09000025
+NOMBRE CDR: R-FPP1-09000025.zip
+EXIT CODE: 3
+OUTPUT:
+[Wed Mar 18 09:47:50.597607 2026] [mpm_winnt:crit] [pid 20624:tid 480] AH02965: Child: Unable to retrieve my generation from the parent
+
+=========================
+FECHA: 2026-03-18 15:47:56
+ID COMPROBANTE: 2897
+TIPO: Factura (01)
+NUMERO: FPP1-09000026
+NOMBRE CDR: R-FPP1-09000026.zip
+EXIT CODE: 3
+OUTPUT:
+[Wed Mar 18 09:47:56.633864 2026] [mpm_winnt:crit] [pid 1504:tid 448] AH02965: Child: Unable to retrieve my generation from the parent
+
+=========================
+FECHA: 2026-03-18 15:47:59
+ID COMPROBANTE: 2898
+TIPO: Factura (01)
+NUMERO: FPP1-09000027
+NOMBRE CDR: R-FPP1-09000027.zip
+EXIT CODE: 3
+OUTPUT:
+[Wed Mar 18 09:47:59.672841 2026] [mpm_winnt:crit] [pid 13216:tid 440] AH02965: Child: Unable to retrieve my generation from the parent
+
+=========================
+FECHA: 2026-03-18 15:51:01
+MODO: BACKGROUND
+ID COMPROBANTE: 2899
+TIPO: Factura (01)
+NUMERO: FPP1-09000028
+CMD: start /B "" "C:\xampp\php\php.exe" "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/factura_bd.php" 2899 >NUL 2>&1
+LANZADO: SI
+
+=========================
+FECHA: 2026-03-18 15:51:21
+ID COMPROBANTE: 2899
+TIPO: Factura (01)
+NUMERO: FPP1-09000028
+NOMBRE CDR: R-FPP1-09000028.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000028
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000028.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-9000028, ha sido aceptado
+   Código: 0
+   Hash: VG9A2/P47XLorzAUF6W7F2+OW90=
+
+=========================
+FECHA: 2026-03-18 15:54:39
+MODO: BACKGROUND
+ID COMPROBANTE: 2900
+TIPO: Factura (01)
+NUMERO: FPP1-09000029
+CMD: start /B "" "C:\xampp\php\php.exe" "C:\xampp\htdocs\sistema_micaela\controller\comprobante/../../greenter/factura_bd.php" 2900 >NUL 2>&1
+LANZADO: SI
+
+=========================
+FECHA: 2026-03-18 16:07:52
+ID COMPROBANTE: 2901
+TIPO: Factura (01)
+NUMERO: FPP1-09000030
+NOMBRE CDR: R-FPP1-09000030.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000030
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000030.xml
+
+⚠️ INTENTO 1/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 4 segundos...
+
+⚠️ INTENTO 3/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Internal Server Error
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-03-18 16:10:38
+ID COMPROBANTE: 2902
+TIPO: Factura (01)
+NUMERO: FPP1-09000031
+NOMBRE CDR: R-FPP1-09000031.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000031
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000031.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-9000031, ha sido aceptado
+   Código: 0
+   Hash: gma8IcmRtrUztnvOPDotemfI/qM=
+
+=========================
+FECHA: 2026-03-18 16:10:57
+ID COMPROBANTE: 2903
+TIPO: Factura (01)
+NUMERO: FPP1-09000032
+NOMBRE CDR: R-FPP1-09000032.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000032
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000032.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-9000032, ha sido aceptado
+   Código: 0
+   Hash: MBL5t/1kwfIfObd43unxyX/QcKY=
+
+=========================
+FECHA: 2026-03-18 16:11:28
+ID COMPROBANTE: 2904
+TIPO: Factura (01)
+NUMERO: FPP1-09000033
+NOMBRE CDR: R-FPP1-09000033.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000033
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000033.xml
+
+⚠️ INTENTO 1/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 4 segundos...
+
+⚠️ INTENTO 3/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Internal Server Error
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-03-18 16:16:49
+ID COMPROBANTE: 2905
+TIPO: Factura (01)
+NUMERO: FPP1-09000034
+NOMBRE CDR: R-FPP1-09000034.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000034
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000034.xml
+
+⚠️ INTENTO 1/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 4 segundos...
+
+⚠️ INTENTO 3/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Internal Server Error
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-03-18 16:23:25
+ID COMPROBANTE: 2905
+TIPO: Factura (01)
+NUMERO: FPP1-09000034
+NOMBRE CDR: R-FPP1-09000034.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000034
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000034.xml
+
+⚠️ INTENTO 1/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 4 segundos...
+
+⚠️ INTENTO 3/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Internal Server Error
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-03-18 16:23:49
+ID COMPROBANTE: 2905
+TIPO: Factura (01)
+NUMERO: FPP1-09000034
+NOMBRE CDR: R-FPP1-09000034.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000034
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000034.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-9000034, ha sido aceptado
+   Código: 0
+   Hash: /N+GM2A322B9MH66GcQMeZbsGOU=
+
+=========================
+FECHA: 2026-03-18 16:33:04
+ID COMPROBANTE: 2906
+TIPO: Factura (01)
+NUMERO: FPP1-09000035
+NOMBRE CDR: R-FPP1-09000035.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000035
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000035.xml
+
+⚠️ INTENTO 1/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 4 segundos...
+
+⚠️ INTENTO 3/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Internal Server Error
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-03-18 19:21:39
+ID COMPROBANTE: 2907
+TIPO: Factura (01)
+NUMERO: FPP1-09000036
+NOMBRE CDR: R-FPP1-09000036.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000036
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000036.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura numero FPP1-9000036, ha sido aceptado
+   Código: 0
+   Hash: 4la4Ro12G+M4fuxues1sSiyldEM=
+
+=========================
+FECHA: 2026-03-18 19:22:06
+ID COMPROBANTE: 2908
+TIPO: Factura (01)
+NUMERO: FPP1-09000037
+NOMBRE CDR: R-FPP1-09000037.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000037
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000037.xml
+
+⚠️ INTENTO 1/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+⏳ Reintentando en 4 segundos...
+
+⚠️ INTENTO 3/3 FALLIDO
+Código: HTTP
+Mensaje: Internal Server Error
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Internal Server Error
+Acción: Reintentar envío
+

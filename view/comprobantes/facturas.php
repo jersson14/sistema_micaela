@@ -276,7 +276,7 @@
                                     <i class="fas fa-eraser"></i> Limpiar
                                 </button>
 
-                                <button class="btn btn-primary btn-lg" onclick="guardarYEnviar()">
+                                <button id="btn_guardar_enviar_sunat" class="btn btn-primary btn-lg" onclick="guardarYEnviar()">
                                     <i class="fas fa-paper-plane"></i> Guardar y Enviar a SUNAT
                                 </button>
                             </div>
