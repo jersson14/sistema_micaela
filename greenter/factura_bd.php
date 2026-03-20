@@ -305,12 +305,12 @@ function esErrorTransitorioSunat($codigo, $mensaje)
     return false;
 }
 
-$maxIntentos = 5;
+$maxIntentos = 4;
 $res = null;
 $codigoUltimoError = '';
 $mensajeUltimoError = '';
-// Backoff: 3s, 6s, 12s, 20s entre intentos
-$esperasPorIntento = [3, 6, 12, 20];
+// Backoff: 2s, 5s, 10s entre intentos
+$esperasPorIntento = [2, 5, 10];
 
 for ($intento = 1; $intento <= $maxIntentos; $intento++) {
     $res = $see->send($documento);

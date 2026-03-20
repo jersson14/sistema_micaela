@@ -2917,3 +2917,25 @@ Mensaje: Error Fetching http headers
    Código: 0
    Hash: +t6Au66JXxD0QRZy88TEZo1J62s=
 
+=========================
+FECHA: 2026-03-20 19:59:04
+ID COMPROBANTE: 2915
+TIPO: Factura (01)
+NUMERO: FPP1-09000043
+NOMBRE CDR: R-FPP1-09000043.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9000043
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09000043.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: 3270 - El precio unitario de la operación que está informando difiere de los cálculos realizados en base a la información remitida - Detalle: value='ticket: 5953c862-a257-497c-9e5e-d730aeb2e13c, error: Error en la linea: 1 :  (nodo: "/Invoice/cac:InvoiceLine/cac:PricingReference/cac:AlternativeConditionPrice/cbc:PriceAmount " valor: "50")'
+   Código: 3270
+   Hash: l4XUS8kg004g77pJFEq+72iZv7w=
+

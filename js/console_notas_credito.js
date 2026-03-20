@@ -1105,12 +1105,14 @@ function abrirModalEnviar(id_comprobante, serie, correlativo) {
 // DESCARGAS
 // ============================================================
 function descargarXMLNC(serie, correlativo) {
-    let url = "../greenter/xml/" + serie + "-" + correlativo + ".xml";
+    let correlativoPadded = String(correlativo).padStart(8, '0');
+    let url = "../greenter/xml/" + serie + "-" + correlativoPadded + ".xml";
     window.open(url, "_blank");
 }
 
 function descargarCDRNC(serie, correlativo) {
-    let url = "../greenter/cdr/R-" + serie + "-" + correlativo + ".zip";
+    let correlativoPadded = String(correlativo).padStart(8, '0');
+    let url = "../greenter/cdr/R-" + serie + "-" + correlativoPadded + ".zip";
     window.open(url, "_blank");
 }
 

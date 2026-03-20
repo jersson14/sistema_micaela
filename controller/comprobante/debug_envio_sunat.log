@@ -729,3 +729,20 @@
     [dias_transcurridos] => 0
 )
 
+[2026-03-20 19:59:03] Intentando enviar comprobante ID: 2915
+[2026-03-20 19:59:03] Datos obtenidos: Array
+(
+    [id_comprobante] => 2915
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-03-20
+    [serie] => FPP1
+    [correlativo] => 9000043
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+

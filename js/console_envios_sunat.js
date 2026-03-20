@@ -747,7 +747,8 @@ function descargarXML(serie, correlativo) {
 // DESCARGAR CDR
 // ============================================================
 function descargarCDR(serie, correlativo) {
-    let url = "../greenter/cdr/R-" + serie + "-" + correlativo + ".zip";
+    let correlativoPadded = String(correlativo).padStart(8, '0');
+    let url = "../greenter/cdr/R-" + serie + "-" + correlativoPadded + ".zip";
     window.open(url, "_blank");
 }
 
