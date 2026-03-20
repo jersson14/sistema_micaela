@@ -1294,6 +1294,56 @@ elseif ($accion == 'ACTUALIZAR_COMPROBANTE') {
     
 }
 
+// ============================================================
+// REINTENTAR TODOS LOS PENDIENTES EN LOTE
+// ============================================================
+elseif ($accion == 'REINTENTAR_PENDIENTES_LOTE') {
+    header('Content-Type: application/json; charset=utf-8');
+    if (function_exists('set_time_limit')) {
+        @set_time_limit(0);
+    }
+
+    $limite = isset($_POST['limite']) ? max(1, min(200, intval($_POST['limite']))) : 50;
+
+    $php_cli = 'php';
+    $candidatos_win = ['C:\\xampp\\php\\php.exe'];
+    $es_win = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
+    if ($es_win) {
+        foreach ($candidatos_win as $c) {
+            if (@is_file($c)) { $php_cli = $c; break; }
+        }
+    } else {
+        foreach ([PHP_BINARY, '/usr/bin/php', '/usr/local/bin/php'] as $c) {
+            if ($c && @is_file($c)) { $php_cli = $c; break; }
+        }
+    }
+
+    $script_reenvio = __DIR__ . '/../../greenter/reenviar_pendientes.php';
+    $cmd = escapeshellarg($php_cli) . ' ' . escapeshellarg($script_reenvio) . ' ' . intval($limite) . ' 0 2>&1';
+
+    $output_lines = [];
+    $exit_code = 0;
+    @exec($cmd, $output_lines, $exit_code);
+    $output = trim(implode(PHP_EOL, $output_lines));
+
+    $aceptados = 0;
+    $pendientes_restantes = 0;
+    if (preg_match('/ACEPTADOS:\s*(\d+)/i', $output, $m)) {
+        $aceptados = (int)$m[1];
+    }
+    if (preg_match('/PENDIENTES:\s*(\d+)/i', $output, $m)) {
+        $pendientes_restantes = (int)$m[1];
+    }
+
+    echo json_encode([
+        'status'               => 'success',
+        'aceptados'            => $aceptados,
+        'pendientes_restantes' => $pendientes_restantes,
+        'output'               => nl2br(htmlspecialchars($output)),
+        'message'              => "Proceso completado: {$aceptados} aceptados, {$pendientes_restantes} aún pendientes."
+    ]);
+}
+
 // DECLARACION SUNAT
 elseif ($accion == 'OBTENER_DATOS_DECLARACION_SUNAT') {
     $tipo = isset($_POST['tipo_comprobante']) ? $_POST['tipo_comprobante'] : '';

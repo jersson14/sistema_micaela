@@ -6,6 +6,9 @@ require __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../../model/model_conexion.php';
 
 function getSee($pdo = null) {
+    // Timeout de socket: evita que SOAP se cuelgue indefinidamente cuando SUNAT tarda
+    @ini_set('default_socket_timeout', 30);
+
     // Si no se pasa una conexión PDO, crearla
     if ($pdo === null) {
         $pdo = getConnection();

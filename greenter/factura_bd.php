@@ -89,27 +89,74 @@ $company = (new Company())
     );
 
 // =============================================
-// 6️⃣ CREAR DETALLE BÁSICO
+// 6️⃣ TOTALES DEL ENCABEZADO (siempre desde comprobantes)
 // =============================================
 $total = (float)$comprobante['total'];
 $base = $comprobante['total_gravada'] > 0 ? (float)$comprobante['total_gravada'] : round($total / 1.18, 2);
 $igv = $comprobante['total_igv'] > 0 ? (float)$comprobante['total_igv'] : round($total - $base, 2);
 
-$detail = (new SaleDetail())
-    ->setCodProducto('P001')
-    ->setUnidad('NIU')
-    ->setCantidad(1)
-    ->setDescripcion('PRODUCTO O SERVICIO')
-    ->setMtoValorUnitario($base)
-    ->setMtoValorVenta($base)
-    ->setMtoPrecioUnitario($total)
-    ->setMtoBaseIgv($base)
-    ->setPorcentajeIgv(18.00)
-    ->setIgv($igv)
-    ->setTipAfeIgv('10')
-    ->setTotalImpuestos($igv);
+// =============================================
+// 6️⃣ LEER ÍTEMS REALES DESDE comprobante_detalle
+// =============================================
+$sqlDet = "SELECT * FROM comprobante_detalle WHERE id_comprobante = ? ORDER BY orden_item ASC";
+$stmtDet = $pdo->prepare($sqlDet);
+$stmtDet->execute([$id_comprobante]);
+$detallesBD = $stmtDet->fetchAll(PDO::FETCH_ASSOC);
 
-$details = [$detail];
+$details = [];
+if (!empty($detallesBD)) {
+    // Validar que la suma de los detalles coincida con el total del encabezado (tolerancia ±0.10)
+    $sumaValorVenta = array_sum(array_column($detallesBD, 'valor_venta'));
+    $sumaIgv        = array_sum(array_column($detallesBD, 'igv'));
+    $datosDetalleSonValidos = (
+        abs($sumaValorVenta - $base) <= 0.10 &&
+        abs($sumaIgv - $igv) <= 0.10
+    );
+
+    if ($datosDetalleSonValidos) {
+        foreach ($detallesBD as $det) {
+            $details[] = (new SaleDetail())
+                ->setCodProducto(!empty($det['codigo_producto']) ? $det['codigo_producto'] : 'P001')
+                ->setUnidad(!empty($det['unidad_medida']) ? $det['unidad_medida'] : 'NIU')
+                ->setCantidad((float)$det['cantidad'])
+                ->setDescripcion($det['descripcion'])
+                ->setMtoValorUnitario((float)$det['valor_unitario'])
+                ->setMtoValorVenta((float)$det['valor_venta'])
+                ->setMtoPrecioUnitario((float)$det['precio_unitario'])
+                ->setMtoBaseIgv((float)$det['valor_venta'])
+                ->setPorcentajeIgv((float)$det['porcentaje_igv'])
+                ->setIgv((float)$det['igv'])
+                ->setTipAfeIgv(!empty($det['afectacion_igv']) ? $det['afectacion_igv'] : '10')
+                ->setTotalImpuestos((float)$det['total_impuestos_item']);
+        }
+        echo "📋 Ítems cargados desde BD: " . count($details) . "\n";
+    } else {
+        echo "⚠️ Totales de detalle no coinciden con encabezado, usando valores del encabezado.\n";
+    }
+}
+
+// Fallback: si no hay ítems válidos en comprobante_detalle, construir uno con totales del encabezado
+if (empty($details)) {
+    // Intentar usar la descripción del primer detalle aunque los montos no cuadren
+    $descripcionFallback = !empty($detallesBD[0]['descripcion'])
+        ? $detallesBD[0]['descripcion']
+        : 'SERVICIO DE TRANSPORTE';
+
+    $details[] = (new SaleDetail())
+        ->setCodProducto(!empty($detallesBD[0]['codigo_producto']) ? $detallesBD[0]['codigo_producto'] : 'P001')
+        ->setUnidad('NIU')
+        ->setCantidad(1)
+        ->setDescripcion($descripcionFallback)
+        ->setMtoValorUnitario($base)
+        ->setMtoValorVenta($base)
+        ->setMtoPrecioUnitario($total)
+        ->setMtoBaseIgv($base)
+        ->setPorcentajeIgv(18.00)
+        ->setIgv($igv)
+        ->setTipAfeIgv('10')
+        ->setTotalImpuestos($igv);
+    echo "📋 Ítem generado desde encabezado (fallback): {$descripcionFallback}\n";
+}
 
 // =============================================
 // 7️⃣ LEYENDA
@@ -192,11 +239,11 @@ switch ($tipo) {
             ->setUblVersion('2.1')
             ->setTipoDoc($tipo)
             ->setSerie($comprobante['serie'])
-            ->setCorrelativo($comprobante['correlativo'])
+            ->setCorrelativo(str_pad($comprobante['correlativo'], 8, '0', STR_PAD_LEFT))
             ->setFechaEmision(new DateTime($comprobante['fecha_emision']))
             ->setTipDocAfectado($ref['tipo_comprobante']) // ✅ DINÁMICO: '01' o '03'
             ->setNumDocfectado($ref['serie'] . '-' . $ref['correlativo'])
-            ->setCodMotivo($tipo == '07' ? '01' : '01')
+            ->setCodMotivo($tipo == '07' ? '01' : '02')
             ->setDesMotivo($motivo)
             ->setTipoMoneda('PEN')
             ->setCompany($company)
@@ -258,10 +305,12 @@ function esErrorTransitorioSunat($codigo, $mensaje)
     return false;
 }
 
-$maxIntentos = 3;
+$maxIntentos = 5;
 $res = null;
 $codigoUltimoError = '';
 $mensajeUltimoError = '';
+// Backoff: 3s, 6s, 12s, 20s entre intentos
+$esperasPorIntento = [3, 6, 12, 20];
 
 for ($intento = 1; $intento <= $maxIntentos; $intento++) {
     $res = $see->send($documento);
@@ -283,7 +332,7 @@ for ($intento = 1; $intento <= $maxIntentos; $intento++) {
         break;
     }
 
-    $espera = $intento * 2;
+    $espera = $esperasPorIntento[$intento - 1] ?? 20;
     echo "⏳ Reintentando en {$espera} segundos...\n";
     sleep($espera);
 }
