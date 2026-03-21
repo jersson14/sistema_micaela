@@ -996,7 +996,7 @@ function enviarASunatEnSegundoPlano(
       background: 1,
     },
     dataType: "json",
-    timeout: 20000,
+    timeout: 180000,
   })
     .done(function (resp) {
       Swal.close();
@@ -1047,16 +1047,16 @@ function enviarASunatEnSegundoPlano(
         });
       }
     })
-    .fail(function () {
+    .fail(function (_xhr, status) {
       Swal.close();
-      // Si el registro ya existió pero falló el segundo request, igual intentar abrir ticket
-      abrirTicketSeguro();
+      if (ventanaTicket && !ventanaTicket.closed) {
+        ventanaTicket.close();
+      }
       finalizarFlujoGuardarEnviar();
-      Swal.fire(
-        "Error",
-        "No se pudo iniciar el envío en segundo plano. El comprobante quedó registrado; reenvíelo desde pendientes.",
-        "error"
-      );
+      const msg = status === "timeout"
+        ? "SUNAT demoró demasiado. El comprobante quedó guardado; revise su estado en la lista."
+        : "No se pudo enviar a SUNAT. El comprobante quedó guardado; reenvíelo desde pendientes.";
+      Swal.fire("Advertencia", msg, "warning");
     });
 }
 
