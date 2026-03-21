@@ -36,7 +36,7 @@ $sql = "SELECT cb.id_comunicacion,
         FROM comunicaciones_baja cb
         INNER JOIN comprobantes c ON cb.id_comprobante = c.id_comprobante
         WHERE cb.estado = 'PENDIENTE'
-        AND cb.fecha_comunicacion >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+        AND cb.fecha_comunicacion >= DATE_SUB(NOW(), INTERVAL 7 DAY)
         ORDER BY cb.fecha_comunicacion ASC";
 
 try {
