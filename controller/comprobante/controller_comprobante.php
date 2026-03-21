@@ -28,9 +28,7 @@ elseif ($accion == 'REGISTRAR_COMPROBANTE') {
     $tipo_comprobante = $_POST['tipo_comprobante'];
     $serie = strtoupper($_POST['serie']);
     $correlativo = $MC->Obtener_Correlativo($serie, $tipo_comprobante);
-    $fecha_emision = !empty($_POST['fecha_emision'])
-        ? date('Y-m-d', strtotime($_POST['fecha_emision']))
-        : date('Y-m-d');
+    $fecha_emision = date('Y-m-d'); // Siempre fecha del servidor (America/Lima)
     $hora_emision = date('H:i:s');
     $moneda = $_POST['moneda'];
 
