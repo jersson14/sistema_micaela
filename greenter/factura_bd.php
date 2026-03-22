@@ -122,7 +122,7 @@ if (!empty($detallesBD)) {
                 ->setDescripcion($det['descripcion'])
                 ->setMtoValorUnitario((float)$det['valor_unitario'])
                 ->setMtoValorVenta((float)$det['valor_venta'])
-                ->setMtoPrecioUnitario((float)$det['precio_unitario'])
+                ->setMtoPrecioUnitario(round(((float)$det['valor_venta'] + (float)$det['igv']) / (float)$det['cantidad'], 6))
                 ->setMtoBaseIgv((float)$det['valor_venta'])
                 ->setPorcentajeIgv((float)$det['porcentaje_igv'])
                 ->setIgv((float)$det['igv'])
