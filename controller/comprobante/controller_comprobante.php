@@ -27,7 +27,11 @@ elseif ($accion == 'REGISTRAR_COMPROBANTE') {
     // DATOS DEL COMPROBANTE
     $tipo_comprobante = $_POST['tipo_comprobante'];
     $serie = strtoupper($_POST['serie']);
-    $correlativo = $MC->Obtener_Correlativo($serie, $tipo_comprobante);
+    // Si viene correlativo manual desde el formulario, usarlo; sino auto-generar
+    $correlativo_manual = isset($_POST['correlativo']) ? trim($_POST['correlativo']) : '';
+    $correlativo = ($correlativo_manual !== '' && is_numeric($correlativo_manual))
+        ? (int)$correlativo_manual
+        : $MC->Obtener_Correlativo($serie, $tipo_comprobante);
     $fecha_emision = date('Y-m-d'); // Siempre fecha del servidor (America/Lima)
     $hora_emision = date('H:i:s');
     $moneda = $_POST['moneda'];

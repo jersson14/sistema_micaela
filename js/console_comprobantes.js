@@ -295,6 +295,10 @@ var intervalo_correlativo = null;
 var suprimirAvisoCorrelativo = false;
 
 function obtenerCorrelativo() {
+    // Si edición manual está activa, no sobreescribir lo que el usuario escribió
+    var checkEditar = document.getElementById('check_editar_serie');
+    if (checkEditar && checkEditar.checked) return;
+
     var tipo = document.getElementById('select_tipo_comprobante').value;
     var serie = document.getElementById('txt_serie').value;
     if (!tipo || !serie) return;

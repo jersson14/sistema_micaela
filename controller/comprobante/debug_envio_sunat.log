@@ -746,3 +746,122 @@
     [dias_transcurridos] => 0
 )
 
+[2026-03-22 18:51:18] Intentando enviar comprobante ID: 131
+[2026-03-22 18:51:18] Datos obtenidos: Array
+(
+    [id_comprobante] => 131
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-03-22
+    [serie] => FPP1
+    [correlativo] => 100002
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-03-22 18:51:51] Intentando enviar comprobante ID: 132
+[2026-03-22 18:51:51] Datos obtenidos: Array
+(
+    [id_comprobante] => 132
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-03-22
+    [serie] => FPP1
+    [correlativo] => 100003
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-03-22 18:53:46] Intentando enviar comprobante ID: 2866
+[2026-03-22 18:53:46] Datos obtenidos: Array
+(
+    [id_comprobante] => 2866
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-03-22
+    [serie] => FPP1
+    [correlativo] => 57345
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-03-22 18:54:30] Intentando enviar comprobante ID: 2867
+[2026-03-22 18:54:30] Datos obtenidos: Array
+(
+    [id_comprobante] => 2867
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-03-22
+    [serie] => FPP1
+    [correlativo] => 57346
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-03-22 18:58:11] Intentando enviar comprobante ID: 2868
+[2026-03-22 18:58:11] Datos obtenidos: Array
+(
+    [id_comprobante] => 2868
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-03-22
+    [serie] => FPP1
+    [correlativo] => 57347
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-03-22 18:58:18] Intentando enviar comprobante ID: 2869
+[2026-03-22 18:58:18] Datos obtenidos: Array
+(
+    [id_comprobante] => 2869
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-03-22
+    [serie] => FPP1
+    [correlativo] => 57348
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-03-22 19:01:17] Intentando enviar comprobante ID: 2870
+[2026-03-22 19:01:17] Datos obtenidos: Array
+(
+    [id_comprobante] => 2870
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-03-22
+    [serie] => FPP1
+    [correlativo] => 9057349
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
