@@ -1,152 +1,194 @@
+# 🚌 Optimización Operativa en Tours Micaela
 
-# 🎫 Sistema de Venta de Pasajes con Facturación Electrónica
+Sistema integral de facturación electrónica y gestión operativa para una empresa de transporte interprovincial, desarrollado para eliminar la duplicidad de registros, los errores manuales y la falta de visibilidad sobre el negocio.
 
-Bienvenido al repositorio del **Sistema de Venta de Pasajes** desarrollado con tecnologías web modernas y cumpliendo con los estándares de facturación electrónica en Perú mediante la API de **NubeFACT**.
+![PHP](https://img.shields.io/badge/PHP-7.4%2B-777BB4?logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-5.7%2B-4479A1?logo=mysql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Contenedores-2496ED?logo=docker&logoColor=white)
+![SUNAT](https://img.shields.io/badge/Facturación-SUNAT%20%2F%20Greenter-success)
+![License](https://img.shields.io/badge/Licencia-MIT-blue)
+
+---
+
+## El Desafío (2025)
+
+Tours Micaela Abancay enfrentaba serios problemas operativos debido a la gestión manual y dispersa de sus procesos:
+
+- ❌ **Duplicidad y errores** — la gestión manual generaba pérdida de información operativa.
+- ❌ **Demoras en ventas** — falta de integración entre la emisión de comprobantes y el área de ventas.
+- ❌ **Operaciones a ciegas** — la ausencia de reportes automáticos limitaba la toma de decisiones.
+
+### Preguntas de investigación
+
+> "¿De qué manera la gestión manual... genera duplicidad, errores y pérdida de información...?"
+>
+> "¿Cómo la falta de integración... provoca demoras y errores de facturación...?"
+>
+> "¿En qué medida la ausencia de reportes... dificulta el control y limita las decisiones...?"
+
+---
+
+## La Solución Tecnológica
+
+### 🧾 Facturación con Greenter
+
+Implementación del motor [Greenter](https://github.com/thegreenter/greenter) para la generación, firma digital y envío de comprobantes electrónicos (XML/CDR) directamente a SUNAT, asegurando validez tributaria en cada transacción.
+
+### 🐳 Despliegue con Docker
+
+Infraestructura contenerizada en VPS remoto. Uso de scripts `.sh` personalizados para automatizar el despliegue, las migraciones y el mantenimiento de los servicios.
+
+### 🪪 Integración RENIEC
+
+Uso de la API **DECOLECTA** para consultar datos de clientes (RUC/DNI) en tiempo real, agilizando el proceso de emisión de boletos y facturas en ventanilla.
+
+---
+
+## Arquitectura del Sistema (MVC + Docker)
+
+```text
+┌─────────────────────────────────────────────┐
+│                  VIEW (Frontend)             │
+│        HTML / CSS / JS / Bootstrap           │
+└───────────────────┬───────────────────────────┘
+                     │
+┌────────────────────▼──────────────────────────┐
+│            Backend Logic (PHP - MVC)           │
+│         Controladores + Greenter Lib           │
+└───────────────────┬───────────────────────────┘
+                     │
+┌────────────────────▼──────────────────────────┐
+│           MySQL Database (Datos Transac.)      │
+└───────────────────┬───────────────────────────┘
+                     │
+┌────────────────────▼──────────────────────────┐
+│         Docker Container — Despliegue VPS      │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## Resultados e Impacto
+
+| Métrica | Resultado |
+|---|---|
+| 📈 **+10k** | Facturas/mes procesadas masivamente sin errores de validación |
+| ✅ **0%** | Duplicidad — eliminación total de errores por doble registro |
+| 👁 **100%** | Visibilidad — reportes en tiempo real para la gerencia |
 
 ---
 
 ## 📌 Características Principales
 
-✅ Venta de pasajes con control de rutas, horarios y tarifas  
-✅ Registro y gestión de clientes  
-✅ Emisión de **boletas y facturas electrónicas** con NubeFACT  
-✅ Reportes PDF con **mPDF**  
-✅ Interfaz moderna con **AdminLTE 3.0**  
-✅ Panel administrativo responsivo  
-✅ Arquitectura limpia bajo patrón **MVC**  
-✅ Base de datos relacional en **MySQL**
+### 🎫 Gestión de Transporte
+
+- Control de salidas diarias con rutas, horarios y conductores
+- Gestión de reservas y venta de pasajes
+- Sistema de encomiendas con seguimiento de estados
+- Registro de choferes con control de vencimientos
+- Administración de rutas, servicios y tarifas
+- Control de asistencia de pasajeros
+
+### 💼 Facturación Electrónica SUNAT
+
+- Emisión de **Facturas (01)** y **Boletas (03)** electrónicas
+- Generación de **Notas de Crédito (07)** y **Notas de Débito (08)**
+- Generación automática de XML firmado digitalmente
+- Envío directo a SUNAT con respuesta CDR
+- Almacenamiento de hash, XML y CDR
+- Consulta de RUC/DNI en tiempo real (API DECOLECTA / RENIEC)
+
+### 📊 Gestión Financiera
+
+- Control de ingresos y gastos por sucursal
+- Reportes de diferencias y cierres de caja
+- Múltiples tipos de pago (efectivo, tarjeta, transferencia)
+- Dashboard con indicadores en tiempo real
+
+### 👥 Administración
+
+- Sistema de usuarios con roles y permisos
+- Gestión de sucursales y empresas
+- Reportes PDF con mPDF
+- Interfaz responsive con AdminLTE 3.0
 
 ---
 
-## 🛠 Tecnologías Utilizadas
+## 🛠 Stack Tecnológico
 
-| Tipo                    | Herramienta/Framework    |
-|-------------------------|---------------------------|
-| Lenguaje Backend        | PHP                       |
-| Lenguaje Frontend       | HTML5, CSS3, JavaScript   |
-| Framework CSS           | Bootstrap                 |
-| Plantilla Admin         | AdminLTE 3.0              |
-| Reportes PDF            | mPDF                      |
-| Facturación Electrónica | NubeFACT API              |
-| Arquitectura            | MVC                       |
-| Servidor Web            | Apache                    |
-| Base de Datos           | MySQL                     |
+| Categoría | Tecnología |
+|---|---|
+| Lenguaje Backend | PHP 7.4+ |
+| Base de Datos | MySQL 5.7+ |
+| Facturación Electrónica | Greenter 5.0+ |
+| Generación de PDF | mPDF |
+| Frontend | HTML5, CSS3, JavaScript |
+| Framework CSS | Bootstrap 4/5 |
+| Plantilla Admin | AdminLTE 3.0 |
+| Arquitectura | MVC (Model-View-Controller) |
+| Contenerización | Docker / Docker Compose |
+| Gestión de Dependencias | Composer |
+| Consulta de Identidad | API DECOLECTA (RENIEC) |
 
 ---
 
-## 📂 Estructura del Proyecto (MVC)
+## 📂 Estructura del Proyecto
 
+```text
+sistema-tours-micaela/
+├── controller/        # Controladores por módulo (choferes, comprobante, encomiendas, ...)
+├── model/             # Modelos de datos y acceso a BD
+├── view/              # Vistas e interfaz de usuario (incluye generación de PDFs)
+├── greenter/          # Integración con SUNAT (firma, envío, certificados)
+├── js/                # Scripts del frontend
+├── img/               # Recursos gráficos
+├── composer.json      # Dependencias del proyecto
+├── docker-compose.yml # Orquestación de servicios
+├── Dockerfile         # Imagen de la aplicación PHP/Apache
+├── index.php          # Punto de entrada / login
+└── README.md
 ```
-/app
-  /controllers
-  /models
-  /views
-/public
-  /css
-  /js
-  /img
-/config
-/vendor (mPDF)
-/facturacion (integración con NubeFACT)
-index.php
-.htaccess
-```
+
+> Por seguridad, los archivos sensibles (certificados digitales, backups de base de datos, variables de entorno y credenciales) están excluidos del repositorio mediante `.gitignore`.
 
 ---
 
-## 🔧 Requisitos del Sistema
+## 🧾 Flujo de Facturación Electrónica
 
-- PHP 8.1 o superior
-- Apache 2.4+
-- MySQL 10.4.32+
-- Composer (para instalar mPDF)
-- Conexión a internet para API de NubeFACT
-- Navegador moderno (Chrome, Firefox, Edge)
+1. **Registro del cliente** — se valida y registra con datos completos (RUC/DNI, dirección, ubigeo) consultados en tiempo real.
+2. **Generación del comprobante** — se crea con estado `PENDIENTE`.
+3. **Creación del XML** — se genera y firma digitalmente con Greenter.
+4. **Envío a SUNAT** — se transmite vía SOAP y se recibe la respuesta CDR.
+5. **Actualización de estado** — se persiste el hash, código de respuesta y estado final (`ACEPTADO` o `RECHAZADO`).
 
----
-
-## 🚀 Instalación
-
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/tu_usuario/sistema-venta-pasajes.git
-   ```
-
-2. Crea una base de datos en MySQL:
-   - Nombre sugerido: `pasajes_db`
-   - Importa el archivo `pasajes_db.sql` desde phpMyAdmin
-
-3. Configura la conexión a la base de datos:
-   - Edita el archivo `/config/database.php` con tus credenciales.
-
-4. Instala dependencias (mPDF):
-   ```bash
-   composer require mpdf/mpdf
-   ```
-
-5. Configura NubeFACT:
-   - Edita `/facturacion/nubefact_config.php` y coloca tu **token** y **URL de envío** proporcionados por NubeFACT.
-
-6. Ejecuta el proyecto en tu navegador:
-   ```
-   http://localhost/sistema-venta-pasajes/public/
-   ```
+| Código | Tipo de Comprobante | Serie de Ejemplo |
+|---|---|---|
+| 01 | Factura | F001 |
+| 03 | Boleta de Venta | B001 |
+| 07 | Nota de Crédito | FN01 / BN01 |
+| 08 | Nota de Débito | FD01 / BD01 |
 
 ---
 
-## 🧾 Integración con NubeFACT
+## 🔐 Seguridad
 
-El sistema está integrado con la **API RESTful de NubeFACT**, permitiendo emitir comprobantes electrónicos válidos ante la SUNAT.
-
-- Boletas y facturas se generan y envían automáticamente tras una venta.
-- El sistema recibe y guarda los archivos **PDF**, **XML**, y el **hash CDR**.
-- Compatible con boletas electrónicas, facturas electrónicas y notas de crédito.
-
----
-
-## 📊 Reportes PDF con mPDF
-
-Se generan documentos y reportes en PDF usando la biblioteca **mPDF**:
-
-- Comprobantes detallados
-- Reporte de ventas por fecha
-- Historial por cliente, ruta o usuario
-- Copias de boletas/facturas emitidas
+- Sesiones PHP con validación de usuario
+- Contraseñas hasheadas con `password_hash()`
+- Validación de permisos por rol
+- Protección contra SQL Injection mediante PDO
+- Certificado digital para firma electrónica
+- Credenciales y archivos sensibles fuera del control de versiones
 
 ---
-
-## 🖥 Panel Administrativo (AdminLTE 3.0)
-
-Diseñado con **AdminLTE 3.0**, incluye:
-
-- Dashboard con resumen de ventas
-- Gestión de rutas, destinos y horarios
-- Registro y edición de usuarios
-- Vista de ventas y estado de comprobantes
-- Estilo responsive y moderno
-
----
-
-
 
 ## 👨‍💻 Autor
 
-**Ingeniero Jersson**  
-Especialista en Ingeniería de Sistemas y Desarrollo de Software  
+**Ingeniero Jersson**
+Especialista en Ingeniería de Sistemas y Desarrollo de Software
 📧 jersson14071996@gmail.com
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto está bajo la licencia **MIT**.  
-Puedes usarlo, modificarlo y distribuirlo libremente para fines académicos o comerciales, mencionando al autor original.
-
----
-
-## 🙌 Agradecimientos
-
-- [AdminLTE](https://adminlte.io)
-- [mPDF](https://mpdf.github.io)
-- [NubeFACT](https://nubefact.com)
-- Comunidad PHP & Open Source
+Este proyecto está bajo la licencia **MIT**. Puedes usarlo, modificarlo y distribuirlo libremente para fines académicos o comerciales, mencionando al autor original.

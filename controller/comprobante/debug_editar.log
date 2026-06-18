@@ -1,0 +1,42 @@
+[2025-11-12 16:47:02] POST recibido: Array
+(
+    [accion] => OBTENER_COMPROBANTE_EDITAR
+    [id_comprobante] => 118
+)
+
+[2025-11-12 16:47:02] ID Comprobante: 118
+[2025-11-12 16:47:02] Resultado: Array
+(
+    [id_comprobante] => 118
+    [tipo_comprobante] => 01
+    [serie] => F001
+    [correlativo] => 88900
+    [fecha_emision] => 2025-11-12
+    [moneda] => PEN
+    [subtotal] => 0.85
+    [total_gravada] => 0.85
+    [total_igv] => 0.15
+    [total] => 1.00
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => RECHAZADO
+    [estado_documento] => ACTIVO
+    [id_servicio] => 1
+    [id_origen] => 1
+    [iddestino] => 2
+    [idconductor] => 3
+    [id_cliente] => 63
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20448261272
+    [razon_social] => UNIVERSIDAD NACIONAL DE JULIACA
+    [direccion] => AV. NUEVA ZELANDIA NRO 631 URB. LA CAPILLA 
+    [celular] => 
+    [departamento] => PUNO
+    [provincia] => SAN ROMAN
+    [distrito] => ABANCAY
+    [cantidad] => 1.0000
+    [precio_unitario] => 50.000000
+    [descripcion_servicio] => SERVICIO DE ABANCAY - CUSCO (ABANCAY - CUSCO)
+    [fecha_viaje] => 2025-11-12
+)
+

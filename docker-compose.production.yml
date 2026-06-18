@@ -1,0 +1,61 @@
+# ============================================
+# Docker Compose para Producción VPS
+# Solo aplicación PHP (BD externa en el VPS)
+# ============================================
+
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    image: tours-micaela:production
+    container_name: tours_micaela_prod
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      # Archivos generados por la aplicación
+      - ./greenter/xml:/var/www/html/greenter/xml
+      - ./greenter/cdr:/var/www/html/greenter/cdr
+      - ./greenter/pdf:/var/www/html/greenter/pdf
+      - ./greenter/certificados:/var/www/html/greenter/certificados
+      - ./Fotos:/var/www/html/Fotos
+      - ./controller/usuario/fotos:/var/www/html/controller/usuario/fotos
+      - ./controller/choferes/fotos:/var/www/html/controller/choferes/fotos
+      - ./controller/empresa/FOTOS:/var/www/html/controller/empresa/FOTOS
+      - ./backup:/var/www/html/backup
+      # Sesiones PHP persistentes
+      - sessions_data:/tmp/sessions
+    environment:
+      - TZ=America/Lima
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+    # Conectar a MySQL del VPS usando IP del gateway de Docker
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - app_network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  sessions_data:
+    driver: local

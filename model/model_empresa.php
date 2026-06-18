@@ -16,7 +16,7 @@
             return $arreglo;
             conexionBD::cerrar_conexion();
         }
-        public function Modificar_Empresa($id,$nom,$raz,$nomco,$tipo_doc,$nro_doc,$email,$codi,$tele,$dire,$ubi,$urb,$dis,$pro,$dep,$codpa,$ususol,$passol){
+        public function Modificar_Empresa($id,$nom,$raz,$nomco,$nro_doc,$email,$codi,$tele,$dire,$ubi,$urb,$dis,$pro,$dep,$codpa,$ususol,$passol,$endpoint){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_MODIFICAR_EMPRESA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $arreglo = array();
@@ -25,20 +25,20 @@
             $query ->bindParam(2,$nom);
             $query ->bindParam(3,$raz);
             $query ->bindParam(4,$nomco);
-            $query ->bindParam(5,$tipo_doc);
-            $query ->bindParam(6,$nro_doc);
-            $query ->bindParam(7,$email);
-            $query ->bindParam(8,$codi);
-            $query ->bindParam(9,$tele);
-            $query ->bindParam(10,$dire);
-            $query ->bindParam(11,$ubi);
-            $query ->bindParam(12,$urb);
-            $query ->bindParam(13,$dis);
-            $query ->bindParam(14,$pro);
-            $query ->bindParam(15,$dep);
-            $query ->bindParam(16,$codpa);
-            $query ->bindParam(17,$ususol);
-            $query ->bindParam(18,$passol);
+            $query ->bindParam(5,$nro_doc);
+            $query ->bindParam(6,$email);
+            $query ->bindParam(7,$codi);
+            $query ->bindParam(8,$tele);
+            $query ->bindParam(9,$dire);
+            $query ->bindParam(10,$ubi);
+            $query ->bindParam(11,$urb);
+            $query ->bindParam(12,$dis);
+            $query ->bindParam(13,$pro);
+            $query ->bindParam(14,$dep);
+            $query ->bindParam(15,$codpa);
+            $query ->bindParam(16,$ususol);
+            $query ->bindParam(17,$passol);
+            $query ->bindParam(18,$endpoint);
 
             $resul = $query->execute();
             if($resul){

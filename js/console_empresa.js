@@ -21,7 +21,6 @@ function listar_empresa(){
          },
         {"data":"nombre"},
         {"data":"email"},
-        {"data":"codigo"},
         {"data":"telefono"},
         {"data":"direccion"},
         {"defaultContent":"<button class='editar btn btn-primary  btn-sm' title='Editar datos de empresa'><i class='fa fa-edit'></i> Editar</button>&nbsp;<button class='foto btn btn-warning btn-sm' title='Cambiar logo'><i class='fa fa-image'></i> Cambiar foto</button>"},
@@ -49,10 +48,9 @@ $('#tabla_empresa').on('click','.editar',function(){
     document.getElementById('txt_nombre').value=data.nombre;
     document.getElementById('txt_razon').value=data.razon_social;
     document.getElementById('txt_nombre_co').value=data.nombre_comercial;
-    document.getElementById('txt_tipo_doc').value=data.tipo_documento;
-    document.getElementById('txt_nro_doc').value=data.numero_documento;
+    document.getElementById('txt_nro_doc').value=data.ruc;
     document.getElementById('txt_email').value=data.email;
-    document.getElementById('txt_codigo').value=data.codigo;
+    document.getElementById('txt_codigo').value=data.codigo_local;
     document.getElementById('txt_telefono').value=data.telefono;
     document.getElementById('txt_direccion').value=data.direccion;
 
@@ -64,6 +62,7 @@ $('#tabla_empresa').on('click','.editar',function(){
     document.getElementById('txt_codigo_pais').value=data.codigo_pais;
     document.getElementById('txt_usuario_sol').value=data.usuario_sol;
     document.getElementById('txt_clave_sol').value=data.clave_sol;
+    document.getElementById('txt_endpoint_sunat').value=data.endpoint_sunat;
 
 
   })
@@ -72,7 +71,6 @@ $('#tabla_empresa').on('click','.editar',function(){
     let nom = document.getElementById('txt_nombre').value;
     let raz = document.getElementById('txt_razon').value;
     let nomco = document.getElementById('txt_nombre_co').value;
-    let tipo_doc = document.getElementById('txt_tipo_doc').value;
     let nro_doc = document.getElementById('txt_nro_doc').value;
     let email = document.getElementById('txt_email').value;
     let codi = document.getElementById('txt_codigo').value;
@@ -87,9 +85,10 @@ $('#tabla_empresa').on('click','.editar',function(){
     let codpa = document.getElementById('txt_codigo_pais').value;
     let ususol = document.getElementById('txt_usuario_sol').value;
     let passol = document.getElementById('txt_clave_sol').value;
+    let endpoint = document.getElementById('txt_endpoint_sunat').value;
 
 
-    if(id.length==0 || nom.length==0 || raz.length==0 || nomco.length==0 || tipo_doc.length==0 || nro_doc.length==0|| tele.length==0 || dire.length==0 ){
+    if(id.length==0 || nom.length==0 || raz.length==0 || nomco.length==0 ||  nro_doc.length==0|| tele.length==0 || dire.length==0 ){
         return Swal.fire("Mensaje de Advertencia","Tiene campos vacios","warning");
     }
     if(validar_email(email)){
@@ -106,7 +105,6 @@ $('#tabla_empresa').on('click','.editar',function(){
           nom:nom,
           raz:raz,
           nomco:nomco,
-          tipo_doc:tipo_doc,
           nro_doc:nro_doc,
           email:email,
           codi:codi,
@@ -119,7 +117,8 @@ $('#tabla_empresa').on('click','.editar',function(){
           dep:dep,
           codpa:codpa,
           ususol:ususol,
-          passol:passol
+          passol:passol,
+          endpoint:endpoint
 
 
       }

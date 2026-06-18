@@ -34,42 +34,79 @@ function listar_todas_los_encomiendas_env() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+   buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE ENCOMIENDAS",
+    title: "LISTA DE ENCOMIENDAS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
-        className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
-        exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE ENCOMIENDAS",
+    title: "LISTA DE ENCOMIENDAS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE ENCOMIENDAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    },
+    customize: function(doc) {
+      doc.defaultStyle.fontSize = 6;
+      doc.styles.tableHeader.fontSize = 7;
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE ENCOMIENDAS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
     columns: [
       { data: "boleta_nro" },
       {
@@ -418,42 +455,79 @@ function listar_encomiendas_por_dia_env() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+   buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE ENCOMIENDAS",
+    title: "LISTA DE ENCOMIENDAS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
-        className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
-        exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE ENCOMIENDAS",
+    title: "LISTA DE ENCOMIENDAS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE ENCOMIENDAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    },
+    customize: function(doc) {
+      doc.defaultStyle.fontSize = 6;
+      doc.styles.tableHeader.fontSize = 7;
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE ENCOMIENDAS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
     columns: [
       { data: "boleta_nro" },
       {
@@ -809,42 +883,79 @@ function listar_encomiendas_fecha_estado_env() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+   buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE ENCOMIENDAS",
+    title: "LISTA DE ENCOMIENDAS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE ENCOMIENDAS",
-        title: "LISTA DE ENCOMIENDAS",
-        className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
-        exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE ENCOMIENDAS",
+    title: "LISTA DE ENCOMIENDAS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE ENCOMIENDAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0,1,2, 3, 4, 5, 6, 7, 8, 9,10,11], // Exportar solo hasta la columna 'estado'
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    },
+    customize: function(doc) {
+      doc.defaultStyle.fontSize = 6;
+      doc.styles.tableHeader.fontSize = 7;
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE ENCOMIENDAS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
     columns: [
       { data: "boleta_nro" },
       {
@@ -2467,12 +2578,20 @@ $("#tabla_encomiendas").on("click", ".pagar", function () {
   document.getElementById("txt_destino_pago").value = data.nombre_destino;
   // DATOS DEL PAGO
   document.getElementById("select_estado_pago").value = data.estado_encomienda;
+  
+  // ✅ GUARDAR EL ESTADO INICIAL PARA COMPARAR DESPUÉS
+  document.getElementById("select_estado_pago").setAttribute("data-estado-inicial", data.estado_encomienda);
+  
   document.getElementById("txt_saldo_pendiente").value = data.por_pagar;
 });
 
 function Realizar_pago() {
   let id = document.getElementById("id_encomienda_pago").value;
   let nuevo_estado = document.getElementById("select_estado_pago").value;
+  
+  // ✅ OBTENER EL ESTADO INICIAL QUE SE GUARDÓ AL ABRIR EL MODAL
+  let estado_inicial = document.getElementById("select_estado_pago").getAttribute("data-estado-inicial");
+  
   let saldo_pendiente = document.getElementById("txt_saldo_pendiente").value;
   let monto_recibido = document.getElementById("txt_monto_recibido").value;
   let vuelto = document.getElementById("txt_vuelto").value;
@@ -2483,6 +2602,15 @@ function Realizar_pago() {
     return Swal.fire(
       "Mensaje de Advertencia",
       "Debe seleccionar un estado",
+      "warning"
+    );
+  }
+
+  // ✅ VALIDAR QUE EL NUEVO ESTADO SEA DIFERENTE AL INICIAL
+  if (nuevo_estado === estado_inicial) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "Debe seleccionar un estado diferente al actual",
       "warning"
     );
   }
@@ -2671,6 +2799,8 @@ function Realizar_pago() {
 }
 
 // BOLETA DE PAGO
+
+// BOLETA DE PAGO
 $("#tabla_encomiendas").on("click", ".imprimir", function () {
   var data = tbl_encomiendas.row($(this).parents("tr")).data();
 
@@ -2691,6 +2821,7 @@ $("#tabla_encomiendas").on("click", ".imprimir", function () {
     newWindow.resizeTo(screen.width, screen.height);
   }
 });
+
 
 //CARGAR USUARIOS
 function Cargar_Select_Usuarios() {
@@ -2930,3 +3061,22 @@ function LimpiarCamposEncomiendaEditar() {
   document.getElementById("txt_a_domicilio_editar").value = "0.00";
 
 }
+
+// Agrega al final de tu archivo JS
+$(document).on('show.bs.dropdown', '#tabla_encomiendas .dropdown', function () {
+  let $dropdown = $(this).find('.dropdown-menu');
+  let $button = $(this).find('.dropdown-toggle');
+  let buttonPos = $button.offset();
+  
+  $dropdown.css({
+    'position': 'fixed',
+    'top': buttonPos.top + $button.outerHeight() + 5,
+    'left': buttonPos.left - $dropdown.outerWidth() + $button.outerWidth(),
+    'margin': 0
+  });
+});
+
+// Cerrar dropdown al hacer scroll
+$('.dataTables_scrollBody, .table-responsive').on('scroll', function() {
+  $('#tabla_encomiendas .dropdown-menu.show').removeClass('show');
+});

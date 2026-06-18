@@ -1,0 +1,352 @@
+# ============================================
+# COMANDOS RÁPIDOS - VPS DOCKER
+# Tours Micaela - Referencia Rápida
+# ============================================
+
+# ============================================
+# INSTALACIÓN INICIAL (Solo primera vez)
+# ============================================
+
+# 1. Instalar Docker
+chmod +x instalar_docker_vps.sh
+./instalar_docker_vps.sh
+
+# 2. Cerrar sesión y volver a entrar
+exit
+ssh usuario@IP_VPS
+
+# 3. Verificar Docker
+docker --version
+docker-compose --version
+docker ps
+
+
+# ============================================
+# DESPLIEGUE DE LA APLICACIÓN
+# ============================================
+
+# 1. Configurar contraseñas
+cp .env.vps .env
+nano .env
+# (Cambiar MYSQL_ROOT_PASSWORD y MYSQL_PASSWORD)
+
+# 2. Ejecutar despliegue automático
+chmod +x deploy_vps.sh
+./deploy_vps.sh
+
+# 3. Verificar que todo esté corriendo
+docker ps
+
+
+# ============================================
+# GESTIÓN DE CONTENEDORES
+# ============================================
+
+# Ver contenedores corriendo
+docker ps
+
+# Ver todos los contenedores (incluso detenidos)
+docker ps -a
+
+# Ver logs en tiempo real (todos los servicios)
+docker-compose -f docker-compose.vps.yml logs -f
+
+# Ver logs de un servicio específico
+docker-compose -f docker-compose.vps.yml logs -f app
+docker-compose -f docker-compose.vps.yml logs -f db
+docker-compose -f docker-compose.vps.yml logs -f phpmyadmin
+
+# Ver logs de un contenedor específico
+docker logs tours_micaela_app_vps
+docker logs tours_micaela_db_vps
+docker logs tours_micaela_phpmyadmin_vps
+
+# Ver logs con límite de líneas
+docker logs --tail 100 tours_micaela_app_vps
+
+
+# ============================================
+# INICIAR / DETENER / REINICIAR
+# ============================================
+
+# Iniciar todos los servicios
+docker-compose -f docker-compose.vps.yml up -d
+
+# Detener todos los servicios
+docker-compose -f docker-compose.vps.yml down
+
+# Reiniciar todos los servicios
+docker-compose -f docker-compose.vps.yml restart
+
+# Reiniciar un servicio específico
+docker-compose -f docker-compose.vps.yml restart app
+docker-compose -f docker-compose.vps.yml restart db
+docker-compose -f docker-compose.vps.yml restart phpmyadmin
+
+# Reiniciar un contenedor específico
+docker restart tours_micaela_app_vps
+docker restart tours_micaela_db_vps
+docker restart tours_micaela_phpmyadmin_vps
+
+
+# ============================================
+# ACTUALIZAR CÓDIGO
+# ============================================
+
+# Actualizar desde Git
+git pull
+
+# Reconstruir y reiniciar solo la aplicación
+docker-compose -f docker-compose.vps.yml up -d --build app
+
+# Reconstruir todo desde cero
+docker-compose -f docker-compose.vps.yml down
+docker-compose -f docker-compose.vps.yml up -d --build
+
+
+# ============================================
+# BASE DE DATOS - BACKUP Y RESTAURACIÓN
+# ============================================
+
+# Crear backup de la base de datos
+docker exec tours_micaela_db_vps mysqldump -uroot -p"TU_CONTRASEÑA" micaela > backup_$(date +%Y%m%d_%H%M%S).sql
+
+# Crear backup en carpeta backup/
+docker exec tours_micaela_db_vps mysqldump -uroot -p"TU_CONTRASEÑA" micaela > ./backup/backup_$(date +%Y%m%d).sql
+
+# Restaurar backup
+docker exec -i tours_micaela_db_vps mysql -uroot -p"TU_CONTRASEÑA" micaela < backup.sql
+
+# Copiar archivo SQL al contenedor
+docker cp backup.sql tours_micaela_db_vps:/backup.sql
+
+# Importar desde dentro del contenedor
+docker exec -i tours_micaela_db_vps mysql -uroot -p"TU_CONTRASEÑA" micaela < /backup.sql
+
+
+# ============================================
+# ACCESO A MYSQL
+# ============================================
+
+# Conectar a MySQL desde línea de comandos
+docker exec -it tours_micaela_db_vps mysql -uroot -p"TU_CONTRASEÑA"
+
+# Conectar como usuario micaela_user
+docker exec -it tours_micaela_db_vps mysql -umicaela_user -p"TU_CONTRASEÑA" micaela
+
+# Verificar que MySQL esté funcionando
+docker exec tours_micaela_db_vps mysqladmin ping -h localhost -uroot -p"TU_CONTRASEÑA"
+
+# Ver bases de datos
+docker exec tours_micaela_db_vps mysql -uroot -p"TU_CONTRASEÑA" -e "SHOW DATABASES;"
+
+# Ver tablas de la BD micaela
+docker exec tours_micaela_db_vps mysql -uroot -p"TU_CONTRASEÑA" -e "USE micaela; SHOW TABLES;"
+
+
+# ============================================
+# ACCESO A CONTENEDORES (SHELL)
+# ============================================
+
+# Entrar al contenedor de la aplicación
+docker exec -it tours_micaela_app_vps bash
+
+# Entrar al contenedor de MySQL
+docker exec -it tours_micaela_db_vps bash
+
+# Entrar al contenedor de phpMyAdmin
+docker exec -it tours_micaela_phpmyadmin_vps bash
+
+
+# ============================================
+# INFORMACIÓN Y DIAGNÓSTICO
+# ============================================
+
+# Ver uso de recursos
+docker stats
+
+# Ver información de un contenedor
+docker inspect tours_micaela_app_vps
+
+# Ver redes de Docker
+docker network ls
+
+# Ver volúmenes de Docker
+docker volume ls
+
+# Ver espacio usado por Docker
+docker system df
+
+# Ver información detallada del sistema
+docker info
+
+
+# ============================================
+# LIMPIEZA Y MANTENIMIENTO
+# ============================================
+
+# Limpiar contenedores detenidos
+docker container prune
+
+# Limpiar imágenes no usadas
+docker image prune
+
+# Limpiar volúmenes no usados
+docker volume prune
+
+# Limpiar todo (CUIDADO: borra todo lo no usado)
+docker system prune -a
+
+# Ver logs de Docker daemon
+sudo journalctl -u docker
+
+
+# ============================================
+# FIREWALL (UFW)
+# ============================================
+
+# Ver estado del firewall
+sudo ufw status
+
+# Habilitar firewall
+sudo ufw enable
+
+# Permitir puertos necesarios
+sudo ufw allow 22/tcp      # SSH
+sudo ufw allow 80/tcp      # HTTP
+sudo ufw allow 443/tcp     # HTTPS
+sudo ufw allow 8081/tcp    # phpMyAdmin
+
+# Denegar un puerto
+sudo ufw deny 3307/tcp
+
+# Eliminar una regla
+sudo ufw delete allow 8081/tcp
+
+# Resetear firewall
+sudo ufw reset
+
+
+# ============================================
+# PERMISOS Y ARCHIVOS
+# ============================================
+
+# Dar permisos a directorios de la aplicación
+docker exec tours_micaela_app_vps chown -R www-data:www-data /var/www/html/greenter
+docker exec tours_micaela_app_vps chown -R www-data:www-data /var/www/html/Fotos
+docker exec tours_micaela_app_vps chmod -R 755 /var/www/html/greenter
+docker exec tours_micaela_app_vps chmod -R 755 /var/www/html/Fotos
+
+# Copiar archivo desde el host al contenedor
+docker cp archivo.txt tours_micaela_app_vps:/var/www/html/
+
+# Copiar archivo desde el contenedor al host
+docker cp tours_micaela_app_vps:/var/www/html/archivo.txt ./
+
+
+# ============================================
+# VERIFICACIÓN DE SERVICIOS
+# ============================================
+
+# Verificar que Apache esté corriendo
+docker exec tours_micaela_app_vps service apache2 status
+
+# Verificar versión de PHP
+docker exec tours_micaela_app_vps php -v
+
+# Verificar extensiones de PHP
+docker exec tours_micaela_app_vps php -m
+
+# Probar conexión a MySQL desde la app
+docker exec tours_micaela_app_vps php -r "new PDO('mysql:host=db;dbname=micaela', 'micaela_user', 'TU_CONTRASEÑA'); echo 'OK';"
+
+# Verificar conectividad de red entre contenedores
+docker exec tours_micaela_app_vps ping -c 3 db
+
+
+# ============================================
+# URLS DE ACCESO
+# ============================================
+
+# Aplicación Web:
+# http://TU_IP_VPS
+
+# phpMyAdmin:
+# http://TU_IP_VPS:8081
+
+# MySQL (acceso externo):
+# Host: TU_IP_VPS
+# Puerto: 3307
+# Usuario: micaela_user
+# Contraseña: (la de .env)
+# Base de datos: micaela
+
+
+# ============================================
+# TROUBLESHOOTING
+# ============================================
+
+# Si la aplicación no carga:
+docker logs tours_micaela_app_vps
+docker exec tours_micaela_app_vps curl -I http://localhost
+sudo ufw status
+
+# Si hay error de conexión a BD:
+docker logs tours_micaela_db_vps
+docker exec tours_micaela_db_vps mysqladmin ping -h localhost -uroot -p"TU_CONTRASEÑA"
+docker exec tours_micaela_app_vps env | grep DB_
+
+# Si phpMyAdmin no carga:
+docker logs tours_micaela_phpmyadmin_vps
+docker restart tours_micaela_phpmyadmin_vps
+
+# Ver errores de PHP:
+docker exec tours_micaela_app_vps tail -f /var/log/apache2/error.log
+
+# Ver errores de MySQL:
+docker exec tours_micaela_db_vps tail -f /var/log/mysql/error.log
+
+
+# ============================================
+# MONITOREO EN TIEMPO REAL
+# ============================================
+
+# Ver logs de todos los servicios en tiempo real
+docker-compose -f docker-compose.vps.yml logs -f
+
+# Ver uso de recursos en tiempo real
+docker stats
+
+# Ver procesos dentro de un contenedor
+docker top tours_micaela_app_vps
+
+
+# ============================================
+# COMANDOS DE EMERGENCIA
+# ============================================
+
+# Detener todo inmediatamente
+docker-compose -f docker-compose.vps.yml down
+
+# Reiniciar todo
+docker-compose -f docker-compose.vps.yml restart
+
+# Reconstruir todo desde cero (sin perder datos)
+docker-compose -f docker-compose.vps.yml up -d --build --force-recreate
+
+# Detener y eliminar todo (CUIDADO: borra volúmenes)
+docker-compose -f docker-compose.vps.yml down -v
+
+
+# ============================================
+# NOTAS IMPORTANTES
+# ============================================
+
+# - Reemplaza "TU_CONTRASEÑA" con tu contraseña real
+# - Reemplaza "TU_IP_VPS" con la IP de tu VPS
+# - Los comandos con "sudo" requieren permisos de administrador
+# - Siempre haz backup antes de operaciones destructivas
+# - Los logs se pueden ver en tiempo real con -f (follow)
+# - CTRL+C para salir de logs en tiempo real
+
+# ============================================

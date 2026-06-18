@@ -1,0 +1,137 @@
+# ============================================
+# Docker Compose para VPS - COMPLETO
+# MySQL + phpMyAdmin + Aplicación PHP
+# CONFIGURADO PARA USAR CON NGINX SSL PROXY
+# ============================================
+
+version: '3.8'
+
+services:
+  # Base de datos MySQL
+  db:
+    image: mysql:8.0
+    container_name: tours_micaela_db_vps
+    restart: always
+    ports:
+      - "3307:3306"  # Puerto externo 3307 para evitar conflictos
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password_2024_VPS}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-micaela}
+      MYSQL_USER: ${MYSQL_USER:-micaela_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-micaela_pass_2024_VPS}
+      TZ: America/Lima
+    volumes:
+      - mysql_data_vps:/var/lib/mysql
+      - ./backup:/backup
+    networks:
+      - tours_network_vps
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --init-connect='SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci'
+      --max_connections=200
+      --innodb_buffer_pool_size=512M
+      --bind-address=0.0.0.0
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root_password_2024_VPS}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # phpMyAdmin para gestión de BD
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: tours_micaela_phpmyadmin_vps
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8081:80"  # Acceso: http://TU_IP_VPS:8081
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password_2024_VPS}
+      UPLOAD_LIMIT: 100M
+      MEMORY_LIMIT: 512M
+      MAX_EXECUTION_TIME: 600
+      PMA_ARBITRARY: 1
+    networks:
+      - tours_network_vps
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Aplicación PHP/Apache
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    image: tours-micaela:vps
+    container_name: tours_micaela_app_vps
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    # ⭐ CAMBIO IMPORTANTE: NO exponemos puertos 80/443 públicamente
+    # El nginx SSL será el único que exponga estos puertos
+    # La app solo es accesible internamente en la red Docker
+    expose:
+      - "80"  # Solo exponer internamente para el proxy nginx
+    volumes:
+      # Archivos generados por la aplicación (persistentes)
+      - ./greenter/xml:/var/www/html/greenter/xml
+      - ./greenter/cdr:/var/www/html/greenter/cdr
+      - ./greenter/pdf:/var/www/html/greenter/pdf
+      - ./greenter/certificados:/var/www/html/greenter/certificados
+      - ./Fotos:/var/www/html/Fotos
+      - ./controller/usuario/fotos:/var/www/html/controller/usuario/fotos
+      - ./controller/choferes/fotos:/var/www/html/controller/choferes/fotos
+      - ./controller/empresa/FOTOS:/var/www/html/controller/empresa/FOTOS
+      - ./backup:/var/www/html/backup
+      # Sesiones PHP persistentes
+      - sessions_data_vps:/tmp/sessions
+      # Archivo de conexión (para usar variables de entorno)
+      - ./model/model_conexion.php:/var/www/html/model/model_conexion.php
+    environment:
+      - TZ=America/Lima
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+      # Variables de conexión a BD
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=${MYSQL_DATABASE:-micaela}
+      - DB_USER=${MYSQL_USER:-micaela_user}
+      - DB_PASSWORD=${MYSQL_PASSWORD:-micaela_pass_2024_VPS}
+    networks:
+      - tours_network_vps
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  tours_network_vps:
+    # ⭐ CAMBIO IMPORTANTE: Usar red externa que será creada antes
+    external: true
+
+volumes:
+  mysql_data_vps:
+    driver: local
+  sessions_data_vps:
+    driver: local

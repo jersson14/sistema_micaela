@@ -18,8 +18,25 @@ function Iniciar_Sesion() {
       c: con,
     },
   }).done(function (resp) {
-    let data = JSON.parse(resp);
-    if (data.length > 0) {
+    let response = JSON.parse(resp);
+    
+    // Compatibilidad con respuesta antigua y nueva
+    if (response.success === false) {
+      return Swal.fire({
+        icon: "error",
+        title: "Mensaje de Error",
+        text: response.message || "Usuario o Contraseña Incorrectos",
+        heightAuto: false,
+      });
+    }
+    
+    let data = response.data || response;
+    
+    if (data.length > 0 || (response.success && response.data)) {
+      if (response.success) {
+        data = [response.data];
+      }
+      
       if (data[0][7] == "INACTIVO") {
         return Swal.fire({
           icon: "warning",
@@ -28,6 +45,30 @@ function Iniciar_Sesion() {
           heightAuto: false,
         });
       }
+      
+      // Debug: ver qué datos tenemos
+      console.log("Response completo:", response);
+      console.log("Data:", data);
+      console.log("Data[0]:", data[0]);
+      
+      // Verificar que data[0] existe
+      if (!data[0]) {
+        console.error("ERROR: data[0] está vacío o undefined");
+        return Swal.fire({
+          icon: "error",
+          title: "Error de Sesión",
+          text: "No se pudieron obtener los datos del usuario",
+          heightAuto: false,
+        });
+      }
+      
+      // Guardar tokens JWT en localStorage
+      if (response.tokens) {
+        localStorage.setItem('access_token', response.tokens.access_token);
+        localStorage.setItem('refresh_token', response.tokens.refresh_token);
+        localStorage.setItem('token_expires', Date.now() + (response.tokens.expires_in * 1000));
+      }
+      
       $.ajax({
         url: "controller/usuario/controlador_crear_sesion.php",
         type: "POST",
@@ -45,29 +86,62 @@ function Iniciar_Sesion() {
           sucursal: data[0][20], // nombre de sucursal
         },
       }).done(function (resp) {
-        let timerInterval;
-        Swal.fire({
-          title: "Bienvenido al Sistema",
-          html: "Seras redireccionado en <b></b> milliseconds.",
-          icon: "success",
-          timer: 1200,
-          timerProgressBar: true,
-          heightAuto: false,
-          didOpen: () => {
-            Swal.showLoading();
-            const b = Swal.getHtmlContainer().querySelector("b");
-            timerInterval = setInterval(() => {
-              b.textContent = Swal.getTimerLeft();
-            }, 100);
-          },
-          willClose: () => {
-            clearInterval(timerInterval);
-          },
-        }).then((result) => {
-          /* Read more about handling dismissals below */
-          if (result.dismiss === Swal.DismissReason.timer) {
-            location.reload();
+        console.log("Respuesta crear sesión:", resp);
+        
+        try {
+          let sessionResponse = JSON.parse(resp);
+          
+          if (sessionResponse.success) {
+            console.log("Sesión creada exitosamente:", sessionResponse);
+            
+            let timerInterval;
+            Swal.fire({
+              title: "Bienvenido al Sistema",
+              html: "Seras redireccionado en <b></b> milliseconds.",
+              icon: "success",
+              timer: 1200,
+              timerProgressBar: true,
+              heightAuto: false,
+              didOpen: () => {
+                Swal.showLoading();
+                const b = Swal.getHtmlContainer().querySelector("b");
+                timerInterval = setInterval(() => {
+                  b.textContent = Swal.getTimerLeft();
+                }, 100);
+              },
+              willClose: () => {
+                clearInterval(timerInterval);
+              },
+            }).then((result) => {
+              if (result.dismiss === Swal.DismissReason.timer) {
+                location.reload();
+              }
+            });
+          } else {
+            console.error("Error al crear sesión:", sessionResponse.message);
+            Swal.fire({
+              icon: "error",
+              title: "Error de Sesión",
+              text: sessionResponse.message || "No se pudo crear la sesión",
+              heightAuto: false,
+            });
           }
+        } catch (e) {
+          console.error("Error al parsear respuesta de sesión:", e, resp);
+          Swal.fire({
+            icon: "error",
+            title: "Error de Sesión",
+            text: "Error al procesar la respuesta del servidor",
+            heightAuto: false,
+          });
+        }
+      }).fail(function(xhr, status, error) {
+        console.error("Error AJAX crear sesión:", {xhr, status, error});
+        Swal.fire({
+          icon: "error",
+          title: "Error de Conexión",
+          text: "No se pudo conectar con el servidor para crear la sesión",
+          heightAuto: false,
         });
       });
     } else {
@@ -119,42 +193,76 @@ function listar_usuario() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE USUARIOS",
-        title: "LISTA DE USUARIOS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [1, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
+  buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE USUARIOS",
+    title: "LISTA DE USUARIOS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6], // Ajusta según tus columnas, SIN acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE USUARIOS",
-        title: "LISTA DE USUARIOS",
-        className: "btn btn-pdf",
-        orientation: "landscape", // <-- Establece la orientación en horizontal
-        pageSize: "A4", // <-- Especifica el tamaño de la página
-        exportOptions: {
-          columns: [1, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE USUARIOS",
+    title: "LISTA DE USUARIOS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE USUARIOS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [1, 3, 4, 5, 6, 7, 8, 9], // Exportar solo hasta la columna 'estado'
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE USUARIOS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { defaultContent: "" },
       { data: "dni_usuario" },
@@ -385,7 +493,7 @@ function Registrar_Usuario() {
   ) {
     return Swal.fire(
       "Mensaje de Advertencia",
-      "Tiene campos en el registro del docente",
+      "Tiene campos en el registro del usuario",
       "warning"
     );
   }
@@ -397,7 +505,7 @@ function Registrar_Usuario() {
   ) {
     return Swal.fire(
       "Mensaje de Advertencia",
-      "Los datos del usuario son oblgatorios",
+      "Los datos del usuario son obligatorios",
       "warning"
     );
   }
@@ -1339,6 +1447,213 @@ function Total_reservas_asis() {
     var cadena = "";
     if (data.length > 0) {
       $("#total_reservas_asis").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+//COMPROBANTES
+function Total_comprobantes() {
+  let ori = document.getElementById("txt_sucursal").value;
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_comprobantes.php",
+    type: "POST",
+    data: {
+      ori: ori,
+    },
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_comprobantes").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+
+function Total_facturas() {
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_facturas.php",
+    type: "POST",
+
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_facturas_emitidas").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_boletas() {
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_boletas.php",
+    type: "POST",
+
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_boletas_emitidas").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_Notas_Credito() {
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_notas_credito.php",
+    type: "POST",
+
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_notas_credito").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_Notas_Debito() {
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_notas_debito.php",
+    type: "POST",
+
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_notas_debito").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+// COMPROBANTES POR SUCURSAL
+function Total_facturas_sucu() {
+  let ori = document.getElementById("txt_sucursal").value;
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_factura_sucu.php",
+    type: "POST",
+    data: {
+      ori: ori,
+    },
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_facturas_emitidas_sucu").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_boletas_sucu() {
+  let ori = document.getElementById("txt_sucursal").value;
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_boletas_sucu.php",
+    type: "POST",
+    data: {
+      ori: ori,
+    },
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_boletas_emitidas_sucu").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_nota_credito_sucu() {
+  let ori = document.getElementById("txt_sucursal").value;
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_notacredito_sucu.php",
+    type: "POST",
+    data: {
+      ori: ori,
+    },
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_notas_credito_sucu").html(data[0][0]);
+    } else {
+      return Swal.fire(
+        "Mensaje de Error",
+        "No se pudo traer los resultados",
+        "error"
+      );
+    }
+  });
+}
+
+function Total_nota_debito_sucu() {
+  let ori = document.getElementById("txt_sucursal").value;
+
+  $.ajax({
+    url: "../controller/usuario/controlador_total_notadebito_sucu.php",
+    type: "POST",
+    data: {
+      ori: ori,
+    },
+  }).done(function (resp) {
+    var data = JSON.parse(resp);
+    var cadena = "";
+    if (data.length > 0) {
+      $("#total_notas_debito_sucu").html(data[0][0]);
     } else {
       return Swal.fire(
         "Mensaje de Error",

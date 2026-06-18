@@ -63,7 +63,32 @@
             }
             conexionBD::cerrar_conexion();
         }
-
+         public function Cargar_Select_Servicios(){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_CARGAR_SERVICIOS()";
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
+           public function Cargar_Traermonto($id){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_CARGAR_TRAER_PRECIO(?)";
+            $arreglo = array();
+            $query  = $c->prepare($sql);
+            $query ->bindParam(1,$id);
+            $query->execute();
+            $resultado = $query->fetchAll();
+            foreach($resultado as $resp){
+                $arreglo[]=$resp;
+            }
+            return $arreglo;
+            conexionBD::cerrar_conexion();
+        }
     }
 
 

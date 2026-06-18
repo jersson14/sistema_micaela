@@ -1,0 +1,17 @@
+{
+    "name": "sistema-micaela/facturacion",
+    "description": "Sistema de Facturación Electrónica SUNAT",
+    "require": {
+        "php": ">=7.4",
+        "greenter/core": "*",
+        "greenter/greenter": "^5.0",
+        "greenter/lite": "*",
+        "firebase/php-jwt": "^6.11",
+        "mpdf/mpdf": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "model/"
+        }
+    }
+}

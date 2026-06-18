@@ -17,50 +17,76 @@ function listar_tipo_pago(){
           type:'POST'
       },
       dom: 'Bfrtip', 
-      buttons: [ 
-        {
-          extend: 'excelHtml5',
-          text: '<i class="fas fa-file-excel"></i> Excel',
-          titleAttr: 'Exportar a Excel',
-          filename: function() {
-            return "LISTA DE TIPOS DE PAGO";
-          },
-          title: function() {
-            return "LISTA DE TIPOS DE PAGO";
-          },
-          className: 'btn btn-excel',
-          exportOptions: {
-            columns: [ 1, 2, 3, 4, 5] // Exportar solo hasta la columna 'estado'
-          }
+     buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE TIPOS DE PAGO",
+    title: "LISTA DE TIPOS DE PAGO",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3], // Ajusta según tus columnas, SIN acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-        {
-          extend: 'pdfHtml5',
-          text: '<i class="fas fa-file-pdf"></i> PDF',
-          titleAttr: 'Exportar a PDF',
-          filename: function() {
-            return "LISTA DE TIPOS DE PAGO";
-          },
-          title: function() {
-            return "LISTA DE TIPOS DE PAGO";
-          },
-          className: 'btn btn-pdf',
-          exportOptions: {
-            columns: [ 1, 2, 3, 4, 5] // Exportar solo hasta la columna 'estado'
-          }
-        },
-        {
-          extend: 'print',
-          text: '<i class="fa fa-print"></i> Imprimir',
-          titleAttr: 'Imprimir',
-          title: function() {
-            return "LISTA DE TIPOS DE PAGO";
-          },
-          className: 'btn btn-print',
-          exportOptions: {
-            columns: [ 1, 2, 3, 4, 5] // Exportar solo hasta la columna 'estado'
-          }
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
         }
-      ],
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE TIPOS DE PAGO",
+    title: "LISTA DE TIPOS DE PAGO",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
+        },
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE TIPOS DE PAGO",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3],
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
+        },
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
       
       "columns":[
         {"defaultContent":""},

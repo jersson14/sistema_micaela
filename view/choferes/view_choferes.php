@@ -149,7 +149,16 @@
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Clase y categoria de licencia<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_clase_categoria" placeholder="Ingrese la clase y categoria">
+                            <select class="form-control" id="txt_clase_categoria" style="width:100%">
+                                <option value="" disabled>Seleccione</option>
+                                <option value="A-I" selected>A-I</option>
+                                <option value="A-IIa">A-IIa</option>
+                                <option value="A-IIb">A-IIb</option>
+                                <option value="A-IIb">A-IIIa</option>
+                                <option value="A-IIb">A-IIIb</option>
+                                <option value="A-IIb">A-IIIc</option>
+
+                            </select>
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Nro. de Licencia<b style="color:red">(*)</b>:</label>
@@ -253,7 +262,16 @@
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Clase y categoria de licencia<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_clase_categoria_editar" placeholder="Ingrese la clase y categoria">
+                              <select class="form-control" id="txt_clase_categoria_editar" style="width:100%">
+                                <option value="" disabled>Seleccione</option>
+                                <option value="A-I" selected>A-I</option>
+                                <option value="A-IIa">A-IIa</option>
+                                <option value="A-IIb">A-IIb</option>
+                                <option value="A-IIb">A-IIIa</option>
+                                <option value="A-IIb">A-IIIb</option>
+                                <option value="A-IIb">A-IIIc</option>
+
+                            </select>
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Nro. de Licencia<b style="color:red">(*)</b>:</label>
@@ -345,7 +363,17 @@
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Clase y categoria de licencia<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_clase_categoria_mostrar" placeholder="Ingrese la clase y categoria" disabled>
+                            <select class="form-control" id="txt_clase_categoria_mostrar" style="width:100%" disabled>
+                                <option value="" disabled>Seleccione</option>
+                                <option value="A-I" selected>A-I</option>
+                                <option value="A-IIa">A-IIa</option>
+                                <option value="A-IIb">A-IIb</option>
+                                <option value="A-IIb">A-IIIa</option>
+                                <option value="A-IIb">A-IIIb</option>
+                                <option value="A-IIb">A-IIIc</option>
+
+                            </select>
+                            
                         </div>
                         <div class="col-6 form-group">
                             <label for="">Nro. de Licencia<b style="color:red">(*)</b>:</label>

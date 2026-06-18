@@ -90,6 +90,57 @@
                             </div>
                         </div>
                     </div>
+                     <div class="row justify-content-center mt-4">
+                        <div class="col-lg-10 text-center">
+                            <div class="alert border rounded p-3 shadow-sm" style="background-color: #f8f9fa;">
+                                <h5 class="mb-3" style="color:#0154A0; font-weight: bold;">
+                                    <i class="fas fa-list-alt me-2"></i>Leyenda de Estados
+                                </h5>
+                                <div class="d-flex flex-column gap-2 align-items-start">
+                                    
+                                    <!-- EN TRANSITO -->
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="badge bg-dark text-white p-2 px-3">
+                                            <i class="fas fa-car me-1"></i> EN TRÁNSITO
+                                        </span>
+                                        <span class="text-start">
+                                            <b>: El vehículo ya partió y se encuentra en ruta hacia su destino.</b>
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- INCOMPLETO -->
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="badge bg-warning text-dark p-2 px-3">
+                                            <i class="fas fa-exclamation-triangle me-1"></i> INCOMPLETO
+                                        </span>
+                                        <span class="text-start">
+                                            <b>: Viaje no completado debido a un percance o circunstancia imprevista.</b>
+                                        </span>
+                                    </div>
+
+                                    <!-- COMPLETADO -->
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="badge bg-success p-2 px-3">
+                                            <i class="fas fa-check-circle me-1"></i> COMPLETADO
+                                        </span>
+                                        <span class="text-start">
+                                            <b>: Viaje realizado exitosamente al destino confirmado.</b>
+                                        </span>
+                                    </div>
+                                    
+                                    <!-- ELIMINADO -->
+                                    <div class="d-flex align-items-center gap-3">
+                                        <span class="badge bg-danger p-2 px-3">
+                                            <i class="fas fa-trash-alt me-1"></i> ELIMINADO
+                                        </span>
+                                        <span class="text-start">
+                                            <b>: Viaje eliminado del sistema por solicitud del usuario o administrador.</b>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive" style="text-align:center">
                         <div class="card-body">
                             <table id="tabla_salida_diaria" class="table table-striped table-bordered" style="width:100%">
@@ -719,26 +770,24 @@
         })
     </script>
     <script>
-        var n = new Date();
-        var y = n.getFullYear();
-        var m = n.getMonth() + 1; // Los meses empiezan desde 0
-        var d = n.getDate();
-        var h = n.getHours();
-        var min = n.getMinutes();
-        var s = n.getSeconds();
+      // Fecha actual en UTC
+const fecha = new Date();
 
-        // Formato con dos dígitos
-        if (d < 10) d = '0' + d;
-        if (m < 10) m = '0' + m;
-        if (h < 10) h = '0' + h;
-        if (min < 10) min = '0' + min;
-        if (s < 10) s = '0' + s;
+const formatter = new Intl.DateTimeFormat('sv-SE', {
+  timeZone: 'America/Lima',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false
+});
 
-        // Establece el valor con fecha y hora (YYYY-MM-DD HH:MM:SS)
-        document.getElementById('txt_fecha_creacion').value =
-            y + "-" + m + "-" + d + "T" + h + ":" + min;
-        document.getElementById('txt_fecha_actualizacion').value =
-            y + "-" + m + "-" + d + "T" + h + ":" + min;
+const fechaLima = formatter.format(fecha).replace(' ', 'T');
+
+document.getElementById('txt_fecha_creacion').value = fechaLima;
+document.getElementById('txt_fecha_actualizacion').value = fechaLima;
+
         // PARA EMISOR
         // Mostrar la sección correcta al cargar la página
         window.addEventListener('DOMContentLoaded', function() {

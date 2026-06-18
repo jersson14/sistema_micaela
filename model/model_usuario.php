@@ -12,7 +12,8 @@ class Modelo_Usuario extends conexionBD
         $query = $c->prepare($sql);
         $query->bindParam(1, $usu);
         $query->execute();
-        $resultado = $query->fetchAll();
+        // Usar PDO::FETCH_BOTH para obtener índices numéricos y asociativos
+        $resultado = $query->fetchAll(PDO::FETCH_BOTH);
         foreach ($resultado as $resp) {
             if (password_verify($con, $resp['usu_contrasenia'])) {
                 $arreglo[] = $resp;
@@ -601,6 +602,138 @@ class Modelo_Usuario extends conexionBD
     {
         $c = conexionBD::conexionPDO();
         $sql = "CALL SP_LISTAR_TOTAL_RESERVAS_ASIST(?)";
+        $arreglo = array();
+        $query  = $c->prepare($sql);
+        $query->bindParam(1, $ori);
+        $query->execute();
+        $resultado = $query->fetchAll();
+        foreach ($resultado as $resp) {
+            $arreglo[] = $resp;
+        }
+        return $arreglo;
+        conexionBD::cerrar_conexion();
+    }
+    //COMPROBANTES
+    public function listar_total_comprobantes()
+    {
+        $c = conexionBD::conexionPDO();
+        $sql = "CALL SP_LISTAR_TOTAL_cOMPROBANTES()";
+        $arreglo = array();
+        $query  = $c->prepare($sql);
+        $query->execute();
+        $resultado = $query->fetchAll();
+        foreach ($resultado as $resp) {
+            $arreglo[] = $resp;
+        }
+        return $arreglo;
+        conexionBD::cerrar_conexion();
+    }
+    public function listar_total_facturas()
+    {
+        $c = conexionBD::conexionPDO();
+        $sql = "CALL SP_LISTAR_TOTAL_FACTURAS()";
+        $arreglo = array();
+        $query  = $c->prepare($sql);
+        $query->execute();
+        $resultado = $query->fetchAll();
+        foreach ($resultado as $resp) {
+            $arreglo[] = $resp;
+        }
+        return $arreglo;
+        conexionBD::cerrar_conexion();
+    }
+     public function listar_total_boletas()
+    {
+        $c = conexionBD::conexionPDO();
+        $sql = "CALL SP_LISTAR_TOTAL_BOLETAS()";
+        $arreglo = array();
+        $query  = $c->prepare($sql);
+        $query->execute();
+        $resultado = $query->fetchAll();
+        foreach ($resultado as $resp) {
+            $arreglo[] = $resp;
+        }
+        return $arreglo;
+        conexionBD::cerrar_conexion();
+    }
+     public function listar_total_notas_credito()
+    {
+        $c = conexionBD::conexionPDO();
+        $sql = "CALL SP_LISTAR_TOTAL_NOTAS_CREDITO()";
+        $arreglo = array();
+        $query  = $c->prepare($sql);
+        $query->execute();
+        $resultado = $query->fetchAll();
+        foreach ($resultado as $resp) {
+            $arreglo[] = $resp;
+        }
+        return $arreglo;
+        conexionBD::cerrar_conexion();
+    }
+         public function listar_total_notas_debito()
+    {
+        $c = conexionBD::conexionPDO();
+        $sql = "CALL SP_LISTAR_TOTAL_NOTAS_DEBITO()";
+        $arreglo = array();
+        $query  = $c->prepare($sql);
+        $query->execute();
+        $resultado = $query->fetchAll();
+        foreach ($resultado as $resp) {
+            $arreglo[] = $resp;
+        }
+        return $arreglo;
+        conexionBD::cerrar_conexion();
+    }
+    // COMPROBANTES SUCURSALES
+     public function listar_total_facturas_sucu($ori)
+    {
+        $c = conexionBD::conexionPDO();
+        $sql = "CALL SP_LISTAR_TOTAL_FACTURAS_SUCU(?)";
+        $arreglo = array();
+        $query  = $c->prepare($sql);
+        $query->bindParam(1, $ori);
+        $query->execute();
+        $resultado = $query->fetchAll();
+        foreach ($resultado as $resp) {
+            $arreglo[] = $resp;
+        }
+        return $arreglo;
+        conexionBD::cerrar_conexion();
+    }
+    public function listar_total_boletas_sucu($ori)
+    {
+        $c = conexionBD::conexionPDO();
+        $sql = "CALL SP_LISTAR_TOTAL_BOLETAS_SUCU(?)";
+        $arreglo = array();
+        $query  = $c->prepare($sql);
+        $query->bindParam(1, $ori);
+        $query->execute();
+        $resultado = $query->fetchAll();
+        foreach ($resultado as $resp) {
+            $arreglo[] = $resp;
+        }
+        return $arreglo;
+        conexionBD::cerrar_conexion();
+    }
+    public function listar_total_nota_credito_sucu($ori)
+    {
+        $c = conexionBD::conexionPDO();
+        $sql = "CALL SP_LISTAR_TOTAL_NOTA_CREDITO_SUCU(?)";
+        $arreglo = array();
+        $query  = $c->prepare($sql);
+        $query->bindParam(1, $ori);
+        $query->execute();
+        $resultado = $query->fetchAll();
+        foreach ($resultado as $resp) {
+            $arreglo[] = $resp;
+        }
+        return $arreglo;
+        conexionBD::cerrar_conexion();
+    }
+    public function listar_total_nota_debito_sucu($ori)
+    {
+        $c = conexionBD::conexionPDO();
+        $sql = "CALL SP_LISTAR_TOTAL_NOTA_DEBITO_SUCU(?)";
         $arreglo = array();
         $query  = $c->prepare($sql);
         $query->bindParam(1, $ori);

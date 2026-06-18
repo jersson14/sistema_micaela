@@ -35,42 +35,76 @@ function listar_salidas_diarias() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+   buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-pdf",
-        orientation: "landscape",
-        pageSize: "A4",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { data: "salida_nro" },
       {
@@ -254,42 +288,76 @@ function listar_salidas_diarias_pordia() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+   buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-pdf",
-        orientation: "landscape",
-        pageSize: "A4",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { data: "salida_nro" },
       {
@@ -473,42 +541,76 @@ function listar_salidas_diarias_fecha_estado() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+   buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-pdf",
-        orientation: "landscape",
-        pageSize: "A4",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { data: "salida_nro" },
       {
@@ -3493,3 +3595,77 @@ function agregarPasajeroDesdeReserva() {
 
  
 }
+function agregarPasajeroEditar() {
+  var tipodocumento = $("#select_tipo_documento_emisor_editar").val();
+  var documento = $("#txt_dni_emisor_editar").val();
+  var documento2 = $("#txt_dni_emisor2_editar").val();
+  var nombres = $("#txt_nombre_pasajero_editar").val();
+  var edad = $("#txt_edad_editar").val();
+  var celular = $("#txt_cel_pasajero_editar").val();
+
+  let documentoFinal = "";
+  if (tipodocumento === "DNI") {
+    if (!documento) {
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo DNI es obligatorio",
+        "warning"
+      );
+    }
+    documentoFinal = documento;
+  } else {
+    if (!documento2) {
+      return Swal.fire(
+        "Mensaje de Advertencia",
+        "El campo de documento es obligatorio",
+        "warning"
+      );
+    }
+    documentoFinal = documento2;
+  }
+
+  if (
+    !documentoFinal ||
+    documentoFinal.trim() === "" ||
+    !nombres ||
+    nombres.trim() === ""
+  ) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "Complete los campos obligatorios",
+      "warning"
+    );
+  }
+
+  if (verificarDocumentEditar(documentoFinal)) {
+    return Swal.fire(
+      "Mensaje de Advertencia",
+      "El pasajero ya fue agregado a la tabla",
+      "warning"
+    );
+  }
+
+  var filasExistentes = document.querySelectorAll(
+    "#tabla_pasajeros_editar tbody tr"
+  ).length;
+  var fila = "<tr>";
+  fila += "<td>" + (filasExistentes + 1) + "</td>";
+  fila += "<td>" + tipodocumento + "</td>";
+  fila += "<td>" + documentoFinal + "</td>";
+  fila += "<td>" + nombres + "</td>";
+  fila += "<td>" + (edad || "N/A") + "</td>";
+  fila += "<td>" + (celular || "N/A") + "</td>";
+  fila +=
+    "<td><button class='btn btn-danger' onclick='removePasajeroEditar(this)'><i class='fas fa-trash'></i></button></td>";
+  fila += "</tr>";
+
+  $("#tabla_pasajeros_editar tbody").append(fila);
+  actualizarTotalPasajeros_Editar();
+
+  // Limpiar campos
+  $("#txt_dni_emisor_editar").val("");
+  $("#txt_nombre_pasajero_editar").val("");
+  $("#txt_edad_editar").val("");
+  $("#txt_cel_pasajero_editar").val("");
+}
+

@@ -1,0 +1,99 @@
+# ============================================
+# Docker Compose COMPLETO (App + MySQL)
+# Para VPS con MySQL en contenedor
+# ============================================
+
+version: '3.8'
+
+services:
+  # Base de datos MySQL
+  db:
+    image: mysql:8.0
+    container_name: tours_micaela_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Miranda1407
+      MYSQL_DATABASE: micaela
+      MYSQL_USER: jersson
+      MYSQL_PASSWORD: Miranda1407
+      TZ: America/Lima
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --default-authentication-plugin=mysql_native_password
+      --max_connections=200
+      --innodb_buffer_pool_size=512M
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backup:/backup
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pMiranda1407"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Aplicación PHP
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    image: tours-micaela:production
+    container_name: tours_micaela_app
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    volumes:
+      # Archivos generados por la aplicación
+      - ./greenter/xml:/var/www/html/greenter/xml
+      - ./greenter/cdr:/var/www/html/greenter/cdr
+      - ./greenter/pdf:/var/www/html/greenter/pdf
+      - ./greenter/certificados:/var/www/html/greenter/certificados
+      - ./Fotos:/var/www/html/Fotos
+      - ./controller/usuario/fotos:/var/www/html/controller/usuario/fotos
+      - ./controller/choferes/fotos:/var/www/html/controller/choferes/fotos
+      - ./controller/empresa/FOTOS:/var/www/html/controller/empresa/FOTOS
+      - ./backup:/var/www/html/backup
+      # Sesiones PHP persistentes
+      - sessions_data:/tmp/sessions
+    environment:
+      - TZ=America/Lima
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=micaela
+      - DB_USER=jersson
+      - DB_PASSWORD=Miranda1407
+    networks:
+      - app_network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
+  sessions_data:
+    driver: local

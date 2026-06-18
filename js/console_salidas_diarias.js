@@ -23,42 +23,77 @@ function listar_salidas_diarias_dia() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+  buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-pdf",
-        orientation: "landscape",
-        pageSize: "A4",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
+
     columns: [
       { data: "salida_nro" },
       {
@@ -224,42 +259,77 @@ function listar_salidas_diarias() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+  buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-pdf",
-        orientation: "landscape",
-        pageSize: "A4",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
+
     columns: [
       { data: "salida_nro" },
       {
@@ -429,42 +499,76 @@ function listar_salidas_diarias_ruta_estado() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+   buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-pdf",
-        orientation: "landscape",
-        pageSize: "A4",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { data: "salida_nro" },
       {
@@ -633,42 +737,76 @@ function listar_salidas_diarias_fecha_usu() {
     },
     dom: "Bfrtip",
 
-    buttons: [
-      {
-        extend: "excelHtml5",
-        text: '<i class="fas fa-file-excel"></i> Excel',
-        titleAttr: "Exportar a Excel",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-excel",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+  buttons: [
+  {
+    extend: "excelHtml5",
+    text: '<i class="fas fa-file-excel"></i> Excel',
+    titleAttr: "Exportar a Excel",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-success btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "pdfHtml5",
-        text: '<i class="fas fa-file-pdf"></i> PDF',
-        titleAttr: "Exportar a PDF",
-        filename: "LISTA DE SALIDAS DIARIAS",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-pdf",
-        orientation: "landscape",
-        pageSize: "A4",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "pdfHtml5",
+    text: '<i class="fas fa-file-pdf"></i> PDF',
+    titleAttr: "Exportar a PDF",
+    filename: "LISTA DE SALIDAS DIARIAS",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-danger btn-sm",
+    orientation: "landscape",
+    pageSize: "A4",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-      {
-        extend: "print",
-        text: '<i class="fa fa-print"></i> Imprimir',
-        titleAttr: "Imprimir",
-        title: "LISTA DE SALIDAS DIARIAS",
-        className: "btn btn-print",
-        exportOptions: {
-          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  },
+  {
+    extend: "print",
+    text: '<i class="fa fa-print"></i> Imprimir',
+    titleAttr: "Imprimir",
+    title: "LISTA DE SALIDAS DIARIAS",
+    className: "btn btn-info btn-sm",
+    exportOptions: {
+      columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], // SIN la última columna de acciones
+      format: {
+        header: function(data, columnIdx) {
+          if (columnIdx === 0) return "NRO.";
+          return data;
         },
-      },
-    ],
+        body: function(data, row, column, node) {
+          if (column === 0) return row + 1;
+          var cleanData = data.replace ? data.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim() : data;
+          return cleanData;
+        }
+      }
+    }
+  }
+],
+
     columns: [
       { data: "salida_nro" },
       {
@@ -844,11 +982,21 @@ function AbrirRegistro() {
       console.log("Select2 destino inicializado");
     }
     
-    // Establecer fecha y hora actual
-    const now = new Date();
-    const fechaActual = now.toISOString().slice(0, 16);
-    $("#txt_fecha_creacion").val(fechaActual);
-    console.log("Fecha establecida:", fechaActual);
+ const now = new Date();
+
+const fechaLima = new Intl.DateTimeFormat('sv-SE', {
+  timeZone: 'America/Lima',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false
+}).format(now).replace(' ', 'T');
+
+$("#txt_fecha_creacion").val(fechaLima);
+console.log("Fecha establecida:", fechaLima);
+
     
   }, 300); // Esperar 300ms para que los datos se carguen
   
@@ -2833,280 +2981,284 @@ $("#tabla_salida_diaria").on("click", ".editar", function () {
   if (tbl_salidas_diarias.row(this).child.isShown()) {
     var data = tbl_salidas_diarias.row(this).data();
   }
+  
+  // Llenar datos del formulario
   document.getElementById("id_salida_editar").value = data.id_salidas_diarias;
-
   $("#select_conductor_editar").val(data.id_conductor).trigger("change");
   document.getElementById("txt_pago_editar").value = data.monto;
   $("#select_origen_editar").val(data.id_origen).trigger("change");
   $("#select_destino_editar").val(data.id_destino).trigger("change");
   document.getElementById("txt_descripcion_editar").value = data.observacion;
 
-  // MOSTRAR MODAL
+  // Limpiar event listeners previos para evitar duplicados
+  $(".encomienda-checkbox").off("change");
+  $("#check_all_encomiendas_editar").off("change");
+
+  // MOSTRAR MODAL y cargar datos
   $("#modal_editar").modal("show");
 
-  // CARGAR TABLAS DESPUÉS DE MOSTRAR EL MODAL
-  setTimeout(function () {
-    listar_pasajerosEditar(data.id_salidas_diarias);
-    listar_encomiendasEditar(data.id_salidas_diarias);
-  }, 300);
+  // Usar evento 'shown.bs.modal' en lugar de setTimeout
+  $("#modal_editar").one("shown.bs.modal", function () {
+    // Cargar tablas en paralelo para mayor velocidad
+    Promise.all([
+      listar_pasajerosEditar(data.id_salidas_diarias),
+      listar_encomiendasEditar(data.id_salidas_diarias)
+    ]).catch(function(error) {
+      console.error("Error cargando datos:", error);
+      Swal.fire("Error", "No se pudieron cargar todos los datos", "error");
+    });
+  });
 });
 
 var tbl_detalle_pasajerosEditar;
 var tbl_detalle_encomiendasEditar;
 
-// Función para listar pasajeros
+// Función para listar pasajeros (retorna Promise)
 function listar_pasajerosEditar(id) {
-  // Destruir tabla existente si existe
-  if ($.fn.DataTable.isDataTable("#tabla_pasajeros_editar")) {
-    $("#tabla_pasajeros_editar").DataTable().destroy();
-  }
+  return new Promise(function(resolve, reject) {
+    // Destruir tabla existente si existe
+    if ($.fn.DataTable.isDataTable("#tabla_pasajeros_editar")) {
+      $("#tabla_pasajeros_editar").DataTable().clear().destroy();
+      $("#tabla_pasajeros_editar").empty();
+    }
 
-  tbl_detalle_pasajerosEditar = $("#tabla_pasajeros_editar").DataTable({
-    ordering: false,
-    bLengthChange: false,
-    searching: false,
-    paging: false,
-    info: false,
-    processing: false,
-    dom: "t",
-    columnDefs: [
-      {
-        targets: "_all",
-        className: "text-center",
-      },
-    ],
-    ajax: {
-      url: "../controller/salidas_diarias/controlador_listar_detalle_pasajeros.php",
-      type: "POST",
-      data: { id: id },
-      dataSrc: function (json) {
-        console.log("Respuesta JSON pasajeros:", json);
-        // Actualizar contador de pasajeros
-        if (json.data && json.data.length > 0) {
-          $("#total_pasajeros_editar").text(json.data.length);
-        } else {
+    tbl_detalle_pasajerosEditar = $("#tabla_pasajeros_editar").DataTable({
+      ordering: false,
+      bLengthChange: false,
+      searching: false,
+      paging: false,
+      info: false,
+      processing: true,
+      serverSide: false,
+      dom: "t",
+      deferRender: true, // Optimización para renderizado
+      columnDefs: [
+        {
+          targets: "_all",
+          className: "text-center",
+        },
+      ],
+      ajax: {
+        url: "../controller/salidas_diarias/controlador_listar_detalle_pasajeros.php",
+        type: "POST",
+        data: { id: id },
+        timeout: 10000, // 10 segundos timeout
+        dataSrc: function (json) {
+          // Actualizar contador de pasajeros
+          let total = (json.data && json.data.length) || 0;
+          $("#total_pasajeros_editar").text(total);
+          resolve(json.data); // Resolver promesa
+          return json.data || [];
+        },
+        error: function (xhr, error, thrown) {
+          console.error("Error cargando pasajeros:", error, thrown);
           $("#total_pasajeros_editar").text(0);
-        }
-        return json.data;
-      },
-      error: function (xhr, error, thrown) {
-        console.error("Error cargando pasajeros:", error, thrown);
-        $("#total_pasajeros_editar").text(0);
-      },
-    },
-    columns: [
-      {
-        data: null,
-        render: function (data, type, row, meta) {
-          return meta.row + 1;
+          reject(error);
         },
-        width: "8%",
       },
-      {
-        data: "tipo_documento",
-        width: "15%",
-      },
-      {
-        data: "nro_documento",
-        width: "15%",
-      },
-      {
-        data: "nombre_completo",
-        width: "30%",
-      },
-      {
-        data: "edad",
-        width: "10%",
-      },
-      {
-        data: "celular",
-        width: "15%",
-      },
-      {
-        data: null,
-        render: function (data, type, row) {
-          return (
-            '<button class="btn btn-danger btn-sm" onclick="eliminarPasajeroEditar(' +
-            row.id_cliente_salida +
-            ')" title="Eliminar pasajero">' +
-            '<i class="fas fa-trash"></i>' +
-            "</button>"
-          );
+      columns: [
+        {
+          data: null,
+          render: function (data, type, row, meta) {
+            return meta.row + 1;
+          },
+          width: "8%",
         },
-        width: "7%",
+        { data: "tipo_documento", width: "15%" },
+        { data: "nro_documento", width: "15%" },
+        { data: "nombre_completo", width: "30%" },
+        { data: "edad", width: "10%" },
+        { data: "celular", width: "15%" },
+        {
+          data: null,
+          render: function (data, type, row) {
+            return '<button class="btn btn-danger btn-sm" onclick="eliminarPasajeroEditar(' +
+              row.id_cliente_salida +
+              ')" title="Eliminar pasajero">' +
+              '<i class="fas fa-trash"></i></button>';
+          },
+          width: "7%",
+        },
+      ],
+      language: {
+        emptyTable: "No hay pasajeros registrados",
+        zeroRecords: "No se encontraron pasajeros",
+        loadingRecords: "Cargando...",
+        processing: "Procesando...",
       },
-    ],
-    language: {
-      emptyTable: "No hay pasajeros registrados",
-      zeroRecords: "No se encontraron pasajeros",
-      loadingRecords: "Cargando pasajeros...",
-    },
+    });
   });
 }
 
-// Función para listar encomiendas con checkboxes correctamente marcados
+// Función para listar encomiendas (retorna Promise)
 function listar_encomiendasEditar(id) {
-  if ($.fn.DataTable.isDataTable("#tabla_encomiendas_editar")) {
-    $("#tabla_encomiendas_editar").DataTable().destroy();
-  }
+  return new Promise(function(resolve, reject) {
+    if ($.fn.DataTable.isDataTable("#tabla_encomiendas_editar")) {
+      $("#tabla_encomiendas_editar").DataTable().clear().destroy();
+      $("#tabla_encomiendas_editar").empty();
+    }
 
-  tbl_detalle_encomiendasEditar = $("#tabla_encomiendas_editar").DataTable({
-    ordering: false,
-    bLengthChange: false,
-    searching: false,
-    paging: false,
-    info: false,
-    processing: false,
-    dom: "t",
-    columnDefs: [
-      {
-        targets: [1, 2, 3, 4, 5, 6, 7],
-        className: "text-center",
-      },
-      {
-        targets: [7],
-        className: "text-center align-middle",
-      },
-    ],
-    ajax: {
-      url: "../controller/salidas_diarias/controlador_listar_detalle_encomiendasEditar.php",
-      type: "POST",
-      data: { id: id },
-      dataSrc: function (json) {
-        console.log("Respuesta JSON encomiendas:", json);
-        return json.data || [];
-      },
-      error: function (xhr, error, thrown) {
-        console.error("Error cargando encomiendas:", error, thrown);
-        $("#total_encomiendas_editar").text(0);
-      },
-    },
-    columns: [
-      {
-        data: null,
-        render: function (data, type, row) {
-          let estaIncluida = row.estado == 1 || row.estado == "1";
-          let checked = estaIncluida ? "checked" : "";
-          return `<input type="checkbox" class="encomienda-checkbox" value="${row.id_encomienda}" ${checked}>`;
+    tbl_detalle_encomiendasEditar = $("#tabla_encomiendas_editar").DataTable({
+      ordering: false,
+      bLengthChange: false,
+      searching: false,
+      paging: false,
+      info: false,
+      processing: true,
+      serverSide: false,
+      dom: "t",
+      deferRender: true, // Optimización
+      columnDefs: [
+        {
+          targets: [1, 2, 3, 4, 5, 6, 7],
+          className: "text-center",
         },
-        width: "5%",
-      },
-      {
-        data: null,
-        render: (data, type, row, meta) => meta.row + 1,
-        width: "8%",
-      },
-      { data: "emisor", width: "20%" },
-      { data: "receptor", width: "20%" },
-      {
-        data: "pago",
-        width: "12%",
-        render: (data) => "S/ " + parseFloat(data || 0).toFixed(2),
-      },
-      {
-        data: "por_pagar",
-        width: "12%",
-        render: (data) => "S/ " + parseFloat(data || 0).toFixed(2),
-      },
-      {
-        data: "a_domicilio",
-        width: "13%",
-        render: function (data) {
-          let aDomicilio = String(data).toUpperCase().trim();
-          return aDomicilio === "1" ||
-            aDomicilio === "SI" ||
-            aDomicilio === "SÍ"
-            ? '<span class="badge badge-info">SÍ</span>'
-            : '<span class="badge badge-secondary">NO</span>';
+        {
+          targets: [7],
+          className: "text-center align-middle",
+        },
+      ],
+      ajax: {
+        url: "../controller/salidas_diarias/controlador_listar_detalle_encomiendasEditar.php",
+        type: "POST",
+        data: { id: id },
+        timeout: 10000, // 10 segundos timeout
+        dataSrc: function (json) {
+          resolve(json.data || []); // Resolver promesa
+          return json.data || [];
+        },
+        error: function (xhr, error, thrown) {
+          console.error("Error cargando encomiendas:", error, thrown);
+          $("#total_encomiendas_editar").text(0);
+          reject(error);
         },
       },
-      {
-        data: "estado_pago",
-        width: "10%",
-        render: function (data) {
-          let badgeClass =
-            data == "PAGADO"
-              ? "badge-success"
-              : data == "POR PAGAR"
-              ? "badge-danger"
-              : data == "A DOMICILIO"
-              ? "badge-warning"
-              : "badge-secondary";
-          return '<span class="badge ' + badgeClass + '">' + data + "</span>";
+      columns: [
+        {
+          data: null,
+          render: function (data, type, row) {
+            let estaIncluida = row.estado == 1 || row.estado == "1";
+            let checked = estaIncluida ? "checked" : "";
+            return `<input type="checkbox" class="encomienda-checkbox" data-id="${row.id_encomienda}" value="${row.id_encomienda}" ${checked}>`;
+          },
+          width: "5%",
         },
+        {
+          data: null,
+          render: (data, type, row, meta) => meta.row + 1,
+          width: "8%",
+        },
+        { data: "emisor", width: "20%" },
+        { data: "receptor", width: "20%" },
+        {
+          data: "pago",
+          width: "12%",
+          render: (data) => "S/ " + parseFloat(data || 0).toFixed(2),
+        },
+        {
+          data: "por_pagar",
+          width: "12%",
+          render: (data) => "S/ " + parseFloat(data || 0).toFixed(2),
+        },
+        {
+          data: "a_domicilio",
+          width: "13%",
+          render: function (data) {
+            let aDomicilio = String(data).toUpperCase().trim();
+            return aDomicilio === "1" || aDomicilio === "SI" || aDomicilio === "SÍ"
+              ? '<span class="badge badge-info">SÍ</span>'
+              : '<span class="badge badge-secondary">NO</span>';
+          },
+        },
+        {
+          data: "estado_pago",
+          width: "10%",
+          render: function (data) {
+            let badgeClass =
+              data == "PAGADO"
+                ? "badge-success"
+                : data == "POR PAGAR"
+                ? "badge-danger"
+                : data == "A DOMICILIO"
+                ? "badge-warning"
+                : "badge-secondary";
+            return '<span class="badge ' + badgeClass + '">' + data + "</span>";
+          },
+        },
+      ],
+      language: {
+        emptyTable: "No hay encomiendas registradas",
+        zeroRecords: "No se encontraron encomiendas",
+        loadingRecords: "Cargando...",
+        processing: "Procesando...",
       },
-    ],
-    language: {
-      emptyTable: "No hay encomiendas registradas",
-      zeroRecords: "No se encontraron encomiendas",
-      loadingRecords: "Cargando encomiendas...",
-    },
-    drawCallback: function (settings) {
-      console.log("Tabla dibujada, actualizando totales...");
-
-      setTimeout(function () {
-        // Función para contar check seleccionados
-        function actualizarTotalSeleccionados() {
-          let totalSeleccionados = $(".encomienda-checkbox:checked").length;
-          $("#total_encomiendas_editar").text(totalSeleccionados);
-        }
-
-        // Actualizar al cargar
-        actualizarTotalSeleccionados();
-
-        // Event listeners
-        $(".encomienda-checkbox")
-          .off("change")
-          .on("change", function () {
-            actualizarTotalSeleccionados();
-          });
-
-        $("#check_all_encomiendas_editar")
-          .off("change")
-          .on("change", function () {
-            let isChecked = $(this).is(":checked");
-            $(".encomienda-checkbox").prop("checked", isChecked);
-            actualizarTotalSeleccionados();
-          });
-      }, 100);
-    },
+      initComplete: function(settings, json) {
+        // Configurar eventos DESPUÉS de que la tabla esté completamente cargada
+        configurarEventosEncomiendas();
+      },
+      drawCallback: function (settings) {
+        // Reconfigurar eventos en cada redibujado
+        configurarEventosEncomiendas();
+      },
+    });
   });
 }
 
-// Función para actualizar el estado del checkbox principal
+// Función separada para configurar eventos (evita duplicados)
+function configurarEventosEncomiendas() {
+  // Remover eventos previos
+  $(".encomienda-checkbox").off("change");
+  $("#check_all_encomiendas_editar").off("change");
+  
+  // Función para actualizar totales
+  function actualizarTotalSeleccionados() {
+    let totalSeleccionados = $(".encomienda-checkbox:checked").length;
+    $("#total_encomiendas_editar").text(totalSeleccionados);
+    actualizarCheckboxPrincipalEditar();
+  }
+  
+  // Event listener para checkboxes individuales
+  $(document).on("change", ".encomienda-checkbox", function() {
+    actualizarTotalSeleccionados();
+  });
+  
+  // Event listener para checkbox principal
+  $("#check_all_encomiendas_editar").on("change", function () {
+    let isChecked = $(this).is(":checked");
+    $(".encomienda-checkbox").prop("checked", isChecked);
+    actualizarTotalSeleccionados();
+  });
+  
+  // Actualizar totales iniciales
+  actualizarTotalSeleccionados();
+}
+
+// Función optimizada para actualizar el estado del checkbox principal
 function actualizarCheckboxPrincipalEditar() {
-  let totalCheckboxes = $(".encomienda-checkbox").length;
-  let checkedCheckboxes = $(".encomienda-checkbox:checked").length;
-
-  console.log(`Checkboxes: ${checkedCheckboxes}/${totalCheckboxes} marcados`);
-
+  let $checkboxes = $(".encomienda-checkbox");
+  let totalCheckboxes = $checkboxes.length;
+  let checkedCheckboxes = $checkboxes.filter(":checked").length;
   let checkboxPrincipal = $("#check_all_encomiendas_editar");
 
-  if (totalCheckboxes === 0) {
-    checkboxPrincipal.prop("checked", false);
-    checkboxPrincipal.prop("indeterminate", false);
-  } else if (checkedCheckboxes === 0) {
-    checkboxPrincipal.prop("checked", false);
-    checkboxPrincipal.prop("indeterminate", false);
+  if (totalCheckboxes === 0 || checkedCheckboxes === 0) {
+    checkboxPrincipal.prop("checked", false).prop("indeterminate", false);
   } else if (checkedCheckboxes === totalCheckboxes) {
-    checkboxPrincipal.prop("checked", true);
-    checkboxPrincipal.prop("indeterminate", false);
+    checkboxPrincipal.prop("checked", true).prop("indeterminate", false);
   } else {
-    checkboxPrincipal.prop("checked", false);
-    checkboxPrincipal.prop("indeterminate", true);
+    checkboxPrincipal.prop("checked", false).prop("indeterminate", true);
   }
 }
 
-// Función auxiliar para obtener encomiendas seleccionadas
+// Función optimizada para obtener encomiendas seleccionadas
 function obtenerEncomiendasSeleccionadasEditar() {
-  let seleccionadas = [];
-  $(".encomienda-checkbox:checked").each(function () {
-    seleccionadas.push($(this).val());
-  });
-  console.log("Encomiendas seleccionadas:", seleccionadas);
+  // Usar map en lugar de each para mejor performance
+  let seleccionadas = $(".encomienda-checkbox:checked").map(function() {
+    return $(this).val();
+  }).get();
+  
   return seleccionadas;
 }
-// Función para eliminar pasajero
+// Función optimizada para eliminar pasajero
 function eliminarPasajeroEditar(idPasajero) {
   Swal.fire({
     title: "¿Está seguro?",
@@ -3119,37 +3271,49 @@ function eliminarPasajeroEditar(idPasajero) {
     cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
+      // Mostrar loading
+      Swal.fire({
+        title: "Eliminando...",
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        willOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
       $.ajax({
         url: "../controller/salidas_diarias/controlador_eliminar_pasajero_salida.php",
         type: "POST",
-        data: {
-          id_pasajero: idPasajero,
-        },
+        data: { id_pasajero: idPasajero },
+        timeout: 10000, // 10 segundos timeout
         success: function (response) {
-          console.log("Respuesta del servidor:", response); // Para depuración
-
-          // Verificar si la respuesta es mayor a 0
-          if (response > 0) {
-            Swal.fire(
-              "Eliminado",
-              "El pasajero ha sido eliminado correctamente.",
-              "success"
-            );
-            // Recargar la tabla de pasajeros
-            if (typeof tbl_detalle_pasajerosEditar !== "undefined") {
-              tbl_detalle_pasajerosEditar.ajax.reload();
+          // Convertir a número para comparación segura
+          let resultado = parseInt(response);
+          
+          if (resultado > 0) {
+            Swal.fire({
+              icon: "success",
+              title: "Eliminado",
+              text: "El pasajero ha sido eliminado correctamente.",
+              timer: 2000,
+              showConfirmButton: false
+            });
+            
+            // Recargar tabla si existe
+            if (typeof tbl_detalle_pasajerosEditar !== "undefined" && tbl_detalle_pasajerosEditar) {
+              tbl_detalle_pasajerosEditar.ajax.reload(null, false); // false = mantener paginación
             }
           } else {
             Swal.fire("Error", "No se pudo eliminar el pasajero.", "error");
           }
         },
         error: function (xhr, status, error) {
-          console.error("Error:", error);
-          Swal.fire(
-            "Error",
-            "Ocurrió un error al eliminar el pasajero.",
-            "error"
-          );
+          console.error("Error eliminando pasajero:", {xhr, status, error});
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Ocurrió un error al eliminar el pasajero. Verifique su conexión.",
+          });
         },
       });
     }

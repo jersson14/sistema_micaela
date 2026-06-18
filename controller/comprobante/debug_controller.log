@@ -1,0 +1,2384 @@
+[2025-12-21 12:32:44] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => BPP1
+    [correlativo] => 00000002
+    [fecha_emision] => 2025-12-21
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 10726461215
+    [razon_social] => CORILLA MIRANDA JERSSON JORGE
+    [direccion] => -
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-12-21T12:32
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-12-21 12:32:44] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 10726461215
+  - Razon: CORILLA MIRANDA JERSSON JORGE
+  - Telefono: "" (length: 0)
+[2025-12-21 12:32:44] RESULTADO REGISTRO CLIENTE: ID=68
+[2025-12-21 12:33:49] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00100304
+    [fecha_emision] => 2025-12-21
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 10726461215
+    [razon_social] => CORILLA MIRANDA JERSSON JORGE
+    [direccion] => -
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-12-21T12:32
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-12-21 12:33:49] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 10726461215
+  - Razon: CORILLA MIRANDA JERSSON JORGE
+  - Telefono: "" (length: 0)
+[2025-12-21 12:33:49] RESULTADO REGISTRO CLIENTE: ID=68
+[2025-12-21 12:38:19] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00100305
+    [fecha_emision] => 2025-12-21
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 10726461215
+    [razon_social] => CORILLA MIRANDA JERSSON JORGE
+    [direccion] => -
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-12-21T12:37
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-12-21 12:38:19] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 10726461215
+  - Razon: CORILLA MIRANDA JERSSON JORGE
+  - Telefono: "" (length: 0)
+[2025-12-21 12:38:19] RESULTADO REGISTRO CLIENTE: ID=68
+[2025-12-21 12:58:07] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00100306
+    [fecha_emision] => 2025-12-21
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 10726461215
+    [razon_social] => CORILLA MIRANDA JERSSON JORGE
+    [direccion] => -
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-12-21T12:57
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-12-21 12:58:07] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 10726461215
+  - Razon: CORILLA MIRANDA JERSSON JORGE
+  - Telefono: "" (length: 0)
+[2025-12-21 12:58:07] RESULTADO REGISTRO CLIENTE: ID=68
+[2025-12-21 13:04:08] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00100307
+    [fecha_emision] => 2025-12-21
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 10726461215
+    [razon_social] => CORILLA MIRANDA JERSSON JORGE
+    [direccion] => -
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 5
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-12-21T13:03
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-12-21 13:04:08] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 10726461215
+  - Razon: CORILLA MIRANDA JERSSON JORGE
+  - Telefono: "" (length: 0)
+[2025-12-21 13:04:08] RESULTADO REGISTRO CLIENTE: ID=68
+[2025-12-21 13:15:35] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => BPP1
+    [correlativo] => 00100003
+    [fecha_emision] => 2025-12-21
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => JR. NICOLAS DE PIEROLA N° 323
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 3
+    [cantidad] => 1
+    [id_conductor] => 2
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2025-12-21T13:15
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2025-12-21 13:15:35] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 72646121
+  - Razon: JERSSON JORGE CORILLA MIRANDA
+  - Telefono: "" (length: 0)
+[2025-12-21 13:15:35] RESULTADO REGISTRO CLIENTE: ID=4
+[2026-03-17 13:37:31] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000014
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-17T13:37
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 13:37:31] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-17 13:37:31] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-17 13:40:02] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000015
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-17T13:39
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 13:40:02] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-17 13:40:02] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-17 13:40:34] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000016
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 20
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-17T13:39
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 13:40:34] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-17 13:40:34] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-17 13:40:44] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000016
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 20
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-17T13:39
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 13:40:44] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-17 13:40:44] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-17 14:40:36] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000018
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-17T14:40
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 14:40:36] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-17 14:40:36] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-17 14:42:15] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000018
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-17T14:40
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 14:42:15] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-17 14:42:15] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-17 14:42:54] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000020
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 19
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-17T14:42
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 14:42:54] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-17 14:42:54] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-17 14:43:25] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000021
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-17T14:42
+    [base_gravada] => 42.37
+    [igv] => 7.63
+    [total] => 50.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 14:43:25] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-17 14:43:25] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-17 14:53:59] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000022
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-17T14:53
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 14:53:59] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20527056579
+  - Razon: UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+  - Telefono: "" (length: 0)
+[2026-03-17 14:53:59] RESULTADO REGISTRO CLIENTE: ID=3
+[2026-03-17 14:54:13] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000023
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-17T14:53
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 14:54:13] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20527056579
+  - Razon: UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+  - Telefono: "" (length: 0)
+[2026-03-17 14:54:13] RESULTADO REGISTRO CLIENTE: ID=3
+[2026-03-17 14:54:26] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000024
+    [fecha_emision] => 2026-03-17
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-17T14:53
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => NO
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-17 14:54:26] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20527056579
+  - Razon: UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+  - Telefono: "" (length: 0)
+[2026-03-17 14:54:26] RESULTADO REGISTRO CLIENTE: ID=3
+[2026-03-18 09:47:49] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000025
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-18T09:47
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 09:47:49] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 09:47:49] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 09:47:55] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000026
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-18T09:47
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 09:47:55] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 09:47:55] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 09:47:58] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000027
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-18T09:47
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 09:47:58] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 09:47:58] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 09:51:01] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000028
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T09:50
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 09:51:01] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 09:51:01] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 09:54:39] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000029
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T09:54
+    [base_gravada] => 1.69
+    [igv] => 0.31
+    [total] => 2.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 09:54:39] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 09:54:39] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 10:07:45] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000030
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:07
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:07:45] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 10:07:45] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 10:10:37] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000031
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:10
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:10:37] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 10:10:37] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 10:10:55] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000032
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20172474501
+    [razon_social] => UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+    [direccion] => AV. DE LA CULTURA NRO 733 
+    [celular] => 
+    [departamento] => CUSCO
+    [provincia] => CUSCO
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:10
+    [base_gravada] => 1.69
+    [igv] => 0.31
+    [total] => 2.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:10:55] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20172474501
+  - Razon: UNIVERSIDAD NACIONAL DE SAN ANTONIO ABAD DEL CUSCO
+  - Telefono: "" (length: 0)
+[2026-03-18 10:10:55] RESULTADO REGISTRO CLIENTE: ID=661
+[2026-03-18 10:11:20] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000033
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:10
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:11:20] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 10:11:20] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 10:16:43] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000034
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:10
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:16:43] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 10:16:43] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 10:32:55] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000035
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T10:32
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 10:32:55] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 10:32:55] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 13:21:37] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000036
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 19
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T13:21
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 13:21:37] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 13:21:37] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 13:21:59] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000037
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 19
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T13:21
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 13:21:59] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 13:21:59] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 18:35:40] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000038
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-18T18:35
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 18:35:40] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 18:35:40] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 18:35:56] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000039
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-18T18:35
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 18:35:56] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 18:35:56] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-18 18:37:59] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000040
+    [fecha_emision] => 2026-03-18
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-18T18:37
+    [base_gravada] => 1.69
+    [igv] => 0.31
+    [total] => 2.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-18 18:37:59] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-18 18:37:59] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-20 11:36:13] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000041
+    [fecha_emision] => 2026-03-20
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-20T11:13
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-20 11:36:13] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-20 11:36:13] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-20 11:37:56] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => BPP1
+    [correlativo] => 00900009
+    [fecha_emision] => 2026-03-20
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-20T11:37
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-20 11:37:56] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 72646121
+  - Razon: JERSSON JORGE CORILLA MIRANDA
+  - Telefono: "" (length: 0)
+[2026-03-20 11:37:56] RESULTADO REGISTRO CLIENTE: ID=4
+[2026-03-20 11:45:19] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => BPP1
+    [correlativo] => 00900009
+    [fecha_emision] => 2026-03-20
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-20T11:37
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-20 11:45:19] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 72646121
+  - Razon: JERSSON JORGE CORILLA MIRANDA
+  - Telefono: "" (length: 0)
+[2026-03-20 11:45:20] RESULTADO REGISTRO CLIENTE: ID=4
+[2026-03-20 11:47:05] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => BPP1
+    [correlativo] => 00900109
+    [fecha_emision] => 2026-03-20
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 72646121
+    [razon_social] => JERSSON JORGE CORILLA MIRANDA
+    [direccion] => 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-20T11:37
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-20 11:47:05] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 72646121
+  - Razon: JERSSON JORGE CORILLA MIRANDA
+  - Telefono: "" (length: 0)
+[2026-03-20 11:47:05] RESULTADO REGISTRO CLIENTE: ID=4
+[2026-03-20 11:47:24] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000041
+    [fecha_emision] => 2026-03-20
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-20T11:47
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-20 11:47:24] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20527056579
+  - Razon: UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+  - Telefono: "" (length: 0)
+[2026-03-20 11:47:24] RESULTADO REGISTRO CLIENTE: ID=3
+[2026-03-20 11:49:39] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000041
+    [fecha_emision] => 2026-03-20
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-20T11:49
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-20 11:49:39] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20527056579
+  - Razon: UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+  - Telefono: "" (length: 0)
+[2026-03-20 11:49:39] RESULTADO REGISTRO CLIENTE: ID=3
+[2026-03-20 11:50:00] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000042
+    [fecha_emision] => 2026-03-20
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-03-20T11:49
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-20 11:50:00] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20527056579
+  - Razon: UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+  - Telefono: "" (length: 0)
+[2026-03-20 11:50:00] RESULTADO REGISTRO CLIENTE: ID=3
+[2026-03-20 11:52:11] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 03
+    [serie] => BPP1
+    [correlativo] => 00900009
+    [fecha_emision] => 2026-03-20
+    [moneda] => PEN
+    [tipo_documento_cliente] => 1
+    [numero_documento] => 31044054
+    [razon_social] => WILFREDO CARRION UMERES
+    [direccion] => 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-20T11:49
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-20 11:52:11] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 1
+  - Num Doc: 31044054
+  - Razon: WILFREDO CARRION UMERES
+  - Telefono: "" (length: 0)
+[2026-03-20 11:52:11] RESULTADO REGISTRO CLIENTE: ID=20
+[2026-03-20 13:59:03] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09000043
+    [fecha_emision] => 2026-03-20
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20527056579
+    [razon_social] => UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+    [direccion] => AV. INCA GARCILAZO DE LA VEGA NRO S/N 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-20T13:58
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-20 13:59:03] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20527056579
+  - Razon: UNIVERSIDAD NACIONAL MICAELA BASTIDAS DE APURIMAC
+  - Telefono: "" (length: 0)
+[2026-03-20 13:59:03] RESULTADO REGISTRO CLIENTE: ID=3
+[2026-03-22 12:51:18] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00910002
+    [fecha_emision] => 2026-03-22
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-22T12:50
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-22 12:51:18] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-22 12:51:18] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-22 12:51:51] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00999003
+    [fecha_emision] => 2026-03-22
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 3
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-22T12:50
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-22 12:51:51] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-22 12:51:51] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-22 12:53:46] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00957345
+    [fecha_emision] => 2026-03-22
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-22T12:53
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-22 12:53:46] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-22 12:53:46] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-22 12:54:30] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00957346
+    [fecha_emision] => 2026-03-22
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-22T12:53
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-22 12:54:30] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-22 12:54:30] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-22 12:58:11] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09057347
+    [fecha_emision] => 2026-03-22
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-22T12:57
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-22 12:58:11] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-22 12:58:11] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-22 12:58:18] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09057347
+    [fecha_emision] => 2026-03-22
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-22T12:57
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-22 12:58:18] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-22 12:58:18] RESULTADO REGISTRO CLIENTE: ID=2
+[2026-03-22 13:01:17] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09057349
+    [fecha_emision] => 2026-03-22
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 20104985204
+    [razon_social] => UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+    [direccion] => AV. PERU NRO 700 
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-03-22T13:00
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-03-22 13:01:17] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 20104985204
+  - Razon: UNIVERSIDAD TECNOLOGICA DE LOS ANDES
+  - Telefono: "" (length: 0)
+[2026-03-22 13:01:17] RESULTADO REGISTRO CLIENTE: ID=2

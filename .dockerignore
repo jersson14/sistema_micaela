@@ -1,0 +1,116 @@
+# ============================================
+# .dockerignore - Archivos a excluir del build
+# ============================================
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+Dockerfile.production
+docker-compose.yml
+docker-compose.production.yml
+.dockerignore
+
+# Documentación
+*.md
+README.md
+DOCKER_SETUP.md
+AZURE_DEPLOYMENT.md
+INSTALACION_RAPIDA.md
+FACTURACION.md
+SEGUIMIENTO_ENCOMIENDAS.md
+IMPLEMENTACION_JWT.md
+LEER_PRIMERO.md
+FAQ_JWT.md
+CHECKLIST_JWT.md
+RESUMEN_JWT.txt
+PRUEBA_5_MINUTOS.md
+PRUEBA_AHORA.md
+PRUEBA_FINAL.md
+MODAL_RECORDATORIO_PAGOS.md
+OPTIMIZACIONES_HOSTING.md
+CONFIGURACION_PRODUCCION.md
+
+# Manuales
+*.docx
+*.pdf
+manual_*.docx
+manual_*.pdf
+
+# Archivos temporales
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Backups de BD (se suben por separado)
+backup/*.sql
+*.sql
+
+# Node modules (si los hubiera)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de configuración local
+.env.local
+.env.*.local
+
+# Cache
+.cache/
+*.cache
+
+# Archivos de prueba
+test_*.php
+prueba.php
+test/
+tests/
+
+# Archivos generados (se crean en runtime)
+greenter/xml/*
+greenter/cdr/*
+greenter/pdf/*
+greenter/cache/*
+!greenter/xml/.gitkeep
+!greenter/cdr/.gitkeep
+!greenter/pdf/.gitkeep
+!greenter/cache/.gitkeep
+
+# Fotos (se suben por separado o se generan)
+Fotos/*
+!Fotos/.gitkeep
+controller/usuario/fotos/*
+!controller/usuario/fotos/.gitkeep
+controller/choferes/fotos/*
+!controller/choferes/fotos/.gitkeep
+controller/empresa/FOTOS/*
+!controller/empresa/FOTOS/.gitkeep
+
+# Vendor (se instala con composer)
+# vendor/
+
+# Certificados sensibles (configurar en producción)
+greenter/certificados/*.pem
+certificate.pem
+
+# Scripts de desarrollo
+start.bat
+start.sh
+Makefile

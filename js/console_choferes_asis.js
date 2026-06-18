@@ -1,112 +1,219 @@
 var tbl_choferes;
-function listar_choferes(){
+function listar_choferes() {
   tbl_choferes = $("#tabla_choferes").DataTable({
-    pagingType: 'full_numbers',
+    pagingType: "full_numbers",
     scrollCollapse: true,
     responsive: true,
-      "ordering":false,   
-      "bLengthChange":true,
-      "searching": { "regex": false },
-      "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
-      "pageLength": 10,
-      "destroy":true,
-      pagingType: 'full_numbers',
-      scrollCollapse: true,
-      responsive: true,
-      "async": false ,
-      "processing": true,
-      "ajax":{
-          "url":"../controller/choferes/controlador_listar_choferes.php",
-          type:'POST'
+    ordering: false,
+    bLengthChange: true,
+    searching: { regex: false },
+    lengthMenu: [
+      [10, 25, 50, 100, -1],
+      [10, 25, 50, 100, "All"],
+    ],
+    pageLength: 10,
+    destroy: true,
+    pagingType: "full_numbers",
+    scrollCollapse: true,
+    responsive: true,
+    async: false,
+    processing: true,
+    ajax: {
+      url: "../controller/choferes/controlador_listar_choferes.php",
+      type: "POST",
+    },
+    dom: "Bfrtip",
+    buttons: [
+      {
+        extend: "excelHtml5",
+        text: '<i class="fas fa-file-excel"></i> Excel',
+        titleAttr: "Exportar a Excel",
+        filename: "LISTA DE CONDUCTORES",
+        title: "LISTA DE CONDUCTORES",
+        className: "btn btn-excel",
+        exportOptions: {
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function (data, row, column, node) {
+              if (column === 0) {
+                return row + 1;
+              }
+
+              var cleanData = data.replace
+                ? data
+                    .replace(/<[^>]*>/g, "")
+                    .replace(/&nbsp;/g, " ")
+                    .trim()
+                : data;
+
+              if (column === 1 && cleanData) {
+                cleanData = cleanData.replace(/([A-Za-z]+)(\d+)/g, "$1 - $2");
+              }
+
+              return cleanData;
+            },
+          },
+        },
+        customize: function (xlsx) {
+          var sheet = xlsx.xl.worksheets["sheet1.xml"];
+          // Centrar todas las celdas
+          $("row c", sheet).attr("s", "51");
+        },
       },
-      dom: 'Bfrtip',       
-    
-      buttons: [ 
-        {
-          extend: 'excelHtml5',
-          text: '<i class="fas fa-file-excel"></i> Excel',
-          titleAttr: 'Exportar a Excel',
-          filename: "LISTA DE CONDUCTORES",
-          title: "LISTA DE CONDUCTORES",
-          className: 'btn btn-excel',
-          exportOptions: {
-            columns: [ 1, 3, 4, 5, 6, 7, 8,9] // Exportar solo hasta la columna 'estado'
+      {
+        extend: "pdfHtml5",
+        text: '<i class="fas fa-file-pdf"></i> PDF',
+        titleAttr: "Exportar a PDF",
+        filename: "LISTA DE CONDUCTORES",
+        title: "LISTA DE CONDUCTORES",
+        className: "btn btn-pdf",
+        orientation: "landscape",
+        pageSize: "A4",
+        exportOptions: {
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function (data, row, column, node) {
+              if (column === 0) {
+                return row + 1;
+              }
+
+              var cleanData = data.replace
+                ? data
+                    .replace(/<[^>]*>/g, "")
+                    .replace(/&nbsp;/g, " ")
+                    .trim()
+                : data;
+
+              if (column === 1 && cleanData) {
+                cleanData = cleanData.replace(/([A-Za-z]+)(\d+)/g, "$1 - $2");
+              }
+
+              return cleanData;
+            },
+          },
+        },
+        customize: function (doc) {
+          // Centrar el título
+          doc.content[0].alignment = "center";
+
+          // Centrar todas las celdas del body y header
+          doc.content[1].table.body.forEach(function (row) {
+            row.forEach(function (cell) {
+              cell.alignment = "center";
+            });
+          });
+
+          // Estilo adicional para el encabezado
+          doc.styles.tableHeader.alignment = "center";
+        },
+      },
+      {
+        extend: "print",
+        text: '<i class="fa fa-print"></i> Imprimir',
+        titleAttr: "Imprimir",
+        title: "LISTA DE CONDUCTORES",
+        className: "btn btn-print",
+        exportOptions: {
+          columns: [0, 1, 3, 4, 5, 6, 7, 8, 9],
+          format: {
+            body: function (data, row, column, node) {
+              if (column === 0) {
+                return row + 1;
+              }
+
+              var cleanData = data.replace
+                ? data
+                    .replace(/<[^>]*>/g, "")
+                    .replace(/&nbsp;/g, " ")
+                    .trim()
+                : data;
+
+              if (column === 1 && cleanData) {
+                cleanData = cleanData.replace(/([A-Za-z]+)(\d+)/g, "$1 - $2");
+              }
+
+              return cleanData;
+            },
+          },
+        },
+        customize: function (win) {
+          // Agregar estilos CSS para centrar todo el contenido
+          $(win.document.body)
+            .find("table")
+            .addClass("compact")
+            .css("font-size", "12px");
+
+          $(win.document.body)
+            .find("th, td")
+            .css("text-align", "center")
+            .css("vertical-align", "middle");
+
+          $(win.document.body).find("h1").css("text-align", "center");
+        },
+      },
+    ],
+    columns: [
+      { defaultContent: "" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          return "<strong>" + row.tipo_documen + "</strong><br>" + row.nro_doc;
+        },
+      },
+      {
+        data: "foto",
+        render: function (data, type, row) {
+          if (
+            data == "controller/usuario/fotos/" ||
+            data == "" ||
+            data == null
+          ) {
+            return '<img src="../img/vacio.png" class="img img-responsive" style="width:40px">';
+          } else {
+            return (
+              '<img src="../' +
+              data +
+              '" class="img img-responsive" style="width:40px">'
+            );
           }
         },
-        {
-          extend: 'pdfHtml5',
-          text: '<i class="fas fa-file-pdf"></i> PDF',
-          titleAttr: 'Exportar a PDF',
-          filename: "LISTA DE CONDUCTORES",
-          title: "LISTA DE CONDUCTORES",
-          className: 'btn btn-pdf',
-          orientation: 'landscape', // <-- Establece la orientación en horizontal
-          pageSize: 'A4', // <-- Especifica el tamaño de la página
-          exportOptions: {
-            columns: [ 1, 3, 4, 5, 6, 7, 8,9] // Exportar solo hasta la columna 'estado'
+      },
+      { data: "nombres_apellidos" },
+      { data: "celular" },
+      { data: "procedencia" },
+      { data: "direccion" },
+      { data: "marca_vehiculo" },
+      { data: "placa_vehiculo" },
+      { data: "fecha_formateada" },
+      {
+        data: "estado",
+        render: function (data, type, row) {
+          if (data == "ACTIVO") {
+            return '<span class="badge bg-success">ACTIVO</span>';
+          } else {
+            return '<span class="badge bg-danger">INACTIVO</span>';
           }
         },
-        {
-          extend: 'print',
-          text: '<i class="fa fa-print"></i> Imprimir',
-          titleAttr: 'Imprimir',
-          title: "LISTA DE CONDUCTORES",
-          className: 'btn btn-print',
-          exportOptions: {
-            columns: [ 1, 3, 4, 5, 6, 7, 8,9] // Exportar solo hasta la columna 'estado'
-          }
-        }
-      ],
-   "columns":[
-    {"defaultContent":""},
-    {
-        "data": null,
-        "render": function(data, type, row) {
-            return '<strong>' + row.tipo_documen + '</strong><br>' + row.nro_doc;
-        }
-    },
-    {
-        "data": "foto",
-        "render": function(data, type, row) {
-            if (data == 'controller/usuario/fotos/' || data == '' || data == null) {
-                return '<img src="../img/vacio.png" class="img img-responsive" style="width:40px">';
-            } else {
-                return '<img src="../' + data + '" class="img img-responsive" style="width:40px">';
-            }
-        }
-    },
-    {"data":"nombres_apellidos"},
-    {"data":"celular"},
-    {"data":"procedencia"},
-    {"data":"direccion"},
-    {"data":"marca_vehiculo"},
-    {"data":"placa_vehiculo"},
-    {"data":"fecha_formateada"},
-    {
-        "data":"estado",
-        "render": function(data, type, row) {
-            if (data == 'ACTIVO') {
-                return '<span class="badge bg-success">ACTIVO</span>';
-            } else {
-                return '<span class="badge bg-danger">INACTIVO</span>';
-            }
-        }
-    },
-    {
-        "defaultContent":
-            "<button class='mostrar btn btn-success btn-sm' title='Ver datos'><i class='fa fa-eye'></i> Mostrar</button> " +
-            "<button class='editar btn btn-primary btn-sm' title='Editar datos de área'><i class='fa fa-edit'></i> Editar</button> "
-    }
-],
-    "language":idioma_espanol,
-    select: true
-});
-tbl_choferes.on('draw.td',function(){
-  var PageInfo = $("#tabla_choferes").DataTable().page.info();
-  tbl_choferes.column(0, {page: 'current'}).nodes().each(function(cell, i){
-    cell.innerHTML = i + 1 + PageInfo.start;
+      },
+      {
+        defaultContent:
+          "<button class='mostrar btn btn-success btn-sm' title='Ver datos'><i class='fa fa-eye'></i> Mostrar</button> " +
+          "<button class='editar btn btn-primary btn-sm' title='Editar datos de área'><i class='fa fa-edit'></i> Editar</button> " +
+          "<button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de área'><i class='fa fa-trash'></i> Eliminar</button>",
+      },
+    ],
+    language: idioma_espanol,
+    select: true,
   });
-});
+  tbl_choferes.on("draw.dt", function () {
+    var PageInfo = $("#tabla_choferes").DataTable().page.info();
+    tbl_choferes
+      .column(0, { page: "current" })
+      .nodes()
+      .each(function (cell, i) {
+        cell.innerHTML = i + 1 + PageInfo.start;
+      });
+  });
 }
 function AbrirRegistro(){
   $("#modal_registro").modal({backdrop:'static',keyboard:false})
