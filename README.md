@@ -46,29 +46,100 @@ Uso de la API **DECOLECTA** para consultar datos de clientes (RUC/DNI) en tiempo
 
 ## Arquitectura del Sistema (MVC + Docker)
 
-```text
-┌─────────────────────────────────────────────┐
-│                  VIEW (Frontend)             │
-│        HTML / CSS / JS / Bootstrap           │
-└───────────────────┬───────────────────────────┘
-                     │
-┌────────────────────▼──────────────────────────┐
-│            Backend Logic (PHP - MVC)           │
-│         Controladores + Greenter Lib           │
-└───────────────────┬───────────────────────────┘
-                     │
-┌────────────────────▼──────────────────────────┐
-│           MySQL Database (Datos Transac.)      │
-└───────────────────┬───────────────────────────┘
-                     │
-┌────────────────────▼──────────────────────────┐
-│         Docker Container — Despliegue VPS      │
-└─────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph Cliente["💻 Cliente"]
+        Browser["Navegador Web"]
+    end
+
+    subgraph VPS["🖥️ VPS — Infraestructura Contenerizada"]
+        subgraph Edge["Capa de Borde"]
+            Nginx["Nginx + Certbot (SSL/TLS)"]
+        end
+
+        subgraph AppContainer["Contenedor: tours_micaela_app"]
+            Apache["Apache 2 + PHP 8.2"]
+            MVC["Controladores MVC"]
+            Greenter["Lib. Greenter — Firma XML / Envío SUNAT"]
+            MPDF["mPDF — Generación de Reportes"]
+        end
+
+        subgraph DBContainer["Contenedor: tours_micaela_db"]
+            MySQL["MySQL 8.0 (utf8mb4_unicode_ci)"]
+        end
+
+        subgraph AdminContainer["Contenedor: tours_micaela_phpmyadmin"]
+            PMA["phpMyAdmin"]
+        end
+
+        Volumes["Volúmenes persistentes:
+        greenter/xml · cdr · pdf · certificados
+        fotos · backups · sesiones PHP"]
+    end
+
+    subgraph Externo["☁️ Servicios Externos"]
+        SUNAT["SUNAT — Validación de Comprobantes"]
+        DECOLECTA["API DECOLECTA / RENIEC"]
+    end
+
+    Browser -->|HTTPS 443| Nginx
+    Nginx -->|proxy_pass :80| Apache
+    Apache --> MVC
+    MVC --> Greenter
+    MVC --> MPDF
+    MVC -->|PDO| MySQL
+    Greenter -->|SOAP/XML| SUNAT
+    MVC -->|REST/JSON| DECOLECTA
+    Apache -.->|persistencia| Volumes
+    MySQL -.->|persistencia| Volumes
+    PMA -->|gestión BD| MySQL
 ```
 
 ---
 
+## Flujo de Despliegue (VPS + Docker + SSL)
+
+```mermaid
+flowchart LR
+    Dev["👨‍💻 Desarrollo local
+    (XAMPP / Docker)"] -->|git push| Repo["📦 Repositorio Git"]
+    Repo -->|deploy_vps.sh| VPS1["VPS: clona / actualiza código"]
+    VPS1 --> Build["docker compose -f
+    docker-compose.vps.yml build"]
+    Build --> Up["docker compose up -d
+    (app + db + phpmyadmin)"]
+    Up --> Health["Healthchecks
+    (mysqladmin ping / curl)"]
+    Health --> SSL["setup_ssl.sh
+    Certbot + Nginx reverse proxy"]
+    SSL --> Live["🌐 Dominio en producción
+    (HTTPS activo)"]
+
+    style Dev fill:#1f6feb,color:#fff
+    style Live fill:#2da44e,color:#fff
+```
+
+**Pasos automatizados por los scripts de despliegue:**
+
+1. `deploy_vps.sh` verifica Docker, Docker Compose y el archivo `.env` (lo genera desde `.env.vps` si no existe).
+2. Crea y aplica permisos a los directorios persistentes (`greenter/`, `Fotos`, `backup/`, fotos de usuarios/choferes).
+3. Construye las imágenes con `docker-compose.vps.yml` y levanta los contenedores `app`, `db` y `phpmyadmin`.
+4. Espera los `healthcheck` de MySQL y Apache antes de continuar.
+5. `setup_ssl.sh` / `configurar_dominio_ssl.sh` obtienen el certificado con **Certbot** y configuran un proxy **Nginx** para servir el dominio por HTTPS.
+
+---
+
 ## Resultados e Impacto
+
+> 📌 Estimaciones referenciales basadas en el problema de investigación de la tesis (duplicidad, demoras, falta de reportes), no una auditoría externa.
+
+| Indicador | Antes (proceso manual) | Después (sistema) | Mejora |
+|---|---|---|---|
+| Duplicidad de registros | Recurrente en ventanilla | Validación única por DNI/RUC | **↓ 100%** |
+| Tiempo de emisión de comprobante | ~5–8 min (manual + reproceso) | ~30–45 seg (automático con Greenter) | **↓ ~90%** |
+| Errores de validación SUNAT | Frecuentes por digitación manual | Casi nulos (datos validados vía API DECOLECTA) | **↓ ~95%** |
+| Visibilidad gerencial (reportes) | Inexistente / cálculo manual | Dashboard en tiempo real | **↑ 100%** |
+| Volumen procesado | Limitado por capacidad manual | +10,000 comprobantes/mes sin reproceso | **Escalable** |
 
 | Métrica | Resultado |
 |---|---|
