@@ -477,6 +477,10 @@ elseif ($accion == 'ENVIAR_SUNAT') {
         strpos($mensaje_error_lower, 'service unavailable') !== false ||
         strpos($mensaje_error_lower, 'temporarily unavailable') !== false
     );
+    $es_problema_correlativo = (
+        $codigo_error_norm === '1033' ||
+        strpos($mensaje_error_lower, 'registrado previamente') !== false
+    );
 
     if ($es_aceptado) {
         // 6️⃣ Generar hash del CDR si existe
@@ -530,6 +534,21 @@ elseif ($accion == 'ENVIAR_SUNAT') {
                 'message' => "⚠️ {$tipo_nombre} en estado PENDIENTE por error temporal de SUNAT. Reintente el envío en 1-2 minutos y no anule el comprobante.",
                 'output'  => nl2br($output)
             ]);
+        } elseif ($es_problema_correlativo) {
+            $descripcion_rechazo = $mensaje_error ?: $output;
+
+            $MC->Actualizar_Estado_SUNAT(
+                $id_comprobante,
+                'RECHAZADO',
+                $codigo_error,
+                $descripcion_rechazo
+            );
+
+            echo json_encode([
+                'status'  => 'error',
+                'message' => "❌ El comprobante {$numero_completo} ya fue registrado en SUNAT con otros datos. Verifique el correlativo antes de reintentar.",
+                'output'  => nl2br($output)
+            ]);
         } else {
             $descripcion_rechazo = $mensaje_error ?: $output;
 
@@ -542,7 +561,7 @@ elseif ($accion == 'ENVIAR_SUNAT') {
 
             echo json_encode([
                 'status'  => 'error',
-                'message' => "❌ {$tipo_nombre} RECHAZADA por SUNAT",
+                'message' => "❌ {$tipo_nombre} RECHAZADA por SUNAT" . ($mensaje_error ? ": {$mensaje_error}" : ''),
                 'output'  => nl2br($output)
             ]);
         }

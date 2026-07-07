@@ -1064,6 +1064,18 @@ function enviarASunatEnSegundoPlano(
     });
 }
 
+// Envuelve el log técnico crudo de SUNAT en un detalle colapsado
+// para no saturar el modal con el volcado de reintentos.
+function detalleTecnicoHtml(output) {
+  if (!output) return "";
+  return (
+    '<details style="text-align:left; margin-top:8px;">' +
+    '<summary style="cursor:pointer; color:#888;"><small>Ver detalle técnico</small></summary>' +
+    '<small style="color:#999;">' + output + "</small>" +
+    "</details>"
+  );
+}
+
 function enviarASunat(id_comprobante, serie, correlativo, ventanaTicket = null) {
   const popupWidth = 480;
   const popupHeight = 700;
@@ -1133,9 +1145,7 @@ function enviarASunat(id_comprobante, serie, correlativo, ventanaTicket = null) 
           html:
             resp.message +
             "<br><small><b>No anules</b> el comprobante. Reintenta el envío en 1-2 minutos.</small>" +
-            "<br><small>" +
-            (resp.output || "") +
-            "</small>",
+            detalleTecnicoHtml(resp.output),
           showConfirmButton: true,
         }).then(() => {
           // El comprobante ya fue guardado; limpiar para continuar con el siguiente
@@ -1148,7 +1158,7 @@ function enviarASunat(id_comprobante, serie, correlativo, ventanaTicket = null) 
         Swal.fire({
           icon: "error",
           title: "Error al enviar a SUNAT",
-          html: resp.message + "<br><small>" + (resp.output || "") + "</small>",
+          html: resp.message + detalleTecnicoHtml(resp.output),
           showConfirmButton: true,
         });
       }
@@ -1376,7 +1386,11 @@ function listar_comprobantes() {
     ajax: {
       url: "../controller/comprobante/controller_comprobante.php",
       type: "POST",
-      data: { accion: "LISTAR_COMPROBANTES" },
+      data: {
+        accion: "LISTAR_COMPROBANTES",
+        fecha_desde: $("#txt_fecha_desde").val(),
+        fecha_hasta: $("#txt_fecha_hasta").val(),
+      },
     },
     columns: [
       { data: "id_comprobante" },

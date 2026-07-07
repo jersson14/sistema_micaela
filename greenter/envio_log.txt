@@ -3111,3 +3111,50 @@ OUTPUT:
    Código: 0
    Hash: iECV0JL4NHD97UpCBbSTIMZPD7o=
 
+=========================
+FECHA: 2026-07-04 23:10:47
+ID COMPROBANTE: 2866
+TIPO: Boleta (03)
+NUMERO: BPP1-00015756
+NOMBRE CDR: R-BPP1-00015756.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 03: BPP1-15756
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/BPP1-00015756.xml
+
+⚠️ INTENTO 1/4 FALLIDO
+Código: 1033
+Mensaje: 1033 - El comprobante fue registrado previamente con otros datos - Detalle: value='ticket: fcf3a5ac-ceeb-4676-8a78-3ddd84fee604, error: INFO: (nodo: "/Invoice/cbc:ID" valor: "BPP1-15756")'
+
+❌ ERROR EN EL ENVÍO
+Código: 1033
+Mensaje: 1033 - El comprobante fue registrado previamente con otros datos - Detalle: value='ticket: fcf3a5ac-ceeb-4676-8a78-3ddd84fee604, error: INFO: (nodo: "/Invoice/cbc:ID" valor: "BPP1-15756")'
+
+=========================
+FECHA: 2026-07-04 23:11:49
+ID COMPROBANTE: 2867
+TIPO: Boleta (03)
+NUMERO: BPP1-09915757
+NOMBRE CDR: R-BPP1-09915757.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 03: BPP1-9915757
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/BPP1-09915757.xml
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Boleta de Venta numero BPP1-9915757, ha sido aceptado
+   Código: 0
+   Hash: aes2fW5GTeCaf4g3SNpA3h68NCE=
+

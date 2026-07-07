@@ -529,15 +529,15 @@ function Cargar_Select_Tipopago_Edit() {
 </script>
 <script>
 $(document).ready(function() {
-    listar_comprobantes();
     establecerFechasFiltro();
+    listar_comprobantes();
 });
 
 function establecerFechasFiltro() {
     var hoy = new Date();
     var hace30dias = new Date();
     hace30dias.setDate(hace30dias.getDate() - 30);
-    
+
     $('#txt_fecha_desde').val(hace30dias.toISOString().split('T')[0]);
     $('#txt_fecha_hasta').val(hoy.toISOString().split('T')[0]);
 }

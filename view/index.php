@@ -229,31 +229,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-<<<<<<< HEAD
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/facturas.php')" class="nav-link">
-=======
                     <a href="#facturas" data-modulo="facturas" class="nav-link">
->>>>>>> jersson
                       <i class="nav-icon fas fa-file-invoice"></i>
                       <p style="color:white">Comprobantes</p>
                     </a>
                   </li>
                   <li class="nav-item">
-<<<<<<< HEAD
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_credito.php')" class="nav-link">
-                      <i class="nav-icon fas fa-file-alt"></i>
-                      <p style="color:white">Notas de crédito</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/view_notas_debito.php')" class="nav-link">
-                      <i class="nav-icon fas fa-file-signature"></i>
-                      <p style="color:white">Notas de débito</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/envios_sunat.php')" class="nav-link">
-=======
                     <a href="#comprobantes-lista" data-modulo="comprobantes-lista" class="nav-link">
                       <i class="nav-icon fas fa-search-dollar"></i>
                       <p style="color:white">Consultas de comprobantes</p>
@@ -261,17 +242,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </li>
                   <li class="nav-item">
                     <a href="#sunat" data-modulo="sunat" class="nav-link">
->>>>>>> jersson
                       <i class="nav-icon fas fa-paper-plane"></i>
                       <p style="color:white">Envíos a SUNAT</p>
                     </a>
                   </li>
                   <li class="nav-item">
-<<<<<<< HEAD
-                    <a href="#" onclick="cargar_contenido('contenido_principal','comprobantes/comprobantes_lista.php')" class="nav-link">
-                      <i class="nav-icon fas fa-search-dollar"></i>
-                      <p style="color:white">Consultas de comprobantes</p>
-=======
                     <a href="#notas-credito" data-modulo="notas-credito" class="nav-link">
                       <i class="nav-icon fas fa-file-alt"></i>
                       <p style="color:white">Notas de crédito</p>
@@ -281,7 +256,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="#notas-debito" data-modulo="notas-debito" class="nav-link">
                       <i class="nav-icon fas fa-file-signature"></i>
                       <p style="color:white">Notas de débito</p>
->>>>>>> jersson
                     </a>
                   </li>
                 </ul>
