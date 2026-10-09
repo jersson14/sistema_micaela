@@ -899,3 +899,173 @@
     [dias_transcurridos] => 0
 )
 
+[2026-10-09 17:37:34] Intentando enviar comprobante ID: 17179
+[2026-10-09 17:37:34] Datos obtenidos: Array
+(
+    [id_comprobante] => 17179
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-10-09
+    [serie] => FPP1
+    [correlativo] => 69074
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-10-09 17:39:29] Intentando enviar comprobante ID: 17180
+[2026-10-09 17:39:29] Datos obtenidos: Array
+(
+    [id_comprobante] => 17180
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-10-09
+    [serie] => FPP1
+    [correlativo] => 9969075
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-10-09 17:47:33] Intentando enviar comprobante ID: 17181
+[2026-10-09 17:47:33] Datos obtenidos: Array
+(
+    [id_comprobante] => 17181
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-10-09
+    [serie] => FPP1
+    [correlativo] => 9969076
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-10-09 17:53:39] Intentando enviar comprobante ID: 17181
+[2026-10-09 17:53:39] Datos obtenidos: Array
+(
+    [id_comprobante] => 17181
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-10-09
+    [serie] => FPP1
+    [correlativo] => 9969076
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-10-09 17:56:22] Intentando enviar comprobante ID: 17181
+[2026-10-09 17:56:22] Datos obtenidos: Array
+(
+    [id_comprobante] => 17181
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-10-09
+    [serie] => FPP1
+    [correlativo] => 9969076
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-10-09 18:28:25] Intentando enviar comprobante ID: 17181
+[2026-10-09 18:28:25] Datos obtenidos: Array
+(
+    [id_comprobante] => 17181
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-10-09
+    [serie] => FPP1
+    [correlativo] => 9969076
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-10-09 18:55:26] Intentando enviar comprobante ID: 17181
+[2026-10-09 18:55:26] Datos obtenidos: Array
+(
+    [id_comprobante] => 17181
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-10-09
+    [serie] => FPP1
+    [correlativo] => 9969076
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-10-09 20:13:10] Intentando enviar comprobante ID: 17182
+[2026-10-09 20:13:10] Datos obtenidos: Array
+(
+    [id_comprobante] => 17182
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-10-09
+    [serie] => FPP1
+    [correlativo] => 9969077
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-10-09 20:15:46] Intentando enviar comprobante ID: 17183
+[2026-10-09 20:15:46] Datos obtenidos: Array
+(
+    [id_comprobante] => 17183
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-10-09
+    [serie] => FPP1
+    [correlativo] => 9969078
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+
+[2026-10-09 21:57:10] Intentando enviar comprobante ID: 17183
+[2026-10-09 21:57:10] Datos obtenidos: Array
+(
+    [id_comprobante] => 17183
+    [tipo_comprobante] => 01
+    [fecha_emision] => 2026-10-09
+    [serie] => FPP1
+    [correlativo] => 9969078
+    [estado_sunat] => PENDIENTE
+    [estado_documento] => ACTIVO
+    [total] => 1.00
+    [op_gravadas] => 0.85
+    [igv] => 0.15
+    [observaciones] => 
+    [dias_transcurridos] => 0
+)
+

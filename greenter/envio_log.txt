@@ -3158,3 +3158,369 @@ OUTPUT:
    Código: 0
    Hash: aes2fW5GTeCaf4g3SNpA3h68NCE=
 
+=========================
+FECHA: 2026-10-09 17:37:38
+ID COMPROBANTE: 17179
+TIPO: Factura (01)
+NUMERO: FPP1-00069074
+NOMBRE CDR: R-FPP1-00069074.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-69074
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-00069074.xml
+
+⚠️ INTENTO 1/4 FALLIDO
+Código: 0100
+Mensaje: El sistema no puede responder su solicitud. Intente nuevamente o comuníquese con su Administrador
+
+❌ ERROR EN EL ENVÍO
+Código: 0100
+Mensaje: El sistema no puede responder su solicitud. Intente nuevamente o comuníquese con su Administrador
+
+=========================
+FECHA: 2026-10-09 17:39:30
+ID COMPROBANTE: 17180
+TIPO: Factura (01)
+NUMERO: FPP1-09969075
+NOMBRE CDR: R-FPP1-09969075.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9969075
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09969075.xml
+
+⚠️ INTENTO 1/4 FALLIDO
+Código: 0100
+Mensaje: El sistema no puede responder su solicitud. Intente nuevamente o comuníquese con su Administrador
+
+❌ ERROR EN EL ENVÍO
+Código: 0100
+Mensaje: El sistema no puede responder su solicitud. Intente nuevamente o comuníquese con su Administrador
+
+=========================
+FECHA: 2026-10-09 17:47:52
+ID COMPROBANTE: 17181
+TIPO: Factura (01)
+NUMERO: FPP1-09969076
+NOMBRE CDR: R-FPP1-09969076.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9969076
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09969076.xml
+
+⚠️ INTENTO 1/4 FALLIDO
+Código: 0100
+Mensaje: El sistema no puede responder su solicitud. Intente nuevamente o comuníquese con su Administrador
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+⏳ Reintentando en 5 segundos...
+
+⚠️ INTENTO 3/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+⏳ Reintentando en 10 segundos...
+
+⚠️ INTENTO 4/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Bad Request
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-10-09 17:53:57
+ID COMPROBANTE: 17181
+TIPO: Factura (01)
+NUMERO: FPP1-09969076
+NOMBRE CDR: R-FPP1-09969076.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9969076
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09969076.xml
+
+⚠️ INTENTO 1/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+⏳ Reintentando en 5 segundos...
+
+⚠️ INTENTO 3/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+⏳ Reintentando en 10 segundos...
+
+⚠️ INTENTO 4/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Bad Request
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-10-09 17:56:40
+ID COMPROBANTE: 17181
+TIPO: Factura (01)
+NUMERO: FPP1-09969076
+NOMBRE CDR: R-FPP1-09969076.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9969076
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09969076.xml
+
+⚠️ INTENTO 1/4 FALLIDO
+Código: 0100
+Mensaje: El sistema no puede responder su solicitud. Intente nuevamente o comuníquese con su Administrador
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+⏳ Reintentando en 5 segundos...
+
+⚠️ INTENTO 3/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+⏳ Reintentando en 10 segundos...
+
+⚠️ INTENTO 4/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Bad Request
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-10-09 18:28:43
+ID COMPROBANTE: 17181
+TIPO: Factura (01)
+NUMERO: FPP1-09969076
+NOMBRE CDR: R-FPP1-09969076.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9969076
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09969076.xml
+
+⚠️ INTENTO 1/4 FALLIDO
+Código: 0100
+Mensaje: El sistema no puede responder su solicitud. Intente nuevamente o comuníquese con su Administrador
+   | Respuesta HTTP: HTTP/1.1 500 Internal Server Error
+   | Cuerpo: <soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"><soap-env:Body><soap-env:Fault><faultcode>soap-env:Client.0100</faultcode><faultstring>El sistema no puede responder su solicitud. Intente nuevamente o comuníquese con su Administrador</faultstring></soap-env:Fault></soap-env:Body></soap-env:Envelope>
+   | Tamaño solicitud: 7107 bytes
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+   | Respuesta HTTP: HTTP/1.1 400 Bad Request
+   | Cuerpo: (vacío)
+   | Tamaño solicitud: 7107 bytes
+⏳ Reintentando en 5 segundos...
+
+⚠️ INTENTO 3/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+   | Respuesta HTTP: HTTP/1.1 400 Bad Request
+   | Cuerpo: (vacío)
+   | Tamaño solicitud: 7107 bytes
+⏳ Reintentando en 10 segundos...
+
+⚠️ INTENTO 4/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+   | Respuesta HTTP: HTTP/1.1 400 Bad Request
+   | Cuerpo: (vacío)
+   | Tamaño solicitud: 7107 bytes
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Bad Request
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-10-09 18:55:59
+ID COMPROBANTE: 17181
+TIPO: Factura (01)
+NUMERO: FPP1-09969076
+NOMBRE CDR: R-FPP1-09969076.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9969076
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09969076.xml
+
+⚠️ INTENTO 1/4 FALLIDO
+Código: HTTP
+Mensaje: Error Fetching http headers
+   | Respuesta HTTP: sin respuesta
+   | Cuerpo: (vacío)
+   | Tamaño solicitud: 7107 bytes
+⏳ Reintentando en 2 segundos...
+
+⚠️ INTENTO 2/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Gateway
+   | Respuesta HTTP: HTTP/1.1 502 Bad Gateway
+   | Cuerpo: (vacío)
+   | Tamaño solicitud: 7107 bytes
+⏳ Reintentando en 5 segundos...
+
+⚠️ INTENTO 3/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+   | Respuesta HTTP: HTTP/1.1 400 Bad Request
+   | Cuerpo: (vacío)
+   | Tamaño solicitud: 7107 bytes
+⏳ Reintentando en 10 segundos...
+
+⚠️ INTENTO 4/4 FALLIDO
+Código: HTTP
+Mensaje: Bad Request
+   | Respuesta HTTP: HTTP/1.1 400 Bad Request
+   | Cuerpo: (vacío)
+   | Tamaño solicitud: 7107 bytes
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Bad Request
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-10-09 20:13:26
+ID COMPROBANTE: 17182
+TIPO: Factura (01)
+NUMERO: FPP1-09969077
+NOMBRE CDR: R-FPP1-09969077.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9969077
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09969077.xml
+
+⚠️ INTENTO 1/1 FALLIDO
+Código: HTTP
+Mensaje: Error Fetching http headers
+   | Respuesta HTTP: sin respuesta
+   | Cuerpo: (vacío)
+   | Tamaño solicitud: 7103 bytes
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Error Fetching http headers
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-10-09 20:15:47
+ID COMPROBANTE: 17183
+TIPO: Factura (01)
+NUMERO: FPP1-09969078
+NOMBRE CDR: R-FPP1-09969078.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9969078
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09969078.xml
+
+⚠️ INTENTO 1/1 FALLIDO
+Código: HTTP
+Mensaje: Bad Gateway
+   | Respuesta HTTP: HTTP/1.1 502 Bad Gateway
+   | Cuerpo: (vacío)
+   | Tamaño solicitud: 7107 bytes
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Bad Gateway
+Acción: Reintentar envío
+
+=========================
+FECHA: 2026-10-09 21:57:12
+ID COMPROBANTE: 17183
+TIPO: Factura (01)
+NUMERO: FPP1-09969078
+NOMBRE CDR: R-FPP1-09969078.zip
+EXIT CODE: 0
+OUTPUT:
+📄 Procesando comprobante 01: FPP1-9969078
+📋 Ítems cargados desde BD: 1
+🚀 Entorno activo: SUNAT PRODUCCIÓN
+🔑 RUC: 20603540647
+🔑 Usuario SOL configurado: FACTURA1
+📦 Certificado: C:\xampp\htdocs\sistema_micaela\greenter\config/../certificados/certificado_produccion.pem
+
+📄 XML generado: xml/FPP1-09969078.xml
+
+⚠️ INTENTO 1/1 FALLIDO
+Código: HTTP
+Mensaje: Bad Gateway
+   | Respuesta HTTP: HTTP/1.1 502 Bad Gateway
+   | Cuerpo: (vacío)
+   | Tamaño solicitud: 7107 bytes
+
+⚠️ ERROR TRANSITORIO SUNAT
+Código: HTTP
+Mensaje: Bad Gateway
+Acción: Reintentar envío
+

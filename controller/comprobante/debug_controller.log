@@ -2480,3 +2480,248 @@ DEBUG TELEFONO: Array
   - Razon: JERSSON JORGE CORILLA MIRANDA
   - Telefono: "" (length: 0)
 [2026-07-04 16:11:48] RESULTADO REGISTRO CLIENTE: ID=4
+[2026-10-09 10:37:34] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 00069074
+    [fecha_emision] => 2026-10-09
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 10726461215
+    [razon_social] => CORILLA MIRANDA JERSSON JORGE
+    [direccion] => -
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-10-09T10:37
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-10-09 10:37:34] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 10726461215
+  - Razon: CORILLA MIRANDA JERSSON JORGE
+  - Telefono: "" (length: 0)
+[2026-10-09 10:37:34] RESULTADO REGISTRO CLIENTE: ID=71
+[2026-10-09 10:39:29] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09969075
+    [fecha_emision] => 2026-10-09
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 10726461215
+    [razon_social] => CORILLA MIRANDA JERSSON JORGE
+    [direccion] => -
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-10-09T10:37
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-10-09 10:39:29] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 10726461215
+  - Razon: CORILLA MIRANDA JERSSON JORGE
+  - Telefono: "" (length: 0)
+[2026-10-09 10:39:29] RESULTADO REGISTRO CLIENTE: ID=71
+[2026-10-09 10:47:33] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09969076
+    [fecha_emision] => 2026-10-09
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 10726461215
+    [razon_social] => CORILLA MIRANDA JERSSON JORGE
+    [direccion] => -
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-10-09T10:47
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-10-09 10:47:33] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 10726461215
+  - Razon: CORILLA MIRANDA JERSSON JORGE
+  - Telefono: "" (length: 0)
+[2026-10-09 10:47:33] RESULTADO REGISTRO CLIENTE: ID=71
+[2026-10-09 13:13:10] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09969077
+    [fecha_emision] => 2026-10-09
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 10726461215
+    [razon_social] => CORILLA MIRANDA JERSSON JORGE
+    [direccion] => -
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 2
+    [cantidad] => 1
+    [id_conductor] => 18
+    [id_origen] => 2
+    [id_destino] => 1
+    [fecha_viaje] => 2026-10-09T13:12
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-10-09 13:13:10] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 10726461215
+  - Razon: CORILLA MIRANDA JERSSON JORGE
+  - Telefono: "" (length: 0)
+[2026-10-09 13:13:10] RESULTADO REGISTRO CLIENTE: ID=71
+[2026-10-09 13:15:46] POST COMPLETO: Array
+(
+    [accion] => REGISTRAR_COMPROBANTE
+    [tipo_comprobante] => 01
+    [serie] => FPP1
+    [correlativo] => 09969078
+    [fecha_emision] => 2026-10-09
+    [moneda] => PEN
+    [tipo_documento_cliente] => 6
+    [numero_documento] => 10726461215
+    [razon_social] => CORILLA MIRANDA JERSSON JORGE
+    [direccion] => -
+    [celular] => 
+    [departamento] => APURIMAC
+    [provincia] => ABANCAY
+    [ubigeo] => 030101
+    [id_servicio] => 1
+    [cantidad] => 1
+    [id_conductor] => 17
+    [id_origen] => 1
+    [id_destino] => 2
+    [fecha_viaje] => 2026-10-09T13:15
+    [base_gravada] => 0.85
+    [igv] => 0.15
+    [total] => 1.00
+    [forma_pago] => CONTADO
+    [id_tipo_pago] => 1
+    [observaciones] => 
+    [estado_sunat] => PENDIENTE
+    [id_usuario] => 1
+)
+
+DEBUG TELEFONO: Array
+(
+    [celular_existe] => SI
+    [celular_raw] => 
+    [celular_length] => 0
+    [telefono_final] => 
+    [telefono_empty] => SI
+    [telefono_is_string] => SI
+)
+
+================================================================================
+[2026-10-09 13:15:46] ANTES DE REGISTRAR CLIENTE
+  - Tipo Doc: 6
+  - Num Doc: 10726461215
+  - Razon: CORILLA MIRANDA JERSSON JORGE
+  - Telefono: "" (length: 0)
+[2026-10-09 13:15:46] RESULTADO REGISTRO CLIENTE: ID=71
