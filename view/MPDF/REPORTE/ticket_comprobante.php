@@ -107,7 +107,24 @@ $logoPath = (!empty($row['empresa_logo']) && file_exists(__DIR__."/../../../img/
 
 // ESTADO SUNAT - Lógica mejorada
 $estadoSunat = strtoupper(trim($row['estado_sunat']));
+
+// PENDIENTE dentro del plazo SUNAT (3 días): ya está emitido y la cola lo enviará
+$pendienteEnPlazo = (
+    $estadoSunat === 'PENDIENTE' &&
+    strtotime($row['fecha_emision']) >= strtotime('-3 days', strtotime(date('Y-m-d')))
+);
+if ($pendienteEnPlazo) {
+    $estadoSunat = 'PENDIENTE_EN_PLAZO';
+}
+
 $estados = [
+    'PENDIENTE_EN_PLAZO' => [
+        'clase' => 'pendiente',
+        'icono' => '✓',
+        'mensaje' => 'COMPROBANTE EMITIDO',
+        'mostrarQR' => true,
+        'pie' => '<div class="footer-oficial">Representación impresa del CPE<br>Envío a SUNAT en proceso<br>Verificar en www.sunat.gob.pe</div>'
+    ],
     'PENDIENTE' => [
         'clase' => 'pendiente',
         'icono' => '⚠',

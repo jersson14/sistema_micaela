@@ -1137,14 +1137,15 @@ function enviarASunat(id_comprobante, serie, correlativo, ventanaTicket = null) 
         resp.status == "info" ||
         resp.status == "warning"
       ) {
-        cerrarVentanaReserva();
+        // El comprobante ya está emitido: se entrega el ticket y la cola (CRON) lo envía a SUNAT
+        abrirTicketSeguro();
         reactivarRefrescoCorrelativo();
         Swal.fire({
           icon: resp.status == "info" ? "info" : "warning",
-          title: "SUNAT respondió temporalmente",
+          title: "Comprobante emitido – envío a SUNAT pendiente",
           html:
             resp.message +
-            "<br><small><b>No anules</b> el comprobante. Se reenviará automáticamente.</small>" +
+            "<br><small>Se abrió el ticket. <b>No anules</b> el comprobante; se reenviará automáticamente.</small>" +
             detalleTecnicoHtml(resp.output),
           showConfirmButton: true,
         }).then(() => {
