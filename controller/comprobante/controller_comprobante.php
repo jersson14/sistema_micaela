@@ -631,6 +631,18 @@ elseif ($accion == 'OBTENER_RESUMEN_ENVIOS') {
 }
 
 // ============================================================
+// 7.1 ALERTA DE COLA SUNAT (solo ADMINISTRADOR)
+// ============================================================
+elseif ($accion == 'OBTENER_ALERTA_SUNAT') {
+    header('Content-Type: application/json; charset=utf-8');
+    if (!isset($_SESSION['S_ROL']) || $_SESSION['S_ROL'] != '1') {
+        echo json_encode(['status' => 'error', 'message' => 'No autorizado']);
+        exit;
+    }
+    echo json_encode(['status' => 'success'] + $MC->ObtenerAlertaColaSunat());
+}
+
+// ============================================================
 // 8. LISTAR PENDIENTES DE ENVÍO
 // ============================================================
 elseif ($accion == 'LISTAR_PENDIENTES_ENVIO') {

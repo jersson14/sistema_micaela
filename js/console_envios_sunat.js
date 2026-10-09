@@ -44,7 +44,15 @@ function cargarResumen() {
         dataType: "json"
     }).done(function(data) {
         if (data) {
-            $("#total_pendientes").text(data.pendientes || 0);
+            $("#total_en_cola").text(data.en_cola || 0);
+            const alertas = [];
+            if (parseInt(data.atrasados, 10) > 0) {
+                alertas.push(`⚠ ${data.atrasados} con más de 24 h`);
+            }
+            if (parseInt(data.fuera_plazo, 10) > 0) {
+                alertas.push(`🛑 ${data.fuera_plazo} fuera de plazo (revisión manual)`);
+            }
+            $("#resumen_cola_alertas").text(alertas.join(" · "));
             $("#total_enviados").text(data.enviados || 0);
             $("#total_rechazados").text(data.rechazados || 0);
             $("#total_hoy").text(data.hoy || 0);

@@ -26,8 +26,9 @@
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3 id="total_pendientes">0</h3>
-                        <p>Comprobantes Pendientes</p>
+                        <h3 id="total_en_cola">0</h3>
+                        <p>En cola SUNAT <small>(se envían solos)</small></p>
+                        <p class="mb-0" id="resumen_cola_alertas" style="font-size:13px; font-weight:bold;"></p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-clock"></i>

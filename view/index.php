@@ -70,6 +70,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="navbar-nav ml-auto">
           <!-- Notifications Dropdown Menu -->
 
+          <!-- Alerta de cola SUNAT (js/alerta_sunat.js) -->
+          <li class="nav-item" id="alerta_sunat" style="display:none;">
+            <a class="nav-link" href="#sunat" data-modulo="sunat" id="alerta_sunat_link">
+              <span class="badge" id="alerta_sunat_badge" style="font-size:13px; padding:6px 10px;"></span>
+            </a>
+          </li>
+
           <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
               <img src="../<?php echo $_SESSION['S_FOTO']; ?>" class="img-circle elevation-1" width="15" height="18">
@@ -2271,6 +2278,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- AQUÍ VA EL NUEVO SCRIPT -->
 <script src="../js/navegacion_hash.js?rev=<?php echo time(); ?>"></script>
+<?php if ($_SESSION['S_ROL'] == "1") { ?>
+<script src="../js/alerta_sunat.js?rev=<?php echo time(); ?>"></script>
+<?php } ?>
 
 <!-- ============================================ -->
 <!-- MODAL DE RECORDATORIO DE PAGOS (SOLO ADMIN) -->

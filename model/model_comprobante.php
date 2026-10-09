@@ -588,8 +588,13 @@ WHERE c.id_comprobante =?";
         $resultado_rechazados = $c->query($sql_rechazados)->fetch(PDO::FETCH_ASSOC);
         $resultado_hoy = $c->query($sql_hoy)->fetch(PDO::FETCH_ASSOC);
 
+        $cola = $this->ObtenerAlertaColaSunat();
+
         $resumen = array(
             'pendientes' => $resultado_pendientes['total'],
+            'en_cola' => $cola['en_cola'],
+            'atrasados' => $cola['atrasados'],
+            'fuera_plazo' => $cola['fuera_plazo'],
             'enviados' => $resultado_enviados['total'],
             'rechazados' => $resultado_rechazados['total'],
             'hoy' => $resultado_hoy['total']
@@ -597,6 +602,30 @@ WHERE c.id_comprobante =?";
 
         conexionBD::cerrar_conexion();
         return $resumen;
+    }
+
+    // ========================================
+    // ESTADO DE LA COLA DE ENVÍOS SUNAT (alerta para administrador)
+    // Mismo criterio de plazo que greenter/reenviar_pendientes.php (3 días)
+    // ========================================
+    public function ObtenerAlertaColaSunat()
+    {
+        $c = conexionBD::conexionPDO();
+
+        $sql = "SELECT
+                    SUM(fecha_emision >= CURDATE() - INTERVAL 3 DAY) AS en_cola,
+                    SUM(fecha_emision >= CURDATE() - INTERVAL 3 DAY
+                        AND TIMESTAMPDIFF(HOUR, COALESCE(created_at, fecha_emision), NOW()) >= 24) AS atrasados,
+                    SUM(fecha_emision < CURDATE() - INTERVAL 3 DAY) AS fuera_plazo
+                FROM comprobantes
+                WHERE estado_sunat = 'PENDIENTE' AND estado_documento = 'ACTIVO'";
+        $fila = $c->query($sql)->fetch(PDO::FETCH_ASSOC);
+
+        return array(
+            'en_cola' => (int)($fila['en_cola'] ?? 0),
+            'atrasados' => (int)($fila['atrasados'] ?? 0),
+            'fuera_plazo' => (int)($fila['fuera_plazo'] ?? 0)
+        );
     }
 
     // ========================================
