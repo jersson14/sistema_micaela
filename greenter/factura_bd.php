@@ -285,7 +285,14 @@ function esErrorTransitorioSunat($codigo, $mensaje)
         return true;
     }
 
+    // Códigos SUNAT de indisponibilidad de su servicio (el comprobante NO fue procesado)
+    $codigosTransitorios = ['0100', '0109', '0110', '0130', '0200'];
+    if (in_array($codigo, $codigosTransitorios, true)) {
+        return true;
+    }
+
     $patrones = [
+        'no puede responder su solicitud',
         'internal server error',
         'service unavailable',
         'temporarily unavailable',

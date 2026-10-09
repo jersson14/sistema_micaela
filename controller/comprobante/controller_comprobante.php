@@ -466,6 +466,9 @@ elseif ($accion == 'ENVIAR_SUNAT') {
         $fue_timeout_comando ||
         $codigo_error_norm === 'TIMEOUT' ||
         $codigo_error_norm === 'HTTP' ||
+        // Códigos SUNAT de indisponibilidad de su servicio (mismos que greenter/factura_bd.php)
+        in_array($codigo_error_norm, ['0100', '0109', '0110', '0130', '0200'], true) ||
+        strpos($mensaje_error_lower, 'no puede responder su solicitud') !== false ||
         strpos($output_lower, 'error transitorio sunat') !== false ||
         strpos($output_lower, 'internal server error') !== false ||
         strpos($output_lower, 'service unavailable') !== false ||
