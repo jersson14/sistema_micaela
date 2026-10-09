@@ -435,7 +435,7 @@ crontab -e
 ```
 Agregar la línea:
 ```bash
-*/5 * * * * docker exec tours_micaela_app_vps php /var/www/html/greenter/reenviar_pendientes.php 25 5 >> /var/log/micaela_cola.log 2>&1
+*/5 * * * * docker exec -u www-data tours_micaela_app_vps php /var/www/html/greenter/reenviar_pendientes.php 25 5 >> /var/log/micaela_cola.log 2>&1
 ```
 - `25` = máximo de comprobantes por ronda.
 - `5` = minutos mínimos entre intentos del mismo comprobante.
@@ -448,7 +448,7 @@ tail -f /var/log/micaela_cola.log
 
 Probarlo a mano una vez (seguro: solo envía PENDIENTE en plazo):
 ```bash
-docker exec tours_micaela_app_vps php /var/www/html/greenter/reenviar_pendientes.php 25 5
+docker exec -u www-data tours_micaela_app_vps php /var/www/html/greenter/reenviar_pendientes.php 25 5
 ```
 
 ### 14.3 Logs
