@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../model/model_conexion.php';
 require_once __DIR__ . '/config/config_greenter.php';
+require_once __DIR__ . '/envio_sunat_helpers.php';
 
 date_default_timezone_set('America/Lima');
 
@@ -34,6 +35,14 @@ if (!$id_comprobante) {
     die("❌ ERROR: No se proporcionó ID de comprobante.\n");
 }
 
+// Opción --intentos=N (1-4). Desde la pantalla y la cola se usa 1: los reintentos los hace el CRON.
+$maxIntentos = 4;
+foreach (array_slice($argv, 2) as $arg) {
+    if (preg_match('/^--intentos=(\d+)$/', $arg, $m)) {
+        $maxIntentos = max(1, min(4, (int)$m[1]));
+    }
+}
+
 // =============================================
 // 3️⃣ OBTENER COMPROBANTE POR ID
 // =============================================
@@ -48,6 +57,33 @@ $comprobante = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$comprobante) {
     die("❌ No se encontró el comprobante con ID: $id_comprobante.\n");
+}
+
+// =============================================
+// 3.1️⃣ CANDADO POR COMPROBANTE
+// Evita que la pantalla y la cola (CRON) envíen el mismo comprobante a la vez.
+// =============================================
+$lockDir = __DIR__ . '/tmp';
+if (!is_dir($lockDir)) mkdir($lockDir, 0777, true);
+$lockEnvio = fopen($lockDir . "/envio_{$id_comprobante}.lock", 'c');
+$segundosEsperaLock = 0;
+while ($lockEnvio && !flock($lockEnvio, LOCK_EX | LOCK_NB)) {
+    if ($segundosEsperaLock >= 45) {
+        echo "\n⚠️ ERROR TRANSITORIO SUNAT\n";
+        echo "Código: EN_PROCESO\n";
+        echo "Mensaje: El comprobante ya se está enviando en otro proceso\n";
+        exit(0);
+    }
+    sleep(1);
+    $segundosEsperaLock++;
+}
+
+// Releer el estado: otro proceso pudo haberlo aceptado mientras esperábamos
+$stmtEstado = $pdo->prepare("SELECT estado_sunat FROM comprobantes WHERE id_comprobante = ?");
+$stmtEstado->execute([$id_comprobante]);
+if ($stmtEstado->fetchColumn() === 'ACEPTADO') {
+    echo "\n✅ ACEPTADO POR SUNAT (ya estaba aceptado, no se reenvía)\n";
+    exit(0);
 }
 
 $tipo = $comprobante['tipo_comprobante'];
@@ -312,7 +348,6 @@ function esErrorTransitorioSunat($codigo, $mensaje)
     return false;
 }
 
-$maxIntentos = 4;
 $res = null;
 $codigoUltimoError = '';
 $mensajeUltimoError = '';
@@ -356,37 +391,7 @@ for ($intento = 1; $intento <= $maxIntentos; $intento++) {
 
 if ($res->isSuccess()) {
     $cdr = $res->getCdrResponse();
-
-    preg_match('/<ds:DigestValue>(.*?)<\/ds:DigestValue>/', $xml, $matches);
-    $hash = $matches[1] ?? 'NO_HASH';
-
-    // Guardar CDR
-    if ($res->getCdrZip()) {
-        $cdrPath = __DIR__ . '/cdr/';
-        if (!is_dir($cdrPath)) mkdir($cdrPath, 0777, true);
-        $nombreCdr = 'R-' . $comprobante['serie'] . '-' . str_pad($comprobante['correlativo'], 8, '0', STR_PAD_LEFT) . '.zip';
-        file_put_contents($cdrPath . $nombreCdr, $res->getCdrZip());
-    }
-
-    // Actualizar BD
-    $upd = $pdo->prepare("UPDATE comprobantes 
-                          SET estado_sunat='ACEPTADO', 
-                              codigo_hash=?, 
-                              descripcion_respuesta_sunat=?, 
-                              codigo_respuesta_sunat=?, 
-                              fecha_envio_sunat=NOW()
-                          WHERE id_comprobante=?");
-    $upd->execute([
-        $hash,
-        $cdr->getDescription(),
-        $cdr->getCode(),
-        $comprobante['id_comprobante']
-    ]);
-
-    echo "\n✅ ACEPTADO POR SUNAT\n";
-    echo "   Descripción: {$cdr->getDescription()}\n";
-    echo "   Código: {$cdr->getCode()}\n";
-    echo "   Hash: {$hash}\n";
+    guardarAceptado($pdo, $comprobante, $xml, $res->getCdrZip(), $cdr->getDescription(), $cdr->getCode());
 
 } else {
     $error = $res->getError();
@@ -394,22 +399,28 @@ if ($res->isSuccess()) {
     $mensajeError = $error ? trim((string)$error->getMessage()) : $mensajeUltimoError;
     $esTransitorio = esErrorTransitorioSunat($codigoError, $mensajeError);
 
+    // 1033: un envío anterior sí llegó. Recuperar su constancia en lugar de marcarlo rechazado.
+    if (esComprobanteYaRegistrado($codigoError, $mensajeError)) {
+        echo "\n🔎 SUNAT indica que el comprobante ya fue registrado. Consultando su constancia (CDR)...\n";
+        $recuperado = recuperarCdrSunat($empresa, $comprobante);
+
+        if ($recuperado['estado'] === 'ACEPTADO') {
+            echo "   Constancia recuperada de SUNAT\n";
+            guardarAceptado($pdo, $comprobante, $xml, $recuperado['cdrZip'], $recuperado['mensaje'], $recuperado['codigo']);
+            exit(0);
+        }
+
+        if ($recuperado['estado'] === 'NO_DISPONIBLE') {
+            // Se reintentará la consulta en la siguiente ronda de la cola
+            $esTransitorio = true;
+        }
+        $mensajeError = $recuperado['mensaje'];
+        $codigoError = $recuperado['codigo'] ?? $codigoError;
+    }
+
     $estadoSunat = $esTransitorio ? 'PENDIENTE' : 'RECHAZADO';
     $descripcionSunat = $esTransitorio ? '[TEMPORAL] ' . $mensajeError : $mensajeError;
-
-    // Actualizar estado en BD
-    $upd = $pdo->prepare("UPDATE comprobantes 
-                          SET estado_sunat=?,
-                              codigo_respuesta_sunat=?,
-                              descripcion_respuesta_sunat=?,
-                              fecha_envio_sunat=NOW()
-                          WHERE id_comprobante=?");
-    $upd->execute([
-        $estadoSunat,
-        $codigoError,
-        $descripcionSunat,
-        $comprobante['id_comprobante']
-    ]);
+    guardarError($pdo, $comprobante, $estadoSunat, $codigoError, $descripcionSunat);
 
     if ($esTransitorio) {
         echo "\n⚠️ ERROR TRANSITORIO SUNAT\n";

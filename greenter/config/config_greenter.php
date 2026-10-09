@@ -53,7 +53,9 @@ function getSee($pdo = null) {
 
     if ($estado === 1) {
         echo "🧪 Entorno activo: SUNAT BETA (PRUEBAS)\n";
-        $see->setService(SunatEndpoints::FE_BETA);
+        // Solo pruebas: SUNAT_BETA_URL permite simular una caída de SUNAT (no aplica en producción)
+        $urlBeta = getenv('SUNAT_BETA_URL');
+        $see->setService($urlBeta ?: SunatEndpoints::FE_BETA);
     } else {
         echo "🚀 Entorno activo: SUNAT PRODUCCIÓN\n";
         $see->setService(SunatEndpoints::FE_PRODUCCION);

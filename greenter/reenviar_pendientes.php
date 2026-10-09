@@ -13,6 +13,48 @@ date_default_timezone_set('America/Lima');
 
 require_once __DIR__ . '/../model/model_conexion.php';
 
+/**
+ * Reporta los PENDIENTE que requieren atención:
+ * - en plazo pero con más de 24 h sin aceptarse (la cola los sigue reintentando)
+ * - fuera del plazo de 3 días (la cola NO los envía: revisión manual)
+ */
+function emitirAlertasPendientes($pdo, $logPath)
+{
+    $sql = "SELECT serie, correlativo, fecha_emision,
+                   (fecha_emision >= CURDATE() - INTERVAL 3 DAY) AS en_plazo
+            FROM comprobantes
+            WHERE estado_documento = 'ACTIVO'
+              AND estado_sunat = 'PENDIENTE'
+              AND TIMESTAMPDIFF(HOUR, COALESCE(created_at, fecha_emision), NOW()) >= 24
+            ORDER BY fecha_emision DESC";
+    $filas = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+    $enPlazo = array_filter($filas, function ($r) { return (int)$r['en_plazo'] === 1; });
+    $vencidos = array_filter($filas, function ($r) { return (int)$r['en_plazo'] !== 1; });
+
+    $resumir = function ($lista) {
+        $nums = array_map(function ($r) {
+            return $r['serie'] . '-' . $r['correlativo'] . ' (' . $r['fecha_emision'] . ')';
+        }, array_slice(array_values($lista), 0, 10));
+        $resto = count($lista) - count($nums);
+        return implode(', ', $nums) . ($resto > 0 ? " y {$resto} más" : '');
+    };
+
+    $msg = '';
+    if (!empty($enPlazo)) {
+        $msg .= "🚨 ALERTA: " . count($enPlazo) . " comprobante(s) PENDIENTE con más de 24 h, aún en plazo "
+            . "(3 días desde la emisión). La cola sigue reintentando: " . $resumir($enPlazo) . "\n";
+    }
+    if (!empty($vencidos)) {
+        $msg .= "🛑 REVISIÓN MANUAL: " . count($vencidos) . " comprobante(s) PENDIENTE fuera del plazo de 3 días. "
+            . "La cola NO los envía. Más recientes: " . $resumir($vencidos) . "\n";
+    }
+    if ($msg !== '') {
+        echo "\n{$msg}";
+        file_put_contents($logPath, $msg, FILE_APPEND);
+    }
+}
+
 $limite = isset($argv[1]) ? (int)$argv[1] : 25;
 $minutosEspera = isset($argv[2]) ? (int)$argv[2] : 3;
 
@@ -74,6 +116,8 @@ try {
             FROM comprobantes c
             WHERE c.estado_documento = 'ACTIVO'
               AND c.estado_sunat = 'PENDIENTE'
+              -- Solo dentro del plazo SUNAT (3 días calendario); los vencidos requieren revisión manual
+              AND c.fecha_emision >= CURDATE() - INTERVAL 3 DAY
               AND (
                     c.fecha_envio_sunat IS NULL
                     OR TIMESTAMPDIFF(MINUTE, c.fecha_envio_sunat, NOW()) >= ?
@@ -90,6 +134,7 @@ try {
     file_put_contents($logPath, "PENDIENTES: {$total}\n", FILE_APPEND);
 
     if ($total === 0) {
+        emitirAlertasPendientes($pdo, $logPath);
         file_put_contents($logPath, "FIN: " . date('Y-m-d H:i:s') . " (sin pendientes)\n\n", FILE_APPEND);
         flock($lockHandle, LOCK_UN);
         fclose($lockHandle);
@@ -102,6 +147,9 @@ try {
     $ok = 0;
     $pend = 0;
     $rej = 0;
+    // Si SUNAT falla varias veces seguidas, está caído: cortar la ronda y esperar al siguiente CRON
+    $fallosTemporalesSeguidos = 0;
+    $maxFallosTemporalesSeguidos = 3;
 
     foreach ($pendientes as $row) {
         $id = (int)$row['id_comprobante'];
@@ -109,7 +157,8 @@ try {
 
         echo "\n➡️ Reintentando: {$numero} (ID {$id})\n";
 
-        $cmd = escapeshellarg($phpBin) . ' ' . escapeshellarg($scriptEnvio) . ' ' . $id . ' 2>&1';
+        // Un solo intento por comprobante: el siguiente reintento lo hace la próxima ronda del CRON
+        $cmd = escapeshellarg($phpBin) . ' ' . escapeshellarg($scriptEnvio) . ' ' . $id . ' --intentos=1 2>&1';
         $output = shell_exec($cmd);
         if ($output === null) {
             $output = '';
@@ -130,12 +179,15 @@ try {
         if ($esAceptado) {
             $ok++;
             $estado = 'ACEPTADO';
+            $fallosTemporalesSeguidos = 0;
         } elseif ($esTemporal) {
             $pend++;
             $estado = 'PENDIENTE';
+            $fallosTemporalesSeguidos++;
         } else {
             $rej++;
             $estado = 'RECHAZADO/OTRO';
+            $fallosTemporalesSeguidos = 0;
         }
 
         file_put_contents(
@@ -144,7 +196,16 @@ try {
             "OUTPUT:\n{$output}\n\n",
             FILE_APPEND
         );
+
+        if ($fallosTemporalesSeguidos >= $maxFallosTemporalesSeguidos) {
+            $msgCorte = "⏸️ SUNAT falló {$fallosTemporalesSeguidos} veces seguidas. Se corta la ronda; se reintentará en el siguiente CRON.\n";
+            echo "\n{$msgCorte}";
+            file_put_contents($logPath, $msgCorte, FILE_APPEND);
+            break;
+        }
     }
+
+    emitirAlertasPendientes($pdo, $logPath);
 
     $fin = date('Y-m-d H:i:s');
     $resumen = "RESUMEN => ACEPTADOS: {$ok} | PENDIENTES: {$pend} | OTROS: {$rej}\nFIN: {$fin}\n\n";

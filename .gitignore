@@ -105,3 +105,6 @@ $RECYCLE.BIN/
 # No ignorar Dockerfile ni docker-compose.yml
 # Solo ignorar volúmenes locales si existen
 mysql_data/
+
+# Candados de envío a SUNAT (cola)
+greenter/tmp/

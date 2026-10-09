@@ -351,9 +351,13 @@ Si hay errores de SUNAT:
 
 ## ❗ 11. Errores típicos y cómo solucionarlos
 
-### 1033 – Usuario no válido
-- Usuario secundario no tiene permisos.
-- **Solución:** Asignar TODOS los permisos mencionados.
+### 0100 – "El sistema no puede responder su solicitud"
+- SUNAT no pudo atender el envío (indisponibilidad de su servicio). El comprobante **no** se procesó.
+- **Solución:** ninguna en el sistema. Queda **PENDIENTE** y la cola lo reenvía sola (ver sección 14). **No anular.**
+
+### 1033 – Comprobante registrado previamente
+- SUNAT ya tiene ese número. Suele pasar cuando un envío anterior sí llegó pero la respuesta se perdió (timeout).
+- **Solución:** el sistema consulta la constancia (CDR) en SUNAT. Si es del mismo cliente, lo marca **ACEPTADO**; si es de otro cliente, **RECHAZADO** (número duplicado: revisar).
 
 ### 110.13 – SOL no autorizado
 - Usuario o clave inválida.
@@ -395,3 +399,82 @@ Si hay errores de SUNAT:
 - Validar certificado no vencido
 - Encriptar credenciales SOL en BD
 - Logs de auditoría completos
+## 🔁 14. Cola de envíos a SUNAT (CRON)
+
+Si SUNAT no responde al emitir, el comprobante **se entrega igual** (ticket impreso) y queda en estado **PENDIENTE**. Un CRON lo reenvía automáticamente. El plazo legal para enviar es de **3 días calendario** desde la emisión.
+
+### 14.1 Cómo funciona
+
+```
+Emisión (pantalla)
+  └─ factura_bd.php --intentos=1  (un solo intento, ~15 s máx.)
+       ├─ ACEPTADO   → listo
+       └─ falla temporal de SUNAT (0100, HTTP, timeout…) → PENDIENTE + ticket al instante
+
+CRON cada 5 minutos → greenter/reenviar_pendientes.php
+  ├─ toma PENDIENTE emitidos en los últimos 3 días y sin intento en los últimos N minutos
+  ├─ 1 intento por comprobante; si SUNAT falla 3 veces seguidas, corta la ronda
+  ├─ 1033 → consulta el CDR en SUNAT y lo marca ACEPTADO si es del mismo cliente
+  └─ alertas en el log:
+       🚨 PENDIENTE con más de 24 h (aún en plazo)
+       🛑 PENDIENTE fuera de plazo → la cola NO los envía: revisión manual
+```
+
+**Protecciones:**
+- **Candado por comprobante** (`greenter/tmp/envio_{id}.lock`): la pantalla y la cola nunca envían el mismo comprobante a la vez.
+- Un comprobante **ACEPTADO nunca se reenvía**.
+- Se reenvía siempre con el **mismo número y la misma fecha de emisión**.
+- Solo se reintentan errores **temporales**; un rechazo por datos queda RECHAZADO.
+
+### 14.2 Instalar el CRON en el VPS
+
+El contenedor no tiene cron: se programa en el **servidor** con `docker exec`.
+
+```bash
+crontab -e
+```
+Agregar la línea:
+```bash
+*/5 * * * * docker exec tours_micaela_app_vps php /var/www/html/greenter/reenviar_pendientes.php 25 5 >> /var/log/micaela_cola.log 2>&1
+```
+- `25` = máximo de comprobantes por ronda.
+- `5` = minutos mínimos entre intentos del mismo comprobante.
+
+Verificar que quedó programado y ver su actividad:
+```bash
+crontab -l
+tail -f /var/log/micaela_cola.log
+```
+
+Probarlo a mano una vez (seguro: solo envía PENDIENTE en plazo):
+```bash
+docker exec tours_micaela_app_vps php /var/www/html/greenter/reenviar_pendientes.php 25 5
+```
+
+### 14.3 Logs
+
+| Archivo | Contenido |
+|---|---|
+| `/var/log/micaela_cola.log` (servidor) | Salida de cada ronda del CRON, con alertas |
+| `greenter/auto_reenvio_log.txt` | Detalle de cada reenvío de la cola |
+| `greenter/envio_log.txt` | Envíos hechos desde la pantalla |
+
+### 14.4 Probar en local sin emitir comprobantes reales
+
+1. Poner la BD local en BETA (respaldando credenciales):
+   ```sql
+   CREATE TABLE empresa_respaldo AS SELECT * FROM empresa;
+   UPDATE empresa SET modo_prueba = 1, usuario_sol = 'MODDATOS', clave_sol = 'moddatos';
+   ```
+2. Simular una caída de SUNAT (solo funciona en BETA):
+   ```bash
+   SUNAT_BETA_URL="http://127.0.0.1:9/billService" php greenter/reenviar_pendientes.php 25 1
+   ```
+3. Volver a producción:
+   ```sql
+   UPDATE empresa e JOIN empresa_respaldo r ON e.id_empresa = r.id_empresa
+   SET e.modo_prueba = r.modo_prueba, e.usuario_sol = r.usuario_sol, e.clave_sol = r.clave_sol;
+   DROP TABLE empresa_respaldo;
+   ```
+
+> ⚠️ **Nunca ejecutar `reenviar_pendientes.php` en local con la BD en PRODUCCIÓN**: enviaría comprobantes reales a SUNAT.

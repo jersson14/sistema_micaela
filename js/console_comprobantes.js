@@ -1144,7 +1144,7 @@ function enviarASunat(id_comprobante, serie, correlativo, ventanaTicket = null) 
           title: "SUNAT respondió temporalmente",
           html:
             resp.message +
-            "<br><small><b>No anules</b> el comprobante. Reintenta el envío en 1-2 minutos.</small>" +
+            "<br><small><b>No anules</b> el comprobante. Se reenviará automáticamente.</small>" +
             detalleTecnicoHtml(resp.output),
           showConfirmButton: true,
         }).then(() => {
@@ -2167,7 +2167,7 @@ function confirmarEnvioSunat() {
           title: "SUNAT respondió temporalmente",
           html:
             resp.message +
-            "<br><small><b>No anules</b> el comprobante. Reintenta el envío en 1-2 minutos.</small>",
+            "<br><small><b>No anules</b> el comprobante. Se reenviará automáticamente.</small>",
           showConfirmButton: true,
         }).then(() => {
           tbl_comprobantes.ajax.reload();

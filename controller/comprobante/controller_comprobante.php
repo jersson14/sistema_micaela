@@ -380,7 +380,8 @@ elseif ($accion == 'ENVIAR_SUNAT') {
     $php_bin = escapeshellarg($php_cli_real);
     $script_arg = escapeshellarg($ruta_script);
     $id_arg = escapeshellarg((string)$id_comprobante);
-    $comando_base = "{$php_bin} {$script_arg} {$id_arg}";
+    // Un solo intento: si SUNAT falla, queda PENDIENTE y la cola (CRON) reintenta
+    $comando_base = "{$php_bin} {$script_arg} {$id_arg} --intentos=1";
     $es_windows = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
     if ($es_windows) {
         $comando = "{$comando_base} 2>&1";
@@ -534,7 +535,7 @@ elseif ($accion == 'ENVIAR_SUNAT') {
 
             echo json_encode([
                 'status'  => 'pending',
-                'message' => "⚠️ {$tipo_nombre} en estado PENDIENTE por error temporal de SUNAT. Reintente el envío en 1-2 minutos y no anule el comprobante.",
+                'message' => "⚠️ {$tipo_nombre} registrada. SUNAT no respondió en este momento; el sistema la enviará automáticamente en los próximos minutos. No anule el comprobante.",
                 'output'  => nl2br($output)
             ]);
         } elseif ($es_problema_correlativo) {

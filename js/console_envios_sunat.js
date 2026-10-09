@@ -307,7 +307,7 @@ function enviarIndividual(id, serie, correlativo) {
                         icon: resp.status == "info" ? "info" : "warning",
                         title: "SUNAT respondió temporalmente",
                         html: (resp.message || "El comprobante quedó en estado temporal.") +
-                              "<br><small>Puede reintentarlo desde esta misma lista en 1-2 minutos.</small>",
+                              "<br><small>Se reenviará automáticamente; también puede reintentarlo desde esta lista.</small>",
                         showConfirmButton: true
                     }).then(() => {
                         listar_pendientes_envio();
