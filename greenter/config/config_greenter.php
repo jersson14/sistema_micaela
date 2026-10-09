@@ -24,6 +24,22 @@ function getSee($pdo = null) {
 
     $see = new See();
 
+    // Cliente SOAP con trace para registrar la respuesta HTTP cruda de SUNAT cuando falla un envío
+    $wsClient = new \Greenter\Ws\Services\SoapClient('', [
+        'trace' => true,
+        'stream_context' => stream_context_create([
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ],
+        ]),
+    ]);
+    $prop = new \ReflectionProperty(See::class, 'wsClient');
+    $prop->setAccessible(true);
+    $prop->setValue($see, $wsClient);
+    $GLOBALS['greenter_ws_client'] = $wsClient;
+
     // Ruta del certificado PEM de producción
     $certPath = __DIR__ . '/../certificados/certificado_produccion.pem';
     if (!file_exists($certPath)) {

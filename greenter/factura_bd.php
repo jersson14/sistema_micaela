@@ -335,6 +335,16 @@ for ($intento = 1; $intento <= $maxIntentos; $intento++) {
     echo "Código: {$codigoUltimoError}\n";
     echo "Mensaje: {$mensajeUltimoError}\n";
 
+    // Detalle técnico crudo de la respuesta SUNAT (para soporte)
+    $wsDebug = $GLOBALS['greenter_ws_client'] ?? null;
+    if ($wsDebug) {
+        $estadoHttp = strtok((string)$wsDebug->__getLastResponseHeaders(), "\r\n");
+        $cuerpo = preg_replace('/\s+/', ' ', substr((string)$wsDebug->__getLastResponse(), 0, 800));
+        echo "   | Respuesta HTTP: " . ($estadoHttp ?: 'sin respuesta') . "\n";
+        echo "   | Cuerpo: " . ($cuerpo !== '' ? $cuerpo : '(vacío)') . "\n";
+        echo "   | Tamaño solicitud: " . strlen((string)$wsDebug->__getLastRequest()) . " bytes\n";
+    }
+
     if (!$esTransitorio || $intento >= $maxIntentos) {
         break;
     }
