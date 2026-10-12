@@ -77,6 +77,66 @@ function nubefactSerie($serie)
     return $config['series'][$serie] ?? $serie;
 }
 
+function nubefactEsDemo()
+{
+    $config = nubefactConfig();
+    return $config !== null && $config['modo'] === 'DEMO';
+}
+
+/**
+ * Número a enviar a Nubefact.
+ * PRODUCCIÓN: el correlativo real del comprobante.
+ * DEMO: la cuenta de pruebas solo acepta números cercanos al último que tiene registrado,
+ * así que a cada comprobante se le asigna un número de prueba y se recuerda en
+ * greenter/tmp/nubefact_demo.json para poder consultarlo o anularlo después.
+ */
+function nubefactNumero($comprobante)
+{
+    if (!nubefactEsDemo()) {
+        return (int)$comprobante['correlativo'];
+    }
+    return nubefactDemo(function (&$estado) use ($comprobante) {
+        $id = (string)$comprobante['id_comprobante'];
+        if (isset($estado['asignados'][$id])) {
+            return (int)$estado['asignados'][$id];
+        }
+        $serie = nubefactSerie($comprobante['serie']);
+        $numero = (int)($estado['ultimo'][$serie] ?? 0) + 1;
+        $estado['ultimo'][$serie] = $numero;
+        $estado['asignados'][$id] = $numero;
+        return $numero;
+    });
+}
+
+/** DEMO: la cuenta informó cuál es su último número; se reasigna el del comprobante. */
+function nubefactDemoReasignar($comprobante, $ultimoRegistrado)
+{
+    nubefactDemo(function (&$estado) use ($comprobante, $ultimoRegistrado) {
+        $serie = nubefactSerie($comprobante['serie']);
+        $estado['ultimo'][$serie] = max((int)$ultimoRegistrado, (int)($estado['ultimo'][$serie] ?? 0));
+        unset($estado['asignados'][(string)$comprobante['id_comprobante']]);
+    });
+}
+
+/** Lee y guarda greenter/tmp/nubefact_demo.json con candado. */
+function nubefactDemo(callable $operacion)
+{
+    $dir = __DIR__ . '/../tmp';
+    if (!is_dir($dir)) mkdir($dir, 0777, true);
+    $archivo = $dir . '/nubefact_demo.json';
+    $fp = fopen($archivo, 'c+');
+    flock($fp, LOCK_EX);
+    $contenido = stream_get_contents($fp);
+    $estado = json_decode($contenido ?: '', true) ?: ['ultimo' => [], 'asignados' => []];
+    $resultado = $operacion($estado);
+    ftruncate($fp, 0);
+    rewind($fp);
+    fwrite($fp, json_encode($estado, JSON_PRETTY_PRINT));
+    flock($fp, LOCK_UN);
+    fclose($fp);
+    return $resultado;
+}
+
 // =============================================
 // LLAMADAS HTTP
 // =============================================
@@ -232,7 +292,7 @@ function nubefactArmarComprobante($pdo, $comprobante)
         'operacion' => 'generar_comprobante',
         'tipo_de_comprobante' => nubefactTipoComprobante($tipo),
         'serie' => nubefactSerie($comprobante['serie']),
-        'numero' => (int)$comprobante['correlativo'],
+        'numero' => nubefactNumero($comprobante),
         'sunat_transaction' => 1,
         'cliente_tipo_de_documento' => nubefactTipoDocCliente($comprobante['tipo_documento']),
         'cliente_numero_de_documento' => trim((string)$comprobante['numero_documento']) ?: '-',
@@ -284,7 +344,7 @@ function nubefactArmarComprobante($pdo, $comprobante)
         if (empty($comprobante['id_comprobante_origen'])) {
             throw new RuntimeException('La nota no tiene documento de referencia (id_comprobante_origen vacío).');
         }
-        $stmt = $pdo->prepare("SELECT tipo_comprobante, serie, correlativo FROM comprobantes WHERE id_comprobante = ?");
+        $stmt = $pdo->prepare("SELECT id_comprobante, tipo_comprobante, serie, correlativo FROM comprobantes WHERE id_comprobante = ?");
         $stmt->execute([$comprobante['id_comprobante_origen']]);
         $ref = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$ref || !in_array($ref['tipo_comprobante'], ['01', '03'], true)) {
@@ -292,7 +352,7 @@ function nubefactArmarComprobante($pdo, $comprobante)
         }
         $payload['documento_que_se_modifica_tipo'] = nubefactTipoComprobante($ref['tipo_comprobante']);
         $payload['documento_que_se_modifica_serie'] = nubefactSerie($ref['serie']);
-        $payload['documento_que_se_modifica_numero'] = (int)$ref['correlativo'];
+        $payload['documento_que_se_modifica_numero'] = nubefactNumero($ref);
         if ($tipo === '07') {
             $payload['tipo_de_nota_de_credito'] = 1; // Anulación de la operación
         } else {
@@ -419,7 +479,7 @@ function nubefactEnviarComprobante($pdo, $comprobante)
         'operacion' => 'consultar_comprobante',
         'tipo_de_comprobante' => $tipoNf,
         'serie' => nubefactSerie($comprobante['serie']),
-        'numero' => (int)$comprobante['correlativo'],
+        'numero' => nubefactNumero($comprobante),
     ];
 
     // Si ya quedó registrado en Nubefact en un intento anterior, solo se consulta su estado
@@ -437,15 +497,77 @@ function nubefactEnviarComprobante($pdo, $comprobante)
         }
         $respuesta = nubefactPost($payload);
 
-        // Ya existe en Nubefact (envío anterior cuya respuesta se perdió): consultar
-        $errores = $respuesta['data']['errors'] ?? null;
-        if ($errores && stripos(is_array($errores) ? json_encode($errores) : $errores, 'existe') !== false) {
-            echo "🔎 El comprobante ya existe en Nubefact: consultando estado...\n";
+        // DEMO: la cuenta de pruebas tiene números ya usados. Si el número existe o la cuenta
+        // informa su último número, se pasa al siguiente y se reintenta (nunca se consulta,
+        // porque ese número puede ser de otro documento).
+        for ($ajuste = 0; nubefactEsDemo() && $ajuste < 10; $ajuste++) {
+            $textoErr = nubefactTextoError($respuesta);
+            if (preg_match('/registrado en NubeFacT para este documento y serie es el (\d+)/iu', $textoErr, $m)) {
+                $ultimo = (int)$m[1];
+            } elseif (stripos($textoErr, 'existe') !== false) {
+                $ultimo = (int)$payload['numero'];
+            } else {
+                break;
+            }
+            echo "🧪 DEMO: el número {$payload['numero']} no está disponible; probando con el siguiente...\n";
+            nubefactDemoReasignar($comprobante, $ultimo);
+            $payload = nubefactArmarComprobante($pdo, $comprobante);
+            $consulta['numero'] = $payload['numero'];
+            $respuesta = nubefactPost($payload);
+        }
+
+        // PRODUCCIÓN: "ya existe" suele ser un envío anterior cuya respuesta se perdió.
+        // Se consulta, pero solo se acepta si el documento registrado es este mismo.
+        if (!nubefactEsDemo() && stripos(nubefactTextoError($respuesta), 'existe') !== false) {
+            echo "🔎 El comprobante ya existe en Nubefact: consultando y verificando que sea el mismo...\n";
             $respuesta = nubefactPost($consulta);
+            $data = $respuesta['data'] ?? null;
+            if ($data !== null && empty($data['errors'])) {
+                $mismo = nubefactEsMismoDocumento($comprobante, $data);
+                if ($mismo === false) {
+                    nubefactSalidaRechazo($pdo, $comprobante, 'NF_DUPLIC',
+                        'El número ' . nubefactSerie($comprobante['serie']) . '-' . $consulta['numero'] .
+                        ' ya está registrado en Nubefact con otro cliente o monto. Revise la numeración de la serie en Nubefact.');
+                    return;
+                }
+                if ($mismo === null) {
+                    nubefactSalidaTemporal($pdo, $comprobante, 'NF_VERIF', 'Ya existe en Nubefact; no se pudo verificar que sea el mismo comprobante');
+                    return;
+                }
+            }
         }
     }
 
     nubefactProcesarRespuesta($pdo, $comprobante, $respuesta);
+}
+
+function nubefactTextoError($respuesta)
+{
+    $errores = $respuesta['data']['errors'] ?? null;
+    return is_array($errores) ? json_encode($errores, JSON_UNESCAPED_UNICODE) : (string)$errores;
+}
+
+/**
+ * ¿El documento registrado en Nubefact (respuesta de consulta) es este comprobante?
+ * Compara el documento del cliente y el total en su XML. null = no se pudo verificar.
+ */
+function nubefactEsMismoDocumento($comprobante, $data)
+{
+    $xml = nubefactDescargar($data['enlace_del_xml'] ?? null);
+    if ($xml === null) {
+        return null;
+    }
+    if (substr($xml, 0, 2) === 'PK') {
+        $xml = nubefactPrimerXmlDelZip($xml);
+        if ($xml === null) {
+            return null;
+        }
+    }
+    $documento = trim((string)$comprobante['numero_documento']);
+    $total = number_format((float)$comprobante['total'], 2, '.', '');
+    $tieneCliente = $documento === '' || $documento === '-' || strpos($xml, '>' . $documento . '<') !== false;
+    $tieneTotal = preg_match('#<cbc:PayableAmount[^>]*>' . preg_quote($total, '#') . '<#', $xml) === 1;
+    return $tieneCliente && $tieneTotal;
 }
 
 function nubefactProcesarRespuesta($pdo, $comprobante, $respuesta)
@@ -524,7 +646,7 @@ function nubefactAnular($comprobante, $motivo)
         'operacion' => 'generar_anulacion',
         'tipo_de_comprobante' => nubefactTipoComprobante($comprobante['tipo_comprobante']),
         'serie' => nubefactSerie($comprobante['serie']),
-        'numero' => (int)$comprobante['correlativo'],
+        'numero' => nubefactNumero($comprobante),
         'motivo' => mb_substr($motivo, 0, 100),
         'codigo_unico' => '',
     ]);
@@ -547,7 +669,7 @@ function nubefactConsultarAnulacion($comprobante)
         'operacion' => 'consultar_anulacion',
         'tipo_de_comprobante' => nubefactTipoComprobante($comprobante['tipo_comprobante']),
         'serie' => nubefactSerie($comprobante['serie']),
-        'numero' => (int)$comprobante['correlativo'],
+        'numero' => nubefactNumero($comprobante),
     ]);
 
     $data = $respuesta['data'];
