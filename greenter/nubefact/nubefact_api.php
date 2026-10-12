@@ -34,9 +34,9 @@ function nubefactConfig()
         }
     }
 
-    // Variables de entorno (Docker) como alternativa al archivo
+    // Las variables de entorno (Docker, pruebas) tienen prioridad sobre el archivo
     foreach (['NUBEFACT_RUTA', 'NUBEFACT_TOKEN', 'NUBEFACT_ACTIVO', 'NUBEFACT_MODO', 'NUBEFACT_SERIES'] as $clave) {
-        if (empty($valores[$clave]) && getenv($clave) !== false) {
+        if (getenv($clave) !== false && getenv($clave) !== '') {
             $valores[$clave] = getenv($clave);
         }
     }
@@ -423,7 +423,8 @@ function nubefactEnviarComprobante($pdo, $comprobante)
     ];
 
     // Si ya quedó registrado en Nubefact en un intento anterior, solo se consulta su estado
-    $yaRegistrado = strpos((string)$comprobante['codigo_respuesta_sunat'], 'NF_REGISTRADO') === 0;
+    // NF_PEND: registrado en Nubefact y pendiente de SUNAT (la columna admite máx. 10 caracteres)
+    $yaRegistrado = trim((string)$comprobante['codigo_respuesta_sunat']) === 'NF_PEND';
     if ($yaRegistrado) {
         echo "🔎 Ya registrado en Nubefact: consultando estado...\n";
         $respuesta = nubefactPost($consulta);
@@ -492,7 +493,7 @@ function nubefactProcesarRespuesta($pdo, $comprobante, $respuesta)
 
     // Registrado en Nubefact, pendiente de la respuesta de SUNAT: se consultará en el siguiente intento
     $detalle = $descripcion ?: (trim((string)($data['sunat_soap_error'] ?? '')) ?: 'Registrado en el OSE; esperando respuesta de SUNAT');
-    nubefactSalidaTemporal($pdo, $comprobante, 'NF_REGISTRADO', $detalle);
+    nubefactSalidaTemporal($pdo, $comprobante, 'NF_PEND', $detalle);
 }
 
 function nubefactSalidaTemporal($pdo, $comprobante, $codigo, $mensaje)
