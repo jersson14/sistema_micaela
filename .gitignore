@@ -108,3 +108,6 @@ mysql_data/
 
 # Candados de envío a SUNAT (cola)
 greenter/tmp/
+
+# Credenciales de Nubefact (no subir)
+.env.nubefact

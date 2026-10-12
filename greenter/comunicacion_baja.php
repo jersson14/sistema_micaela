@@ -135,11 +135,6 @@ $company = (new Company())
             ->setDireccion($empresa['direccion'])
     );
 
-// =============================================
-// 8️⃣ PREPARAR GREENTER
-// =============================================
-$see = getSee();
-
 // Extraer número del correlativo (ej: RA-20251221-004 -> 004)
 $numero_correlativo = substr($correlativo_baja, strrpos($correlativo_baja, '-') + 1);
 
@@ -164,6 +159,58 @@ if (empty(trim($motivo_baja))) {
 }
 
 echo "Motivo: $motivo_baja\n";
+
+// =============================================
+// 9.1️⃣ ANULACIÓN POR NUBEFACT (OSE)
+// Si existe .env.nubefact, la anulación se pide a Nubefact y el ticket se
+// guarda con prefijo "NF-" para que procesar_tickets_pendientes.php lo consulte allí.
+// =============================================
+require_once __DIR__ . '/nubefact/nubefact_api.php';
+if (nubefactActivo()) {
+    echo "\n🚀 Enviando anulación a NUBEFACT (OSE)...\n";
+    $anulacion = nubefactAnular($comprobante, $motivo_baja);
+
+    if ($anulacion['ok']) {
+        $ticket = 'NF-' . ($anulacion['ticket'] !== '' ? preg_replace('/[^A-Za-z0-9]/', '', $anulacion['ticket']) : $comprobante['id_comprobante']);
+
+        echo "\n✅ DOCUMENTO ACEPTADO POR SUNAT\n";
+        echo "========================================\n";
+        echo "Ticket: $ticket\n";
+        echo "Correlativo: $correlativo_baja\n";
+        echo "Comprobante: {$comprobante['serie']}-{$comprobante['correlativo']}\n";
+        echo "Tipo: $tipo_comunicacion (Nubefact)\n";
+
+        try {
+            $stmtInsert = $pdo->prepare("INSERT INTO comunicaciones_baja
+                                         (id_comprobante, correlativo_baja, ticket_sunat, estado, fecha_comunicacion)
+                                         VALUES (?, ?, ?, 'PENDIENTE', NOW())");
+            $stmtInsert->execute([$id_comprobante, $correlativo_baja, $ticket]);
+        } catch (Exception $e) {
+            echo "⚠️ Advertencia: No se pudo guardar en comunicaciones_baja: {$e->getMessage()}\n";
+        }
+
+        $upd = $pdo->prepare("UPDATE comprobantes SET codigo_respuesta_sunat='TICKET', descripcion_respuesta_sunat=? WHERE id_comprobante=?");
+        $upd->execute(["$tipo_comunicacion enviado a Nubefact. Ticket: $ticket", $id_comprobante]);
+
+        echo "\nEl estado se consultará automáticamente (procesar_tickets_pendientes.php).\n";
+        echo "========================================\n";
+    } else {
+        echo "\n❌ ERROR AL ENVIAR DOCUMENTO\n";
+        echo "========================================\n";
+        echo "Código: NF\n";
+        echo "Mensaje: {$anulacion['mensaje']}\n";
+        echo "========================================\n";
+
+        $upd = $pdo->prepare("UPDATE comprobantes SET codigo_respuesta_sunat='NF', descripcion_respuesta_sunat=? WHERE id_comprobante=?");
+        $upd->execute(["ERROR: " . $anulacion['mensaje'], $id_comprobante]);
+    }
+    exit(0);
+}
+
+// =============================================
+// 8️⃣ PREPARAR GREENTER (envío directo a SUNAT)
+// =============================================
+$see = getSee();
 
 // =============================================
 // 🔟 GENERAR DOCUMENTO SEGÚN TIPO

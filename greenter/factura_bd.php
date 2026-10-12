@@ -86,6 +86,16 @@ if ($stmtEstado->fetchColumn() === 'ACEPTADO') {
     exit(0);
 }
 
+// =============================================
+// 3.2️⃣ ENVÍO POR NUBEFACT (OSE)
+// Si existe .env.nubefact, Nubefact arma, firma y envía; no se usa Greenter ni el certificado.
+// =============================================
+require_once __DIR__ . '/nubefact/nubefact_api.php';
+if (nubefactActivo()) {
+    nubefactEnviarComprobante($pdo, $comprobante);
+    exit(0);
+}
+
 $tipo = $comprobante['tipo_comprobante'];
 echo "📄 Procesando comprobante {$tipo}: {$comprobante['serie']}-{$comprobante['correlativo']}\n";
 

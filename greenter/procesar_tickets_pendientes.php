@@ -12,7 +12,8 @@ echo "Fecha/Hora: " . date('Y-m-d H:i:s') . "\n\n";
 
 $db = new conexionBD();
 $pdo = $db->conexionPDO();
-$see = getSee();
+require_once __DIR__ . '/nubefact/nubefact_api.php';
+$see = null; // Greenter se carga solo si hay tickets de SUNAT (los de Nubefact no requieren certificado)
 
 // 🔍 PRIMERO: Verificar estructura de la tabla
 try {
@@ -32,7 +33,8 @@ $sql = "SELECT cb.id_comunicacion,
                cb.ticket_sunat,
                cb.estado,
                c.serie, 
-               c.correlativo 
+               c.correlativo,
+               c.tipo_comprobante 
         FROM comunicaciones_baja cb
         INNER JOIN comprobantes c ON cb.id_comprobante = c.id_comprobante
         WHERE cb.estado = 'PENDIENTE'
@@ -67,6 +69,49 @@ foreach ($pendientes as $com) {
     echo "   ID Comunicación: {$com['id_comunicacion']}\n";
     
     try {
+        // Anulaciones enviadas por Nubefact: se consultan en Nubefact
+        if (strpos((string)$com['ticket_sunat'], 'NF-') === 0) {
+            if (!nubefactActivo()) {
+                echo "   ⚠️ Ticket de Nubefact pero .env.nubefact no está configurado. Se omite.
+
+";
+                continue;
+            }
+            $estadoNf = nubefactConsultarAnulacion($com);
+            $code = $estadoNf['codigo'];
+            $description = $estadoNf['mensaje'];
+            echo "   Estado Nubefact: {$estadoNf['estado']} | $description
+";
+
+            if ($estadoNf['estado'] === 'ACEPTADO') {
+                $updCom = $pdo->prepare("UPDATE comunicaciones_baja SET estado='ACEPTADO', descripcion_respuesta=?, fecha_respuesta=NOW() WHERE id_comunicacion=?");
+                $updCom->execute([$description, $com['id_comunicacion']]);
+                $updComp = $pdo->prepare("UPDATE comprobantes SET estado_documento='ANULADO', estado_sunat='ANULADO', codigo_respuesta_sunat=?, descripcion_respuesta_sunat=?, fecha_anulacion=NOW() WHERE id_comprobante=?");
+                $updComp->execute([$code, $description, $com['id_comprobante']]);
+                echo "   ✅ ANULADO CORRECTAMENTE
+
+";
+                $aceptados++;
+                $procesados++;
+            } elseif ($estadoNf['estado'] === 'RECHAZADO') {
+                $updCom = $pdo->prepare("UPDATE comunicaciones_baja SET estado='RECHAZADO', descripcion_respuesta=?, fecha_respuesta=NOW() WHERE id_comunicacion=?");
+                $updCom->execute(["[$code] $description", $com['id_comunicacion']]);
+                echo "   ❌ RECHAZADO
+
+";
+                $rechazados++;
+                $procesados++;
+            } else {
+                echo "   ⏳ Aún en proceso
+
+";
+            }
+            continue;
+        }
+
+        if ($see === null) {
+            $see = getSee();
+        }
         $result = $see->getStatus($com['ticket_sunat']);
         
         if ($result->isSuccess()) {
