@@ -168,7 +168,6 @@ if (count($detalles) > 0) {
             ? number_format($cantidadNum, 0) 
             : number_format($cantidadNum, 2);
         
-        $precioUnitario = number_format($detalle['precio_unitario'], 2);
         $totalItem = number_format($detalle['total_item'], 2);
         $descuento = floatval($detalle['descuento']);
         
@@ -181,10 +180,6 @@ if (count($detalles) > 0) {
         $htmlDetalle .= '<div class="item-cantidad">';
         $htmlDetalle .= '<span class="cant-label">Cantidad:</span> ';
         $htmlDetalle .= '<span class="cant-num">'.e($cantidad).' '.e($detalle['unidad_medida']).'</span>';
-        $htmlDetalle .= '</div>';
-        
-        $htmlDetalle .= '<div class="item-precio">';
-        $htmlDetalle .= '<span>Precio Unit.: '.e($row['moneda']).' '.e($precioUnitario).'</span>';
         $htmlDetalle .= '</div>';
         
         // Subtotal del item

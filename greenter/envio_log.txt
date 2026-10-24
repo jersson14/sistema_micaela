@@ -3524,3 +3524,20 @@ Código: HTTP
 Mensaje: Bad Gateway
 Acción: Reintentar envío
 
+=========================
+FECHA: 2026-10-12 23:08:43
+ID COMPROBANTE: 17186
+TIPO: Factura (01)
+NUMERO: FPP1-09969081
+NOMBRE CDR: R-FPP1-09969081.zip
+EXIT CODE: 0
+OUTPUT:
+🚀 Entorno activo: NUBEFACT (OSE) - DEMO
+📄 Comprobante: FPP1-09969081
+🧪 DEMO: el número 3 no está disponible; probando con el siguiente...
+
+✅ ACEPTADO POR SUNAT
+   Descripción: La Factura Electrónica FFF1-4 ha sido ACEPTADA CON OBSERVACIONES
+   Código: 0
+   Hash: JNS8jE7fplbK8VK7nlfEnk2WqwUeiiDNGOEy0RAgi6I=
+
