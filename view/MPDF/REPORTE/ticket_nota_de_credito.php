@@ -237,17 +237,23 @@ body { font-family:"Courier New",monospace; font-size:7px; color:#000; line-heig
 '.$pieTicket.'
 </div>';
 
-$mpdf = new Mpdf([
+$config = [
     'mode' => 'utf-8',
-    'format' => [80, 200],
+    'format' => [80, 1000],
     'margin_left' => 0,
     'margin_right' => 0,
     'margin_top' => 0,
     'margin_bottom' => 0,
     'default_font_size' => 7,
     'default_font' => 'dejavusanscondensed'
-]);
+];
 
+// Alto según el contenido: se mide en una hoja larga y se genera con ese alto
+$medida = new Mpdf($config);
+$medida->WriteHTML($html);
+$config['format'] = [80, ceil($medida->y + 2)];
+
+$mpdf = new Mpdf($config);
 $mpdf->WriteHTML($html);
 $mpdf->Output('Ticket_'.$row['numero_comprobante'].'.pdf', 'I');
 ?>

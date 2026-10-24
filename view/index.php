@@ -70,6 +70,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="navbar-nav ml-auto">
           <!-- Notifications Dropdown Menu -->
 
+          <!-- Alerta de salidas sin cerrar (js/estados_operacion.js) -->
+          <?php if ($_SESSION['S_ROL'] == "1" || $_SESSION['S_ROL'] == "2") { ?>
+          <li class="nav-item" id="alerta_salidas" style="display:none;">
+            <a class="nav-link" href="#<?php echo $_SESSION['S_ROL'] == "1" ? 'salidas' : 'salidas-asis'; ?>" data-modulo="<?php echo $_SESSION['S_ROL'] == "1" ? 'salidas' : 'salidas-asis'; ?>" id="alerta_salidas_link">
+              <span class="badge badge-warning" id="alerta_salidas_badge" style="font-size:13px; padding:6px 10px;"></span>
+            </a>
+          </li>
+          <?php } ?>
+
           <!-- Alerta de cola SUNAT (js/alerta_sunat.js) -->
           <li class="nav-item" id="alerta_sunat" style="display:none;">
             <a class="nav-link" href="#sunat" data-modulo="sunat" id="alerta_sunat_link">
@@ -2278,6 +2287,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- AQUÍ VA EL NUEVO SCRIPT -->
 <script src="../js/navegacion_hash.js?rev=<?php echo time(); ?>"></script>
+<?php require_once __DIR__ . '/../model/model_estados_encomienda.php'; ?>
+<script>window.REGLAS_ESTADO_ENCOMIENDA = <?php echo json_encode(Reglas_Estado_Encomienda::MANUALES); ?>;</script>
+<script src="../js/estados_operacion.js?rev=<?php echo time(); ?>"></script>
 <?php if ($_SESSION['S_ROL'] == "1") { ?>
 <script src="../js/alerta_sunat.js?rev=<?php echo time(); ?>"></script>
 <?php } ?>

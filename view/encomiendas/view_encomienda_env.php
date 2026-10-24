@@ -1,3 +1,4 @@
+<script src="../js/encomiendas_comun.js?rev=<?php echo time(); ?>"></script>
 <script src="../js/console_encomiendas_env.js?rev=<?php echo time(); ?>"></script>
 <link rel="stylesheet" href="../plantilla/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
@@ -639,6 +640,7 @@
 
                         <select class="form-control" id="select_estado_editar2" style="width:100%">
                             <option value="">Seleccione</option>
+                            <option value="PENDIENTE">PENDIENTE</option>
                             <option value="EN TRANSITO">EN TRANSITO</option>
                             <option value="EN AGENCIA">EN AGENCIA</option>
                             <option value="ENTREGADO">ENTREGADO</option>
@@ -729,6 +731,7 @@
 
                         <select class="form-control" id="select_estado_editar4" style="width:100%">
                             <option value="">Seleccione</option>
+                            <option value="PENDIENTE">PENDIENTE</option>
                             <option value="EN TRANSITO">EN TRANSITO</option>
                             <option value="EN AGENCIA">EN AGENCIA</option>
                             <option value="ENTREGADO">ENTREGADO</option>
@@ -843,6 +846,7 @@
                         <input type="text" id="id_encomienda_pago" hidden>
                         <select class="form-control" id="select_estado_pago" style="width:100%">
                             <option value="">Seleccione</option>
+                            <option value="PENDIENTE">PENDIENTE</option>
                             <option value="EN TRANSITO">EN TRANSITO</option>
                             <option value="EN AGENCIA">EN AGENCIA</option>
                             <option value="ENTREGADO">ENTREGADO</option>

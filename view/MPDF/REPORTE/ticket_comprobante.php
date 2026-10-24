@@ -91,7 +91,9 @@ $total_gravada = number_format($row['total_gravada'], 2);
 $total_igv = number_format($row['total_igv'], 2);
 
 // Tipo de documento y comprobante
-$tipoDocCliente = ($row['cliente_tipo_doc'] == '6') ? 'RUC' : 'DNI';
+// Catálogo 06 SUNAT (en boletas el cliente puede tener DNI, CE, pasaporte o no tener documento)
+$tiposDocCliente = ['6' => 'RUC', '1' => 'DNI', '4' => 'CARNÉ EXT.', '7' => 'PASAPORTE', 'A' => 'CED. DIPL.', '0' => 'DOC.'];
+$tipoDocCliente = $tiposDocCliente[trim((string)$row['cliente_tipo_doc'])] ?? 'DOC.';
 $tipoCompNombre = ($row['tipo_comprobante'] == '01') ? 'FACTURA' : 'BOLETA';
 
 // GENERAR QR
@@ -168,7 +170,6 @@ if (count($detalles) > 0) {
             ? number_format($cantidadNum, 0) 
             : number_format($cantidadNum, 2);
         
-        $precioUnitario = number_format($detalle['precio_unitario'], 2);
         $totalItem = number_format($detalle['total_item'], 2);
         $descuento = floatval($detalle['descuento']);
         
@@ -181,10 +182,6 @@ if (count($detalles) > 0) {
         $htmlDetalle .= '<div class="item-cantidad">';
         $htmlDetalle .= '<span class="cant-label">Cantidad:</span> ';
         $htmlDetalle .= '<span class="cant-num">'.e($cantidad).' '.e($detalle['unidad_medida']).'</span>';
-        $htmlDetalle .= '</div>';
-        
-        $htmlDetalle .= '<div class="item-precio">';
-        $htmlDetalle .= '<span>Precio Unit.: '.e($row['moneda']).' '.e($precioUnitario).'</span>';
         $htmlDetalle .= '</div>';
         
         // Subtotal del item
@@ -317,17 +314,24 @@ body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-hei
 
 // Generar PDF con altura ajustada
 try {
-    $mpdf = new Mpdf([
+    $config = [
         'mode' => 'utf-8',
-        'format' => [80, 270],
+        'format' => [80, 1000],
         'margin_left' => 3,
         'margin_right' => 3,
         'margin_top' => 1,
         'margin_bottom' => 1,
         'default_font_size' => 11,
         'default_font' => 'dejavusanscondensed'
-    ]);
+    ];
 
+    // Alto según el contenido: se mide en una hoja larga y se genera con ese alto,
+    // así no queda papel en blanco ni pasa a otra hoja con muchos ítems
+    $medida = new Mpdf($config);
+    $medida->WriteHTML($html);
+    $config['format'] = [80, ceil($medida->y + $config['margin_bottom'] + 2)];
+
+    $mpdf = new Mpdf($config);
     $mpdf->WriteHTML($html);
     $mpdf->Output('Ticket_'.preg_replace('/[^A-Za-z0-9\-]/', '_', $row['numero_comprobante']).'.pdf', 'I');
 } catch (Exception $e) {

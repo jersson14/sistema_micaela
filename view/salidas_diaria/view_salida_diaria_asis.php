@@ -1,3 +1,4 @@
+<script src="../js/salidas_comun.js?rev=<?php echo time(); ?>"></script>
 <script src="../js/console_salidas_diarias_asis.js?rev=<?php echo time(); ?>"></script>
 <link rel="stylesheet" href="../plantilla/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
@@ -655,73 +656,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal_pagar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:#1FA0E0;">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white; text-align:center"><b>PAGO DE ENCOMIENDA</b></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12 form-group" style="color:red">
-                            <h6><b>Campos Obligatorios (*)</b></h6>
-                        </div><br>
-
-                        <div class="col-8 form-group">
-                            <label for="">Emisor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_emisor_pago" disabled>
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Origen<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_origen_pago" disabled>
-                        </div>
-                        <div class="col-8 form-group">
-                            <label for="">Receptor<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_receptor_pago" disabled>
-                        </div>
-                        <div class="col-4 form-group">
-                            <label for="">Destino<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_destino_pago" disabled>
-                        </div>
-                        <div class="col-6 form-group">
-                            <label for="">Estado<b style="color:red">(*)</b>:</label>
-                            <input type="text" id="id_encomienda_pago" hidden>
-                            <select class="form-control" id="select_estado_pago" style="width:100%">
-                                <option value="">Seleccione</option>
-                                <option value="EN TRANSITO">EN TRANSITO</option>
-                                <option value="EN AGENCIA">EN AGENCIA</option>
-                                <option value="ENTREGADO">ENTREGADO</option>
-                                <option value="OBSERVADO">OBSERVADO</option>
-                                <option value="ANULADO">ANULADO</option>
-                            </select>
-                        </div>
-
-                        <div class="col-6 form-group">
-                            <label for="">Saldo pendiente<b style="color:red">(*)</b>:</label>
-                            <input type="text" class="form-control" id="txt_saldo_pendiente" disabled>
-                        </div>
-
-                        <div class="col-6 form-group">
-                            <label for="">Monto Recibido<b style="color:red">(*)</b>:</label>
-                            <input type="number" step="0.01" class="form-control" id="txt_monto_recibido" oninput="calcularVuelto()" placeholder="Ingrese monto recibido">
-                        </div>
-
-                        <div class="col-6 form-group">
-                            <label for="">Vuelto:</label>
-                            <input type="text" class="form-control" id="txt_vuelto" disabled style="background-color: #f8f9fa; font-weight: bold; color: #28a745;">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times ml-1"></i> Cerrar</button>
-                    <button type="button" class="btn btn-success" onclick="Realizar_pago()"><i class="fas fa-edit"></i> Modificar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- /.content -->
     <script>
@@ -925,36 +859,6 @@
                 // Ejemplo de envío (ajusta según tu implementación)
                 // Tu código de envío aquí...
             };
-        });
-    </script>
-    <script>
-        function calcularVuelto() {
-            // Obtener los valores de los campos
-            var saldoPendiente = parseFloat(document.getElementById('txt_saldo_pendiente').value.replace('S/', '').replace(',', '').trim()) || 0;
-            var montoRecibido = parseFloat(document.getElementById('txt_monto_recibido').value) || 0;
-            var campoVuelto = document.getElementById('txt_vuelto');
-
-            // Calcular el vuelto
-            var vuelto = montoRecibido - saldoPendiente;
-
-            // Mostrar el resultado
-            if (montoRecibido > 0 && saldoPendiente > 0) {
-                if (vuelto >= 0) {
-                    campoVuelto.value = 'S/ ' + vuelto.toFixed(2);
-                    campoVuelto.style.color = '#28a745'; // Verde para vuelto positivo
-                } else {
-                    campoVuelto.value = 'S/ ' + Math.abs(vuelto).toFixed(2) + ' (Falta)';
-                    campoVuelto.style.color = '#dc3545'; // Rojo para faltante
-                }
-            } else {
-                campoVuelto.value = '';
-            }
-        }
-
-        // Función para limpiar el modal cuando se cierre
-        $('#modal_pagar').on('hidden.bs.modal', function() {
-            document.getElementById('txt_monto_recibido').value = '';
-            document.getElementById('txt_vuelto').value = '';
         });
     </script>
     <styLe>

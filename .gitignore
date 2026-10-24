@@ -6,6 +6,9 @@
 *.sql
 backup/*.sql
 micaela*.sql
+# Excepción: migraciones y diagnósticos sin datos, el código depende de ellos
+!database/**/*.sql
+!database/*.sql
 
 # Certificados digitales (PRIVADOS)
 greenter/certificados/*.pem

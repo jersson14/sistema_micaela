@@ -1,5 +1,5 @@
-
 <?php
+    require_once '../../utilitario/requiere_sesion.php';
     require '../../model/model_salidas_diarias.php';
     $MSD = new Modelo_Salidas_Diarias();//Instaciamos
     $fedes = htmlspecialchars($_POST['fedes'],ENT_QUOTES,'UTF-8');
@@ -11,11 +11,6 @@
     if($consulta){
         echo json_encode($consulta);
     }else{
-        echo '{
-            "sEcho": 1,
-            "iTotalRecords": "0",
-            "iTotalDisplayRecords": "0",
-            "aaData": []
-        }';
+        echo '{"data": []}'; // sin filas: la tabla muestra "no hay registros"
     }
     ?>

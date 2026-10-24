@@ -1,4 +1,5 @@
 <?php
+    require_once '../../utilitario/requiere_sesion.php';
     require '../../model/model_salidas_diarias.php';
     $MSD = new Modelo_Salidas_Diarias();//Instaciamos
     $id_conductor = htmlspecialchars($_POST['id_conductor'], ENT_QUOTES, 'UTF-8');
@@ -9,11 +10,6 @@
     if($consulta){
         echo json_encode($consulta);
     }else{
-        echo '{
-            "sEcho": 1,
-            "iTotalRecords": "0",
-            "iTotalDisplayRecords": "0",
-            "aaData": []
-        }';
+        echo '[]'; // sin encomiendas: lista vacía
     }
 ?>

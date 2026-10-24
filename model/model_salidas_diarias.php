@@ -94,14 +94,16 @@
             conexionBD::cerrar_conexion();
         }
 
-        public function Modificar_Salida_Estatus_Incompleto($id,$idusu,$observacion){
+        // $llegaron: ids de las encomiendas que sí llegaron, separados por coma
+        public function Modificar_Salida_Estatus_Incompleto($id,$idusu,$observacion,$llegaron = ''){
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_MODIFICAR_SALIDA_INCOMPLETO_ESTATUS(?,?,?)";
+            $sql = "CALL SP_MODIFICAR_SALIDA_INCOMPLETO_ESTATUS(?,?,?,?)";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query ->bindParam(1,$id);
             $query ->bindParam(2,$idusu);
             $query ->bindParam(3,$observacion);
+            $query ->bindParam(4,$llegaron);
 
             $resul = $query->execute();
             if($resul){
@@ -381,12 +383,91 @@
         
         }
 
-        public function Eliminar_Salida_diaria($id){
+        // Estado y ruta de las encomiendas que se quieren subir a una salida
+        public function Encomiendas_Para_Salida($ids){
+            $ids = array_values(array_filter(array_map('intval', $ids)));
+            if (count($ids) === 0) {
+                return [];
+            }
             $c = conexionBD::conexionPDO();
-            $sql = "CALL SP_ELIMINAR_SALIDA_DIARIA(?)";
+            $marcas = implode(',', array_fill(0, count($ids), '?'));
+            $sql = "SELECT id_encomienda, boleta_nro, estado_encomienda, id_conductor, id_origen, id_destino
+                    FROM encomiendas WHERE id_encomienda IN ($marcas)";
+            $query  = $c->prepare($sql);
+            $query->execute($ids);
+            $filas = $query->fetchAll(PDO::FETCH_ASSOC);
+            conexionBD::cerrar_conexion();
+            return $filas;
+        }
+
+        // Estado de una salida (null si no existe)
+        public function Estado_Salida($idSalida){
+            $c = conexionBD::conexionPDO();
+            $query  = $c->prepare("SELECT estado FROM salidas_diarias WHERE id_salidas_diarias = ?");
+            $query->execute([(int)$idSalida]);
+            $estado = $query->fetchColumn();
+            conexionBD::cerrar_conexion();
+            return $estado === false ? null : $estado;
+        }
+
+        // Estado de la salida a la que pertenece un pasajero (fila de salida_cliente)
+        public function Estado_Salida_De_Pasajero($idClienteSalida){
+            $c = conexionBD::conexionPDO();
+            $query  = $c->prepare("SELECT s.estado FROM salida_cliente sc
+                                   INNER JOIN salidas_diarias s ON s.id_salidas_diarias = sc.idsalida
+                                   WHERE sc.id_cliente_salida = ?");
+            $query->execute([(int)$idClienteSalida]);
+            $estado = $query->fetchColumn();
+            conexionBD::cerrar_conexion();
+            return $estado === false ? null : $estado;
+        }
+
+        // Encomiendas activas de una salida (ids)
+        public function Encomiendas_Activas_Salida($idSalida){
+            $c = conexionBD::conexionPDO();
+            $query  = $c->prepare("SELECT id_encomienda FROM salida_encomienda WHERE id_salida = ? AND estado = '1'");
+            $query->execute([(int)$idSalida]);
+            $ids = array_map('intval', $query->fetchAll(PDO::FETCH_COLUMN));
+            conexionBD::cerrar_conexion();
+            return $ids;
+        }
+
+        // Pasajeros de una salida: id de la fila por "tipo|documento"
+        public function Pasajeros_Salida($idSalida){
+            $c = conexionBD::conexionPDO();
+            $query  = $c->prepare("SELECT sc.id_cliente_salida, c.tipo_documento, c.nro_documento
+                                   FROM salida_cliente sc INNER JOIN clientes c ON c.id_cliente = sc.idcliente
+                                   WHERE sc.idsalida = ?");
+            $query->execute([(int)$idSalida]);
+            $pasajeros = [];
+            foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $p) {
+                $pasajeros[$p['tipo_documento'] . '|' . $p['nro_documento']] = (int)$p['id_cliente_salida'];
+            }
+            conexionBD::cerrar_conexion();
+            return $pasajeros;
+        }
+
+        // Salidas EN TRANSITO y cuántas llevan más de 24 h sin cerrarse
+        public function Contar_Salidas_Abiertas(){
+            $c = conexionBD::conexionPDO();
+            $sql = "SELECT COUNT(*) AS abiertas,
+                           COALESCE(SUM(fecha_hora < NOW() - INTERVAL 24 HOUR), 0) AS atrasadas
+                    FROM salidas_diarias
+                    WHERE estado = 'EN TRANSITO'";
+            $query  = $c->prepare($sql);
+            $query->execute();
+            $fila = $query->fetch(PDO::FETCH_ASSOC);
+            conexionBD::cerrar_conexion();
+            return ['abiertas' => (int)$fila['abiertas'], 'atrasadas' => (int)$fila['atrasadas']];
+        }
+
+        public function Eliminar_Salida_diaria($id,$idusu){
+            $c = conexionBD::conexionPDO();
+            $sql = "CALL SP_ELIMINAR_SALIDA_DIARIA(?,?)";
             $arreglo = array();
             $query  = $c->prepare($sql);
             $query ->bindParam(1,$id);
+            $query ->bindParam(2,$idusu);
 
             $resul = $query->execute();
             if($resul){

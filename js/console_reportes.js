@@ -1038,7 +1038,10 @@ function actualizarIndicadoresEncomiendas(data) {
     let total = data.length;
     let entregadas = data.filter(e => e.estado_encomienda === 'ENTREGADO').length;
     let transito = data.filter(e => e.estado_encomienda === 'EN TRANSITO').length;
-    let total_facturado = data.reduce((sum, item) => sum + parseFloat(item.pago || 0), 0);
+    // Las anuladas conservan su monto, pero no suman
+    let total_facturado = data
+        .filter(e => e.estado_encomienda !== 'ANULADO')
+        .reduce((sum, item) => sum + parseFloat(item.pago || 0), 0);
     
     $('#total_encomiendas').text(total);
     $('#total_entregadas').text(entregadas);
@@ -1156,8 +1159,10 @@ function generarTopRutas(data) {
         // Incrementar cantidad
         rutas[claveRuta].cantidad++;
         
-        // Sumar monto (probar diferentes nombres de campo)
-        let monto = parseFloat(item.pago || item.monto_pago || item.monto || item.total || 0);
+        // Sumar monto (probar diferentes nombres de campo); las anuladas no suman
+        let monto = item.estado_encomienda === 'ANULADO'
+            ? 0
+            : parseFloat(item.pago || item.monto_pago || item.monto || item.total || 0);
         rutas[claveRuta].total += monto;
         
         console.log(`  ✓ ${claveRuta}: ${rutas[claveRuta].cantidad} encomiendas, S/ ${rutas[claveRuta].total.toFixed(2)}`);

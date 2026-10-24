@@ -125,17 +125,24 @@ body { font-family:"Courier New",monospace; font-size:10px; color:#000; line-hei
 </div>';
 
 try {
-    $mpdf = new Mpdf([
+    $config = [
         'mode' => 'utf-8',
-        'format' => [80, 200],
+        'format' => [80, 300],
         'margin_left' => 4,
         'margin_right' => 4,
         'margin_top' => 2,
         'margin_bottom' => 2,
         'default_font_size' => 10,
         'default_font' => 'dejavusanscondensed'
-    ]);
+    ];
 
+    // Alto según el contenido: se mide en una hoja larga y se genera con ese alto,
+    // así el ticket no deja papel en blanco al final
+    $medida = new Mpdf($config);
+    $medida->WriteHTML($html);
+    $config['format'] = [80, ceil($medida->y + $config['margin_bottom'] + 2)];
+
+    $mpdf = new Mpdf($config);
     $mpdf->WriteHTML($html);
     $mpdf->Output('Ticket_'.preg_replace('/[^A-Za-z0-9\-]/', '_', $row['numero_ticket']).'.pdf', 'I');
 } catch (Exception $e) {

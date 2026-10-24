@@ -258,6 +258,20 @@
         
         }
 
+        // Estado y montos actuales, para validar los cambios de estado en el servidor
+        public function Obtener_Estado($id){
+            $c = conexionBD::conexionPDO();
+            $sql = "SELECT id_encomienda, estado_encomienda, estado_pago, pago, por_pagar, a_domicilio,
+                           id_conductor, id_origen, id_destino
+                    FROM encomiendas WHERE id_encomienda = ?";
+            $query  = $c->prepare($sql);
+            $query ->bindValue(1,(int)$id,PDO::PARAM_INT);
+            $query->execute();
+            $fila = $query->fetch(PDO::FETCH_ASSOC);
+            conexionBD::cerrar_conexion();
+            return $fila ?: null;
+        }
+
         public function Eliminar_Encomienda($id){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_ELIMINAR_ENCOMIENDA(?)";

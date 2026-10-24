@@ -1,5 +1,7 @@
 <?php
+    require_once '../../utilitario/requiere_sesion.php';
     require '../../model/model_encomiendas.php';
+    require '../../model/model_estados_encomienda.php';
     $MEN = new Modelo_Encomiendas();//Instaciamos
     // DATOS DE LA ENCOMIENDA
     $id = strtoupper(htmlspecialchars($_POST['id'],ENT_QUOTES,'UTF-8'));
@@ -25,10 +27,33 @@
     // OBSERVACION
     $obse = strtoupper(htmlspecialchars($_POST['obse'],ENT_QUOTES,'UTF-8'));
     // DATOS DEL USUARIO
-    $idusu = strtoupper(htmlspecialchars($_POST['idusu'],ENT_QUOTES,'UTF-8'));
+    $idusu = $ID_USUARIO_SESION; // el usuario sale de la sesión
 
-    $consulta = $MEN->Editar_Encomiendas($id,$conduc,$ori,$des,$fecha,$desc,$tipodocemi,$documentoFinal,$nomemi,$celemi,$tipodocrece,$documentoFinal2,$nomrece,$celurece,$pago,$porpagar,$adomicilio,$obse,$idusu);
-    echo $consulta;
+    // La salida solo lleva encomiendas de su misma ruta: origen y destino distintos
+    if ($ori === '' || $ori === $des) {
+        echo 'El origen y el destino no pueden ser iguales';
+        exit;
+    }
+
+    $error = Reglas_Estado_Encomienda::Validar_Montos($pago, $porpagar, $adomicilio);
+    $actual = $MEN->Obtener_Estado($id);
+    if ($error === null && !$actual) {
+        $error = 'La encomienda no existe';
+    }
+    if ($error === null) {
+        $error = Reglas_Estado_Encomienda::Validar_Edicion($actual, $conduc, $ori, $des, $pago, $porpagar, $adomicilio);
+    }
+    if ($error !== null) {
+        echo $error;
+        exit;
+    }
+
+    try {
+        $consulta = $MEN->Editar_Encomiendas($id,$conduc,$ori,$des,$fecha,$desc,$tipodocemi,$documentoFinal,$nomemi,$celemi,$tipodocrece,$documentoFinal2,$nomrece,$celurece,$pago,$porpagar,$adomicilio,$obse,$idusu);
+        echo $consulta;
+    } catch (PDOException $e) {
+        echo Reglas_Estado_Encomienda::Mensaje_Error($e);
+    }
 
 
 
