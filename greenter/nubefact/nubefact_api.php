@@ -625,6 +625,9 @@ function nubefactProcesarRespuesta($pdo, $comprobante, $respuesta)
         echo "   Descripción: {$descripcion}\n";
         echo "   Código: " . ($codigoSunat !== '' ? $codigoSunat : '0') . "\n";
         echo "   Hash: " . ($data['codigo_hash'] ?? '') . "\n";
+        if (!empty($data['enlace'])) {
+            echo "   Ver en Nubefact: {$data['enlace']}\n";
+        }
         return;
     }
 
@@ -635,6 +638,9 @@ function nubefactProcesarRespuesta($pdo, $comprobante, $respuesta)
     }
 
     // Registrado en Nubefact, pendiente de la respuesta de SUNAT: se consultará en el siguiente intento
+    if (!empty($data['enlace'])) {
+        echo "   Ver en Nubefact: {$data['enlace']}\n";
+    }
     $detalle = $descripcion ?: (trim((string)($data['sunat_soap_error'] ?? '')) ?: 'Registrado en el OSE; esperando respuesta de SUNAT');
     nubefactSalidaTemporal($pdo, $comprobante, 'NF_PEND', $detalle);
 }
