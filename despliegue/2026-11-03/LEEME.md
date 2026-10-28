@@ -88,7 +88,7 @@ docker compose -f docker-compose.vps.yml up -d --build app
 
 **Solo si ya tienes las credenciales de producción.** Si no, el sistema sigue con SUNAT directo hasta el 10/11; en ese caso, en el VPS crear `.env.nubefact` con `NUBEFACT_ACTIVO=0` para usar la salida de emergencia.
 
-1. En el **panel de Nubefact (producción)**: registrar las series reales con su último número:
+1. En el **panel de Nubefact (producción)**: registrar las series reales con su último número, **incluidas las de notas** (FN01, BN01, FD01, BD01) además de FPP1 y BPP1. El comando muestra todas:
    ```bash
    docker exec tours_micaela_db_vps sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" micaela -e "SELECT serie, MAX(CAST(correlativo AS UNSIGNED)) ultimo FROM comprobantes GROUP BY serie;"'
    ```

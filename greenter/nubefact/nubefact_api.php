@@ -95,7 +95,23 @@ function nubefactSerie($serie)
 {
     $config = nubefactConfig();
     $serie = strtoupper(trim($serie));
-    return $config['series'][$serie] ?? $serie;
+    if (isset($config['series'][$serie])) {
+        return $config['series'][$serie];
+    }
+    // DEMO: la cuenta de pruebas solo tiene FFF1 (facturas y sus notas) y BBB1 (boletas y sus notas)
+    if ($config !== null && $config['modo'] === 'DEMO') {
+        return $serie[0] === 'B' ? 'BBB1' : 'FFF1';
+    }
+    return $serie;
+}
+
+/** DEMO: cada tipo lleva su propia numeración dentro de la serie (facturas y notas por separado). */
+function nubefactDemoClave($comprobante)
+{
+    $serie = nubefactSerie($comprobante['serie']);
+    return in_array($comprobante['tipo_comprobante'], ['07', '08'], true)
+        ? $comprobante['tipo_comprobante'] . '-' . $serie
+        : $serie;
 }
 
 function nubefactEsDemo()
@@ -121,7 +137,7 @@ function nubefactNumero($comprobante)
         if (isset($estado['asignados'][$id])) {
             return (int)$estado['asignados'][$id];
         }
-        $serie = nubefactSerie($comprobante['serie']);
+        $serie = nubefactDemoClave($comprobante);
         $numero = (int)($estado['ultimo'][$serie] ?? 0) + 1;
         $estado['ultimo'][$serie] = $numero;
         $estado['asignados'][$id] = $numero;
@@ -133,7 +149,7 @@ function nubefactNumero($comprobante)
 function nubefactDemoReasignar($comprobante, $ultimoRegistrado)
 {
     nubefactDemo(function (&$estado) use ($comprobante, $ultimoRegistrado) {
-        $serie = nubefactSerie($comprobante['serie']);
+        $serie = nubefactDemoClave($comprobante);
         $estado['ultimo'][$serie] = max((int)$ultimoRegistrado, (int)($estado['ultimo'][$serie] ?? 0));
         unset($estado['asignados'][(string)$comprobante['id_comprobante']]);
     });
