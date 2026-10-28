@@ -207,8 +207,20 @@ if (nubefactActivo()) {
     exit(0);
 }
 
+// Sin configuración de Nubefact NO se anula directo en SUNAT (solo con NUBEFACT_ACTIVO=0, emergencia)
+if (!nubefactSunatDirectoPorEmergencia()) {
+    echo "
+❌ ERROR AL ENVIAR DOCUMENTO
+";
+    echo "Código: NF_CONFIG
+";
+    echo "Mensaje: Falta configurar Nubefact (.env.nubefact). La anulación no se envió.
+";
+    exit(0);
+}
+
 // =============================================
-// 8️⃣ PREPARAR GREENTER (envío directo a SUNAT)
+// 8️⃣ PREPARAR GREENTER (envío directo a SUNAT, solo emergencia)
 // =============================================
 $see = getSee();
 

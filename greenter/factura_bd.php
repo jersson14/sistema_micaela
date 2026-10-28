@@ -96,6 +96,16 @@ if (nubefactActivo()) {
     exit(0);
 }
 
+// Sin configuración de Nubefact NO se envía directo a SUNAT: queda pendiente y la cola
+// lo enviará cuando exista .env.nubefact. Solo NUBEFACT_ACTIVO=0 (emergencia) usa Greenter.
+if (!nubefactSunatDirectoPorEmergencia()) {
+    nubefactSalidaTemporal($pdo, $comprobante, 'NF_CONFIG',
+        'Falta configurar Nubefact (.env.nubefact con NUBEFACT_RUTA y NUBEFACT_TOKEN). Se enviará cuando esté configurado.');
+    exit(0);
+}
+echo "⚠️ EMERGENCIA: NUBEFACT_ACTIVO=0, enviando directo a SUNAT con el certificado propio
+";
+
 $tipo = $comprobante['tipo_comprobante'];
 echo "📄 Procesando comprobante {$tipo}: {$comprobante['serie']}-{$comprobante['correlativo']}\n";
 

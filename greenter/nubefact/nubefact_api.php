@@ -14,11 +14,12 @@
 // CONFIGURACIÓN
 // =============================================
 
-function nubefactConfig()
+/** Valores de .env.nubefact + variables de entorno (estas tienen prioridad). */
+function nubefactValores()
 {
-    static $config = null;
-    if ($config !== null) {
-        return $config ?: null;
+    static $valores = null;
+    if ($valores !== null) {
+        return $valores;
     }
 
     $valores = [];
@@ -40,7 +41,27 @@ function nubefactConfig()
             $valores[$clave] = getenv($clave);
         }
     }
+    return $valores;
+}
 
+/**
+ * Salida de emergencia: enviar directo a SUNAT con Greenter SOLO si alguien lo pidió
+ * a propósito con NUBEFACT_ACTIVO=0 (requiere el certificado vigente).
+ * Si .env.nubefact simplemente falta, NO se envía directo: el comprobante queda pendiente.
+ */
+function nubefactSunatDirectoPorEmergencia()
+{
+    return (nubefactValores()['NUBEFACT_ACTIVO'] ?? '1') === '0';
+}
+
+function nubefactConfig()
+{
+    static $config = null;
+    if ($config !== null) {
+        return $config ?: null;
+    }
+
+    $valores = nubefactValores();
     $activo = ($valores['NUBEFACT_ACTIVO'] ?? '1') !== '0';
     if (!$activo || empty($valores['NUBEFACT_RUTA']) || empty($valores['NUBEFACT_TOKEN'])) {
         $config = false;
