@@ -8,7 +8,7 @@
 #   bash actualizar_bd.sh
 #
 # 1. Hace un respaldo completo de la base (en ~/respaldos/).
-# 2. Aplica las dos migraciones en orden, con --comments.
+# 2. Aplica las migraciones (01, 02 y 04) en orden, con --comments.
 # 3. Muestra la verificación.
 # Si algo falla, se detiene y NO sigue con el paso siguiente.
 # =====================================================================
@@ -33,13 +33,13 @@ fi
 echo "   ✅ $RESPALDO ($(du -h "$RESPALDO" | cut -f1))"
 
 echo "== 2/3 Migraciones"
-for archivo in 01_estados_encomiendas_salidas.sql 02_registrar_editar_encomienda.sql; do
+for archivo in 01_estados_encomiendas_salidas.sql 02_registrar_editar_encomienda.sql 04_choferes_notificacion.sql; do
   echo "   → $archivo"
   mysql_bd < "$CARPETA/$archivo"
 done
 echo "   ✅ Migraciones aplicadas"
 
-echo "== 3/3 Verificación (esperado: SP_ELIMINAR_SALIDA_DIARIA=2, SP_MODIFICAR_SALIDA_INCOMPLETO_ESTATUS=4, 0 con otra intercalación)"
+echo "== 3/3 Verificación (esperado: SP_ELIMINAR_SALIDA_DIARIA=2, SP_MODIFICAR_SALIDA_INCOMPLETO_ESTATUS=4, 0 con otra intercalación, notificar_licencia = 1)"
 mysql_bd < "$CARPETA/03_verificar.sql"
 
 echo

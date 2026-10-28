@@ -10,7 +10,10 @@
             $query  = $c->prepare($sql);
             $query->execute();
             $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            $query->closeCursor();
+            $silenciados = $this->Choferes_Sin_Notificacion($c);
             foreach($resultado as $resp){
+                $resp['notificar_licencia'] = isset($silenciados[$resp['id_chofer']]) ? 0 : 1;
                 $arreglo["data"][]=$resp;
             }
             return $arreglo;
@@ -23,7 +26,11 @@
             $query  = $c->prepare($sql);
             $query->execute();
             $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+            $query->closeCursor();
+            // Los choferes con las notificaciones desactivadas no aparecen en el aviso de vencimientos
+            $silenciados = $this->Choferes_Sin_Notificacion($c);
             foreach($resultado as $resp){
+                if(isset($silenciados[$resp['id_chofer']])) continue;
                 $arreglo["data"][]=$resp;
             }
             return $arreglo;
@@ -81,6 +88,25 @@
             }
             conexionBD::cerrar_conexion();
         }
+        // Ids de choferes con el aviso de vencimiento de licencia desactivado.
+        // Si la columna aún no existe (base sin migrar) se avisa de todos.
+        private function Choferes_Sin_Notificacion($c){
+            try{
+                $query = $c->query("SELECT id_chofer FROM choferes WHERE notificar_licencia = 0");
+                return array_flip($query->fetchAll(PDO::FETCH_COLUMN));
+            }catch(PDOException $e){
+                return array();
+            }
+        }
+
+        public function Cambiar_Notificacion_Chofer($id,$notificar){
+            $c = conexionBD::conexionPDO();
+            $query = $c->prepare("UPDATE choferes SET notificar_licencia = ?, updated_at = NOW() WHERE id_chofer = ?");
+            $resul = $query->execute(array($notificar ? 1 : 0, (int)$id));
+            conexionBD::cerrar_conexion();
+            return $resul ? 1 : 0;
+        }
+
         public function Eliminar_Chofer($id){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_ELIMINAR_CHOFERES(?)";

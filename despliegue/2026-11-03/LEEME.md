@@ -12,9 +12,10 @@ Plan completo con todos los comandos: `PLAN_MAESTRO_NUBEFACT_Y_VPS.md` (escritor
 | `01_estados_encomiendas_salidas.sql` | Migración 1: procedimientos de estados de encomiendas y salidas |
 | `02_registrar_editar_encomienda.sql` | Migración 2: registrar y editar encomiendas |
 | `03_verificar.sql` | Verificación (solo lectura) |
-| `actualizar_bd.sh` | Hace el respaldo, aplica 01 y 02 en orden y muestra la verificación |
+| `04_choferes_notificacion.sql` | Migración 4: columna `choferes.notificar_licencia` (activar/desactivar el aviso de licencia por chofer) |
+| `actualizar_bd.sh` | Hace el respaldo, aplica 01, 02 y 04 en orden y muestra la verificación |
 
-> Las migraciones **solo reemplazan procedimientos** (no tocan tablas ni datos) y se pueden repetir sin problema. Sin ellas, en la rama nueva fallan "marcar salida incompleta" y "eliminar salida".
+> Las migraciones 01 y 02 **solo reemplazan procedimientos**; la 04 solo **agrega una columna** con valor 1 (no borra datos). Todas se pueden repetir sin problema. Sin ellas, en la rama nueva fallan "marcar salida incompleta" y "eliminar salida".
 
 ---
 
@@ -75,7 +76,7 @@ git pull origin jersson
 cd despliegue/2026-11-03
 bash actualizar_bd.sh
 ```
-La verificación debe mostrar `SP_ELIMINAR_SALIDA_DIARIA = 2`, `SP_MODIFICAR_SALIDA_INCOMPLETO_ESTATUS = 4` y **0** rutinas con otra intercalación.
+La verificación debe mostrar `SP_ELIMINAR_SALIDA_DIARIA = 2`, `SP_MODIFICAR_SALIDA_INCOMPLETO_ESTATUS = 4` **0** rutinas con otra intercalación y `notificar_licencia = 1`.
 
 Luego reconstruir la app:
 ```bash
@@ -118,6 +119,7 @@ docker compose -f docker-compose.vps.yml up -d --build app
 - ☐ **Prueba de reinicio**: `reboot` y comprobar que el sistema vuelve solo.
 - ☐ Probar: **marcar una salida como incompleta** y **eliminar una salida** de prueba (las dos dependen de las migraciones).
 - ☐ Descargar el **XML y el CDR de un comprobante antiguo**.
+- ☐ En **Choferes**, probar el botón **Aviso / Sin aviso** de un chofer.
 
 ---
 

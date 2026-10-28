@@ -2329,79 +2329,76 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Lista de servicios -->
         <div class="row">
           <div class="col-md-6 mb-3">
-            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s;">
+            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s; height: 100%;">
               <div class="card-body" style="padding: 20px;">
                 <div class="d-flex align-items-center mb-2">
-                  <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                    <i class="fas fa-server text-white" style="font-size: 24px;"></i>
-                  </div>
-                  <div>
-                    <h6 style="margin: 0; font-weight: 600; color: #333;">Hosting</h6>
-                    <p style="margin: 0; color: #999; font-size: 13px;">Servidor Web</p>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <span style="font-size: 24px; font-weight: 700; color: #667eea;">S/ 380</span>
-                  <p style="margin: 0; color: #999; font-size: 12px;">Anual</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s;">
-              <div class="card-body" style="padding: 20px;">
-                <div class="d-flex align-items-center mb-2">
-                  <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                  <div style="width: 50px; height: 50px; min-width: 50px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
                     <i class="fas fa-file-invoice text-white" style="font-size: 24px;"></i>
                   </div>
                   <div>
-                    <h6 style="margin: 0; font-weight: 600; color: #333;">API SUNAT</h6>
-                    <p style="margin: 0; color: #999; font-size: 13px;">Nubefact</p>
+                    <h6 style="margin: 0; font-weight: 600; color: #333;">Facturación electrónica (OSE)</h6>
+                    <p style="margin: 0; color: #999; font-size: 13px;">Nubefact: incluye certificado digital y bolsa de 19,200 comprobantes</p>
                   </div>
                 </div>
                 <div class="text-right">
-                  <span style="font-size: 24px; font-weight: 700; color: #f5576c;">S/ 740</span>
+                  <span style="font-size: 24px; font-weight: 700; color: #f5576c;">S/ 1,036.75</span>
                   <p style="margin: 0; color: #999; font-size: 12px;">Anual</p>
                 </div>
               </div>
             </div>
           </div>
-
           <div class="col-md-6 mb-3">
-            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s;">
+            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s; height: 100%;">
               <div class="card-body" style="padding: 20px;">
                 <div class="d-flex align-items-center mb-2">
-                  <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                    <i class="fas fa-certificate text-white" style="font-size: 24px;"></i>
+                  <div style="width: 50px; height: 50px; min-width: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                    <i class="fas fa-server text-white" style="font-size: 24px;"></i>
                   </div>
                   <div>
-                    <h6 style="margin: 0; font-weight: 600; color: #333;">Certificado PEM</h6>
-                    <p style="margin: 0; color: #999; font-size: 13px;">Seguridad SSL</p>
+                    <h6 style="margin: 0; font-weight: 600; color: #333;">Servidor nuevo (VPS)</h6>
+                    <p style="margin: 0; color: #999; font-size: 13px;">Servidor web del sistema</p>
                   </div>
                 </div>
                 <div class="text-right">
-                  <span style="font-size: 24px; font-weight: 700; color: #00f2fe;">S/ 280</span>
+                  <span style="font-size: 24px; font-weight: 700; color: #667eea;">S/ 580.00</span>
+                  <p style="margin: 0; color: #999; font-size: 12px;">Anual (aprox.)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s; height: 100%;">
+              <div class="card-body" style="padding: 20px;">
+                <div class="d-flex align-items-center mb-2">
+                  <div style="width: 50px; height: 50px; min-width: 50px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                    <i class="fas fa-globe text-white" style="font-size: 24px;"></i>
+                  </div>
+                  <div>
+                    <h6 style="margin: 0; font-weight: 600; color: #333;">Dominio</h6>
+                    <p style="margin: 0; color: #999; font-size: 13px;">Dirección web del sistema</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span style="font-size: 24px; font-weight: 700; color: #00b4d8;">S/ 100.00</span>
                   <p style="margin: 0; color: #999; font-size: 12px;">Anual</p>
                 </div>
               </div>
             </div>
           </div>
-
           <div class="col-md-6 mb-3">
-            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s;">
+            <div class="card" style="border-radius: 15px; border: 2px solid #e3e8ef; transition: all 0.3s; height: 100%;">
               <div class="card-body" style="padding: 20px;">
                 <div class="d-flex align-items-center mb-2">
-                  <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                  <div style="width: 50px; height: 50px; min-width: 50px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
                     <i class="fas fa-id-card text-white" style="font-size: 24px;"></i>
                   </div>
                   <div>
-                    <h6 style="margin: 0; font-weight: 600; color: #333;">API RENIEC</h6>
-                    <p style="margin: 0; color: #999; font-size: 13px;">Consulta DNI</p>
+                    <h6 style="margin: 0; font-weight: 600; color: #333;">API Decolecta</h6>
+                    <p style="margin: 0; color: #999; font-size: 13px;">Consultas de DNI y RUC</p>
                   </div>
                 </div>
                 <div class="text-right">
-                  <span style="font-size: 24px; font-weight: 700; color: #38f9d7;">S/ 100</span>
+                  <span style="font-size: 24px; font-weight: 700; color: #2bb673;">S/ 80.00</span>
                   <p style="margin: 0; color: #999; font-size: 12px;">Anual</p>
                 </div>
               </div>
@@ -2414,10 +2411,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="card-body" style="padding: 25px;">
             <div class="d-flex justify-content-between align-items-center">
               <h5 class="text-white" style="margin: 0; font-weight: 600;">
-                <i class="fas fa-calculator"></i> Total a Pagar:
+                <i class="fas fa-calculator"></i> Total anual (redondeado):
               </h5>
               <h3 class="text-white" style="margin: 0; font-weight: 700; font-size: 32px;">
-                S/ 1,500.00
+                S/ 1,800.00
               </h3>
             </div>
           </div>

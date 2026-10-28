@@ -196,10 +196,19 @@ function listar_choferes() {
         },
       },
       {
-        defaultContent:
-          "<button class='mostrar btn btn-success btn-sm' title='Ver datos'><i class='fa fa-eye'></i> Mostrar</button> " +
-          "<button class='editar btn btn-primary btn-sm' title='Editar datos de área'><i class='fa fa-edit'></i> Editar</button> " +
-          "<button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de área'><i class='fa fa-trash'></i> Eliminar</button>",
+        data: null,
+        render: function (data, type, row) {
+          const notifica = row.notificar_licencia != 0;
+          const botonAviso = notifica
+            ? "<button class='notificacion btn btn-info btn-sm' title='Desactivar el aviso de vencimiento de licencia'><i class='fa fa-bell'></i> Aviso</button> "
+            : "<button class='notificacion btn btn-secondary btn-sm' title='Activar el aviso de vencimiento de licencia'><i class='fa fa-bell-slash'></i> Sin aviso</button> ";
+          return (
+            "<button class='mostrar btn btn-success btn-sm' title='Ver datos'><i class='fa fa-eye'></i> Mostrar</button> " +
+            "<button class='editar btn btn-primary btn-sm' title='Editar datos de área'><i class='fa fa-edit'></i> Editar</button> " +
+            botonAviso +
+            "<button class='eliminar btn btn-danger btn-sm' title='Eliminar datos de área'><i class='fa fa-trash'></i> Eliminar</button>"
+          );
+        },
       },
     ],
     language: idioma_espanol,
@@ -649,6 +658,50 @@ $("#tabla_choferes").on("click", ".eliminar", function () {
     if (result.isConfirmed) {
       Eliminar_chofer(data.id_chofer);
     }
+  });
+});
+
+// ACTIVAR / DESACTIVAR EL AVISO DE VENCIMIENTO DE LICENCIA DEL CHOFER
+$("#tabla_choferes").on("click", ".notificacion", function () {
+  var data = tbl_choferes.row($(this).parents("tr")).data();
+  const activar = data.notificar_licencia == 0;
+
+  Swal.fire({
+    title: activar
+      ? "¿Activar el aviso de licencia de " + data.nombres_apellidos + "?"
+      : "¿Desactivar el aviso de licencia de " + data.nombres_apellidos + "?",
+    text: activar
+      ? "Volverá a aparecer el aviso cuando su licencia esté por vencer o vencida."
+      : "Ya no aparecerá el aviso de vencimiento de su licencia al ingresar al sistema.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: activar ? "Sí, activar" : "Sí, desactivar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (!result.isConfirmed) return;
+    $.ajax({
+      url: "../controller/choferes/controlador_notificacion_chofer.php",
+      type: "POST",
+      data: { id: data.id_chofer, notificar: activar ? 1 : 0 },
+    }).done(function (resp) {
+      if (resp == 1) {
+        tbl_choferes.ajax.reload(null, false);
+        Swal.fire({
+          icon: "success",
+          title: activar ? "Aviso activado" : "Aviso desactivado",
+          toast: true,
+          position: "top-end",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      } else if (resp == 2) {
+        Swal.fire("Falta actualizar la base de datos", "Ejecute la migración de choferes (notificar_licencia).", "warning");
+      } else {
+        Swal.fire("Error", "No se pudo cambiar el aviso del chofer.", "error");
+      }
+    });
   });
 });
 
