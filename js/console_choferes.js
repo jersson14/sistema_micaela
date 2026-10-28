@@ -705,6 +705,47 @@ $("#tabla_choferes").on("click", ".notificacion", function () {
   });
 });
 
+// ACTIVAR / DESACTIVAR EL AVISO DE LICENCIA DE TODOS LOS CHOFERES
+function CambiarAvisoTodos(notificar) {
+  Swal.fire({
+    title: notificar
+      ? "¿Activar el aviso de licencia de todos los choferes?"
+      : "¿Desactivar el aviso de licencia de todos los choferes?",
+    text: notificar
+      ? "Volverá a aparecer el aviso de los choferes con la licencia por vencer o vencida."
+      : "Ya no aparecerá ningún aviso de vencimiento de licencia al ingresar al sistema.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: notificar ? "Sí, activar todos" : "Sí, desactivar todos",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (!result.isConfirmed) return;
+    $.ajax({
+      url: "../controller/choferes/controlador_notificacion_chofer.php",
+      type: "POST",
+      data: { todos: 1, notificar: notificar },
+    }).done(function (resp) {
+      if (resp == 1) {
+        tbl_choferes.ajax.reload(null, false);
+        Swal.fire({
+          icon: "success",
+          title: notificar ? "Avisos activados" : "Avisos desactivados",
+          toast: true,
+          position: "top-end",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      } else if (resp == 2) {
+        Swal.fire("Falta actualizar la base de datos", "Ejecute la migración de choferes (notificar_licencia).", "warning");
+      } else {
+        Swal.fire("Error", "No se pudo cambiar el aviso de los choferes.", "error");
+      }
+    });
+  });
+}
+
 // LISTAR CHOFERES VENCIDOS
 var tbl_choferes_dash;
 var alertasActivas = [];

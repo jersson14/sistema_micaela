@@ -28,6 +28,8 @@
                     <div class="card-header">
                         <h3 class="card-title"><i class="fas fa-user"></i>&nbsp;&nbsp;<b>Listado de Conductores</b></h3>
                         <button class="btn btn-success float-right" onclick="AbrirRegistro()"><i class="fas fa-plus"></i> Nuevo Registro</button>
+                        <button class="btn btn-secondary float-right mr-2" onclick="CambiarAvisoTodos(0)" title="Ningún chofer mostrará el aviso de vencimiento de licencia"><i class="fas fa-bell-slash"></i> Desactivar avisos</button>
+                        <button class="btn btn-info float-right mr-2" onclick="CambiarAvisoTodos(1)" title="Todos los choferes volverán a mostrar el aviso de vencimiento de licencia"><i class="fas fa-bell"></i> Activar avisos</button>
                     </div>
                     <div class="table-responsive" style="text-align:center">
                         <div class="card-body">

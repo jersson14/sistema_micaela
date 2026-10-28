@@ -107,6 +107,14 @@
             return $resul ? 1 : 0;
         }
 
+        public function Cambiar_Notificacion_Todos($notificar){
+            $c = conexionBD::conexionPDO();
+            $query = $c->prepare("UPDATE choferes SET notificar_licencia = ?");
+            $resul = $query->execute(array($notificar ? 1 : 0));
+            conexionBD::cerrar_conexion();
+            return $resul ? 1 : 0;
+        }
+
         public function Eliminar_Chofer($id){
             $c = conexionBD::conexionPDO();
             $sql = "CALL SP_ELIMINAR_CHOFERES(?)";
