@@ -114,3 +114,6 @@ greenter/tmp/
 
 # Credenciales de Nubefact (no subir)
 .env.nubefact
+
+# Migraciones de despliegue: sí se versionan (se aplican en el VPS tras git pull)
+!despliegue/**/*.sql
