@@ -199,7 +199,7 @@
                             <!-- DATOS DEL PASAJERO (COMPACTO) -->
                             <div class="col-12" style="margin-top:8px; margin-bottom:6px;">
                                 <div class="alert alert-info" role="alert" style="background-color:#e7f3ff; border-left: 3px solid #2196F3; padding:8px; margin:0;">
-                                    <small style="margin:0; color:#1976D2;"><i class="fas fa-user-tag"></i> <b>DATOS DEL PASAJERO (Opcional)</b> - Si el pasajero es diferente al cliente que paga, ingrese sus datos aquí</small>
+                                    <small style="margin:0; color:#1976D2;"><i class="fas fa-user-tag"></i> <b>DATOS DEL PASAJERO (Opcional)</b> - Si el pasajero es diferente al cliente que paga, escriba su DNI: el nombre se busca solo y se agrega a Observaciones. Use "Agregar" para ingresar otro pasajero.</small>
                                 </div>
                             </div>
 
@@ -211,7 +211,7 @@
                             <div class="col-md-5 form-group" style="margin-bottom:8px;">
                                 <label style="font-size:13px; margin-bottom:3px;">Nombres y Apellidos:</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="txt_nombre_pasajero" placeholder="Buscar en RENIEC primero" readonly style="background-color:#f8f9fa;">
+                                    <input type="text" class="form-control" id="txt_nombre_pasajero" placeholder="Se completa al escribir el DNI" readonly style="background-color:#f8f9fa;">
                                     <div class="input-group-append">
                                         <button class="btn btn-info" onclick="buscarPasajeroReniec()" id="btn_buscar_pasajero">
                                             <i class="fas fa-search"></i><b> RENIEC</b>
@@ -352,166 +352,147 @@
         calcularDesdeTotal();
     });
 
-    // 🔥 BÚSQUEDA DE PASAJERO CORREGIDA - USA LA MISMA FUNCIÓN QUE CLIENTE
-    function buscarPasajeroReniec() {
-        var dni = document.getElementById('txt_dni_pasajero').value.trim();
-        
-        if (dni === '') {
-            return Swal.fire({
-                icon: 'warning',
-                title: 'DNI Requerido',
-                text: 'Por favor ingrese el DNI del pasajero',
-                toast: true,
-                position: 'top-end',
-                timer: 2000,
-                showConfirmButton: false
-            });
+    // ============================================================
+    // BÚSQUEDA AUTOMÁTICA DEL CLIENTE
+    // Al completar el documento (8 dígitos DNI / 11 dígitos RUC) se busca solo:
+    // primero en la base de datos y, si no está, en RENIEC / SUNAT.
+    // ============================================================
+    var ultimoDocCliente = '';
+    var temporizadorCliente = null;
+
+    $('#txt_numero_documento').on('input', function () {
+        var tipo = $('#select_tipo_documento_cliente').val();
+        var numero = $(this).val().replace(/\D/g, '');
+        if ($(this).val() !== numero) $(this).val(numero);
+
+        var largo = tipo === '6' ? 11 : (tipo === '1' ? 8 : 0);
+        if (!largo || numero.length !== largo) {
+            ultimoDocCliente = '';
+            return;
         }
+        if (numero === ultimoDocCliente) return;
 
-        if (dni.length !== 8) {
-            return Swal.fire({
-                icon: 'warning',
-                title: 'DNI Inválido',
-                text: 'El DNI debe tener 8 dígitos',
-                toast: true,
-                position: 'top-end',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        }
+        clearTimeout(temporizadorCliente);
+        temporizadorCliente = setTimeout(function () { autoBuscarCliente(tipo, numero); }, 200);
+    });
 
-        Swal.fire({
-            title: 'Buscando...',
-            text: 'Consultando RENIEC',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            willOpen: () => {
-                Swal.showLoading();
-            }
-        });
+    // Si cambia el tipo de documento, se vuelve a buscar con el número ya escrito
+    $('#select_tipo_documento_cliente').on('change', function () {
+        ultimoDocCliente = '';
+        $('#txt_numero_documento').trigger('input');
+    });
 
-        // 🔥 USA LA MISMA RUTA QUE TU BÚSQUEDA DE CLIENTE
-        $.ajax({
-            url: "../view/consulta-dni-ajax.php",
-            type: "POST",
-            data: { dni: dni },
-            dataType: "json"
-        })
-        .done(function(data) {
-            Swal.close();
+    async function autoBuscarCliente(tipo, numero) {
+        ultimoDocCliente = numero;
+        var $nombre = $('#txt_razon_social');
+        $nombre.val('').attr('placeholder', 'Buscando...');
+        try {
+            var datos = await consultarDocumento(tipo, numero);
+            // Si mientras tanto el usuario cambió el número, se descarta esta respuesta
+            if ($('#txt_numero_documento').val() !== numero) return;
 
-            if (data == 1) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Error',
-                    text: 'El DNI debe tener 8 dígitos',
-                    toast: true,
-                    position: 'top-end',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-            } else if (data.error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.error,
-                    toast: true,
-                    position: 'top-end',
-                    timer: 3000,
-                    showConfirmButton: false
-                });
-            } else if (data.first_name) {
-                let nombreCompleto = data.first_name + " " + data.first_last_name + " " + data.second_last_name;
-                document.getElementById('txt_nombre_pasajero').value = nombreCompleto;
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Encontrado!',
-                    text: nombreCompleto,
-                    toast: true,
-                    position: 'top-end',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
+            if (datos) {
+                $nombre.val(datos.nombre);
+                $('#txt_direccion').val(datos.direccion);
+                if (datos.telefono) $('#txt_telefono').val(datos.telefono);
+                if (datos.departamento) $('#txt_departamento').val(datos.departamento);
+                if (datos.provincia) $('#txt_provincia').val(datos.provincia);
+                if (datos.distrito) $('#txt_distrito').val(datos.distrito);
+                avisoRapido('success', datos.nombre + ' (' + datos.fuente + ')');
             } else {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'No Encontrado',
-                    text: 'DNI no encontrado en RENIEC',
-                    toast: true,
-                    position: 'top-end',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-                document.getElementById('txt_nombre_pasajero').value = '';
+                avisoRapido('warning', 'No se encontró el documento. Ingrese los datos a mano.');
             }
-        })
-        .fail(function() {
-            Swal.close();
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Error al consultar DNI',
-                toast: true,
-                position: 'top-end',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        });
+        } catch (e) {
+            avisoRapido('error', 'No se pudo consultar el documento. Ingrese los datos a mano.');
+        } finally {
+            $nombre.attr('placeholder', 'Ingrese razón social o nombres completos');
+        }
     }
 
-    // AGREGAR PASAJERO A OBSERVACIONES
+    // ============================================================
+    // PASAJERO: al escribir los 8 dígitos del DNI se busca solo y su nombre se
+    // pone automáticamente en Observaciones.
+    // - Si se corrige el DNI, la línea se reemplaza (no se duplica).
+    // - "Agregar" confirma al pasajero y deja los campos listos para otro.
+    // - "Limpiar Pasajero" quita al pasajero que aún no se confirmó.
+    // ============================================================
+    var lineaPasajeroAuto = null;
+    var ultimoDniPasajero = '';
+
+    $('#txt_dni_pasajero').on('input', function () {
+        var dni = $(this).val().replace(/\D/g, '');
+        if ($(this).val() !== dni) $(this).val(dni);
+        if (dni.length !== 8) {
+            ultimoDniPasajero = '';
+            return;
+        }
+        if (dni !== ultimoDniPasajero) buscarPasajeroReniec();
+    });
+
+    async function buscarPasajeroReniec() {
+        var dni = $('#txt_dni_pasajero').val().trim();
+        if (dni.length !== 8) {
+            return avisoRapido('warning', 'El DNI del pasajero debe tener 8 dígitos');
+        }
+
+        ultimoDniPasajero = dni;
+        var $nombre = $('#txt_nombre_pasajero');
+        $nombre.val('').attr('placeholder', 'Buscando...');
+        try {
+            var datos = await consultarDocumento('1', dni);
+            if ($('#txt_dni_pasajero').val().trim() !== dni) return;
+
+            if (datos) {
+                $nombre.val(datos.nombre);
+                ponerPasajeroEnObservaciones(dni, datos.nombre);
+                avisoRapido('success', 'Pasajero: ' + datos.nombre);
+            } else {
+                avisoRapido('warning', 'DNI del pasajero no encontrado');
+            }
+        } catch (e) {
+            avisoRapido('error', 'No se pudo consultar el DNI del pasajero');
+        } finally {
+            $nombre.attr('placeholder', 'Se completa al escribir el DNI');
+        }
+    }
+
+    function ponerPasajeroEnObservaciones(dni, nombre) {
+        var obs = document.getElementById('txt_observaciones');
+        var linea = 'PASAJERO: ' + nombre + ' - DNI: ' + dni;
+        var lineas = obs.value ? obs.value.split('\n') : [];
+
+        // Reemplaza al pasajero automático anterior que aún no se confirmó (corrección de DNI)
+        if (lineaPasajeroAuto) {
+            lineas = lineas.filter(function (l) { return l !== lineaPasajeroAuto; });
+        }
+        if (lineas.indexOf(linea) === -1) {
+            lineas.unshift(linea);
+        }
+        obs.value = lineas.join('\n');
+        lineaPasajeroAuto = linea;
+    }
+
+    // Confirma al pasajero actual y deja los campos listos para otro pasajero
     function agregarPasajeroAObservaciones() {
-        var dni = document.getElementById('txt_dni_pasajero').value.trim();
-        var nombre = document.getElementById('txt_nombre_pasajero').value.trim();
-        var observaciones = document.getElementById('txt_observaciones');
-        
+        var dni = $('#txt_dni_pasajero').val().trim();
+        var nombre = $('#txt_nombre_pasajero').val().trim();
         if (dni === '' || nombre === '') {
-            return Swal.fire({
-                icon: 'warning',
-                title: 'Datos Incompletos',
-                text: 'Primero busque los datos del pasajero',
-                toast: true,
-                position: 'top-end',
-                timer: 2000,
-                showConfirmButton: false
-            });
+            return avisoRapido('warning', 'Escriba el DNI del pasajero');
         }
-
-        var textoPasajero = 'PASAJERO: ' + nombre + ' - DNI: ' + dni;
-        
-        if (observaciones.value.includes(textoPasajero)) {
-            return Swal.fire({
-                icon: 'info',
-                title: 'Ya Agregado',
-                text: 'Este pasajero ya está en observaciones',
-                toast: true,
-                position: 'top-end',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        }
-
-        if (observaciones.value.trim() === '') {
-            observaciones.value = textoPasajero;
-        } else {
-            observaciones.value = textoPasajero + '\n' + observaciones.value;
-        }
-
+        ponerPasajeroEnObservaciones(dni, nombre);
+        lineaPasajeroAuto = null;
         limpiarDatosPasajero();
-
-        Swal.fire({
-            icon: 'success',
-            title: '✓ Agregado',
-            text: 'Pasajero agregado a observaciones',
-            toast: true,
-            position: 'top-end',
-            timer: 1500,
-            showConfirmButton: false
-        });
+        avisoRapido('success', 'Pasajero agregado. Puede ingresar otro.');
     }
 
     function limpiarDatosPasajero() {
+        // Quita de Observaciones al pasajero automático que no se confirmó con "Agregar"
+        if (lineaPasajeroAuto) {
+            var obs = document.getElementById('txt_observaciones');
+            obs.value = obs.value.split('\n').filter(function (l) { return l !== lineaPasajeroAuto; }).join('\n');
+            lineaPasajeroAuto = null;
+        }
+        ultimoDniPasajero = '';
         document.getElementById('txt_dni_pasajero').value = '';
         document.getElementById('txt_nombre_pasajero').value = '';
     }

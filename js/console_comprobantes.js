@@ -101,34 +101,72 @@ function Cargar_Select_Servicios() {
     $("#select_servicio").html(cadena);
   });
 }
-$("#select_servicio").on("change", function () {
-  let id_servicio = $(this).val();
+// ============================================================
+// ORIGEN Y DESTINO AUTOMÁTICOS SEGÚN EL SERVICIO
+// El nombre del servicio indica el sentido del viaje: "SERVICIO DE ABANCAY - CUSCO"
+// → origen ABANCAY, destino CUSCO (y al revés). Funciona con servicios nuevos sin
+// reglas por número. Si el servicio no indica sentido (p. ej. "SERVICIO DE
+// TRANSPORTE"), el usuario elige origen y destino a mano.
+// ============================================================
+function normalizarTexto(texto) {
+  return String(texto || "")
+    .toUpperCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-  // Objeto de reglas según id_servicio
-  const reglas = {
-    1: { origen: "1", destino: "2" },
-    2: { origen: "2", destino: "1" },
-    3: { origen: "1", destino: "2" },
-    4: { origen: "2", destino: "1" },
-  };
+// Id de la ruta cuyo nombre aparece completo en el texto (si hay varias, la de nombre más largo)
+function buscarRutaEnTexto(texto, selectRutas) {
+  let mejor = null;
+  $(selectRutas + " option").each(function () {
+    const id = $(this).val();
+    const nombre = normalizarTexto($(this).text());
+    if (!id || !nombre) return;
+    const patron = new RegExp(
+      "(^|[^A-Z])" + nombre.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "([^A-Z]|$)"
+    );
+    if (patron.test(texto) && (!mejor || nombre.length > mejor.nombre.length)) {
+      mejor = { id: id, nombre: nombre };
+    }
+  });
+  return mejor ? mejor.id : null;
+}
 
-  if (reglas[id_servicio]) {
-    $("#select_origen").val(reglas[id_servicio].origen).trigger("change");
-    $("#select_destino").val(reglas[id_servicio].destino).trigger("change");
+function autocompletarOrigenDestino(selServicio, selOrigen, selDestino) {
+  selServicio = selServicio || "#select_servicio";
+  selOrigen = selOrigen || "#select_origen";
+  selDestino = selDestino || "#select_destino";
+
+  const servicio = normalizarTexto($(selServicio + " option:selected").text());
+  const partes = servicio.split(" - ");
+  if (partes.length !== 2) return;
+
+  const origen = buscarRutaEnTexto(partes[0], selOrigen);
+  const destino = buscarRutaEnTexto(partes[1], selOrigen);
+  if (origen && destino && origen !== destino) {
+    $(selOrigen).val(origen).trigger("change");
+    $(selDestino).val(destino).trigger("change");
   }
-});
+}
 
-// 2️⃣ Detectar cambio en el select de servicios
-$(document).on("change", "#select_servicio", function () {
-  let id = $(this).val();
-  if (id !== "") {
-    Traerprecio(id);
-  } else {
-    $("#txt_base_gravada").val("");
-    $("#txt_igv").val("");
-    $("#txt_total").val("");
-  }
-});
+// 2️⃣ Detectar cambio en el select de servicios.
+// Este archivo se vuelve a cargar cada vez que se abre la pantalla: el evento se
+// registra con nombre y se quita antes, para no acumular manejadores duplicados.
+$(document)
+  .off("change.servicioComprobante", "#select_servicio")
+  .on("change.servicioComprobante", "#select_servicio", function () {
+    let id = $(this).val();
+    if (id !== "") {
+      Traerprecio(id);
+      autocompletarOrigenDestino();
+    } else {
+      $("#txt_base_gravada").val("");
+      $("#txt_igv").val("");
+      $("#txt_total").val("");
+    }
+  });
 // 🎯 Variable global para guardar el precio UNITARIO original
 let precioUnitarioOriginal = 0;
 let editandoManualmente = false; // Para detectar si el usuario está editando
@@ -346,7 +384,85 @@ function cambiarTipoComprobante() {
     if (intervalo_correlativo) clearInterval(intervalo_correlativo);
     intervalo_correlativo = setInterval(obtenerCorrelativo, 20000);
 }
-// BUSCAR CLIENTE POR RUC (API SUNAT)
+// ============================================================
+// CONSULTA RÁPIDA DE DOCUMENTO (cliente y pasajero)
+// 1) Busca primero en la base de datos (instantáneo y sin gastar consultas de Decolecta).
+// 2) Si no existe, consulta RENIEC (DNI) o SUNAT (RUC).
+// Devuelve { nombre, direccion, telefono, departamento, provincia, distrito, fuente } o null.
+// ============================================================
+async function consultarDocumento(tipo, numero) {
+  numero = String(numero || "").trim();
+  const largo = tipo === "6" ? 11 : tipo === "1" ? 8 : 0;
+  if (!largo || numero.length !== largo) return null;
+
+  try {
+    const local = await $.ajax({
+      url: "../controller/encomiendas/controlador_buscar_persona_por_documento_compro.php",
+      type: "POST",
+      data: { numero_documento: numero },
+      dataType: "json",
+    });
+    const d = local && local.data && local.data[0];
+    if (d && d.razon_social) {
+      return {
+        nombre: d.razon_social,
+        direccion: d.direccion || "",
+        telefono: d.telefono || "",
+        departamento: d.departamento || "",
+        provincia: d.provincia || "",
+        distrito: d.distrito || "",
+        fuente: "registrado",
+      };
+    }
+  } catch (e) {
+    // si falla la búsqueda local, se intenta con RENIEC / SUNAT
+  }
+
+  if (tipo === "1") {
+    const r = await $.ajax({
+      url: "../view/consulta-dni-ajax.php",
+      type: "POST",
+      data: { dni: numero },
+      dataType: "json",
+    });
+    if (r && r.first_name) {
+      return {
+        nombre: [r.first_name, r.first_last_name, r.second_last_name].filter(Boolean).join(" "),
+        direccion: "",
+        telefono: "",
+        departamento: "",
+        provincia: "",
+        distrito: "",
+        fuente: "RENIEC",
+      };
+    }
+    return null;
+  }
+
+  const r = await $.ajax({
+    url: "../view/consultar-ruc-ajax.php",
+    type: "POST",
+    data: { ruc: numero },
+    dataType: "json",
+  });
+  if (r && r.razon_social) {
+    return {
+      nombre: r.razon_social,
+      direccion: r.direccion || "",
+      telefono: "",
+      departamento: r.departamento || "",
+      provincia: r.provincia || "",
+      distrito: r.distrito || "",
+      fuente: "SUNAT",
+    };
+  }
+  return null;
+}
+
+function avisoRapido(icono, texto) {
+  Swal.fire({ icon: icono, title: texto, toast: true, position: "top-end", timer: 1800, showConfirmButton: false });
+}
+
 // BUSCAR CLIENTE POR RUC (API SUNAT)
 function buscarRUC(ruc) {
   if (ruc.length != 11) {
@@ -3040,38 +3156,24 @@ function actualizarComprobante() {
   });
 }
 
-// Recalcular totales en modal de edición
-$(document).on("change", "#edit_servicio", function () {
-  let id = $(this).val();
-  if (id !== "") {
-    TraerprecioEditar(id);
-  }
-});
-
-// Recalcular totales en modal de edición
-$(document).on("change", "#edit_servicio", function () {
-  let id = $(this).val();
-  if (id !== "" && id !== null) {
-    TraerprecioEditar(id);
-  }
-});
-
-$(document).on("change", "#edit_cantidad", function () {
-  calcularDesdeTotalEditar();
-});
-
-// Recalcular cuando cambie el servicio (Select2)
-$(document).on("select2:select", "#edit_servicio", function (e) {
-  let id = e.params.data.id;
-  if (id !== "" && id !== null) {
-    TraerprecioEditar(id);
-  }
-});
+// Modal de edición: un solo manejador por campo (antes el precio se pedía 3 veces por
+// cambio y se acumulaban más cada vez que se reabría la pantalla).
+$(document)
+  .off("change.editarComprobante", "#edit_servicio")
+  .on("change.editarComprobante", "#edit_servicio", function () {
+    let id = $(this).val();
+    if (id !== "" && id !== null) {
+      TraerprecioEditar(id);
+      autocompletarOrigenDestino("#edit_servicio", "#edit_origen", "#edit_destino");
+    }
+  });
 
 // Recalcular cuando cambie la cantidad o el total
-$(document).on("change input", "#edit_cantidad, #edit_total", function () {
-  calcularDesdeTotalEditar();
-});
+$(document)
+  .off("change.editarComprobante input.editarComprobante", "#edit_cantidad, #edit_total")
+  .on("change.editarComprobante input.editarComprobante", "#edit_cantidad, #edit_total", function () {
+    calcularDesdeTotalEditar();
+  });
 
 function calcularDesdeTotalEditar() {
   // Obtener el precio UNITARIO con IGV
