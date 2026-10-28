@@ -2491,7 +2491,10 @@ $(document).ready(function() {
   console.log('   Última vez mostrado:', ultimaVezMostrado);
   console.log('   Fecha de hoy:', fechaHoy);
   
-  if (esFechaRecordatorio && ultimaVezMostrado !== fechaHoy) {
+  // Para verlo cualquier día: abrir index.php?recordatorio=1
+  const forzarRecordatorio = new URLSearchParams(window.location.search).get('recordatorio') === '1';
+
+  if (forzarRecordatorio || (esFechaRecordatorio && ultimaVezMostrado !== fechaHoy)) {
     console.log('   ✅ Mostrando modal de recordatorio...');
     // Mostrar modal después de 2 segundos
     setTimeout(function() {
