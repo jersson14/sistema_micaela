@@ -1,5 +1,6 @@
 # Imagen base con PHP y Apache
-FROM php:8.2-apache
+# 8.2.35: parche de seguridad del 21/10/2026 (php2shell). Subir la versión con cada parche.
+FROM php:8.2.35-apache
 
 # Información del mantenedor
 LABEL maintainer="jersson14071996@gmail.com"
@@ -66,7 +67,8 @@ RUN echo "upload_max_filesize = 20M" > /usr/local/etc/php/conf.d/uploads.ini \
     && echo "post_max_size = 20M" >> /usr/local/etc/php/conf.d/uploads.ini \
     && echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/uploads.ini \
     && echo "max_execution_time = 300" >> /usr/local/etc/php/conf.d/uploads.ini \
-    && echo "date.timezone = America/Lima" >> /usr/local/etc/php/conf.d/timezone.ini
+    && echo "date.timezone = America/Lima" >> /usr/local/etc/php/conf.d/timezone.ini \
+    && echo "session.upload_progress.enabled = 0" > /usr/local/etc/php/conf.d/seguridad.ini
 
 # Configurar Apache VirtualHost
 RUN echo '<VirtualHost *:80>\n\

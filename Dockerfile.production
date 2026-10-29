@@ -4,7 +4,8 @@
 # ============================================
 
 # Imagen base con PHP y Apache
-FROM php:8.2-apache
+# 8.2.35: parche de seguridad del 21/10/2026 (php2shell). Subir la versión con cada parche.
+FROM php:8.2.35-apache
 
 # Información del mantenedor
 LABEL maintainer="jersson1407miranda@gmail.com"
@@ -111,6 +112,7 @@ RUN { \
     echo 'session.save_path = /tmp/sessions'; \
     echo 'session.gc_maxlifetime = 7200'; \
     echo 'session.cookie_lifetime = 7200'; \
+    echo 'session.upload_progress.enabled = 0'; \
     } > /usr/local/etc/php/conf.d/production.ini
 
 # Configurar Apache VirtualHost para producción
