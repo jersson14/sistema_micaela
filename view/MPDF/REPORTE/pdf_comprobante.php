@@ -154,7 +154,7 @@ body { font-family: Arial, sans-serif; color: #333; font-size: 11px; margin: 0; 
             <div>Tel: '.$row['empresa_telefono'].'</div>
         </td>
         <td class="center" style="border: 1px solid #007BFF; padding: 4px;">
-            <div class="bold" style="font-size: 13px;">'.($row['tipo_comprobante'] == "01" ? "FACTURA" : "BOLETA").' ELECTRÓNICA</div>
+            <div class="bold" style="font-size: 13px;">'.(['01' => 'FACTURA', '03' => 'BOLETA', '07' => 'NOTA DE CRÉDITO', '08' => 'NOTA DE DÉBITO'][$row['tipo_comprobante']] ?? 'COMPROBANTE').' ELECTRÓNICA</div>
             <div style="font-size: 11px;">N° '.$row['numero_comprobante'].'</div>
             <div>Fecha: '.$fecha.' '.$hora.'</div>
         </td>

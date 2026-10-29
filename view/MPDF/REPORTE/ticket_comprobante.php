@@ -54,6 +54,12 @@ if ($stmt->rowCount() === 0) {
 }
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Las notas de crédito/débito tienen su propio ticket (muestra el documento que modifican)
+if (in_array($row['tipo_comprobante'], ['07', '08'], true)) {
+    header('Location: ticket_nota_de_credito.php?id=' . $id);
+    exit;
+}
+
 // CONSULTAR DETALLE DEL COMPROBANTE
 $queryDetalle = "
 SELECT 
