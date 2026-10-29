@@ -1,6 +1,6 @@
 # Imagen base con PHP y Apache
-# 8.2.35: parche de seguridad del 21/10/2026 (php2shell). Subir la versión con cada parche.
-FROM php:8.2.35-apache
+# 8.3.36: parche de seguridad del 21/10/2026 (php2shell). Soporte de seguridad hasta el 31/12/2027.
+FROM php:8.3.36-apache
 
 # Información del mantenedor
 LABEL maintainer="jersson14071996@gmail.com"
