@@ -84,20 +84,27 @@ services:
     ports:
       - "127.0.0.1:8080:80"  # Solo exponer internamente para el proxy nginx
     volumes:
-      # Archivos generados por la aplicación (persistentes)
-      - ./greenter/xml:/var/www/html/greenter/xml
-      - ./greenter/cdr:/var/www/html/greenter/cdr
-      - ./greenter/pdf:/var/www/html/greenter/pdf
-      - ./greenter/certificados:/var/www/html/greenter/certificados
+      # Código montado desde el repositorio: un "git pull" cambia el sistema sin reconstruir
+      # (usar despliegue/actualizar_codigo.sh). Incluye los archivos generados
+      # (greenter/xml, cdr, pdf, certificados, fotos), que siguen siendo persistentes.
+      # vendor/ NO se monta: lo instala composer dentro de la imagen.
+      - ./controller:/var/www/html/controller
+      - ./model:/var/www/html/model
+      - ./view:/var/www/html/view
+      - ./js:/var/www/html/js
+      - ./img:/var/www/html/img
+      - ./plantilla:/var/www/html/plantilla
+      - ./utilitario:/var/www/html/utilitario
+      - ./greenter:/var/www/html/greenter
       - ./Fotos:/var/www/html/Fotos
-      - ./controller/usuario/fotos:/var/www/html/controller/usuario/fotos
-      - ./controller/choferes/fotos:/var/www/html/controller/choferes/fotos
-      - ./controller/empresa/FOTOS:/var/www/html/controller/empresa/FOTOS
       - ./backup:/var/www/html/backup
+      - ./index.php:/var/www/html/index.php
+      - ./seguimiento.php:/var/www/html/seguimiento.php
+      - ./default.php:/var/www/html/default.php
+      # Credenciales de Nubefact: fuera de la imagen y de git. Debe existir ANTES de "up".
+      - ./.env.nubefact:/var/www/html/.env.nubefact:ro
       # Sesiones PHP persistentes
       - sessions_data_vps:/tmp/sessions
-      # Archivo de conexión (para usar variables de entorno)
-      - ./model/model_conexion.php:/var/www/html/model/model_conexion.php
     environment:
       - TZ=America/Lima
       - APACHE_RUN_USER=www-data

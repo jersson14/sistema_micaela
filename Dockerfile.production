@@ -130,10 +130,22 @@ RUN { \
     echo '        Require all granted'; \
     echo ''; \
     echo '        # Seguridad adicional'; \
-    echo '        <FilesMatch "\.(env|sql|md|log)$">'; \
+    echo '        <FilesMatch "\.(env|sql|md|log|txt|pem|key|crt|p12|pfx|sh|yml|yaml|lock|bak)$">'; \
+    echo '            Require all denied'; \
+    echo '        </FilesMatch>'; \
+    echo '        # Archivos ocultos (.env.nubefact con el token, .git, .htaccess...)'; \
+    echo '        <FilesMatch "^\.">'; \
+    echo '            Require all denied'; \
+    echo '        </FilesMatch>'; \
+    echo '        <FilesMatch "^(Dockerfile.*|Makefile|composer\.json)$">'; \
     echo '            Require all denied'; \
     echo '        </FilesMatch>'; \
     echo '    </Directory>'; \
+    echo ''; \
+    echo '    # Carpetas que nunca deben servirse por web'; \
+    echo '    <DirectoryMatch "/var/www/html/(\.git|backup|despliegue|database|greenter/certificados|greenter/tmp|greenter/nubefact)">'; \
+    echo '        Require all denied'; \
+    echo '    </DirectoryMatch>'; \
     echo ''; \
     echo '    # Logs'; \
     echo '    ErrorLog ${APACHE_LOG_DIR}/error.log'; \

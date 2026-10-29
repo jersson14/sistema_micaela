@@ -114,3 +114,6 @@ certificate.pem
 start.bat
 start.sh
 Makefile
+
+# Credenciales de Nubefact: se montan en el servidor (docker-compose.vps.yml), nunca dentro de la imagen
+.env.nubefact

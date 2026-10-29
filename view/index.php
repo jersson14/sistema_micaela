@@ -2274,7 +2274,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script src="../js/console_usuario.js?rev=<?php echo time(); ?>"></script>
-  <script src="../js/console_choferes.js?php echo time(); ?>"></script>
+  <script src="../js/console_choferes.js?rev=<?php echo time(); ?>"></script>
 
   <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.bootstrap4.min.js"></script>

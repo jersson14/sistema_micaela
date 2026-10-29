@@ -80,14 +80,26 @@ La verificación debe mostrar `SP_ELIMINAR_SALIDA_DIARIA = 2`, `SP_MODIFICAR_SAL
 
 > La rama `php83` incluye todo lo de `nubefact-integracion` más PHP 8.3 y mPDF 8.3.1.
 
-Luego reconstruir la app (`--pull` descarga la última PHP 8.3 con sus parches):
+Desde esta versión el **código va montado** en el contenedor (no copiado en la imagen): los cambios futuros se aplican con un `git pull`, sin reconstruir (ver "Cambios futuros al código" al final).
+
+`.env.nubefact` **debe existir antes de levantar la app** (si no, Docker crea una carpeta con ese nombre). Si aún no tienes las credenciales de producción, se crea en modo emergencia (SUNAT directo) y se completa en la Parte D:
 ```bash
 cd ~/sistema_micaela
+[ -f .env.nubefact ] || printf 'NUBEFACT_ACTIVO=0\n' > .env.nubefact
+git config --global --add safe.directory "$PWD"
+bash despliegue/actualizar_codigo.sh      # da permisos a www-data
+```
+
+Reconstruir la app (`--pull` descarga la última PHP 8.3 con sus parches):
+```bash
 docker compose -f docker-compose.vps.yml build --pull app
 docker compose -f docker-compose.vps.yml up -d app
 docker exec tours_micaela_app_vps php -v
 ```
-Debe decir **PHP 8.3.36 o mayor**.
+Debe decir **PHP 8.3.36 o mayor**. Comprobar que el token NO se puede descargar (debe responder **403**):
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://DOMINIO_NUEVO/.env.nubefact
+```
 
 ### Parte D — Nubefact en producción
 
@@ -97,7 +109,7 @@ Debe decir **PHP 8.3.36 o mayor**.
    ```bash
    docker exec tours_micaela_db_vps sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" micaela -e "SELECT serie, MAX(CAST(correlativo AS UNSIGNED)) ultimo FROM comprobantes GROUP BY serie;"'
    ```
-2. Crear `.env.nubefact` en el VPS:
+2. Completar `.env.nubefact` en el VPS:
    ```bash
    cd ~/sistema_micaela
    nano .env.nubefact
@@ -110,8 +122,8 @@ Debe decir **PHP 8.3.36 o mayor**.
    NUBEFACT_SERIES=
    ```
    ```bash
-   chmod 600 .env.nubefact
-   docker compose -f docker-compose.vps.yml up -d --build app
+   chown 33:33 .env.nubefact && chmod 640 .env.nubefact
+   docker restart tours_micaela_app_vps
    docker exec -u www-data tours_micaela_app_vps php /var/www/html/greenter/nubefact/probar_conexion.php
    ```
 3. Emitir **una factura de S/ 1** a tu RUC → debe decir **"NUBEFACT (OSE) - PRODUCCION"** y quedar aceptada.
@@ -156,3 +168,21 @@ PHP 8.3 recibe parches hasta el **31/12/2027**; antes de esa fecha hay que pasar
 ## Dominio anterior (micaela-tours.com)
 
 Mientras siga vigente, conviene **redirigirlo al dominio nuevo** para que nadie se pierda: apuntarlo a la IP de Contabo y agregar en Nginx un bloque que redirija (`return 301 https://DOMINIO_NUEVO$request_uri;`), con su propio certificado `certbot`. Avisar a los usuarios del dominio nuevo.
+
+---
+
+## Cambios futuros al código (después del 03/11)
+
+El código está **montado** desde `~/sistema_micaela` dentro del contenedor, así que **no hace falta reconstruir** para cambiar un módulo:
+
+1. En tu PC: haces el cambio, lo pruebas en local, `git commit` y `git push origin jersson`.
+2. En el VPS (fuera del horario de los clientes si es algo grande):
+   ```bash
+   cd ~/sistema_micaela
+   bash despliegue/actualizar_codigo.sh        # se ve en máximo 1 minuto
+   bash despliegue/actualizar_codigo.sh --ya   # o al instante (corte de ~5 segundos)
+   ```
+   El script trae los cambios, da permisos a www-data y avisa si el cambio necesita algo más.
+
+**Sí hay que reconstruir** (`build --pull` + `up -d`) solo cuando cambia: el `Dockerfile`, `docker-compose.vps.yml`, las librerías de la raíz (`composer.json` / `vendor`) o para los **parches mensuales de PHP**. El script lo avisa.
+Si el cambio trae **procedimientos o tablas** (archivos `.sql`), hay que aplicar esa migración en la base aparte; el script también lo avisa.
