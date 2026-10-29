@@ -66,7 +66,7 @@ Plan maestro, **Fase 4**, pasos 4.1 a 4.6:
 En tu PC:
 ```bash
 git checkout jersson
-git merge nubefact-integracion
+git merge php83
 git push origin jersson
 ```
 En el VPS nuevo:
@@ -78,11 +78,16 @@ bash actualizar_bd.sh
 ```
 La verificación debe mostrar `SP_ELIMINAR_SALIDA_DIARIA = 2`, `SP_MODIFICAR_SALIDA_INCOMPLETO_ESTATUS = 4` **0** rutinas con otra intercalación y `notificar_licencia = 1`.
 
-Luego reconstruir la app:
+> La rama `php83` incluye todo lo de `nubefact-integracion` más PHP 8.3 y mPDF 8.3.1.
+
+Luego reconstruir la app (`--pull` descarga la última PHP 8.3 con sus parches):
 ```bash
 cd ~/sistema_micaela
-docker compose -f docker-compose.vps.yml up -d --build app
+docker compose -f docker-compose.vps.yml build --pull app
+docker compose -f docker-compose.vps.yml up -d app
+docker exec tours_micaela_app_vps php -v
 ```
+Debe decir **PHP 8.3.36 o mayor**.
 
 ### Parte D — Nubefact en producción
 
@@ -120,6 +125,23 @@ docker compose -f docker-compose.vps.yml up -d --build app
 - ☐ Probar: **marcar una salida como incompleta** y **eliminar una salida** de prueba (las dos dependen de las migraciones).
 - ☐ Descargar el **XML y el CDR de un comprobante antiguo**.
 - ☐ En **Choferes**, probar el botón **Aviso / Sin aviso** de un chofer.
+- ☐ Imprimir un **ticket**, una **boleta de encomienda** y el **reporte de declaración SUNAT** de un mes.
+
+---
+
+## Mantenimiento mensual: parches de PHP
+
+PHP publica parches de seguridad más o menos cada mes. **No se aplican solos**: hay que reconstruir la imagen. Una vez al mes (o cuando salga un aviso de seguridad), fuera del horario de los clientes:
+
+```bash
+cd ~/sistema_micaela
+docker compose -f docker-compose.vps.yml build --pull app
+docker compose -f docker-compose.vps.yml up -d app
+docker exec tours_micaela_app_vps php -v
+```
+
+El sistema se corta unos segundos al reiniciar. Ubuntu (el servidor) se parcha solo con `unattended-upgrades` (plan maestro, Fase 3).
+PHP 8.3 recibe parches hasta el **31/12/2027**; antes de esa fecha hay que pasar a una versión mayor.
 
 ---
 
@@ -128,7 +150,7 @@ docker compose -f docker-compose.vps.yml up -d --build app
 | Falla en | Cómo volver |
 |---|---|
 | Parte A (mudanza) | Encender la app en Hostinger (`docker start tours_micaela_app_vps`) y apuntar el dominio de nuevo a Hostinger. **Renovar Hostinger 1 mes** |
-| Parte C (código o base) | Restaurar el respaldo que muestra `actualizar_bd.sh` al final, volver al código anterior (`git checkout antes-nubefact`) y reconstruir |
+| Parte C (código o base) | Restaurar el respaldo que muestra `actualizar_bd.sh` al final, volver al código anterior (`git checkout antes-nubefact`) y reconstruir. Si solo falla PHP 8.3: `git checkout antes-php83` (PHP 8.2.35) y reconstruir |
 | Parte D (Nubefact) | `.env.nubefact` con `NUBEFACT_ACTIVO=0` y reconstruir: vuelve a SUNAT directo (certificado vigente hasta el 10/11) |
 
 ## Dominio anterior (micaela-tours.com)

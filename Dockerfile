@@ -1,6 +1,7 @@
 # Imagen base con PHP y Apache
-# 8.3.36: parche de seguridad del 21/10/2026 (php2shell). Soporte de seguridad hasta el 31/12/2027.
-FROM php:8.3.36-apache
+# PHP 8.3 (soporte de seguridad hasta el 31/12/2027). Sin número de parche fijo: cada
+# reconstrucción con --pull trae la última 8.3.x. Mínimo 8.3.36 (parche php2shell del 21/10/2026).
+FROM php:8.3-apache
 
 # Información del mantenedor
 LABEL maintainer="jersson14071996@gmail.com"
