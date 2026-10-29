@@ -205,7 +205,7 @@ $html = '
 body { font-family:"Courier New",monospace; font-size:11px; color:#000; line-height:1.15; }
 .ticket { width:72mm; padding:0 1.5mm; }
 .header { text-align:center; padding-bottom:0.8mm; border-bottom:2px solid #000; }
-.logo img { width:35px; }
+.logo img { width:100%; }
 .emp-nom { font-size:13px; font-weight:bold; }
 .emp-info { font-size:9px; line-height:1.1; }
 .comp-box { border:2px solid #000; padding:1mm; margin:0.8mm 0; text-align:center; background:#f0f0f0; }

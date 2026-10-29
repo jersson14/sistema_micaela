@@ -70,23 +70,24 @@ try {
         $sql .= " AND (UPPER(c.estado_sunat) LIKE 'ENVIADO%' OR UPPER(c.estado_sunat) LIKE 'ACEPTADO%')";
     }
 
-    if (!empty($fecha_desde)) {
-        $partes = explode('/', $fecha_desde);
-        if (count($partes) == 3) {
-            $fecha_desde_sql = $partes[2] . '-' . $partes[1] . '-' . $partes[0];
-            $sql .= " AND DATE(c.fecha_emision) >= ?";
-            $params[] = $fecha_desde_sql;
+    // Acepta AAAA-MM-DD (campo de fecha de la pantalla) y DD/MM/AAAA. Sin un rango
+    // válido no se genera: traería todos los comprobantes y se agotaría la memoria.
+    $aFechaSql = function ($fecha) {
+        $fecha = trim((string)$fecha);
+        if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $fecha, $m) || preg_match('/^(\d{2})\/(\d{2})\/(\d{4})$/', $fecha, $m)) {
+            [$a, $mes, $d] = strlen($m[1]) === 4 ? [$m[1], $m[2], $m[3]] : [$m[3], $m[2], $m[1]];
+            return checkdate((int)$mes, (int)$d, (int)$a) ? "$a-$mes-$d" : null;
         }
+        return null;
+    };
+    $fecha_desde_sql = $aFechaSql($fecha_desde);
+    $fecha_hasta_sql = $aFechaSql($fecha_hasta);
+    if ($fecha_desde_sql === null || $fecha_hasta_sql === null) {
+        throw new Exception('Seleccione un rango de fechas válido (desde y hasta).');
     }
-
-    if (!empty($fecha_hasta)) {
-        $partes = explode('/', $fecha_hasta);
-        if (count($partes) == 3) {
-            $fecha_hasta_sql = $partes[2] . '-' . $partes[1] . '-' . $partes[0];
-            $sql .= " AND DATE(c.fecha_emision) <= ?";
-            $params[] = $fecha_hasta_sql;
-        }
-    }
+    $sql .= " AND c.fecha_emision >= ? AND c.fecha_emision <= ?";
+    $params[] = $fecha_desde_sql;
+    $params[] = $fecha_hasta_sql;
 
     $sql .= " ORDER BY c.fecha_emision ASC, c.serie ASC, c.correlativo ASC";
 
@@ -105,6 +106,12 @@ try {
     $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     error_log("Registros encontrados: " . count($datos));
+
+    // Un PDF con miles de filas agota la memoria del servidor (~2,000 comprobantes al mes)
+    if (count($datos) > 6000) {
+        throw new Exception('El rango tiene ' . number_format(count($datos)) . ' comprobantes, demasiados para un PDF. '
+            . 'Genere el reporte por mes o use la exportación a Excel.');
+    }
 
     if (empty($datos)) {
         throw new Exception("No se encontraron registros para los filtros seleccionados");
@@ -548,6 +555,10 @@ try {
     // ============================================================
     // 11. GENERAR PDF
     // ============================================================
+    // Con miles de comprobantes el HTML supera el límite de PCRE de PHP (1 MB por defecto)
+    ini_set('pcre.backtrack_limit', '100000000');
+    ini_set('memory_limit', '1024M');
+    set_time_limit(600);
     $mpdf->WriteHTML($html);
     $mpdf->Output('Declaracion_SUNAT_' . date('Ymd_His') . '.pdf', 'I');
 

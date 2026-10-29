@@ -147,7 +147,7 @@ $html = '
 body { font-family:"Courier New",monospace; font-size:7px; color:#000; line-height:1.1; }
 .ticket { width:72mm; margin:0 auto; padding:3px; }
 .header { text-align:center; margin-bottom:3px; padding-bottom:2px; border-bottom:2px solid #000; }
-.logo img { width:40px; margin-bottom:2px; }
+.logo img { width:100%; margin-bottom:2px; }
 .emp-nom { font-size:9px; font-weight:bold; margin:1px 0; }
 .emp-info { font-size:6px; margin:0; }
 .comp-box { border:2px solid #000; padding:2px; margin:3px 0; text-align:center; background:#f0f0f0; }
@@ -166,7 +166,7 @@ body { font-family:"Courier New",monospace; font-size:7px; color:#000; line-heig
 .tot-lin { display:flex; justify-content:space-between; margin:1px 0; font-size:7px; }
 .tot-fin { border-top:1px solid #000; padding-top:1px; margin-top:1px; font-weight:bold; font-size:9px; }
 .qr { text-align:center; margin:3px 0; padding:2px; }
-.qr img { width:60px; height:60px; }
+.qr img { width:32mm; height:32mm; }
 .qr-txt { font-size:5px; margin-top:1px; }
 .est { text-align:center; padding:2px; margin:2px 0; font-weight:bold; font-size:7px; border:1px solid #000; }
 .pendiente { background:#fff3cd; color:#856404; }

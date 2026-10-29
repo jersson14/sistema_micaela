@@ -2,15 +2,19 @@
 require_once __DIR__ . '/../../model/model_conexion.php';
 
 // ===============================================================
-// FUNCION PARA CONVERTIR FECHA dd/mm/yyyy → yyyy-mm-dd
+// FUNCION PARA CONVERTIR FECHA → yyyy-mm-dd
+// Acepta yyyy-mm-dd (campo de fecha de la pantalla) y dd/mm/yyyy
 // ===============================================================
 function convertirFecha($fecha) {
-    if (!$fecha) return null;
-    $p = explode('/', $fecha);
-
-    if (count($p) !== 3) return null;
-
-    return "$p[2]-$p[1]-$p[0]";
+    $fecha = trim((string)$fecha);
+    if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $fecha, $m)) {
+        [$a, $mes, $d] = [$m[1], $m[2], $m[3]];
+    } elseif (preg_match('/^(\d{2})\/(\d{2})\/(\d{4})$/', $fecha, $m)) {
+        [$a, $mes, $d] = [$m[3], $m[2], $m[1]];
+    } else {
+        return null;
+    }
+    return checkdate((int)$mes, (int)$d, (int)$a) ? "$a-$mes-$d" : null;
 }
 
 // ===============================================================
