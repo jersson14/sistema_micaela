@@ -14,6 +14,7 @@ Plan completo con todos los comandos: `PLAN_MAESTRO_NUBEFACT_Y_VPS.md` (escritor
 | `03_verificar.sql` | Verificación (solo lectura) |
 | `04_choferes_notificacion.sql` | Migración 4: columna `choferes.notificar_licencia` (activar/desactivar el aviso de licencia por chofer) |
 | `actualizar_bd.sh` | Hace el respaldo, aplica 01, 02 y 04 en orden y muestra la verificación |
+| `../actualizar_codigo.sh` | Cambios futuros: `git pull` + permisos, sin reconstruir |
 
 > Las migraciones 01 y 02 **solo reemplazan procedimientos**; la 04 solo **agrega una columna** con valor 1 (no borra datos). Todas se pueden repetir sin problema. Sin ellas, en la rama nueva fallan "marcar salida incompleta" y "eliminar salida".
 
@@ -138,6 +139,72 @@ curl -s -o /dev/null -w "%{http_code}\n" https://DOMINIO_NUEVO/.env.nubefact
 - ☐ Descargar el **XML y el CDR de un comprobante antiguo**.
 - ☐ En **Choferes**, probar el botón **Aviso / Sin aviso** de un chofer.
 - ☐ Imprimir un **ticket**, una **boleta de encomienda** y el **reporte de declaración SUNAT** de un mes.
+- ☐ Hacer la **lista de pruebas de la Parte F** (la noche misma lo de "Esa noche"; el resto al día siguiente).
+
+---
+
+## Parte F — Lista de pruebas después del pase
+
+> En producción cada comprobante es **real** (va a SUNAT y consume la bolsa de Nubefact): usar **tu RUC/DNI**, montos de **S/ 1** y anular al final lo que no corresponda.
+> Anotar el número de cada comprobante de prueba para revisarlo en el panel de Nubefact y en la **Consulta de Validez** de SUNAT.
+
+### F1. Esa noche (antes de dormir)
+
+**Servidor y seguridad**
+- ☐ `docker ps`: `app`, `db` y `phpmyadmin` en estado *healthy* / *Up*.
+- ☐ `docker exec tours_micaela_app_vps php -v` → **8.3.36 o mayor**.
+- ☐ `https://DOMINIO_NUEVO` abre con **candado** (SSL) y `http://` redirige a `https://`.
+- ☐ Bloqueados (deben dar **403**): `/.env.nubefact`, `/docker-compose.vps.yml`, `/despliegue/2026-11-03/LEEME.md`, `/greenter/envio_log.txt`.
+- ☐ La hora del sistema es la de **Lima**: la hora del ticket coincide con tu reloj.
+
+**Facturación (Nubefact producción)**
+- ☐ **Factura** S/ 1 a tu RUC → "NUBEFACT (OSE) - PRODUCCION" y **ACEPTADA**; ticket con QR; descargar **XML** y **CDR**.
+- ☐ **Boleta** S/ 1 a tu DNI → queda ACEPTADA o "registrada, pendiente de SUNAT" (normal en boletas; ver F3).
+- ☐ **Nota de crédito** sobre la factura de prueba → ACEPTADA; su ticket dice "NOTA DE CRÉDITO" y muestra la factura afectada.
+- ☐ **Nota de débito** sobre la factura de prueba → ACEPTADA.
+- ☐ **Comunicación de baja** (anular) de una factura de prueba → el ticket "NF-…" pasa a **ANULADO** (puede tardar; lo termina el cron).
+- ☐ **Anular la boleta** de prueba → ANULADO (Nubefact lo envía en el resumen diario).
+- ☐ En el **panel de Nubefact** aparecen todos los comprobantes con las **series reales** (FPP1, BPP1, FN01, FD01…) y los números correctos.
+
+**Crons (tareas automáticas)**
+- ☐ `crontab -l` muestra las tareas: cola de pendientes (`reenviar_pendientes.php`), tickets de baja (`procesar_tickets_pendientes.php`) y el **respaldo diario**.
+- ☐ A los 5–10 minutos los logs crecen sin errores:
+  ```bash
+  tail -n 20 /var/log/micaela_cola.log /var/log/greenter_cron.log
+  ```
+- ☐ Correr el respaldo a mano una vez y ver que el archivo queda en `~/respaldos/` **y** en la copia fuera del servidor.
+
+### F2. Al día siguiente (con los usuarios ya trabajando)
+
+**Accesos**
+- ☐ Iniciar sesión con cada rol: **administrador**, **asistente** y **conductor**; cada uno ve solo su menú.
+- ☐ La sesión no se cierra sola a los pocos minutos.
+
+**Comprobantes**
+- ☐ Nuevo comprobante: al escribir el **RUC/DNI** se llenan solos los datos (consulta **Decolecta** desde el servidor nuevo).
+- ☐ DNI del **pasajero** → nombre automático en Observaciones.
+- ☐ Servicio **ABANCAY - CUSCO** → origen/destino se ponen solos (y al revés).
+- ☐ Listado de comprobantes, búsqueda por fechas y reimpresión de un comprobante **antiguo** (de antes de la mudanza).
+- ☐ **Envíos SUNAT**: reporte de declaración (PDF) y **Excel** de un mes → solo trae ese mes.
+- ☐ Como administrador: el **aviso de comprobantes pendientes** aparece si hay alguno.
+
+**Operación diaria**
+- ☐ **Encomiendas**: registrar, editar, cambiar estado, boleta de pago (normal y mini) y **seguimiento público** (`seguimiento.php`).
+- ☐ **Salidas**: crear, agregar pasajeros/encomiendas, **manifiesto**, marcar **incompleta** y **eliminar** (dependen de las migraciones).
+- ☐ **Reservas** y **ticket de viaje**.
+- ☐ **Ingresos y gastos**, y los **reportes** (choferes, clientes, encomiendas, salidas, servicios, ingresos/gastos).
+- ☐ **Choferes**: subir una **foto** (prueba permisos de escritura), botón **Aviso / Sin aviso** y "Desactivar/Activar avisos".
+- ☐ El inicio (**indicadores**) carga los totales.
+
+### F3. Durante la primera semana
+
+- ☐ Las **boletas pendientes** pasan solas a ACEPTADO (el cron las consulta). Si alguna sigue pendiente más de 1–2 días, avisar a Nubefact.
+- ☐ Revisar 2–3 comprobantes al azar en la **Consulta de Validez** de SUNAT.
+- ☐ El respaldo diario se genera **todos los días** (revisar `~/respaldos/` y la copia externa).
+- ☐ Espacio en disco: `df -h` (que no pase del 80%).
+- ☐ Renovación del SSL: `certbot renew --dry-run` sin errores.
+- ☐ Consumo de la bolsa en el panel de Nubefact (~1,600 al mes; la bolsa es de 19,200 al año).
+- ☐ Probar un **cambio de código** con `bash despliegue/actualizar_codigo.sh` (ver "Cambios futuros al código").
 
 ---
 
